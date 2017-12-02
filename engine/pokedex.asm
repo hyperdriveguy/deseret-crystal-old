@@ -821,12 +821,6 @@ Pokedex_UpdateUnownMode: ; 405df (10:45df)
 	ld a, DEXSTATE_OPTION_SCR
 	ld [wJumptableIndex], a
 	call DelayFrame
-	call Pokedex_CheckSGB
-	jr nz, .decompress
-	callba LoadSGBPokedexGFX2
-	jr .done
-
-.decompress
 	ld hl, PokedexLZ
 	ld de, VTiles2 tile $31
 	lb bc, BANK(PokedexLZ), $3a
@@ -2473,12 +2467,6 @@ Pokedex_LoadGFX: ; 414b7
 	ld hl, VTiles2 tile $60
 	ld bc, $20 tiles
 	call Pokedex_InvertTiles
-	call Pokedex_CheckSGB
-	jr nz, .LoadPokedexLZ
-	callba LoadSGBPokedexGFX
-	jr .LoadPokedexSlowpokeLZ
-
-.LoadPokedexLZ:
 	ld hl, PokedexLZ
 	ld de, VTiles2 tile $31
 	call Decompress
@@ -2513,14 +2501,6 @@ INCBIN "gfx/pokedex/pokedex.2bpp.lz"
 
 PokedexSlowpokeLZ: ; 416b0
 INCBIN "gfx/pokedex/slowpoke.2bpp.lz"
-
-Pokedex_CheckSGB: ; 41a24
-	ld a, [hCGB]
-	or a
-	ret nz
-	ld a, [hSGB]
-	dec a
-	ret
 
 Pokedex_LoadUnownFont: ; 41a2c
 	ld a, BANK(sScratch)
@@ -2607,11 +2587,7 @@ Pokedex_SetBGMapMode4: ; 41ae1 (10:5ae1)
 	ret
 
 Pokedex_SetBGMapMode_3ifDMG_4ifCGB: ; 41aeb (10:5aeb)
-	ld a, [hCGB]
-	and a
-	jr z, .DMG
 	call Pokedex_SetBGMapMode4
-.DMG:
 	call Pokedex_SetBGMapMode3
 	ret
 

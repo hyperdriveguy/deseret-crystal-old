@@ -2199,10 +2199,6 @@ EmptyAllSRAMBanks: ; 4cf1f
 	ret
 
 SaveMenu_LoadEDTile: ; 4cf45 (13:4f45)
-	ld a, [hCGB]
-	and a
-	jp z, WaitBGMap
-
 ; The following is a modified version of LoadEDTile.
 	ld a, [hBGMapMode]
 	push af
@@ -2337,9 +2333,6 @@ _LoadMapPart:: ; 4d15b
 	ret
 
 PhoneRing_LoadEDTile: ; 4d188
-	ld a, [hCGB]
-	and a
-	jp z, WaitBGMap
 	ld a, [wSpriteUpdatesEnabled]
 	cp $0
 	jp z, WaitBGMap
@@ -4679,31 +4672,6 @@ INCLUDE "battle/bg_effects.asm"
 INCLUDE "battle/anims.asm"
 
 LoadPoisonBGPals: ; cbcdd
-	call .LoadPals
-	ld a, [hCGB]
-	and a
-	ret nz
-	ret ; ????
-
-.LoadPals: ; cbce5
-	ld a, [hCGB]
-	and a
-	jr nz, .cgb
-	ld a, [TimeOfDayPal]
-	and $3
-	cp $3
-	ld a, %00000000
-	jr z, .convert_pals
-	ld a, %10101010
-
-.convert_pals
-	call DmgToCgbBGPals
-	ld c, 4
-	call DelayFrames
-	callba _UpdateTimePals
-	ret
-
-.cgb
 	ld a, [rSVBK]
 	push af
 	ld a, $5

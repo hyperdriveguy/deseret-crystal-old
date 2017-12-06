@@ -2871,7 +2871,7 @@ SelectBattleMon: ; 3d329
 
 PickPartyMonInBattle: ; 3d33c
 .loop
-	ld a, $2 ; Which PKMN?
+	ld a, PARTYMENUACTION_SWITCH ; Which PKMN?
 	ld [PartyMenuActionText], a
 	call JumpToPartyMenuAndPrintText
 	call SelectBattleMon

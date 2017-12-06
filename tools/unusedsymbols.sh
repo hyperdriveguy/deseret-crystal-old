@@ -40,7 +40,6 @@ MalePlayerNameArray
 Mobile_GetMenuSelection
 NamingScreen_AdvanceCursor_CheckEndOfString
 NamingScreen_LoadNextCharacter
-SGBBorderPalettes
 SetSeenMon
 Sfx_GetEggFromDaycareMan_Ch5
 Sfx_GetEggFromDaycareMan_Ch6

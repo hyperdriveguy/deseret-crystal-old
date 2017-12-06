@@ -2760,11 +2760,6 @@ BGEffect_CheckFlyDigStatus: ; c9042 (32:5042)
 	and 1 << SUBSTATUS_FLYING | 1 << SUBSTATUS_UNDERGROUND
 	ret
 
-BattleBGEffects_CheckSGB: ; c9059 (32:5059)
-	ld a, [hSGB]
-	and a
-	ret
-
 BattleBGEffects_Sine: ; c905d (32:505d)
 	ld e, a
 	callab BattleAnim_Sine_e

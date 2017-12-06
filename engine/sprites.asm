@@ -686,8 +686,6 @@ AnimateEndOfExpBar: ; 8e79d
 
 EndOfExpBarGFX: ; 8e7f4
 INCBIN "gfx/battle/expbarend.2bpp"
-SGBEndOfExpBarGFX: ; 8e804
-INCBIN "gfx/battle/expbarend_sgb.2bpp"
 
 ClearSpriteAnims2: ; 8e814
 	push hl

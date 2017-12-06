@@ -5193,22 +5193,6 @@ String_PM: db "PM@" ; 1dd6ff
 
 INCLUDE "engine/diploma.asm"
 
-LoadSGBPokedexGFX: ; 1ddf1c
-	ld hl, SGBPokedexGFX_LZ
-	ld de, VTiles2 tile $31
-	call Decompress
-	ret
-
-LoadSGBPokedexGFX2: ; 1ddf26 (77:5f26)
-	ld hl, SGBPokedexGFX_LZ
-	ld de, VTiles2 tile $31
-	lb bc, BANK(SGBPokedexGFX_LZ), $3a
-	call DecompressRequest2bpp
-	ret
-
-SGBPokedexGFX_LZ: ; 1ddf33
-INCBIN "gfx/pokedex/sgb.2bpp.lz"
-
 LoadQuestionMarkPic: ; 1de0d7
 	ld hl, .QuestionMarkLZ
 	ld de, sScratch

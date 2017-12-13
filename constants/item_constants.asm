@@ -284,12 +284,8 @@ CANT_TOSS   EQU 1 << 7
 
 	const HELD_NONE
 	const HELD_BERRY
-	const HELD_2
 	const HELD_LEFTOVERS
-	const HELD_4
-	const HELD_5
 	const HELD_RESTORE_PP
-	const HELD_7
 	const HELD_CLEANSE_TAG
 
 const_value SET 10
@@ -310,7 +306,6 @@ const_value SET 20
 	const HELD_PREVENT_CONFUSE
 
 const_value SET 30
-	const HELD_30
 	const HELD_ATTACK_UP
 	const HELD_DEFENSE_UP
 	const HELD_SPEED_UP
@@ -318,11 +313,8 @@ const_value SET 30
 	const HELD_SP_DEFENSE_UP
 	const HELD_ACCURACY_UP
 	const HELD_EVASION_UP
-	const HELD_38
 
 const_value SET 40
-	const HELD_40
-	const HELD_41
 	const HELD_METAL_POWDER
 
 const_value SET 50
@@ -346,14 +338,12 @@ const_value SET 50
 
 const_value SET 70
 	const HELD_CATCH_CHANCE
-	const HELD_71
 	const HELD_ESCAPE
 	const HELD_CRITICAL_UP
 	const HELD_QUICK_CLAW
 	const HELD_TRADE_EVOLVE
 	const HELD_AMULET_COIN
 	const HELD_BRIGHTPOWDER
-	const HELD_78
 	const HELD_FOCUS_BAND
 
 	const_def

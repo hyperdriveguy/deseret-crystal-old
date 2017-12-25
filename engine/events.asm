@@ -527,6 +527,26 @@ TryObjectEvent: ; 969b5
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
+	jp hl
+
+.nope_bugged
+	; pop bc
+	xor a
+	ret
+
+.pointers
+	dbw PERSONTYPE_SCRIPT, .script
+	dbw PERSONTYPE_ITEMBALL, .itemball
+	dbw PERSONTYPE_TRAINER, .trainer
+	db -1
+; 96a04
+
+.script ; 96a04
+	ld hl, MAPOBJECT_SCRIPT_POINTER
+	add hl, bc
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
 	call GetMapScriptHeaderBank
 	call CallScript
 	ret

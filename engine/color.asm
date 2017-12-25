@@ -1,5 +1,4 @@
 PALPACKET_LENGTH EQU $10
-INCLUDE "predef/sgb.asm"
 
 SHINY_ATK_BIT EQU 5
 SHINY_DEF_VAL EQU 10
@@ -49,32 +48,6 @@ InitPartyMenuPalettes:
 	call CopyFourPalettes
 	call InitPartyMenuOBPals
 	call WipeAttrMap
-	ret
-
-SGB_ApplyPartyMenuHPPals: ; 8ade SGB layout $fc
-	ld hl, wHPPals
-	ld a, [wSGBPals]
-	ld e, a
-	ld d, $0
-	add hl, de
-	ld e, l
-	ld d, h
-	ld a, [de]
-	and a
-	ld e, $5
-	jr z, .okay
-	dec a
-	ld e, $a
-	jr z, .okay
-	ld e, $f
-.okay
-	push de
-	ld hl, wSGBPals + 10
-	ld bc, $6
-	ld a, [wSGBPals]
-	call AddNTimes
-	pop de
-	ld [hl], e
 	ret
 
 ApplyMonOrTrainerPals:
@@ -565,59 +538,6 @@ rept 4
 endr
 	ret
 
-PushSGBPals_:
-	ld a, [wcfbe]
-	push af
-	set 7, a
-	ld [wcfbe], a
-	call PushSGBPals
-	pop af
-	ld [wcfbe], a
-	ret
-
-PushSGBPals:
-	ld a, [hl]
-	and $7
-	ret z
-	ld b, a
-.loop
-	push bc
-	xor a
-	ld [rJOYP], a
-	ld a, $30
-	ld [rJOYP], a
-	ld b, $10
-.loop2
-	ld e, $8
-	ld a, [hli]
-	ld d, a
-.loop3
-	bit 0, d
-	ld a, $10
-	jr nz, .okay
-	ld a, $20
-.okay
-	ld [rJOYP], a
-	ld a, $30
-	ld [rJOYP], a
-	rr d
-	dec e
-	jr nz, .loop3
-	dec b
-	jr nz, .loop2
-	ld a, $20
-	ld [rJOYP], a
-	ld a, $30
-	ld [rJOYP], a
-	call SGBDelayCycles
-	pop bc
-	dec b
-	jr nz, .loop
-	ret
-
-InitSGBBorder:
-	ret
-
 InitCGBPals::
 	ld a, $1
 	ld [rVBK], a
@@ -670,74 +590,15 @@ InitCGBPals::
 	jr nz, .loop
 	ret
 
-SGBDelayCycles:
-	ld de, 7000
-.wait
-	nop
-	nop
-	nop
-	dec de
-	ld a, d
-	or e
-	jr nz, .wait
-	ret
-
-BlkPacket_9a86:
-	db $21, $01, $03, $00, $00, $00, $13, $11, $00, $00, $00, $00, $00, $00, $00, $00
-
-BlkPacket_9a96:
-	db $21, $01, $07, $05, $00, $0a, $13, $0d, $00, $00, $00, $00, $00, $00, $00, $00
-
-BlkPacket_9aa6:
-	db $22, $05, $07, $0a, $00, $0c, $13, $11, $03, $05, $01, $00, $0a, $03, $03, $00
-	db $0a, $08, $13, $0a, $03, $0a, $00, $04, $08, $0b, $03, $0f, $0b, $00, $13, $07
-
-BlkPacket_9ac6:
-	db $21, $01, $07, $05, $00, $01, $07, $07, $00, $00, $00, $00, $00, $00, $00, $00
-
-BlkPacket_9ad6:
-	db $21, $01, $07, $05, $0b, $01, $13, $02, $00, $00, $00, $00, $00, $00, $00, $00
-
-BlkPacket_9ae6:
-	db $21, $01, $07, $05, $01, $01, $08, $08, $00, $00, $00, $00, $00, $00, $00, $00
-
-BlkPacket_9af6:
-	db $21, $01, $07, $05, $07, $05, $0d, $0b, $00, $00, $00, $00, $00, $00, $00, $00
-
-BlkPacket_9b06:
-	db $22, $05, $03, $05, $00, $00, $13, $0b, $03, $0a, $00, $04, $13, $09, $02, $0f
-	db $00, $06, $13, $07, $03, $00, $04, $04, $0f, $09, $03, $00, $00, $0c, $13, $11
-
-BlkPacket_9b56:
-	db $22, $03, $07, $20, $00, $00, $13, $04, $03, $0f, $00, $06, $13, $11, $03, $05
-	db $0f, $01, $12, $04, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-
-BlkPacket_9b76:
-	db $21, $01, $07, $10, $00, $00, $13, $05, $00, $00, $00, $00, $00, $00, $00, $00
-
-BlkPacket_9b86:
-	db $21, $02, $07, $0a, $00, $04, $13, $0d, $03, $05, $00, $06, $13, $0b, $00, $00
-
-PalPacket_9b96:	db $51, $48, $00, $49, $00, $4a, $00, $4b, $00, $00, $00, $00, $00, $00, $00, $00
 PalPacket_9ba6:	db $51, $2b, $00, $24, $00, $20, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-PalPacket_9bb6:	db $51, $41, $00, $42, $00, $43, $00, $44, $00, $00, $00, $00, $00, $00, $00, $00
 PalPacket_9bc6:	db $51, $4c, $00, $4c, $00, $4c, $00, $4c, $00, $00, $00, $00, $00, $00, $00, $00
-PalPacket_9bd6:	db $51, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-PalPacket_9be6:	db $51, $36, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-PalPacket_9c06:	db $51, $38, $00, $39, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-PalPacket_9c16:	db $51, $3a, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
 PalPacket_9c36:	db $51, $3c, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
 PalPacket_9c46:	db $51, $39, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
 PalPacket_9c56:	db $51, $2e, $00, $2f, $00, $30, $00, $31, $00, $00, $00, $00, $00, $00, $00, $00
 PalPacket_9c66:	db $51, $1a, $00, $1a, $00, $1a, $00, $1a, $00, $00, $00, $00, $00, $00, $00, $00
-PalPacket_9c76:	db $51, $32, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-PalPacket_9c96:	db $51, $3d, $00, $3e, $00, $3f, $00, $40, $00, $00, $00, $00, $00, $00, $00, $00
 PalPacket_9ca6:	db $51, $33, $00, $34, $00, $1b, $00, $1f, $00, $00, $00, $00, $00, $00, $00, $00
 PalPacket_9cb6:	db $51, $1b, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
 PalPacket_9cc6:	db $51, $1c, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-PalPacket_9cd6:	db $51, $35, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-PalPacket_9ce6:	db $01, $ff, $7f, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-PalPacket_9cf6:	db $09, $ff, $7f, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
 
 Palettes_9df6:
 	RGB 31, 31, 31

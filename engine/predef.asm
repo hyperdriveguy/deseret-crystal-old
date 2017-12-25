@@ -68,8 +68,7 @@ PredefPointers:: ; 856b
 	add_predef PrintMonTypes
 	add_predef GetUnownLetter
 	add_predef LoadPoisonBGPals
-	add_predef InitSGBBorder ; $30
-	add_predef Predef_LoadSGBLayout
+	add_predef Predef_LoadSGBLayoutCGB
 	add_predef _Area
 	add_predef Predef_StartBattle
 	add_predef PlayBattleAnim

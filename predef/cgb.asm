@@ -1,11 +1,5 @@
 ; Replaces the functionality of sgb.asm to work with CGB hardware.
 
-CheckCGB: ; 8d55
-	ld a, [hCGB]
-	and a
-	ret
-; 8d59
-
 Predef_LoadSGBLayoutCGB: ; 8d59
 	ld a, b
 	cp SCGB_RAM

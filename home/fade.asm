@@ -37,7 +37,7 @@ RotateFourPalettesLeft:: ; 4dd
 RotateThreePalettesLeft:: ; 4f0
 	ld hl, IncGradGBPalTable_07 - 1
 	ld b, 3
-	
+
 RotatePalettesLeft:: ; 501
 ; Rotate palettes to the left and fill with loaded colors from the right
 ; If we're already at the rightmost color, fill with the rightmost color

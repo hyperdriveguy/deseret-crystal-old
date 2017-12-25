@@ -209,7 +209,7 @@ LoadWarpData: ; 1046c6
 	call GetAnyMapTileset
 	ld a, c
 	cp TILESET_POKECENTER
-    ret nz
+	ret nz
 
 	ld a, [wPrevMapGroup]
 	ld [wLastSpawnMapGroup], a

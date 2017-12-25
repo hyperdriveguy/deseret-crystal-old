@@ -58,7 +58,7 @@ TextBoxSpaceGFX: ; f9204
 INCBIN "gfx/frames/space.1bpp"
 ; f9214
 
-BlackTile: ; f9214
+MobilePhoneTilesGFX: ; f9214
 ; One completely black tile, because it's used for filler
 rept LEN_1BPP_TILE
 db $ff
@@ -105,9 +105,9 @@ _LoadStandardFont:: ; fb449
 ; fb48a
 
 _LoadFontsExtra1:: ; fb48a
-	ld de, BlackTile
+	ld de, MobilePhoneTilesGFX
 	ld hl, VTiles2 tile $60
-	lb bc, BANK(BlackTile), 1
+	lb bc, BANK(MobilePhoneTilesGFX), 1
 	call Get1bpp_2
 	ld de, OverworldPhoneIconGFX
 	ld hl, VTiles2 tile $62

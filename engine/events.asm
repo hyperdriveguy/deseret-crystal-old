@@ -527,31 +527,6 @@ TryObjectEvent: ; 969b5
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	jp hl
-
-.nope_bugged
-	; pop bc
-	xor a
-	ret
-
-.pointers
-	dbw PERSONTYPE_SCRIPT, .script
-	dbw PERSONTYPE_ITEMBALL, .itemball
-	dbw PERSONTYPE_TRAINER, .trainer
-	; the remaining four are dummy events
-	dbw PERSONTYPE_3, .three
-	dbw PERSONTYPE_4, .four
-	dbw PERSONTYPE_5, .five
-	dbw PERSONTYPE_6, .six
-	db -1
-; 96a04
-
-.script ; 96a04
-	ld hl, MAPOBJECT_SCRIPT_POINTER
-	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
 	call GetMapScriptHeaderBank
 	call CallScript
 	ret
@@ -578,26 +553,6 @@ TryObjectEvent: ; 969b5
 	scf
 	ret
 ; 96a30
-
-.three ; 96a30
-	xor a
-	ret
-; 96a32
-
-.four ; 96a32
-	xor a
-	ret
-; 96a34
-
-.five ; 96a34
-	xor a
-	ret
-; 96a36
-
-.six ; 96a36
-	xor a
-	ret
-; 96a38
 
 TryReadSign: ; 96a38
 	call CheckFacingSign

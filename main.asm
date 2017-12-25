@@ -4278,10 +4278,6 @@ INCLUDE "data/base_stats.asm"
 PokemonNames::
 INCLUDE "data/pokemon_names.asm"
 
-UnknownEggPic:: ; 53d9c
-; Another egg pic. This is shifted up a few pixels.
-INCBIN "gfx/misc/unknown_egg.2bpp.lz"
-
 SECTION "bank19", ROMX
 
 INCLUDE "text/phone/extra.asm"

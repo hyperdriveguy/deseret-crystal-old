@@ -1439,11 +1439,6 @@ FacingPlayerDistance:: ; 36ad
 ; 36f5
 
 PrintWinLossText:: ; 3718
-	ld a, [BattleType]
-	cp BATTLETYPE_CANLOSE
-	jr .canlose ; ??????????
-
-.canlose
 	ld a, [wBattleResult]
 	ld hl, wWinTextPointer
 	and $f
@@ -1628,24 +1623,10 @@ GetBaseData:: ; 3856
 	jr .end
 
 .egg
-; ????
-	ld de, UnknownEggPic
-
 ; Sprite dimensions
 	ld b, $55 ; 5x5
 	ld hl, BasePicSize
 	ld [hl], b
-
-; ????
-	ld hl, BasePadding
-	ld [hl], e
-	inc hl
-	ld [hl], d
-	inc hl
-	ld [hl], e
-	inc hl
-	ld [hl], d
-	jr .end
 
 .end
 ; Replace Pokedex # with species

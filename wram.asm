@@ -1361,37 +1361,68 @@ wMenuDataBank:: db
 wMenuDataHeaderEnd::
 
 wMenuData2::
-UNION ; cf91
 ; MenuData2
+
 wMenuData2Flags:: ; cf91
-; bit 7: When set, start printing text one tile to the right of the border
-;        In scrolling menus, SELECT is functional
-; bit 6: When set, start printing text one tile below the border
-;        In scrolling menus, START is functional
+; Vertical Menu:
+; bit 7: Leave one tile of spacing between the left textbox border and the text
+; bit 6: Leave one tile of spacing between the top textbox border and the text
 ; bit 5: ????
 ; bit 4: ????
 ; bit 3: ????
 ; bit 2: ????
 ; bit 1: Enable Select button
 ; bit 0: Disable B button
+
+; DoNthMenu/SetUpMenu:
+; bit 7: Unused
+; bit 6: Unused
+; bit 5: Unused
+; bit 4: Unused
+; bit 3: Start is functional
+; bit 2: D-left and D-right are functional
+; bit 1: Unused
+; bit 0: Unused
+
+; 2D Menu:
+; bit 7: Leave one tile of spacing between the left textbox border and the text
+; bit 6: Leave one tile of spacing between the top textbox border and the text
+; bit 5: Set bits 4 and 5 in w2DMenuFlags1
+; bit 4: Unused
+; bit 3: Unused
+; bit 2: Unused
+; bit 1: Select is functional
+; bit 0: Disable B button
+
+; Scrolling Menu:
+; bit 7: Select is functional
+; bit 6: Start is functional
+; bit 5: Call Function3
+; bit 4: Show arrows on the right-hand side
+; bit 3: D-Left is functional
+; bit 2: D-Right is functional
+; bit 1: Call Function3 if [wSwitchItem] is 0
+; bit 0: Call Function1 to display the cancel entry
 	db
+
+UNION ; cf92
+; Vertical Menu/DoNthMenu/SetUpMenu
 wMenuData2Items:: db ; cf92
 wMenuData2IndicesPointer:: dw ; cf94
 wMenuData2DisplayFunctionPointer:: dw ; cf96
 wMenuData2PointerTableAddr:: dw ; cf97
 
-NEXTU ; cf91
-; 2D menu
-	ds 2 ; cf91
-wMenuData2Spacing:: db ; cf93
+NEXTU ; cf92
+; 2D Menu
+wMenuData2_2DMenuDimensions:: db ; cf92
+wMenuData2_2DMenuSpacing:: db ; cf93
 wMenuData2_2DMenuItemStringsBank:: db ; cf94
 wMenuData2_2DMenuItemStringsAddr:: dw ; cf96
 wMenuData2_2DMenuFunctionBank:: db ; cf97
 wMenuData2_2DMenuFunctionAddr:: dw ; cf98
 
-NEXTU ; cf91
-; scrolling menu
-	ds 1 ; cf91
+NEXTU ; cf92
+; Scrolling Menu
 wMenuData2_ScrollingMenuHeight:: db ; cf92
 wMenuData2_ScrollingMenuWidth:: db ; cf93
 wMenuData2_ScrollingMenuSpacing:: db ; cf94

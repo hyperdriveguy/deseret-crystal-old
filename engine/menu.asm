@@ -74,14 +74,14 @@ Mobile_GetMenuSelection: ; 24098
 	ret
 ; 240cd
 
-Get2DMenuNumberOfColumns: ; 240cd
-	ld a, [wMenuData2_2DMenuDimensions]
+GetMenuNumberOfColumns: ; 240cd
+	ld a, [wMenuData2Items]
 	and $f
 	ret
 ; 240d3
 
-Get2DMenuNumberOfRows: ; 240d3
-	ld a, [wMenuData2_2DMenuDimensions]
+GetMenuNumberOfRows: ; 240d3
+	ld a, [wMenuData2Items]
 	swap a
 	and $f
 	ret
@@ -94,19 +94,19 @@ Place2DMenuItemStrings: ; 240db
 	ld d, [hl]
 	call GetMenuTextStartCoord
 	call Coord2Tile
-	call Get2DMenuNumberOfRows
+	call GetMenuNumberOfRows
 	ld b, a
 .row
 	push bc
 	push hl
-	call Get2DMenuNumberOfColumns
+	call GetMenuNumberOfColumns
 	ld c, a
 .col
 	push bc
 	ld a, [wMenuData2_2DMenuItemStringsBank]
 	call Place2DMenuItemName
 	inc de
-	ld a, [wMenuData2_2DMenuSpacing]
+	ld a, [wMenuData2Spacing]
 	ld c, a
 	ld b, 0
 	add hl, bc
@@ -138,9 +138,9 @@ Init2DMenuCursorPosition: ; 2411a (9:411a)
 	dec c
 	ld a, c
 	ld [w2DMenuCursorInitX], a
-	call Get2DMenuNumberOfRows
+	call GetMenuNumberOfRows
 	ld [w2DMenuNumRows], a
-	call Get2DMenuNumberOfColumns
+	call GetMenuNumberOfColumns
 	ld [w2DMenuNumCols], a
 	call .InitFlags_a
 	call .InitFlags_b
@@ -202,7 +202,7 @@ Init2DMenuCursorPosition: ; 2411a (9:411a)
 ; 2418a
 
 .InitFlags_b: ; 2418a
-	ld a, [wMenuData2_2DMenuSpacing]
+	ld a, [wMenuData2Spacing]
 	or $20
 	ld [w2DMenuCursorOffsets], a
 	ret

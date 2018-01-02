@@ -45,7 +45,6 @@ DoAnimFrame: ; 8d24b
 	dw .IntroUnownF
 	dw .IntroSuicuneAway
 
-
 .Null: ; 8d2a1 (23:52a1)
 	ret
 

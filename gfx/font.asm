@@ -82,7 +82,7 @@ _LoadStandardFont:: ; fb449
 	ld hl, vTiles1
 	lb bc, BANK(Font), $80
 	ld a, [rLCDC]
-	bit 7, a
+	bit rLCDC_ENABLE, a
 	jp z, Copy1bpp
 
 	ld de, Font

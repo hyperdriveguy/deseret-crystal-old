@@ -48,7 +48,6 @@ MainMenu: ; 49cdc
 	db "MYSTERY GIFT@"
 
 .Jumptable: ; 0x49d60
-
 	dw MainMenu_Continue
 	dw MainMenu_NewGame
 	dw MainMenu_Options

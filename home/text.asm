@@ -31,7 +31,7 @@ ClearTileMap:: ; fc8
 
 	; Update the BG Map.
 	ld a, [rLCDC]
-	bit 7, a
+	bit rLCDC_ENABLE, a
 	ret z
 	jp WaitBGMap
 ; fdb
@@ -677,7 +677,7 @@ PokeFluteTerminatorCharacter:: ; 13e0
 PlaceHLTextAtBC:: ; 13e5
 	ld a, [TextBoxFlags]
 	push af
-	set 1, a
+	set NO_TEXT_DELAY_F, a
 	ld [TextBoxFlags], a
 
 	call DoTextUntilTerminator

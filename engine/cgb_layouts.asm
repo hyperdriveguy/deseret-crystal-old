@@ -54,21 +54,21 @@ Predef_LoadSGBLayoutCGB: ; 8d59
 
 _CGB_BattleGrayscale: ; 8db8
 	ld hl, PalPacket_9c66 + 1
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	ld c, 4
 	call CopyPalettes
 	ld hl, PalPacket_9c66 + 1
-	ld de, UnknBGPals palette PAL_BATTLE_BG_EXP
+	ld de, wBGPals1 palette PAL_BATTLE_BG_EXP
 	ld c, 4
 	call CopyPalettes
 	ld hl, PalPacket_9c66 + 1
-	ld de, UnknOBPals
+	ld de, wOBPals1
 	ld c, 2
 	call CopyPalettes
 	jr _CGB_FinishBattleScreenLayout
 
 _CGB_BattleColors: ; 8ddb
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	call GetBattlemonBackpicPalettePointer
 	push hl
 	call LoadPalette_White_Col1_Col2_Black ; PAL_BATTLE_BG_PLAYER
@@ -93,7 +93,7 @@ _CGB_BattleColors: ; 8ddb
 	call LoadPalette_White_Col1_Col2_Black ; PAL_BATTLE_BG_PLAYER_HP
 	ld hl, ExpBarPalette
 	call LoadPalette_White_Col1_Col2_Black ; PAL_BATTLE_BG_EXP
-	ld de, UnknOBPals
+	ld de, wOBPals1
 	pop hl
 	call LoadPalette_White_Col1_Col2_Black ; PAL_BATTLE_OB_ENEMY
 	pop hl
@@ -132,9 +132,9 @@ _CGB_FinishBattleScreenLayout: ; 8e23
 	ld a, PAL_BATTLE_BG_TEXT
 	call ByteFill
 	ld hl, BattleObjectPals
-	ld de, UnknOBPals palette PAL_BATTLE_OB_GRAY
+	ld de, wOBPals1 palette PAL_BATTLE_OB_GRAY
 	ld bc, 6 palettes
-	ld a, BANK(UnknOBPals)
+	ld a, BANK(wOBPals1)
 	call FarCopyWRAM
 	call ApplyAttrMap
 	ret
@@ -143,18 +143,18 @@ _CGB_FinishBattleScreenLayout: ; 8e23
 
 InitPartyMenuBGPal7: ; 8e85
 	ld hl, Palette_b311
-	ld de, UnknBGPals palette 7
+	ld de, wBGPals1 palette 7
 	ld bc, 1 palettes
-	ld a, BANK(UnknBGPals)
+	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 	ret
 ; 8e9f
 
 InitPartyMenuBGPal0: ; 8e9f
 	ld hl, Palette_b311
-	ld de, UnknBGPals palette 0
+	ld de, wBGPals1 palette 0
 	ld bc, 1 palettes
-	ld a, BANK(UnknBGPals)
+	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 	ret
 ; 8eb9
@@ -169,9 +169,9 @@ _CGB_PokegearPals: ; 8eb9
 .male
 	ld hl, MalePokegearPals
 .got_pals
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	ld bc, 6 palettes
-	ld a, BANK(UnknBGPals)
+	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 	call ApplyPals
 	ld a, $1
@@ -180,7 +180,7 @@ _CGB_PokegearPals: ; 8eb9
 ; 8edb
 
 _CGB_StatsScreenHPPals: ; 8edb
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	ld a, [wCurHPPal]
 	ld l, a
 	ld h, $0
@@ -196,9 +196,9 @@ _CGB_StatsScreenHPPals: ; 8edb
 	ld hl, ExpBarPalette
 	call LoadPalette_White_Col1_Col2_Black ; exp palette
 	ld hl, StatsScreenPagePals
-	ld de, UnknBGPals palette 3
+	ld de, wBGPals1 palette 3
 	ld bc, 3 palettes ; pink, green, and blue page palettes
-	ld a, BANK(UnknBGPals)
+	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 	call WipeAttrMap
 
@@ -262,7 +262,7 @@ StatsScreenPals: ; 8f6a
 ; 8f70
 
 _CGB_Pokedex: ; 8f70
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	ld a, $1d
 	call GetPredefPal
 	call LoadHLPaletteIntoDE ; dex interface palette
@@ -284,9 +284,9 @@ _CGB_Pokedex: ; 8f70
 	call FillBoxCGB
 	call InitPartyMenuOBPals
 	ld hl, .PokedexCursorPalette
-	ld de, UnknOBPals palette 7 ; green cursor palette
+	ld de, wOBPals1 palette 7 ; green cursor palette
 	ld bc, 1 palettes
-	ld a, BANK(UnknOBPals)
+	ld a, BANK(wOBPals1)
 	call FarCopyWRAM
 	call ApplyAttrMap
 	call ApplyPals
@@ -309,7 +309,7 @@ _CGB_Pokedex: ; 8f70
 ; 8fca
 
 _CGB_BillsPC: ; 8fca
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	ld a, $1d
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
@@ -346,7 +346,7 @@ _CGB_BillsPC: ; 8fca
 ; 903e
 
 _CGB_PokedexUnownMode: ; 903e
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	ld a, $1d
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
@@ -368,9 +368,9 @@ _CGB_PokedexUnownMode: ; 903e
 
 _CGB_SlotMachine: ; 906e
 	ld hl, SlotMachinePals
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	ld bc, 16 palettes
-	ld a, BANK(UnknBGPals)
+	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 	call WipeAttrMap
 	hlcoord 0, 2, AttrMap
@@ -422,9 +422,9 @@ _CGB_SlotMachine: ; 906e
 
 _CGB_Diploma: ; 91ad
 	ld hl, DiplomaPalettes
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	ld bc, 16 palettes
-	ld a, BANK(UnknBGPals)
+	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 
 	ld hl, PalPacket_9cb6 + 1
@@ -452,7 +452,7 @@ _CGB_PartyMenu: ; 91d1
 ; 91e4
 
 _CGB_Evolution: ; 91e4
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	ld a, c
 	and a
 	jr z, .pokemon
@@ -472,9 +472,9 @@ _CGB_Evolution: ; 91e4
 	call GetPlayerOrMonPalettePointer
 	call LoadPalette_White_Col1_Col2_Black
 	ld hl, BattleObjectPals
-	ld de, UnknOBPals palette PAL_BATTLE_OB_GRAY
+	ld de, wOBPals1 palette PAL_BATTLE_OB_GRAY
 	ld bc, 6 palettes
-	ld a, BANK(UnknOBPals)
+	ld a, BANK(wOBPals1)
 	call FarCopyWRAM
 
 .got_palette
@@ -489,15 +489,15 @@ _CGB_Evolution: ; 91e4
 _CGB_UnownPuzzle: ; 925e
 	ld hl, PalPacket_9bc6 + 1
 	call CopyFourPalettes
-	ld de, UnknOBPals
+	ld de, wOBPals1
 	ld a, $4c
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
 	ld a, [rSVBK]
 	push af
-	ld a, BANK(UnknOBPals)
+	ld a, BANK(wOBPals1)
 	ld [rSVBK], a
-	ld hl, UnknOBPals
+	ld hl, wOBPals1
 	ld a, $1f
 	ld [hli], a
 	ld a, $0
@@ -510,7 +510,7 @@ _CGB_UnownPuzzle: ; 925e
 ; 9289
 
 _CGB_TrainerCard: ; 9289
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	xor a ; CHRIS
 	call GetTrainerPalettePointer
 	call LoadPalette_White_Col1_Col2_Black
@@ -616,7 +616,7 @@ _CGB_TrainerCard: ; 9289
 ; 9373
 
 _CGB_MoveList: ; 9373
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	ld a, $10
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
@@ -641,7 +641,7 @@ _CGB_MoveList: ; 9373
 ; 93a6
 
 _CGB_PokedexSearchOption: ; 93ba
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	ld a, $1d
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
@@ -670,9 +670,9 @@ _CGB_PackPals: ; 93d3
 	ld hl, .ChrisPackPals
 
 .got_gender
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	ld bc, 8 palettes ; 6 palettes?
-	ld a, BANK(UnknBGPals)
+	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 	call WipeAttrMap
 	hlcoord 0, 0, AttrMap
@@ -746,15 +746,15 @@ _CGB_Pokepic: ; 9499
 ; 94d0
 
 _CGB_GamefreakLogo: ; 94fa
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	ld a, $4e
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
 	ld hl, .Palette
-	ld de, UnknOBPals
+	ld de, wOBPals1
 	call LoadHLPaletteIntoDE
 	ld hl, .Palette
-	ld de, UnknOBPals palette 1
+	ld de, wOBPals1 palette 1
 	call LoadHLPaletteIntoDE
 	call WipeAttrMap
 	call ApplyAttrMap
@@ -770,7 +770,7 @@ _CGB_GamefreakLogo: ; 94fa
 ; 9529
 
 _CGB_PlayerOrMonFrontpicPals: ; 9529
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	ld a, [CurPartySpecies]
 	ld bc, TempMonDVs
 	call GetPlayerOrMonPalettePointer
@@ -785,11 +785,11 @@ _CGB_TradeTube: ; 9555
 	ld hl, PalPacket_9cc6 + 1
 	call CopyFourPalettes
 	ld hl, PartyMenuOBPals
-	ld de, UnknOBPals
+	ld de, wOBPals1
 	ld bc, 1 palettes
-	ld a, BANK(UnknOBPals)
+	ld a, BANK(wOBPals1)
 	call FarCopyWRAM
-	ld de, UnknOBPals palette 7
+	ld de, wOBPals1 palette 7
 	ld a, $1c
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
@@ -798,7 +798,7 @@ _CGB_TradeTube: ; 9555
 ; 9578
 
 _CGB_TrainerOrMonFrontpicPals: ; 9578
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	ld a, [CurPartySpecies]
 	ld bc, TempMonDVs
 	call GetFrontpicPalettePointer
@@ -811,9 +811,9 @@ _CGB_TrainerOrMonFrontpicPals: ; 9578
 
 _CGB_MysteryGift: ; 9591
 	ld hl, .Palettes
-	ld de, UnknBGPals
+	ld de, wBGPals1
 	ld bc, 2 palettes
-	ld a, BANK(UnknBGPals)
+	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 	call ApplyPals
 	call WipeAttrMap

@@ -1,4 +1,4 @@
-; CreditsStrings indexes (see data/credits_text.asm)
+; CreditsStrings indexes (see data/credits_strings.asm)
 	const_def
 	const SATOSHI_TAJIRI
 	const JUNICHI_MASUDA
@@ -89,7 +89,7 @@
 	const PAAD_TESTING
 
 ; CreditsScript indexes (see data/credits_script.asm)
-const_value SET -7
+const_value set -7
 	const CREDITS_THEEND
 	const CREDITS_WAIT2
 	const CREDITS_MUSIC

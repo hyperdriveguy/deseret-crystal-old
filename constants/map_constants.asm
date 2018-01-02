@@ -21,7 +21,7 @@ ENDM
 ; `mapgroup` indexes are for the sub-tables of MapGroupPointers (see maps/map_headers.asm)
 	const_def
 
-	newgroup                                                    ;  1
+	newgroup                                                     ;  1
 
 	mapgroup OLIVINE_POKECENTER_1F,                        4,  5 ;  1
 	mapgroup OLIVINE_GYM,                                  8,  5 ;  2
@@ -37,7 +37,7 @@ ENDM
 	mapgroup ROUTE_39,                                    18, 10 ; 13
 	mapgroup OLIVINE_CITY,                                18, 20 ; 14
 
-	newgroup                                                    ;  2
+	newgroup                                                     ;  2
 
 	mapgroup MAHOGANY_RED_GYARADOS_SPEECH_HOUSE,           4,  4 ;  1
 	mapgroup MAHOGANY_GYM,                                 9,  5 ;  2
@@ -47,7 +47,7 @@ ENDM
 	mapgroup ROUTE_44,                                     9, 30 ;  6
 	mapgroup MAHOGANY_TOWN,                                9, 10 ;  7
 
-	newgroup                                                    ;  3
+	newgroup                                                     ;  3
 
 	mapgroup SPROUT_TOWER_1F,                              8, 10 ;  1
 	mapgroup SPROUT_TOWER_2F,                              8, 10 ;  2
@@ -139,7 +139,7 @@ ENDM
 	mapgroup ROCK_TUNNEL_B1F,                             18, 15 ; 88
 	mapgroup VICTORY_ROAD,                                36, 10 ; 91
 
-	newgroup                                                    ;  4
+	newgroup                                                     ;  4
 
 	mapgroup ECRUTEAK_HOUSE,                               9, 10 ;  1
 	mapgroup WISE_TRIOS_ROOM,                              4,  4 ;  2
@@ -151,7 +151,7 @@ ENDM
 	mapgroup ECRUTEAK_ITEMFINDER_HOUSE,                    4,  4 ;  8
 	mapgroup ECRUTEAK_CITY,                               18, 20 ;  9
 
-	newgroup                                                    ;  5
+	newgroup                                                     ;  5
 
 	mapgroup BLACKTHORN_GYM_1F,                            9,  5 ;  1
 	mapgroup BLACKTHORN_GYM_2F,                            9,  5 ;  2
@@ -164,7 +164,7 @@ ENDM
 	mapgroup ROUTE_46,                                    18, 10 ;  9
 	mapgroup BLACKTHORN_CITY,                             18, 20 ; 10
 
-	newgroup                                                    ;  6
+	newgroup                                                     ;  6
 
 	mapgroup CINNABAR_POKECENTER_1F,                       4,  5 ;  1
 	mapgroup ROUTE_19___FUCHSIA_GATE,                      4,  5 ;  3
@@ -174,7 +174,7 @@ ENDM
 	mapgroup ROUTE_21,                                    18, 10 ;  7
 	mapgroup CINNABAR_ISLAND,                              9, 10 ;  8
 
-	newgroup                                                    ;  7
+	newgroup                                                     ;  7
 
 	mapgroup CERULEAN_GYM_BADGE_SPEECH_HOUSE,              4,  4 ;  1
 	mapgroup CERULEAN_POLICE_STATION,                      4,  4 ;  2
@@ -192,7 +192,7 @@ ENDM
 	mapgroup ROUTE_25,                                     9, 30 ; 16
 	mapgroup CERULEAN_CITY,                               18, 20 ; 17
 
-	newgroup                                                    ;  8
+	newgroup                                                     ;  8
 
 	mapgroup AZALEA_POKECENTER_1F,                         4,  5 ;  1
 	mapgroup CHARCOAL_KILN,                                4,  4 ;  2
@@ -202,7 +202,7 @@ ENDM
 	mapgroup ROUTE_33,                                     9, 10 ;  6
 	mapgroup AZALEA_TOWN,                                  9, 20 ;  7
 
-	newgroup                                                    ;  9
+	newgroup                                                     ;  9
 
 	mapgroup LAKE_OF_RAGE_HIDDEN_POWER_HOUSE,              4,  4 ;  1
 	mapgroup LAKE_OF_RAGE_MAGIKARP_HOUSE,                  4,  4 ;  2
@@ -211,7 +211,7 @@ ENDM
 	mapgroup ROUTE_43,                                    27, 10 ;  5
 	mapgroup LAKE_OF_RAGE,                                18, 20 ;  6
 
-	newgroup                                                    ; 10
+	newgroup                                                     ; 10
 
 	mapgroup ROUTE_32,                                    45, 10 ;  1
 	mapgroup ROUTE_35,                                    18, 10 ;  2
@@ -231,7 +231,7 @@ ENDM
 	mapgroup ROUTE_36_RUINS_OF_ALPH_GATE,                  4,  5 ; 16
 	mapgroup ROUTE_36_NATIONAL_PARK_GATE,                  4,  5 ; 17
 
-	newgroup                                                    ; 11
+	newgroup                                                     ; 11
 
 	mapgroup ROUTE_34,                                    27, 10 ;  1
 	mapgroup GOLDENROD_CITY,                              18, 20 ;  2
@@ -257,7 +257,7 @@ ENDM
 	mapgroup ROUTE_34_ILEX_FOREST_GATE,                    4,  5 ; 23
 	mapgroup DAY_CARE,                                     4,  5 ; 24
 
-	newgroup                                                    ; 12
+	newgroup                                                     ; 12
 
 	mapgroup ROUTE_6,                                      9, 10 ;  1
 	mapgroup ROUTE_11,                                     9, 20 ;  2
@@ -272,7 +272,7 @@ ENDM
 	mapgroup ROUTE_6_SAFFRON_GATE,                         4,  5 ; 12
 	mapgroup ROUTE_6_UNDERGROUND_PATH_ENTRANCE,            4,  4 ; 13
 
-	newgroup                                                    ; 13
+	newgroup                                                     ; 13
 
 	mapgroup ROUTE_1,                                     18, 10 ;  1
 	mapgroup PALLET_TOWN,                                  9, 10 ;  2
@@ -281,7 +281,7 @@ ENDM
 	mapgroup BLUES_HOUSE,                                  4,  4 ;  5
 	mapgroup OAKS_LAB,                                     6,  5 ;  6
 
-	newgroup                                                    ; 14
+	newgroup                                                     ; 14
 
 	mapgroup ROUTE_3,                                      9, 30 ;  1
 	mapgroup PEWTER_CITY,                                 18, 20 ;  2
@@ -291,7 +291,7 @@ ENDM
 	mapgroup PEWTER_POKECENTER_1F,                         4,  5 ;  6
 	mapgroup PEWTER_SNOOZE_SPEECH_HOUSE,                   4,  4 ;  8
 
-	newgroup                                                    ; 15
+	newgroup                                                     ; 15
 
 	mapgroup OLIVINE_PORT,                                18, 10 ;  1
 	mapgroup VERMILION_PORT,                              18, 10 ;  2
@@ -306,7 +306,7 @@ ENDM
 	mapgroup MOUNT_MOON_GIFT_SHOP,                         4,  4 ; 11
 	mapgroup TIN_TOWER_ROOF,                               9, 10 ; 12
 
-	newgroup                                                    ; 16
+	newgroup                                                     ; 16
 
 	mapgroup ROUTE_23,                                     9, 10 ;  1
 	mapgroup INDIGO_PLATEAU_POKECENTER_1F,                 7,  9 ;  2
@@ -317,7 +317,7 @@ ENDM
 	mapgroup LANCES_ROOM,                                 12,  5 ;  7
 	mapgroup HALL_OF_FAME,                                 7,  5 ;  8
 
-	newgroup                                                    ; 17
+	newgroup                                                     ; 17
 
 	mapgroup ROUTE_13,                                     9, 30 ;  1
 	mapgroup ROUTE_14,                                    18, 10 ;  2
@@ -332,7 +332,7 @@ ENDM
 	mapgroup SAFARI_ZONE_WARDENS_HOME,                     4,  5 ; 12
 	mapgroup ROUTE_15_FUCHSIA_GATE,                        4,  5 ; 13
 
-	newgroup                                                    ; 18
+	newgroup                                                     ; 18
 
 	mapgroup ROUTE_8,                                      9, 20 ;  1
 	mapgroup ROUTE_12,                                    27, 10 ;  2
@@ -348,21 +348,21 @@ ENDM
 	mapgroup ROUTE_8_SAFFRON_GATE,                         4,  5 ; 13
 	mapgroup ROUTE_12_SUPER_ROD_HOUSE,                     4,  4 ; 14
 
-	newgroup                                                    ; 19
+	newgroup                                                     ; 19
 
 	mapgroup ROUTE_28,                                     9, 20 ;  1
 	mapgroup SILVER_CAVE_OUTSIDE,                         18, 20 ;  2
 	mapgroup SILVER_CAVE_POKECENTER_1F,                    4,  5 ;  3
 	mapgroup ROUTE_28_FAMOUS_SPEECH_HOUSE,                 4,  4 ;  4
 
-	newgroup                                                    ; 20
+	newgroup                                                     ; 20
 
 	mapgroup POKECENTER_2F,                                4,  8 ;  1
 	mapgroup TRADE_CENTER,                                 4,  5 ;  2
 	mapgroup COLOSSEUM,                                    4,  5 ;  3
 	mapgroup TIME_CAPSULE,                                 4,  5 ;  4
 
-	newgroup                                                    ; 21
+	newgroup                                                     ; 21
 
 	mapgroup ROUTE_7,                                      9, 10 ;  1
 	mapgroup ROUTE_16,                                     9, 10 ;  2
@@ -390,7 +390,7 @@ ENDM
 	mapgroup ROUTE_7_SAFFRON_GATE,                         4,  5 ; 25
 	mapgroup ROUTE_17_18_GATE,                             4,  5 ; 26
 
-	newgroup                                                    ; 22
+	newgroup                                                     ; 22
 
 	mapgroup ROUTE_40,                                    18, 10 ;  1
 	mapgroup ROUTE_41,                                    27, 25 ;  2
@@ -409,7 +409,7 @@ ENDM
 	mapgroup ROUTE_40_BATTLE_TOWER_GATE,                   4,  5 ; 15
 	mapgroup BATTLE_TOWER_OUTSIDE,                        14, 10 ; 16
 
-	newgroup                                                    ; 23
+	newgroup                                                     ; 23
 
 	mapgroup ROUTE_2,                                     27, 10 ;  1
 	mapgroup ROUTE_22,                                     9, 20 ;  2
@@ -424,7 +424,7 @@ ENDM
 	mapgroup ROUTE_2_GATE,                                 4,  5 ; 12
 	mapgroup VICTORY_ROAD_GATE,                            9, 10 ; 13
 
-	newgroup                                                    ; 24
+	newgroup                                                     ; 24
 
 	mapgroup ROUTE_26,                                    54, 10 ;  1
 	mapgroup ROUTE_27,                                     9, 40 ;  2
@@ -440,7 +440,7 @@ ENDM
 	mapgroup ROUTE_27_SANDSTORM_HOUSE,                     4,  4 ; 12
 	mapgroup ROUTE_29_46_GATE,                             4,  5 ; 13
 
-	newgroup                                                    ; 25
+	newgroup                                                     ; 25
 
 	mapgroup ROUTE_5,                                      9, 10 ;  1
 	mapgroup SAFFRON_CITY,                                18, 20 ;  2
@@ -457,7 +457,7 @@ ENDM
 	mapgroup ROUTE_5_SAFFRON_CITY_GATE,                    4,  5 ; 14
 	mapgroup ROUTE_5_CLEANSE_TAG_SPEECH_HOUSE,             4,  4 ; 15
 
-	newgroup                                                    ; 26
+	newgroup                                                     ; 26
 
 	mapgroup ROUTE_30,                                    27, 10 ;  1
 	mapgroup ROUTE_31,                                     9, 20 ;  2

@@ -17,9 +17,9 @@ MG_Mobile_Layout_FillBox: ; 49336
 
 LoadOW_BGPal7:: ; 49409
 	ld hl, Palette_TextBG7
-	ld de, UnknBGPals palette PAL_BG_TEXT
+	ld de, wBGPals1 palette PAL_BG_TEXT
 	ld bc, 1 palettes
-	ld a, BANK(UnknBGPals)
+	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 	ret
 ; 49418
@@ -84,9 +84,9 @@ _InitMG_Mobile_LinkTradePalMap: ; 49797
 
 LoadTradeRoomBGPals: ; 49811
 	ld hl, TradeRoomPalette
-	ld de, UnknBGPals palette PAL_BG_GREEN
+	ld de, wBGPals1 palette PAL_BG_GREEN
 	ld bc, 6 palettes
-	ld a, BANK(UnknBGPals)
+	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 	farcall ApplyPals
 	ret

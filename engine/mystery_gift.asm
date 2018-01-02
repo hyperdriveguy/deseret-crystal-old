@@ -113,7 +113,7 @@ DoMysteryGift: ; 1048ba (41:48ba)
 
 .PrintTextAndExit: ; 1049c5 (41:49c5)
 	call PrintText
-	ld a, $e3
+	ld a, LCDC_DEFAULT
 	ld [rLCDC], a
 	ret
 ; 1049cd (41:49cd)
@@ -259,7 +259,7 @@ Function104a95: ; 104a95 (41:4a95)
 	; Delay frame
 .ly_loop
 	ld a, [rLY]
-	cp $90
+	cp LY_VBLANK
 	jr c, .ly_loop
 	ld c, LOW(rRP)
 	ld a, $c0
@@ -278,14 +278,14 @@ Function104a95: ; 104a95 (41:4a95)
 	and b
 	ld b, a
 	ld a, [rLY]
-	cp $90
+	cp LY_VBLANK
 	jr nc, .ly_loop2
 .ly_loop3
 	ld a, [$ff00+c]
 	and b
 	ld b, a
 	ld a, [rLY]
-	cp $90
+	cp LY_VBLANK
 	jr c, .ly_loop3
 
 	ld a, b

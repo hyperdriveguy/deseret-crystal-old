@@ -276,7 +276,7 @@ PrintLetterDelay:: ; 313d
 
 ; non-scrolling text?
 	ld a, [TextBoxFlags]
-	bit 1, a
+	bit NO_TEXT_DELAY_F, a
 	ret z
 
 	push hl
@@ -293,7 +293,7 @@ PrintLetterDelay:: ; 313d
 
 ; force fast scroll?
 	ld a, [TextBoxFlags]
-	bit 0, a
+	bit FAST_TEXT_DELAY_F, a
 	jr z, .fast
 
 ; text speed
@@ -302,7 +302,7 @@ PrintLetterDelay:: ; 313d
 	jr .updatedelay
 
 .fast
-	ld a, 1
+	ld a, TEXT_DELAY_FAST
 
 .updatedelay
 	ld [TextDelayFrames], a
@@ -317,11 +317,11 @@ PrintLetterDelay:: ; 313d
 
 ; Wait one frame if holding A or B.
 	ld a, [hJoyDown]
-	bit 0, a ; A_BUTTON
+	bit A_BUTTON_F, a
 	jr z, .checkb
 	jr .delay
 .checkb
-	bit 1, a ; B_BUTTON
+	bit B_BUTTON_F, a
 	jr z, .wait
 
 .delay
@@ -594,11 +594,11 @@ ClearPalettes:: ; 3317
 	ld a, [rSVBK]
 	push af
 
-	ld a, BANK(BGPals)
+	ld a, BANK(wBGPals2)
 	ld [rSVBK], a
 
-; Fill BGPals and OBPals with $ffff (white)
-	ld hl, BGPals
+; Fill wBGPals2 and wOBPals2 with $ffff (white)
+	ld hl, wBGPals2
 	ld bc, 16 palettes
 	ld a, $ff
 	call ByteFill

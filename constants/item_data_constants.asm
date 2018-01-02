@@ -48,7 +48,7 @@ MAIL_STRUCT_LENGTH EQU $2f ; mailmsg struct
 	const HELD_RESTORE_PP
 	const HELD_CLEANSE_TAG
 
-const_value SET 10
+const_value set 10
 	const HELD_HEAL_POISON
 	const HELD_HEAL_FREEZE
 	const HELD_HEAL_BURN
@@ -57,7 +57,7 @@ const_value SET 10
 	const HELD_HEAL_STATUS
 	const HELD_HEAL_CONFUSION
 
-const_value SET 20
+const_value set 20
 	const HELD_PREVENT_POISON
 	const HELD_PREVENT_BURN
 	const HELD_PREVENT_FREEZE
@@ -65,7 +65,7 @@ const_value SET 20
 	const HELD_PREVENT_PARALYZE
 	const HELD_PREVENT_CONFUSE
 
-const_value SET 30
+const_value set 30
 	const HELD_ATTACK_UP
 	const HELD_DEFENSE_UP
 	const HELD_SPEED_UP
@@ -74,10 +74,10 @@ const_value SET 30
 	const HELD_ACCURACY_UP
 	const HELD_EVASION_UP
 
-const_value SET 40
+const_value set 40
 	const HELD_METAL_POWDER
 
-const_value SET 50
+const_value set 50
 	const HELD_NORMAL_BOOST
 	const HELD_FIGHTING_BOOST
 	const HELD_FLYING_BOOST
@@ -96,7 +96,7 @@ const_value SET 50
 	const HELD_DARK_BOOST
 	const HELD_STEEL_BOOST
 
-const_value SET 70
+const_value set 70
 	const HELD_CATCH_CHANCE
 	const HELD_ESCAPE
 	const HELD_CRITICAL_UP

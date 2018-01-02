@@ -152,9 +152,7 @@ Credits_Jumptable: ; 109926
 	jp hl
 ; 109937
 
-
 .Jumptable: ; 109937 (42:5937)
-
 	dw ParseCredits
 	dw Credits_Next
 	dw Credits_Next
@@ -168,7 +166,6 @@ Credits_Jumptable: ; 109926
 	dw Credits_UpdateGFXRequestPath
 	dw Credits_RequestGFX
 	dw Credits_LoopBack
-
 
 Credits_Next: ; 109951 (42:5951)
 	ld hl, wJumptableIndex
@@ -523,20 +520,20 @@ GetCreditsPalette: ; 109b2c
 ; Update the first three colors in both palette buffers.
 	push af
 	push hl
-	add LOW(UnknBGPals)
+	add LOW(wBGPals1)
 	ld e, a
 	ld a, 0
-	adc HIGH(UnknBGPals)
+	adc HIGH(wBGPals1)
 	ld d, a
 	ld bc, 24
 	call CopyBytes
 
 	pop hl
 	pop af
-	add LOW(BGPals)
+	add LOW(wBGPals2)
 	ld e, a
 	ld a, 0
-	adc HIGH(BGPals)
+	adc HIGH(wBGPals2)
 	ld d, a
 	ld bc, 24
 	call CopyBytes

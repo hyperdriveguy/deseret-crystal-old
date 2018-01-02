@@ -1480,7 +1480,10 @@ wSaveFileExists:: db
 TextBoxFrame:: ; cfce
 ; bits 0-2: textbox frame 0-7
 	db
-TextBoxFlags:: db
+TextBoxFlags::
+; bit 0: 1-frame text delay
+; bit 4: no text delay
+	db
 GBPrinter:: ; cfd0
 ; bit 0-6: brightness
 ;   lightest: $00
@@ -2877,10 +2880,10 @@ w3_dffc:: ds 4
 SECTION "GBC Video", WRAMX
 
 ; eight 4-color palettes each
-UnknBGPals:: ds 8 palettes ; d000
-UnknOBPals:: ds 8 palettes ; d040
-BGPals::     ds 8 palettes ; d080
-OBPals::     ds 8 palettes ; d0c0
+wBGPals1:: ds 8 palettes ; d000
+wOBPals1:: ds 8 palettes ; d040
+wBGPals2:: ds 8 palettes ; d080
+wOBPals2:: ds 8 palettes ; d0c0
 
 LYOverrides:: ds SCREEN_HEIGHT_PX ; d100
 LYOverridesEnd:: ; d190

@@ -503,7 +503,7 @@ INCLUDE "engine/link_trade.asm"
 
 SECTION "Mobile 5C", ROMX
 
-INCLUDE "mobile/mobile_5c.asm"
+INCLUDE "mobile/battle_tower_5c.asm"
 
 
 SECTION "Crystal Phone Text 2", ROMX

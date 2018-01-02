@@ -99,70 +99,7 @@ ReadBTTrainerParty: ; 1702b7
 ; Initialise the BattleTower-Trainer and his Pkmn
 	call CopyBTTrainer_FromBT_OT_TowBT_OTTemp
 
-; Check the nicknames for illegal characters, and replace bad nicknames
-; with their species names.
-	ld de, wBT_OTTempPkmn1Name ; $c643
-	ld c, PKMN_NAME_LENGTH
-	farcall CheckStringForErrors
-	jr nc, .skip_mon_1
-
-	ld a, [wBT_OTTempPkmn1]
-	ld [wNamedObjectIndexBuffer], a
-	call GetPokemonName
-	ld l, e
-	ld h, d
-	ld de, wBT_OTTempPkmn1Name ; $c643
-	ld bc, PKMN_NAME_LENGTH
-	call CopyBytes
-
-.skip_mon_1
-	ld de, wBT_OTTempPkmn2Name ; $c67e
-	ld c, PKMN_NAME_LENGTH
-	farcall CheckStringForErrors
-	jr nc, .skip_mon_2
-	ld a, [wBT_OTTempPkmn2] ; [$c64e]
-	ld [wNamedObjectIndexBuffer], a
-	call GetPokemonName
-	ld l, e
-	ld h, d
-	ld de, wBT_OTTempPkmn2Name ; $c67e
-	ld bc, PKMN_NAME_LENGTH
-	call CopyBytes
-
-.skip_mon_2
-	ld de, wBT_OTTempPkmn3Name ; $c686 + 51 = $c6b9
-	ld c, PKMN_NAME_LENGTH
-	farcall CheckStringForErrors
-	jr nc, .skip_mon_3
-	ld a, [wBT_OTTempPkmn3] ; [$c689]
-	ld [wNamedObjectIndexBuffer], a
-	call GetPokemonName
-	ld l, e
-	ld h, d
-	ld de, wBT_OTTempPkmn3Name ; $c686 + 51 = $c6b9
-	ld bc, PKMN_NAME_LENGTH
-	call CopyBytes
-
-.skip_mon_3
-; Add the terminator character to each of these names
-	ld a, "@"
-	ld [wBT_OTTempPkmn1NameEnd - 1], a ; $c64d
-	ld [wBT_OTTempPkmn2NameEnd - 1], a ; $c688
-	ld [wBT_OTTempPkmn3NameEnd - 1], a ; $c68a + 57 = $c6c3
-; Fix errors in the movesets
-	call CheckBTMonMovesForErrors
-; Repair the trainer name if needed, then copy it to OTPlayerName
-	ld de, wBT_OTTempName
-	ld c, NAME_LENGTH - 1
-	farcall CheckStringForErrors
-	jr nc, .trainer_name_okay
-	ld hl, BT_ChrisName
-	jr .done_trainer_name
-
-.trainer_name_okay
 	ld hl, wBT_OTTempName ; 0xc608
-
-.done_trainer_name
 	ld de, OTPlayerName
 	ld bc, NAME_LENGTH - 1
 	call CopyBytes
@@ -212,10 +149,6 @@ ReadBTTrainerParty: ; 1702b7
 	ld [bc], a
 	ret
 ; 170394
-
-BT_ChrisName: ; 170426
-	db "CHRIS@"
-; 17042c
 
 
 CopyBTTrainer_FromBT_OT_TowBT_OTTemp: ; 1704a2

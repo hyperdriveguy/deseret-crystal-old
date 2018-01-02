@@ -6,54 +6,51 @@ const_value set 2
 	const ROUTE34_OFFICER
 	const ROUTE34_POKEFAN_M
 	const ROUTE34_GRAMPS
-	const ROUTE34_DAYCARE_MON_1
-	const ROUTE34_DAYCARE_MON_2
+	const ROUTE34_DAY_CARE_MON_1
+	const ROUTE34_DAY_CARE_MON_2
 	const ROUTE34_COOLTRAINER_F1
 	const ROUTE34_COOLTRAINER_F2
 	const ROUTE34_COOLTRAINER_F3
 	const ROUTE34_POKE_BALL
 
 Route34_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 1
-
-	; callbacks
-
 	dbw MAPCALLBACK_OBJECTS, .EggCheckCallback
 
 .EggCheckCallback:
-	checkflag ENGINE_DAYCARE_MAN_HAS_EGG
-	iftrue .PutDaycareManOutside
-	clearevent EVENT_DAYCARE_MAN_IN_DAYCARE
-	setevent EVENT_DAYCARE_MAN_ON_ROUTE_34
+	checkflag ENGINE_DAY_CARE_MAN_HAS_EGG
+	iftrue .PutDayCareManOutside
+	clearevent EVENT_DAY_CARE_MAN_IN_DAY_CARE
+	setevent EVENT_DAY_CARE_MAN_ON_ROUTE_34
 	jump .CheckMon1
 
-.PutDaycareManOutside:
-	setevent EVENT_DAYCARE_MAN_IN_DAYCARE
-	clearevent EVENT_DAYCARE_MAN_ON_ROUTE_34
+.PutDayCareManOutside:
+	setevent EVENT_DAY_CARE_MAN_IN_DAY_CARE
+	clearevent EVENT_DAY_CARE_MAN_ON_ROUTE_34
 	jump .CheckMon1
 
 .CheckMon1:
-	checkflag ENGINE_DAYCARE_MAN_HAS_MON
+	checkflag ENGINE_DAY_CARE_MAN_HAS_MON
 	iffalse .HideMon1
-	clearevent EVENT_DAYCARE_MON_1
+	clearevent EVENT_DAY_CARE_MON_1
 	jump .CheckMon2
 
 .HideMon1:
-	setevent EVENT_DAYCARE_MON_1
+	setevent EVENT_DAY_CARE_MON_1
 	jump .CheckMon2
 
 .CheckMon2:
-	checkflag ENGINE_DAYCARE_LADY_HAS_MON
+	checkflag ENGINE_DAY_CARE_LADY_HAS_MON
 	iffalse .HideMon2
-	clearevent EVENT_DAYCARE_MON_2
+	clearevent EVENT_DAY_CARE_MON_2
 	return
 
 .HideMon2:
-	setevent EVENT_DAYCARE_MON_2
+	setevent EVENT_DAY_CARE_MON_2
 	return
 
 DayCareManScript_Outside:
@@ -63,7 +60,7 @@ DayCareManScript_Outside:
 	waitbutton
 	closetext
 	if_equal $1, .end_fail
-	clearflag ENGINE_DAYCARE_MAN_HAS_EGG
+	clearflag ENGINE_DAY_CARE_MAN_HAS_EGG
 	checkcode VAR_FACING
 	if_equal RIGHT, .walk_around_player
 	applymovement ROUTE34_GRAMPS, Route34MovementData_DayCareManWalksBackInside
@@ -78,13 +75,13 @@ DayCareManScript_Outside:
 	disappear ROUTE34_GRAMPS
 	end
 
-DaycareMon1Script:
+DayCareMon1Script:
 	opentext
 	special Special_DayCareMon1
 	closetext
 	end
 
-DaycareMon2Script:
+DayCareMon2Script:
 	opentext
 	special Special_DayCareMon2
 	closetext
@@ -752,35 +749,35 @@ Route34_MapEventHeader:
 
 .Warps:
 	db 5
-	warp_def $25, $d, 1, ROUTE_34_ILEX_FOREST_GATE
-	warp_def $25, $e, 2, ROUTE_34_ILEX_FOREST_GATE
-	warp_def $e, $b, 1, DAYCARE
-	warp_def $f, $b, 2, DAYCARE
-	warp_def $f, $d, 3, DAYCARE
+	warp_def 13, 37, 1, ROUTE_34_ILEX_FOREST_GATE
+	warp_def 14, 37, 2, ROUTE_34_ILEX_FOREST_GATE
+	warp_def 11, 14, 1, DAY_CARE
+	warp_def 11, 15, 2, DAY_CARE
+	warp_def 13, 15, 3, DAY_CARE
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 5
-	signpost 6, 12, SIGNPOST_READ, Route34Sign
-	signpost 33, 13, SIGNPOST_READ, Route34TrainerTips
-	signpost 13, 10, SIGNPOST_READ, DayCareSign
-	signpost 32, 8, SIGNPOST_ITEM, Route34HiddenRareCandy
-	signpost 19, 17, SIGNPOST_ITEM, Route34HiddenSuperPotion
+	bg_event 12, 6, BGEVENT_READ, Route34Sign
+	bg_event 13, 33, BGEVENT_READ, Route34TrainerTips
+	bg_event 10, 13, BGEVENT_READ, DayCareSign
+	bg_event 8, 32, BGEVENT_ITEM, Route34HiddenRareCandy
+	bg_event 17, 19, BGEVENT_ITEM, Route34HiddenSuperPotion
 
-.PersonEvents:
+.ObjectEvents:
 	db 13
-	person_event SPRITE_YOUNGSTER, 7, 13, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 5, TrainerCamperTodd1, -1
-	person_event SPRITE_YOUNGSTER, 32, 15, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 3, TrainerYoungsterSamuel, -1
-	person_event SPRITE_YOUNGSTER, 20, 11, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 3, TrainerYoungsterIan, -1
-	person_event SPRITE_LASS, 26, 10, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 3, TrainerPicnickerGina1, -1
-	person_event SPRITE_OFFICER, 11, 9, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, OfficerKeithScript, -1
-	person_event SPRITE_POKEFAN_M, 28, 18, SPRITEMOVEDATA_SPINCOUNTERCLOCKWISE, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerPokefanmBrandon, -1
-	person_event SPRITE_GRAMPS, 16, 15, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, DayCareManScript_Outside, EVENT_DAYCARE_MAN_ON_ROUTE_34
-	person_event SPRITE_DAYCARE_MON_1, 18, 14, SPRITEMOVEDATA_POKEMON, 2, 2, -1, -1, 0, PERSONTYPE_SCRIPT, 0, DaycareMon1Script, EVENT_DAYCARE_MON_1
-	person_event SPRITE_DAYCARE_MON_2, 19, 17, SPRITEMOVEDATA_POKEMON, 2, 2, -1, -1, 0, PERSONTYPE_SCRIPT, 0, DaycareMon2Script, EVENT_DAYCARE_MON_2
-	person_event SPRITE_COOLTRAINER_F, 48, 11, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 5, TrainerCooltrainerfIrene, -1
-	person_event SPRITE_COOLTRAINER_F, 48, 3, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerCooltrainerfJenn, -1
-	person_event SPRITE_COOLTRAINER_F, 51, 6, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 2, TrainerCooltrainerfKate, -1
-	person_event SPRITE_POKE_BALL, 30, 7, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, Route34Nugget, EVENT_ROUTE_34_NUGGET
+	object_event 13, 7, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 5, TrainerCamperTodd1, -1
+	object_event 15, 32, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerYoungsterSamuel, -1
+	object_event 11, 20, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerYoungsterIan, -1
+	object_event 10, 26, SPRITE_LASS, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 3, TrainerPicnickerGina1, -1
+	object_event 9, 11, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, OfficerKeithScript, -1
+	object_event 18, 28, SPRITE_POKEFAN_M, SPRITEMOVEDATA_SPINCOUNTERCLOCKWISE, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerPokefanmBrandon, -1
+	object_event 15, 16, SPRITE_GRAMPS, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, DayCareManScript_Outside, EVENT_DAY_CARE_MAN_ON_ROUTE_34
+	object_event 14, 18, SPRITE_DAY_CARE_MON_1, SPRITEMOVEDATA_POKEMON, 2, 2, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, DayCareMon1Script, EVENT_DAY_CARE_MON_1
+	object_event 17, 19, SPRITE_DAY_CARE_MON_2, SPRITEMOVEDATA_POKEMON, 2, 2, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, DayCareMon2Script, EVENT_DAY_CARE_MON_2
+	object_event 11, 48, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 5, TrainerCooltrainerfIrene, -1
+	object_event 3, 48, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerCooltrainerfJenn, -1
+	object_event 6, 51, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 2, TrainerCooltrainerfKate, -1
+	object_event 7, 30, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, Route34Nugget, EVENT_ROUTE_34_NUGGET

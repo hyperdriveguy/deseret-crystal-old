@@ -7,7 +7,8 @@ Function6ec1: ; 6ec1
 
 	ld hl, OBJECT_FLAGS1
 	add hl, bc
-	bit 4, [hl] ; lost
+	bit 4, [hl] ; lost, uncomment next line to fix
+;	jr nz, .resume
 	push hl
 	push bc
 	call Function6f2c
@@ -34,7 +35,7 @@ Function6ec1: ; 6ec1
 
 	push hl
 	push bc
-	call WillPersonBumpIntoSomeoneElse
+	call WillObjectBumpIntoSomeoneElse
 	pop bc
 	pop hl
 	ret c
@@ -43,12 +44,12 @@ Function6ec1: ; 6ec1
 	bit 5, [hl]
 	jr nz, .bit_5
 	push hl
-	call HasPersonReachedMovementLimit
+	call HasObjectReachedMovementLimit
 	pop hl
 	ret c
 
 	push hl
-	call IsPersonMovingOffEdgeOfScreen
+	call IsObjectMovingOffEdgeOfScreen
 	pop hl
 	ret c
 
@@ -118,7 +119,7 @@ Function6f3e: ; 6f3e
 ; 6f5b
 
 .data_6f5b
-	db 1 << DOWN, 1 << UP, 1 << RIGHT, 1 << LEFT
+	db DOWN_MASK, UP_MASK, RIGHT_MASK, LEFT_MASK
 ; 6f5f
 
 Function6f5f: ; 6f5f
@@ -143,7 +144,7 @@ Function6f5f: ; 6f5f
 ; 6f7b
 
 .data_6f7b
-	db 1 << UP, 1 << DOWN, 1 << LEFT, 1 << RIGHT
+	db UP_MASK, DOWN_MASK, LEFT_MASK, RIGHT_MASK
 ; 6f7f
 
 Function6f7f: ; 6f7f
@@ -268,7 +269,7 @@ CheckFacingObject:: ; 6fd9
 ; 7009
 
 
-WillPersonBumpIntoSomeoneElse: ; 7009
+WillObjectBumpIntoSomeoneElse: ; 7009
 	ld hl, OBJECT_NEXT_MAP_X
 	add hl, bc
 	ld d, [hl]
@@ -352,7 +353,7 @@ IsNPCAtCoord: ; 7041
 	ret
 ; 70a4
 
-HasPersonReachedMovementLimit: ; 70a4
+HasObjectReachedMovementLimit: ; 70a4
 	ld hl, OBJECT_RADIUS
 	add hl, bc
 	ld a, [hl]
@@ -412,7 +413,7 @@ HasPersonReachedMovementLimit: ; 70a4
 	ret
 ; 70ed
 
-IsPersonMovingOffEdgeOfScreen: ; 70ed
+IsObjectMovingOffEdgeOfScreen: ; 70ed
 	ld hl, OBJECT_NEXT_MAP_X
 	add hl, bc
 	ld a, [XCoord]

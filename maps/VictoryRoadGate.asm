@@ -4,64 +4,62 @@ const_value set 2
 	const VICTORYROADGATE_BLACK_BELT2
 
 VictoryRoadGate_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 2
-
-	; triggers
-	dw UnknownScript_0x9b9fb, 0
-	dw UnknownScript_0x9b9fc, 0
+	scene_script .DummyScene0
+	scene_script .DummyScene1
 
 .MapCallbacks:
 	db 0
 
-UnknownScript_0x9b9fb:
+.DummyScene0:
 	end
 
-UnknownScript_0x9b9fc:
+.DummyScene1:
 	end
 
-UnknownScript_0x9b9fd:
+VictoryRoadGateBadgeCheckScene:
 	spriteface PLAYER, LEFT
-	jump UnknownScript_0x9ba04
+	jump VictoryRoadGateBadgeCheckScript
 
-OfficerScript_0x9ba03:
+VictoryRoadGateOfficerScript:
 	faceplayer
-UnknownScript_0x9ba04:
+VictoryRoadGateBadgeCheckScript:
 	opentext
-	writetext UnknownText_0x9ba29
+	writetext VictoryRoadGateOfficerText
 	buttonsound
 	checkcode VAR_BADGES
-	if_greater_than 7, UnknownScript_0x9ba19
-	writetext UnknownText_0x9ba5f
+	if_greater_than 7, .AllEightBadges
+	writetext VictoryRoadGateNotEnoughBadgesText
 	waitbutton
 	closetext
-	applymovement PLAYER, MovementData_0x9ba27
+	applymovement PLAYER, VictoryRoadGateStepDownMovement
 	end
 
-UnknownScript_0x9ba19:
-	writetext UnknownText_0x9bab4
+.AllEightBadges:
+	writetext VictoryRoadGateEightBadgesText
 	waitbutton
 	closetext
-	dotrigger $1
+	setscene $1
 	end
 
-BlackBeltScript_0x9ba21:
-	jumptextfaceplayer UnknownText_0x9baf1
+VictoryRoadGateLeftBlackBeltScript:
+	jumptextfaceplayer VictoryRoadGateLeftBlackBeltText
 
-BlackBeltScript_0x9ba24:
-	jumptextfaceplayer UnknownText_0x9bb37
+VictoryRoadGateRightBlackBeltScript:
+	jumptextfaceplayer VictoryRoadGateRightBlackBeltText
 
-MovementData_0x9ba27:
+VictoryRoadGateStepDownMovement:
 	step DOWN
 	step_end
 
-UnknownText_0x9ba29:
+VictoryRoadGateOfficerText:
 	text "Only trainers who"
 	line "have proven them-"
 	cont "selves may pass."
 	done
 
-UnknownText_0x9ba5f:
+VictoryRoadGateNotEnoughBadgesText:
 	text "You don't have all"
 	line "the GYM BADGES of"
 	cont "JOHTO."
@@ -71,7 +69,7 @@ UnknownText_0x9ba5f:
 	cont "through."
 	done
 
-UnknownText_0x9bab4:
+VictoryRoadGateEightBadgesText:
 	text "Oh! The eight"
 	line "BADGES of JOHTO!"
 
@@ -79,7 +77,7 @@ UnknownText_0x9bab4:
 	line "on through!"
 	done
 
-UnknownText_0x9baf1:
+VictoryRoadGateLeftBlackBeltText:
 	text "This way leads to"
 	line "MT.SILVER."
 
@@ -88,7 +86,7 @@ UnknownText_0x9baf1:
 	cont "there."
 	done
 
-UnknownText_0x9bb37:
+VictoryRoadGateRightBlackBeltText:
 	text "Off to the #MON"
 	line "LEAGUE, are you?"
 
@@ -105,24 +103,24 @@ VictoryRoadGate_MapEventHeader:
 
 .Warps:
 	db 8
-	warp_def $7, $11, 1, ROUTE_22
-	warp_def $7, $12, 1, ROUTE_22
-	warp_def $11, $9, 1, ROUTE_26
-	warp_def $11, $a, 1, ROUTE_26
-	warp_def $0, $9, 1, VICTORY_ROAD
-	warp_def $0, $a, 1, VICTORY_ROAD
-	warp_def $7, $1, 2, ROUTE_28
-	warp_def $7, $2, 2, ROUTE_28
+	warp_def 17, 7, 1, ROUTE_22
+	warp_def 18, 7, 1, ROUTE_22
+	warp_def 9, 17, 1, ROUTE_26
+	warp_def 10, 17, 1, ROUTE_26
+	warp_def 9, 0, 1, VICTORY_ROAD
+	warp_def 10, 0, 1, VICTORY_ROAD
+	warp_def 1, 7, 2, ROUTE_28
+	warp_def 2, 7, 2, ROUTE_28
 
-.XYTriggers:
+.CoordEvents:
 	db 1
-	xy_trigger 0, $b, $a, $0, UnknownScript_0x9b9fd, $0, $0
+	coord_event 10, 11, 0, VictoryRoadGateBadgeCheckScene
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 3
-	person_event SPRITE_OFFICER, 11, 8, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, OfficerScript_0x9ba03, -1
-	person_event SPRITE_BLACK_BELT, 5, 7, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, BlackBeltScript_0x9ba21, EVENT_OPENED_MT_SILVER
-	person_event SPRITE_BLACK_BELT, 5, 12, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, BlackBeltScript_0x9ba24, EVENT_FOUGHT_SNORLAX
+	object_event 8, 11, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, VictoryRoadGateOfficerScript, -1
+	object_event 7, 5, SPRITE_BLACK_BELT, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, VictoryRoadGateLeftBlackBeltScript, EVENT_OPENED_MT_SILVER
+	object_event 12, 5, SPRITE_BLACK_BELT, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, VictoryRoadGateRightBlackBeltScript, EVENT_FOUGHT_SNORLAX

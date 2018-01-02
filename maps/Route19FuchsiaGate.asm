@@ -2,7 +2,7 @@ const_value set 2
 	const ROUTE19FUCHSIAGATE_OFFICER
 
 Route19FuchsiaGate_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -51,17 +51,17 @@ Route19FuchsiaGate_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $0, $4, 9, FUCHSIA_CITY
-	warp_def $0, $5, 10, FUCHSIA_CITY
-	warp_def $7, $4, 1, ROUTE_19
-	warp_def $7, $5, 1, ROUTE_19
+	warp_def 4, 0, 9, FUCHSIA_CITY
+	warp_def 5, 0, 10, FUCHSIA_CITY
+	warp_def 4, 7, 1, ROUTE_19
+	warp_def 5, 7, 1, ROUTE_19
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_OFFICER, 4, 0, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, OfficerScript_0x1ab3f6, -1
+	object_event 0, 4, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, OfficerScript_0x1ab3f6, -1

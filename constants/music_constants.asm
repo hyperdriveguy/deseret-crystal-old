@@ -1,3 +1,5 @@
+; song ids
+; Music indexes (see audio/music_pointers.asm)
 	const_def
 
 	const MUSIC_NONE                         ; 00
@@ -91,6 +93,8 @@
 	const MUSIC_LAKE_OF_RAGE_ROCKET_RADIO    ; 5a
 	const MUSIC_PRINTER                      ; 5b
 	const MUSIC_POST_CREDITS                 ; 5c
+
+; new to Crystal
 	const MUSIC_CLAIR                        ; 5d
 	const MUSIC_BUENAS_PASSWORD              ; 60
 	const MUSIC_MYSTICALMAN_ENCOUNTER        ; 61
@@ -98,3 +102,7 @@
 	const MUSIC_BATTLE_TOWER_THEME           ; 63
 	const MUSIC_SUICUNE_BATTLE               ; 64
 	const MUSIC_BATTLE_TOWER_LOBBY           ; 65
+
+; GetMapHeaderMusic picks music for this bit flag
+RADIO_TOWER_MUSIC_F EQU 7
+RADIO_TOWER_MUSIC EQU 1 << RADIO_TOWER_MUSIC_F

@@ -15,7 +15,7 @@ UpdateTime:: ; 5a7
 	call GetClock
 	call FixDays
 	call FixTime
-	callba GetTimeOfDay
+	farcall GetTimeOfDay
 	ret
 ; 5b7
 
@@ -36,19 +36,16 @@ GetClock:: ; 5b7
 	ld [hl], RTC_S
 	ld a, [de]
 	maskbits 60
-	and x
 	ld [hRTCSeconds], a
 
 	ld [hl], RTC_M
 	ld a, [de]
 	maskbits 60
-	and x
 	ld [hRTCMinutes], a
 
 	ld [hl], RTC_H
 	ld a, [de]
 	maskbits 24
-	and x
 	ld [hRTCHours], a
 
 	ld [hl], RTC_DL
@@ -195,7 +192,7 @@ SetDayOfWeek:: ; 663
 	jr InitTime ; useless
 
 InitTime:: ; 677
-	callba _InitTime
+	farcall _InitTime
 	ret
 ; 67e
 

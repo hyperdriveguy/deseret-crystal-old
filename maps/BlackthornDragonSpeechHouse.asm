@@ -3,24 +3,24 @@ const_value set 2
 	const BLACKTHORNDRAGONSPEECHHOUSE_EKANS
 
 BlackthornDragonSpeechHouse_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-GrannyScript_0x195949:
-	jumptextfaceplayer UnknownText_0x19595c
+BlackthornDragonSpeechHouseGrannyScript:
+	jumptextfaceplayer BlackthornDragonSpeechHouseGrannyText
 
-Dratini:
+BlackthornDragonSpeechHouseDratiniScript:
 	opentext
-	writetext DratiniText
+	writetext BlackthornDragonSpeechHouseDratiniText
 	cry DRATINI
 	waitbutton
 	closetext
 	end
 
-UnknownText_0x19595c:
+BlackthornDragonSpeechHouseGrannyText:
 	text "A clan of trainers"
 	line "who can freely"
 
@@ -35,7 +35,7 @@ UnknownText_0x19595c:
 	line "this town."
 	done
 
-DratiniText:
+BlackthornDragonSpeechHouseDratiniText:
 	text "DRATINI: Draa!"
 	done
 
@@ -45,16 +45,16 @@ BlackthornDragonSpeechHouse_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $2, 2, BLACKTHORN_CITY
-	warp_def $7, $3, 2, BLACKTHORN_CITY
+	warp_def 2, 7, 2, BLACKTHORN_CITY
+	warp_def 3, 7, 2, BLACKTHORN_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 2
-	person_event SPRITE_GRANNY, 3, 2, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, GrannyScript_0x195949, -1
-	person_event SPRITE_EKANS, 5, 5, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, Dratini, -1
+	object_event 2, 3, SPRITE_GRANNY, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, BlackthornDragonSpeechHouseGrannyScript, -1
+	object_event 5, 5, SPRITE_EKANS, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, BlackthornDragonSpeechHouseDratiniScript, -1

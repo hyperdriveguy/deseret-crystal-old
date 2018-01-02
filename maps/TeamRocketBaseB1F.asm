@@ -7,23 +7,18 @@ const_value set 2
 	const TEAMROCKETBASEB1F_POKE_BALL3
 
 TeamRocketBaseB1F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 1
-
-	; triggers
-	maptrigger .Trigger0
+	scene_script .DummyScene
 
 .MapCallbacks:
 	db 1
+	dbw MAPCALLBACK_OBJECTS, .HideSecurityGrunt
 
-	; callbacks
-
-	dbw MAPCALLBACK_OBJECTS, .Callback1
-
-.Trigger0:
+.DummyScene:
 	end
 
-.Callback1:
+.HideSecurityGrunt:
 	disappear TEAMROCKETBASEB1F_ROCKET1
 	return
 
@@ -35,7 +30,7 @@ SecurityCamera1a:
 	iftrue NoSecurityCamera
 	showemote EMOTE_SHOCK, PLAYER, 15
 	playmusic MUSIC_ROCKET_ENCOUNTER
-	moveperson TEAMROCKETBASEB1F_ROCKET1, $13, $2
+	moveobject TEAMROCKETBASEB1F_ROCKET1, $13, $2
 	appear TEAMROCKETBASEB1F_ROCKET1
 	spriteface PLAYER, LEFT
 	applymovement TEAMROCKETBASEB1F_ROCKET1, SecurityCameraMovement1
@@ -44,7 +39,7 @@ SecurityCamera1a:
 	scall PlaySecurityCameraSounds
 	showemote EMOTE_SHOCK, PLAYER, 15
 	playmusic MUSIC_ROCKET_ENCOUNTER
-	moveperson TEAMROCKETBASEB1F_ROCKET1, $13, $2
+	moveobject TEAMROCKETBASEB1F_ROCKET1, $13, $2
 	appear TEAMROCKETBASEB1F_ROCKET1
 	applymovement TEAMROCKETBASEB1F_ROCKET1, SecurityCameraMovement1
 	scall TrainerCameraGrunt2
@@ -60,7 +55,7 @@ SecurityCamera1b:
 	iftrue NoSecurityCamera
 	showemote EMOTE_SHOCK, PLAYER, 15
 	playmusic MUSIC_ROCKET_ENCOUNTER
-	moveperson TEAMROCKETBASEB1F_ROCKET1, $13, $3
+	moveobject TEAMROCKETBASEB1F_ROCKET1, $13, $3
 	appear TEAMROCKETBASEB1F_ROCKET1
 	spriteface PLAYER, LEFT
 	applymovement TEAMROCKETBASEB1F_ROCKET1, SecurityCameraMovement1
@@ -69,7 +64,7 @@ SecurityCamera1b:
 	scall PlaySecurityCameraSounds
 	showemote EMOTE_SHOCK, PLAYER, 15
 	playmusic MUSIC_ROCKET_ENCOUNTER
-	moveperson TEAMROCKETBASEB1F_ROCKET1, $13, $3
+	moveobject TEAMROCKETBASEB1F_ROCKET1, $13, $3
 	appear TEAMROCKETBASEB1F_ROCKET1
 	applymovement TEAMROCKETBASEB1F_ROCKET1, SecurityCameraMovement1
 	scall TrainerCameraGrunt2
@@ -85,7 +80,7 @@ SecurityCamera2a:
 	iftrue NoSecurityCamera
 	showemote EMOTE_SHOCK, PLAYER, 15
 	playmusic MUSIC_ROCKET_ENCOUNTER
-	moveperson TEAMROCKETBASEB1F_ROCKET1, $4, $7
+	moveobject TEAMROCKETBASEB1F_ROCKET1, $4, $7
 	appear TEAMROCKETBASEB1F_ROCKET1
 	spriteface PLAYER, LEFT
 	applymovement TEAMROCKETBASEB1F_ROCKET1, SecurityCameraMovement2
@@ -95,7 +90,7 @@ SecurityCamera2a:
 	showemote EMOTE_SHOCK, PLAYER, 15
 	playmusic MUSIC_ROCKET_ENCOUNTER
 	spriteface PLAYER, RIGHT
-	moveperson TEAMROCKETBASEB1F_ROCKET1, $c, $5
+	moveobject TEAMROCKETBASEB1F_ROCKET1, $c, $5
 	appear TEAMROCKETBASEB1F_ROCKET1
 	applymovement TEAMROCKETBASEB1F_ROCKET1, SecurityCameraMovement3
 	scall TrainerCameraGrunt2
@@ -111,7 +106,7 @@ SecurityCamera2b:
 	iftrue NoSecurityCamera
 	showemote EMOTE_SHOCK, PLAYER, 15
 	playmusic MUSIC_ROCKET_ENCOUNTER
-	moveperson TEAMROCKETBASEB1F_ROCKET1, $4, $8
+	moveobject TEAMROCKETBASEB1F_ROCKET1, $4, $8
 	appear TEAMROCKETBASEB1F_ROCKET1
 	spriteface PLAYER, LEFT
 	applymovement TEAMROCKETBASEB1F_ROCKET1, SecurityCameraMovement4
@@ -121,7 +116,7 @@ SecurityCamera2b:
 	showemote EMOTE_SHOCK, PLAYER, 15
 	playmusic MUSIC_ROCKET_ENCOUNTER
 	spriteface PLAYER, RIGHT
-	moveperson TEAMROCKETBASEB1F_ROCKET1, $c, $5
+	moveobject TEAMROCKETBASEB1F_ROCKET1, $c, $5
 	appear TEAMROCKETBASEB1F_ROCKET1
 	applymovement TEAMROCKETBASEB1F_ROCKET1, SecurityCameraMovement5
 	scall TrainerCameraGrunt2
@@ -137,7 +132,7 @@ SecurityCamera3a:
 	iftrue NoSecurityCamera
 	showemote EMOTE_SHOCK, PLAYER, 15
 	playmusic MUSIC_ROCKET_ENCOUNTER
-	moveperson TEAMROCKETBASEB1F_ROCKET1, $13, $6
+	moveobject TEAMROCKETBASEB1F_ROCKET1, $13, $6
 	appear TEAMROCKETBASEB1F_ROCKET1
 	spriteface PLAYER, LEFT
 	applymovement TEAMROCKETBASEB1F_ROCKET1, SecurityCameraMovement1
@@ -147,7 +142,7 @@ SecurityCamera3a:
 	showemote EMOTE_SHOCK, PLAYER, 15
 	playmusic MUSIC_ROCKET_ENCOUNTER
 	spriteface PLAYER, RIGHT
-	moveperson TEAMROCKETBASEB1F_ROCKET1, $19, $b
+	moveobject TEAMROCKETBASEB1F_ROCKET1, $19, $b
 	appear TEAMROCKETBASEB1F_ROCKET1
 	applymovement TEAMROCKETBASEB1F_ROCKET1, SecurityCameraMovement6
 	scall TrainerCameraGrunt2
@@ -163,7 +158,7 @@ SecurityCamera3b:
 	iftrue NoSecurityCamera
 	showemote EMOTE_SHOCK, PLAYER, 15
 	playmusic MUSIC_ROCKET_ENCOUNTER
-	moveperson TEAMROCKETBASEB1F_ROCKET1, $13, $7
+	moveobject TEAMROCKETBASEB1F_ROCKET1, $13, $7
 	appear TEAMROCKETBASEB1F_ROCKET1
 	spriteface PLAYER, LEFT
 	applymovement TEAMROCKETBASEB1F_ROCKET1, SecurityCameraMovement1
@@ -173,7 +168,7 @@ SecurityCamera3b:
 	showemote EMOTE_SHOCK, PLAYER, 15
 	playmusic MUSIC_ROCKET_ENCOUNTER
 	spriteface PLAYER, RIGHT
-	moveperson TEAMROCKETBASEB1F_ROCKET1, $19, $c
+	moveobject TEAMROCKETBASEB1F_ROCKET1, $19, $c
 	appear TEAMROCKETBASEB1F_ROCKET1
 	applymovement TEAMROCKETBASEB1F_ROCKET1, SecurityCameraMovement7
 	scall TrainerCameraGrunt2
@@ -189,7 +184,7 @@ SecurityCamera4:
 	iftrue NoSecurityCamera
 	showemote EMOTE_SHOCK, PLAYER, 15
 	playmusic MUSIC_ROCKET_ENCOUNTER
-	moveperson TEAMROCKETBASEB1F_ROCKET1, $11, $10
+	moveobject TEAMROCKETBASEB1F_ROCKET1, $11, $10
 	appear TEAMROCKETBASEB1F_ROCKET1
 	spriteface PLAYER, LEFT
 	applymovement TEAMROCKETBASEB1F_ROCKET1, SecurityCameraMovement1
@@ -199,7 +194,7 @@ SecurityCamera4:
 	showemote EMOTE_SHOCK, PLAYER, 15
 	playmusic MUSIC_ROCKET_ENCOUNTER
 	spriteface PLAYER, RIGHT
-	moveperson TEAMROCKETBASEB1F_ROCKET1, $19, $b
+	moveobject TEAMROCKETBASEB1F_ROCKET1, $19, $b
 	appear TEAMROCKETBASEB1F_ROCKET1
 	applymovement TEAMROCKETBASEB1F_ROCKET1, SecurityCameraMovement8
 	scall TrainerCameraGrunt2
@@ -215,7 +210,7 @@ SecurityCamera5:
 	iftrue NoSecurityCamera
 	showemote EMOTE_SHOCK, PLAYER, 15
 	playmusic MUSIC_ROCKET_ENCOUNTER
-	moveperson TEAMROCKETBASEB1F_ROCKET1, $3, $10
+	moveobject TEAMROCKETBASEB1F_ROCKET1, $3, $10
 	appear TEAMROCKETBASEB1F_ROCKET1
 	spriteface PLAYER, LEFT
 	applymovement TEAMROCKETBASEB1F_ROCKET1, SecurityCameraMovement1
@@ -225,7 +220,7 @@ SecurityCamera5:
 	showemote EMOTE_SHOCK, PLAYER, 15
 	playmusic MUSIC_ROCKET_ENCOUNTER
 	spriteface PLAYER, RIGHT
-	moveperson TEAMROCKETBASEB1F_ROCKET1, $e, $10
+	moveobject TEAMROCKETBASEB1F_ROCKET1, $e, $10
 	appear TEAMROCKETBASEB1F_ROCKET1
 	applymovement TEAMROCKETBASEB1F_ROCKET1, SecurityCameraMovement9
 	scall TrainerCameraGrunt2
@@ -486,23 +481,23 @@ NoExplodingTrap:
 	end
 
 TrainerScientistJed:
-	trainer EVENT_BEAT_SCIENTIST_JED, SCIENTIST, JED, ScientistJedSeenText, ScientistJedBeatenText, 0, ScientistJedScript
+	trainer EVENT_BEAT_SCIENTIST_JED, SCIENTIST, JED, ScientistJedSeenText, ScientistJedBeatenText, 0, .Script
 
-ScientistJedScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x6cc16
+	writetext ScientistJedAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerGruntM16:
-	trainer EVENT_BEAT_ROCKET_GRUNTM_16, GRUNTM, GRUNTM_16, GruntM16SeenText, GruntM16BeatenText, 0, GruntM16Script
+	trainer EVENT_BEAT_ROCKET_GRUNTM_16, GRUNTM, GRUNTM_16, GruntM16SeenText, GruntM16BeatenText, 0, .Script
 
-GruntM16Script:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x6cd1b
+	writetext GruntM16AfterBattleText
 	waitbutton
 	closetext
 	end
@@ -673,7 +668,7 @@ ScientistJedBeatenText:
 	text "I get it…"
 	done
 
-UnknownText_0x6cc16:
+ScientistJedAfterBattleText:
 	text "All right. I'll"
 	line "divulge a secret"
 	cont "about our hideout."
@@ -704,7 +699,7 @@ GruntM16BeatenText:
 	text "Kaboom!"
 	done
 
-UnknownText_0x6cd1b:
+GruntM16AfterBattleText:
 	text "I don't even know"
 	line "where the traps"
 	cont "are planted."
@@ -738,65 +733,65 @@ TeamRocketBaseB1F_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $2, $1b, 3, MAHOGANY_MART_1F
-	warp_def $e, $3, 1, TEAM_ROCKET_BASE_B2F
-	warp_def $f, $5, 4, TEAM_ROCKET_BASE_B1F
-	warp_def $2, $19, 3, TEAM_ROCKET_BASE_B1F
+	warp_def 27, 2, 3, MAHOGANY_MART_1F
+	warp_def 3, 14, 1, TEAM_ROCKET_BASE_B2F
+	warp_def 5, 15, 4, TEAM_ROCKET_BASE_B1F
+	warp_def 25, 2, 3, TEAM_ROCKET_BASE_B1F
 
-.XYTriggers:
+.CoordEvents:
 	db 30
 	; There are five security cameras in the base.
 	; Walking in front of one triggers two Rocket Grunts.
-	xy_trigger 0, $2, $18, $0, SecurityCamera1a, $0, $0
-	xy_trigger 0, $3, $18, $0, SecurityCamera1b, $0, $0
-	xy_trigger 0, $2, $6, $0, SecurityCamera2a, $0, $0
-	xy_trigger 0, $3, $6, $0, SecurityCamera2b, $0, $0
-	xy_trigger 0, $6, $18, $0, SecurityCamera3a, $0, $0
-	xy_trigger 0, $7, $18, $0, SecurityCamera3b, $0, $0
-	xy_trigger 0, $10, $16, $0, SecurityCamera4, $0, $0
-	xy_trigger 0, $10, $8, $0, SecurityCamera5, $0, $0
+	coord_event 24, 2, 0, SecurityCamera1a
+	coord_event 24, 3, 0, SecurityCamera1b
+	coord_event 6, 2, 0, SecurityCamera2a
+	coord_event 6, 3, 0, SecurityCamera2b
+	coord_event 24, 6, 0, SecurityCamera3a
+	coord_event 24, 7, 0, SecurityCamera3b
+	coord_event 22, 16, 0, SecurityCamera4
+	coord_event 8, 16, 0, SecurityCamera5
 	; There are spots on the floor that trigger a Pokémon battle.
 	; Each Pokémon (Voltorb, Koffing, Geodude) knows Selfdestruct.
-	xy_trigger 0, $7, $2, $0, ExplodingTrap1, $0, $0
-	xy_trigger 0, $7, $3, $0, ExplodingTrap2, $0, $0
-	xy_trigger 0, $7, $4, $0, ExplodingTrap3, $0, $0
-	xy_trigger 0, $8, $1, $0, ExplodingTrap4, $0, $0
-	xy_trigger 0, $8, $3, $0, ExplodingTrap5, $0, $0
-	xy_trigger 0, $8, $5, $0, ExplodingTrap6, $0, $0
-	xy_trigger 0, $9, $3, $0, ExplodingTrap7, $0, $0
-	xy_trigger 0, $9, $4, $0, ExplodingTrap8, $0, $0
-	xy_trigger 0, $a, $1, $0, ExplodingTrap9, $0, $0
-	xy_trigger 0, $a, $2, $0, ExplodingTrap10, $0, $0
-	xy_trigger 0, $a, $3, $0, ExplodingTrap11, $0, $0
-	xy_trigger 0, $a, $5, $0, ExplodingTrap12, $0, $0
-	xy_trigger 0, $b, $2, $0, ExplodingTrap13, $0, $0
-	xy_trigger 0, $b, $4, $0, ExplodingTrap14, $0, $0
-	xy_trigger 0, $c, $1, $0, ExplodingTrap15, $0, $0
-	xy_trigger 0, $c, $2, $0, ExplodingTrap16, $0, $0
-	xy_trigger 0, $c, $4, $0, ExplodingTrap17, $0, $0
-	xy_trigger 0, $c, $5, $0, ExplodingTrap18, $0, $0
-	xy_trigger 0, $d, $1, $0, ExplodingTrap19, $0, $0
-	xy_trigger 0, $d, $3, $0, ExplodingTrap20, $0, $0
-	xy_trigger 0, $d, $4, $0, ExplodingTrap21, $0, $0
-	xy_trigger 0, $d, $5, $0, ExplodingTrap22, $0, $0
+	coord_event 2, 7, 0, ExplodingTrap1
+	coord_event 3, 7, 0, ExplodingTrap2
+	coord_event 4, 7, 0, ExplodingTrap3
+	coord_event 1, 8, 0, ExplodingTrap4
+	coord_event 3, 8, 0, ExplodingTrap5
+	coord_event 5, 8, 0, ExplodingTrap6
+	coord_event 3, 9, 0, ExplodingTrap7
+	coord_event 4, 9, 0, ExplodingTrap8
+	coord_event 1, 10, 0, ExplodingTrap9
+	coord_event 2, 10, 0, ExplodingTrap10
+	coord_event 3, 10, 0, ExplodingTrap11
+	coord_event 5, 10, 0, ExplodingTrap12
+	coord_event 2, 11, 0, ExplodingTrap13
+	coord_event 4, 11, 0, ExplodingTrap14
+	coord_event 1, 12, 0, ExplodingTrap15
+	coord_event 2, 12, 0, ExplodingTrap16
+	coord_event 4, 12, 0, ExplodingTrap17
+	coord_event 5, 12, 0, ExplodingTrap18
+	coord_event 1, 13, 0, ExplodingTrap19
+	coord_event 3, 13, 0, ExplodingTrap20
+	coord_event 4, 13, 0, ExplodingTrap21
+	coord_event 5, 13, 0, ExplodingTrap22
 
-.Signposts:
+.BGEvents:
 	db 9
-	signpost 11, 19, SIGNPOST_READ, MapTeamRocketBaseB1FSignpost0Script
-	signpost 1, 24, SIGNPOST_UP, MapTeamRocketBaseB1FSignpost5Script
-	signpost 1, 6, SIGNPOST_UP, MapTeamRocketBaseB1FSignpost5Script
-	signpost 15, 8, SIGNPOST_UP, MapTeamRocketBaseB1FSignpost5Script
-	signpost 15, 22, SIGNPOST_UP, MapTeamRocketBaseB1FSignpost5Script
-	signpost 5, 24, SIGNPOST_UP, MapTeamRocketBaseB1FSignpost5Script
-	signpost 11, 20, SIGNPOST_READ, MapTeamRocketBaseB1FSignpost7Script
-	signpost 11, 21, SIGNPOST_READ, MapTeamRocketBaseB1FSignpost7Script
-	signpost 11, 3, SIGNPOST_ITEM, TeamRocketBaseB1FHiddenRevive
+	bg_event 19, 11, BGEVENT_READ, MapTeamRocketBaseB1FSignpost0Script
+	bg_event 24, 1, BGEVENT_UP, MapTeamRocketBaseB1FSignpost5Script
+	bg_event 6, 1, BGEVENT_UP, MapTeamRocketBaseB1FSignpost5Script
+	bg_event 8, 15, BGEVENT_UP, MapTeamRocketBaseB1FSignpost5Script
+	bg_event 22, 15, BGEVENT_UP, MapTeamRocketBaseB1FSignpost5Script
+	bg_event 24, 5, BGEVENT_UP, MapTeamRocketBaseB1FSignpost5Script
+	bg_event 20, 11, BGEVENT_READ, MapTeamRocketBaseB1FSignpost7Script
+	bg_event 21, 11, BGEVENT_READ, MapTeamRocketBaseB1FSignpost7Script
+	bg_event 3, 11, BGEVENT_ITEM, TeamRocketBaseB1FHiddenRevive
 
-.PersonEvents:
+.ObjectEvents:
 	db 6
-	person_event SPRITE_ROCKET, 0, 0, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ObjectEvent, EVENT_TEAM_ROCKET_BASE_SECURITY_GRUNTS
-	person_event SPRITE_ROCKET, 4, 2, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_TRAINER, 3, TrainerGruntM16, EVENT_TEAM_ROCKET_BASE_POPULATION
-	person_event SPRITE_SCIENTIST, 12, 18, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 3, TrainerScientistJed, EVENT_TEAM_ROCKET_BASE_POPULATION
-	person_event SPRITE_POKE_BALL, 6, 27, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, TeamRocketBaseB1FHyperPotion, EVENT_TEAM_ROCKET_BASE_B1F_HYPER_POTION
-	person_event SPRITE_POKE_BALL, 15, 14, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, TeamRocketBaseB1FNugget, EVENT_TEAM_ROCKET_BASE_B1F_NUGGET
-	person_event SPRITE_POKE_BALL, 12, 21, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, TeamRocketBaseB1FGuardSpec, EVENT_TEAM_ROCKET_BASE_B1F_GUARD_SPEC
+	object_event 0, 0, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_TEAM_ROCKET_BASE_SECURITY_GRUNTS
+	object_event 2, 4, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_TRAINER, 3, TrainerGruntM16, EVENT_TEAM_ROCKET_BASE_POPULATION
+	object_event 18, 12, SPRITE_SCIENTIST, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerScientistJed, EVENT_TEAM_ROCKET_BASE_POPULATION
+	object_event 27, 6, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, TeamRocketBaseB1FHyperPotion, EVENT_TEAM_ROCKET_BASE_B1F_HYPER_POTION
+	object_event 14, 15, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, TeamRocketBaseB1FNugget, EVENT_TEAM_ROCKET_BASE_B1F_NUGGET
+	object_event 21, 12, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, TeamRocketBaseB1FGuardSpec, EVENT_TEAM_ROCKET_BASE_B1F_GUARD_SPEC

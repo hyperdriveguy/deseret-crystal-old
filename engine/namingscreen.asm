@@ -103,7 +103,7 @@ NamingScreen: ; 116c1
 	inc de
 	hlcoord 5, 4
 	call PlaceString
-	callba GetGender
+	farcall GetGender
 	jr c, .genderless
 	ld a, "♂"
 	jr nz, .place_gender
@@ -124,7 +124,7 @@ NamingScreen: ; 116c1
 ; 1178d
 
 .Player: ; 1178d (4:578d)
-	callba GetPlayerIcon
+	farcall GetPlayerIcon
 	call .LoadSprite
 	hlcoord 5, 2
 	ld de, .PlayerNameString
@@ -175,7 +175,7 @@ NamingScreen: ; 116c1
 
 .Box: ; 117f5 (4:57f5)
 	ld de, PokeBallSpriteGFX
-	ld hl, VTiles0 tile $00
+	ld hl, vTiles0 tile $00
 	lb bc, BANK(PokeBallSpriteGFX), $4
 	call Request2bpp
 	xor a
@@ -217,7 +217,7 @@ NamingScreen: ; 116c1
 
 .LoadSprite: ; 11847 (4:5847)
 	push de
-	ld hl, VTiles0 tile $00
+	ld hl, vTiles0 tile $00
 	ld c, $4
 	push bc
 	call Request2bpp
@@ -226,7 +226,7 @@ NamingScreen: ; 116c1
 	add hl, de
 	ld e, l
 	ld d, h
-	ld hl, VTiles0 tile $04
+	ld hl, vTiles0 tile $04
 	call Request2bpp
 	xor a
 	ld hl, wSpriteAnimDict
@@ -235,10 +235,10 @@ NamingScreen: ; 116c1
 	pop de
 	ld b, SPRITE_ANIM_INDEX_RED_WALK
 	ld a, d
-	cp KrisSpriteGFX / $100
+	cp HIGH(KrisSpriteGFX)
 	jr nz, .not_kris
 	ld a, e
-	cp KrisSpriteGFX % $100
+	cp LOW(KrisSpriteGFX)
 	jr nz, .not_kris
 	ld b, SPRITE_ANIM_INDEX_BLUE_WALK
 .not_kris
@@ -352,14 +352,14 @@ NamingScreenJoypadLoop: ; 11915
 	bit 7, a
 	jr nz, .quit
 	call .RunJumptable
-	callba PlaySpriteAnimationsAndDelayFrame
+	farcall PlaySpriteAnimationsAndDelayFrame
 	call .UpdateStringEntry
 	call DelayFrame
 	and a
 	ret
 
 .quit
-	callab ClearSpriteAnims
+	callfar ClearSpriteAnims
 	call ClearSprites
 	xor a
 	ld [hSCX], a
@@ -419,7 +419,7 @@ NamingScreenJoypadLoop: ; 11915
 	jr nz, .got_cursor_position
 	ld d, 8 * 8
 .got_cursor_position
-	ld a, SPRITE_ANIM_INDEX_02
+	ld a, SPRITE_ANIM_INDEX_NAMING_SCREEN_CURSOR
 	call _InitSpriteAnimStruct
 	ld a, c
 	ld [wNamingScreenCursorObjectPointer], a
@@ -856,27 +856,27 @@ NamingScreen_GetLastCharacter: ; 11c11 (4:5c11)
 
 LoadNamingScreenGFX: ; 11c51
 	call ClearSprites
-	callab ClearSpriteAnims
+	callfar ClearSpriteAnims
 	call LoadStandardFont
 	call LoadFontsExtra
 
 	ld de, NamingScreenGFX_MiddleLine
-	ld hl, VTiles1 tile $6b
+	ld hl, vTiles1 tile $6b
 	lb bc, BANK(NamingScreenGFX_MiddleLine), 1
 	call Get1bpp
 
 	ld de, NamingScreenGFX_UnderLine
-	ld hl, VTiles1 tile $72
+	ld hl, vTiles1 tile $72
 	lb bc, BANK(NamingScreenGFX_UnderLine), 1
 	call Get1bpp
 
-	ld de, VTiles2 tile $60
+	ld de, vTiles2 tile $60
 	ld hl, NamingScreenGFX_Border
 	ld bc, 1 tiles
 	ld a, BANK(NamingScreenGFX_Border)
 	call FarCopyBytes
 
-	ld de, VTiles0 tile $7e
+	ld de, vTiles0 tile $7e
 	ld hl, NamingScreenGFX_Cursor
 	ld bc, 2 tiles
 	ld a, BANK(NamingScreenGFX_Cursor)
@@ -902,51 +902,22 @@ LoadNamingScreenGFX: ; 11c51
 ; 11cb7
 
 NamingScreenGFX_Border: ; 11cb7
-INCBIN "gfx/unknown/011cb7.2bpp"
+INCBIN "gfx/namingscreen/border.2bpp"
 ; 11cc7
 
 NamingScreenGFX_Cursor: ; 11cc7
-INCBIN "gfx/unknown/011cc7.2bpp"
+INCBIN "gfx/namingscreen/cursor.2bpp"
 ; 11ce7
 
-NameInputLower:
-	db "a b c d e f g h i"
-	db "j k l m n o p q r"
-	db "s t u v w x y z  "
-	db "× ( ) : ; [ ] <PK> <MN>"
-	db "UPPER  DEL   END "
-
-BoxNameInputLower:
-	db "a b c d e f g h i"
-	db "j k l m n o p q r"
-	db "s t u v w x y z  "
-	db "é 'd 'l 'm 'r 's 't 'v 0"
-	db "1 2 3 4 5 6 7 8 9"
-	db "UPPER  DEL   END "
-
-NameInputUpper:
-	db "A B C D E F G H I"
-	db "J K L M N O P Q R"
-	db "S T U V W X Y Z  "
-	db "- ? ! / . ,      "
-	db "lower  DEL   END "
-
-BoxNameInputUpper:
-	db "A B C D E F G H I"
-	db "J K L M N O P Q R"
-	db "S T U V W X Y Z  "
-	db "× ( ) : ; [ ] <PK> <MN>"
-	db "- ? ! ♂ ♀ / . , &"
-	db "lower  DEL   END "
-
+INCLUDE "data/name_input_chars.asm"
 ; 11e5d
 
 NamingScreenGFX_MiddleLine:
-INCBIN "gfx/unknown/011e65.1bpp"
+INCBIN "gfx/namingscreen/middle_line.1bpp"
 ; 11e6d
 
 NamingScreenGFX_UnderLine: ; 11e6d
-INCBIN "gfx/unknown/011e6d.1bpp"
+INCBIN "gfx/namingscreen/underline.1bpp"
 ; 11e75
 
 _ComposeMailMessage: ; 11e75 (mail?)
@@ -979,7 +950,7 @@ _ComposeMailMessage: ; 11e75 (mail?)
 	call ClearBGPalettes
 	call DisableLCD
 	call LoadNamingScreenGFX
-	ld de, VTiles0 tile $00
+	ld de, vTiles0 tile $00
 	ld hl, .MailIcon
 	ld bc, 8 tiles
 	ld a, BANK(.MailIcon)
@@ -991,7 +962,7 @@ _ComposeMailMessage: ; 11e75 (mail?)
 
 	; init mail icon
 	depixel 3, 2
-	ld a, SPRITE_ANIM_INDEX_00
+	ld a, SPRITE_ANIM_INDEX_PARTY_MON
 	call _InitSpriteAnimStruct
 
 	ld hl, SPRITEANIMSTRUCT_ANIM_SEQ_ID
@@ -1077,14 +1048,14 @@ INCBIN "gfx/icon/mail2.2bpp"
 	bit 7, a
 	jr nz, .exit_mail
 	call .DoJumptable
-	callba PlaySpriteAnimationsAndDelayFrame
+	farcall PlaySpriteAnimationsAndDelayFrame
 	call .Update
 	call DelayFrame
 	and a
 	ret
 
 .exit_mail
-	callab ClearSpriteAnims
+	callfar ClearSpriteAnims
 	call ClearSprites
 	xor a
 	ld [hSCX], a
@@ -1126,7 +1097,7 @@ INCBIN "gfx/icon/mail2.2bpp"
 
 .init_blinking_cursor ; 1201b (4:601b)
 	depixel 9, 2
-	ld a, SPRITE_ANIM_INDEX_09
+	ld a, SPRITE_ANIM_INDEX_COMPOSE_MAIL_CURSOR
 	call _InitSpriteAnimStruct
 	ld a, c
 	ld [wNamingScreenCursorObjectPointer], a
@@ -1415,22 +1386,6 @@ MailComposition_TryAddLastCharacter: ; 121ac (4:61ac)
 
 ; 121b2 (4:61b2)
 
-MailEntry_Uppercase: ; 122dd
-	db "A B C D E F G H I J"
-	db "K L M N O P Q R S T"
-	db "U V W X Y Z   , ? !"
-	db "1 2 3 4 5 6 7 8 9 0"
-	db "<PK> <MN> <PO> <KE> é ♂ ♀ ¥ … ×"
-	db "lower  DEL   END   "
-
-; 1224f
-
-MailEntry_Lowercase: ; 1224f
-	db "a b c d e f g h i j"
-	db "k l m n o p q r s t"
-	db "u v w x y z   . - /"
-	db "'d 'l 'm 'r 's 't 'v & ( )"
-	db "<``> <''> [ ] ' : ;      "
-	db "UPPER  DEL   END   "
+INCLUDE "data/mail_input_chars.asm"
 
 ; 122c1

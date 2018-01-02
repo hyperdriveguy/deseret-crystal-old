@@ -9,27 +9,27 @@ const_value set 2
 	const ROUTE26_POKE_BALL
 
 Route26_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
 TrainerCooltrainermJake:
-	trainer EVENT_BEAT_COOLTRAINERM_JAKE, COOLTRAINERM, JAKE, CooltrainermJakeSeenText, CooltrainermJakeBeatenText, 0, CooltrainermJakeScript
+	trainer EVENT_BEAT_COOLTRAINERM_JAKE, COOLTRAINERM, JAKE, CooltrainermJakeSeenText, CooltrainermJakeBeatenText, 0, .Script
 
-CooltrainermJakeScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a4f08
+	writetext CooltrainermJakeAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerCooltrainermGaven3:
-	trainer EVENT_BEAT_COOLTRAINERM_GAVEN, COOLTRAINERM, GAVEN3, CooltrainermGaven3SeenText, CooltrainermGaven3BeatenText, 0, CooltrainermGaven3Script
+	trainer EVENT_BEAT_COOLTRAINERM_GAVEN, COOLTRAINERM, GAVEN3, CooltrainermGaven3SeenText, CooltrainermGaven3BeatenText, 0, .Script
 
-CooltrainermGaven3Script:
+.Script:
 	writecode VAR_CALLERID, PHONE_COOLTRAINERM_GAVEN
 	end_if_just_battled
 	opentext
@@ -120,20 +120,20 @@ UnknownScript_0x1a4dd7:
 	end
 
 TrainerCooltrainerfJoyce:
-	trainer EVENT_BEAT_COOLTRAINERF_JOYCE, COOLTRAINERF, JOYCE, CooltrainerfJoyceSeenText, CooltrainerfJoyceBeatenText, 0, CooltrainerfJoyceScript
+	trainer EVENT_BEAT_COOLTRAINERF_JOYCE, COOLTRAINERF, JOYCE, CooltrainerfJoyceSeenText, CooltrainerfJoyceBeatenText, 0, .Script
 
-CooltrainerfJoyceScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a50d7
+	writetext CooltrainerfJoyceAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerCooltrainerfBeth1:
-	trainer EVENT_BEAT_COOLTRAINERF_BETH, COOLTRAINERF, BETH1, CooltrainerfBeth1SeenText, CooltrainerfBeth1BeatenText, 0, CooltrainerfBeth1Script
+	trainer EVENT_BEAT_COOLTRAINERF_BETH, COOLTRAINERF, BETH1, CooltrainerfBeth1SeenText, CooltrainerfBeth1BeatenText, 0, .Script
 
-CooltrainerfBeth1Script:
+.Script:
 	writecode VAR_CALLERID, PHONE_COOLTRAINERF_BETH
 	end_if_just_battled
 	opentext
@@ -224,23 +224,23 @@ UnknownScript_0x1a4e93:
 	end
 
 TrainerPsychicRichard:
-	trainer EVENT_BEAT_PSYCHIC_RICHARD, PSYCHIC_T, RICHARD, PsychicRichardSeenText, PsychicRichardBeatenText, 0, PsychicRichardScript
+	trainer EVENT_BEAT_PSYCHIC_RICHARD, PSYCHIC_T, RICHARD, PsychicRichardSeenText, PsychicRichardBeatenText, 0, .Script
 
-PsychicRichardScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a5278
+	writetext PsychicRichardAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerFisherScott:
-	trainer EVENT_BEAT_FISHER_SCOTT, FISHER, SCOTT, FisherScottSeenText, FisherScottBeatenText, 0, FisherScottScript
+	trainer EVENT_BEAT_FISHER_SCOTT, FISHER, SCOTT, FisherScottSeenText, FisherScottBeatenText, 0, .Script
 
-FisherScottScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a5326
+	writetext FisherScottAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -266,7 +266,7 @@ CooltrainermJakeBeatenText:
 	text "I blew it!"
 	done
 
-UnknownText_0x1a4f08:
+CooltrainermJakeAfterBattleText:
 	text "It's going to be"
 	line "tough to win at"
 	cont "the LEAGUE."
@@ -321,7 +321,7 @@ CooltrainerfJoyceBeatenText:
 	line "believe this!"
 	done
 
-UnknownText_0x1a50d7:
+CooltrainerfJoyceAfterBattleText:
 	text "I've defeated"
 	line "eight GYM LEADERS,"
 
@@ -374,7 +374,7 @@ PsychicRichardBeatenText:
 	text "Good battle!"
 	done
 
-UnknownText_0x1a5278:
+PsychicRichardAfterBattleText:
 	text "People and #MON"
 	line "grow from their"
 	cont "experiences."
@@ -397,7 +397,7 @@ FisherScottBeatenText:
 	line "battle!"
 	done
 
-UnknownText_0x1a5326:
+FisherScottAfterBattleText:
 	text "Just like in fish-"
 	line "ing, it's all over"
 
@@ -418,24 +418,24 @@ Route26_MapEventHeader:
 
 .Warps:
 	db 3
-	warp_def $5, $7, 3, VICTORY_ROAD_GATE
-	warp_def $39, $f, 1, ROUTE_26_HEAL_SPEECH_HOUSE
-	warp_def $47, $5, 1, ROUTE_26_DAY_OF_WEEK_SIBLINGS_HOUSE
+	warp_def 7, 5, 3, VICTORY_ROAD_GATE
+	warp_def 15, 57, 1, ROUTE_26_HEAL_SPEECH_HOUSE
+	warp_def 5, 71, 1, ROUTE_26_DAY_OF_WEEK_SIBLINGS_HOUSE
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 1
-	signpost 6, 8, SIGNPOST_READ, Route26Sign
+	bg_event 8, 6, BGEVENT_READ, Route26Sign
 
-.PersonEvents:
+.ObjectEvents:
 	db 8
-	person_event SPRITE_COOLTRAINER_M, 24, 14, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 2, TrainerCooltrainermJake, -1
-	person_event SPRITE_COOLTRAINER_M, 38, 9, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerCooltrainermGaven3, -1
-	person_event SPRITE_COOLTRAINER_F, 56, 10, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerCooltrainerfJoyce, -1
-	person_event SPRITE_COOLTRAINER_F, 8, 5, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 4, TrainerCooltrainerfBeth1, -1
-	person_event SPRITE_YOUNGSTER, 79, 13, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 2, TrainerPsychicRichard, -1
-	person_event SPRITE_FISHER, 92, 10, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 3, TrainerFisherScott, -1
-	person_event SPRITE_FRUIT_TREE, 54, 14, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, FruitTreeScript_0x1a4ec2, -1
-	person_event SPRITE_POKE_BALL, 15, 9, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, Route26MaxElixer, EVENT_ROUTE_26_MAX_ELIXER
+	object_event 14, 24, SPRITE_COOLTRAINER_M, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 2, TrainerCooltrainermJake, -1
+	object_event 9, 38, SPRITE_COOLTRAINER_M, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerCooltrainermGaven3, -1
+	object_event 10, 56, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerCooltrainerfJoyce, -1
+	object_event 5, 8, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 4, TrainerCooltrainerfBeth1, -1
+	object_event 13, 79, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 2, TrainerPsychicRichard, -1
+	object_event 10, 92, SPRITE_FISHER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 3, TrainerFisherScott, -1
+	object_event 14, 54, SPRITE_FRUIT_TREE, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, FruitTreeScript_0x1a4ec2, -1
+	object_event 9, 15, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, Route26MaxElixer, EVENT_ROUTE_26_MAX_ELIXER

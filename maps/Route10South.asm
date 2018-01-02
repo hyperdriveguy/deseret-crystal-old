@@ -3,30 +3,30 @@ const_value set 2
 	const ROUTE10SOUTH_POKEFAN_M2
 
 Route10South_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
 TrainerHikerJim:
-	trainer EVENT_BEAT_HIKER_JIM, HIKER, JIM, HikerJimSeenText, HikerJimBeatenText, 0, HikerJimScript
+	trainer EVENT_BEAT_HIKER_JIM, HIKER, JIM, HikerJimSeenText, HikerJimBeatenText, 0, .Script
 
-HikerJimScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ae43b
+	writetext HikerJimAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerPokefanmRobert:
-	trainer EVENT_BEAT_POKEFANM_ROBERT, POKEFANM, ROBERT, PokefanmRobertSeenText, PokefanmRobertBeatenText, 0, PokefanmRobertScript
+	trainer EVENT_BEAT_POKEFANM_ROBERT, POKEFANM, ROBERT, PokefanmRobertSeenText, PokefanmRobertBeatenText, 0, .Script
 
-PokefanmRobertScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ae4a9
+	writetext PokefanmRobertAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -42,7 +42,7 @@ HikerJimBeatenText:
 	text "Hahaha-hachoo!"
 	done
 
-UnknownText_0x1ae43b:
+HikerJimAfterBattleText:
 	text "Hay fever is"
 	line "making me sneeze!"
 	cont "Ahahah-CHOO!"
@@ -60,7 +60,7 @@ PokefanmRobertBeatenText:
 	line "that's my loss."
 	done
 
-UnknownText_0x1ae4a9:
+PokefanmRobertAfterBattleText:
 	text "Look what you did"
 	line "to my #MON…"
 
@@ -81,16 +81,16 @@ Route10South_MapEventHeader:
 
 .Warps:
 	db 1
-	warp_def $1, $6, 2, ROCK_TUNNEL_1F
+	warp_def 6, 1, 2, ROCK_TUNNEL_1F
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 1
-	signpost 3, 5, SIGNPOST_READ, Route10Sign
+	bg_event 5, 3, BGEVENT_READ, Route10Sign
 
-.PersonEvents:
+.ObjectEvents:
 	db 2
-	person_event SPRITE_POKEFAN_M, 3, 17, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 3, TrainerHikerJim, -1
-	person_event SPRITE_POKEFAN_M, 10, 8, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerPokefanmRobert, -1
+	object_event 17, 3, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 3, TrainerHikerJim, -1
+	object_event 8, 10, SPRITE_POKEFAN_M, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerPokefanmRobert, -1

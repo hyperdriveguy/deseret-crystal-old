@@ -9,10 +9,10 @@ InitClock: ; 90672 (24:4672)
 	ld [wSpriteUpdatesEnabled], a
 	ld a, $10
 	ld [MusicFade], a
-	ld a, MUSIC_NONE % $100
-	ld [MusicFadeIDLo], a
-	ld a, MUSIC_NONE / $100
-	ld [MusicFadeIDHi], a
+	ld a, LOW(MUSIC_NONE)
+	ld [MusicFadeID], a
+	ld a, HIGH(MUSIC_NONE)
+	ld [MusicFadeID + 1], a
 	ld c, 8
 	call DelayFrames
 	call RotateFourPalettesLeft
@@ -23,28 +23,28 @@ InitClock: ; 90672 (24:4672)
 	xor a
 	ld [hBGMapMode], a
 	call LoadStandardFont
-	ld de, GFX_908fb
-	ld hl, VTiles2 tile $00
-	lb bc, BANK(GFX_908fb), 1
+	ld de, TimeSetBackgroundGFX
+	ld hl, vTiles2 tile $00
+	lb bc, BANK(TimeSetBackgroundGFX), 1
 	call Request1bpp
-	ld de, GFX_90903
-	ld hl, VTiles2 tile $01
-	lb bc, BANK(GFX_90903), 1
+	ld de, TimeSetUpArrowGFX
+	ld hl, vTiles2 tile $01
+	lb bc, BANK(TimeSetUpArrowGFX), 1
 	call Request1bpp
-	ld de, GFX_9090b
-	ld hl, VTiles2 tile $02
-	lb bc, BANK(GFX_9090b), 1
+	ld de, TimeSetDownArrowGFX
+	ld hl, vTiles2 tile $02
+	lb bc, BANK(TimeSetDownArrowGFX), 1
 	call Request1bpp
 	call .ClearScreen
 	call WaitBGMap
 	call RotateFourPalettesRight
 	ld hl, Text_WokeUpOak
 	call PrintText
-	ld hl, wc608
+	ld hl, wTimeSetBuffer
 	ld bc, 50
 	xor a
 	call ByteFill
-	ld a, $a
+	ld a, 10 ; default hour = 10 AM
 	ld [wInitHourBuffer], a
 
 .loop
@@ -98,7 +98,7 @@ InitClock: ; 90672 (24:4672)
 	call SetMinutes
 	jr nc, .SetMinutesLoop
 
-	ld a, [BattleMonNick + 5]
+	ld a, [wInitMinuteBuffer]
 	ld [StringBuffer2 + 2], a
 	call .ClearScreen
 	ld hl, Text_WhoaMins
@@ -210,7 +210,7 @@ SetMinutes: ; 90810 (24:4810)
 	ret
 
 .d_down
-	ld hl, BattleMonNick + 5
+	ld hl, wInitMinuteBuffer
 	ld a, [hl]
 	and a
 	jr nz, .decrease
@@ -221,7 +221,7 @@ SetMinutes: ; 90810 (24:4810)
 	jr .finish_dpad
 
 .d_up
-	ld hl, BattleMonNick + 5
+	ld hl, wInitMinuteBuffer
 	ld a, [hl]
 	cp 59
 	jr c, .increase
@@ -244,7 +244,7 @@ SetMinutes: ; 90810 (24:4810)
 	ret
 
 DisplayMinutesWithMinString: ; 90859 (24:4859)
-	ld de, BattleMonNick + 5
+	ld de, wInitMinuteBuffer
 	call PrintTwoDigitNumberRightAlign
 	inc hl
 	ld de, String_min
@@ -328,25 +328,25 @@ OakText_ResponseToSetTime: ; 0x908b8
 	call PrintHour
 	ld [hl], ":"
 	inc hl
-	ld de, BattleMonNick + 5
+	ld de, wInitMinuteBuffer
 	lb bc, PRINTNUM_LEADINGZEROS | 1, 2
 	call PrintNum
 	ld b, h
 	ld c, l
 	ld a, [wInitHourBuffer]
-	cp 4
-	jr c, .NITE
-	cp 11
-	jr c, .MORN
-	cp 18
-	jr c, .DAY
-.NITE:
+	cp MORN_HOUR
+	jr c, .nite
+	cp DAY_HOUR + 1
+	jr c, .morn
+	cp NITE_HOUR
+	jr c, .day
+.nite:
 	ld hl, .sodark
 	ret
-.MORN:
+.morn:
 	ld hl, .overslept
 	ret
-.DAY:
+.day:
 	ld hl, .yikes
 	ret
 ; 908ec (24:48ec)
@@ -369,12 +369,12 @@ OakText_ResponseToSetTime: ; 0x908b8
 	db "@"
 ; 0x908fb
 
-GFX_908fb: ; 908fb
-INCBIN "gfx/unknown/0908fb.1bpp"
-GFX_90903: ; 90903
-INCBIN "gfx/unknown/090903.1bpp"
-GFX_9090b: ; 9090b
-INCBIN "gfx/unknown/09090b.1bpp"
+TimeSetBackgroundGFX: ; 908fb
+INCBIN "gfx/timeset/background.1bpp"
+TimeSetUpArrowGFX: ; 90903
+INCBIN "gfx/timeset/up_arrow.1bpp"
+TimeSetDownArrowGFX: ; 9090b
+INCBIN "gfx/timeset/down_arrow.1bpp"
 ; 90913
 
 Special_SetDayOfWeek: ; 90913
@@ -382,13 +382,13 @@ Special_SetDayOfWeek: ; 90913
 	push af
 	ld a, $1
 	ld [hInMenu], a
-	ld de, GFX_90903
-	ld hl, VTiles1 tile $6f
-	lb bc, BANK(GFX_90903), 1
+	ld de, TimeSetUpArrowGFX
+	ld hl, vTiles1 tile $6f
+	lb bc, BANK(TimeSetUpArrowGFX), 1
 	call Request1bpp
-	ld de, GFX_9090b
-	ld hl, VTiles1 tile $75
-	lb bc, BANK(GFX_9090b), 1
+	ld de, TimeSetDownArrowGFX
+	ld hl, vTiles1 tile $75
+	lb bc, BANK(TimeSetDownArrowGFX), 1
 	call Request1bpp
 	xor a
 	ld [wTempDayOfWeek], a
@@ -455,7 +455,7 @@ Special_SetDayOfWeek: ; 90913
 	ld a, [hl]
 	and a
 	jr nz, .decrease
-	ld a, 6 + 1
+	ld a, SATURDAY + 1
 
 .decrease
 	dec a
@@ -467,7 +467,7 @@ Special_SetDayOfWeek: ; 90913
 	ld a, [hl]
 	cp 6
 	jr c, .increase
-	ld a, 0 - 1
+	ld a, SUNDAY - 1
 
 .increase
 	inc a
@@ -504,6 +504,7 @@ Special_SetDayOfWeek: ; 90913
 ; 909f2
 
 .WeekdayStrings: ; 909f2
+; entries correspond to CurDay constants (see constants/wram_constants.asm)
 	dw .Sunday
 	dw .Monday
 	dw .Tuesday
@@ -562,7 +563,7 @@ Special_InitialSetDSTFlag: ; 90a54
 	ld a, [hMinutes]
 	ld c, a
 	decoord 1, 14
-	callba PrintHoursMins
+	farcall PrintHoursMins
 	ld hl, .DSTIsThatOK
 	ret
 ; 90a83 (24:4a83)
@@ -593,7 +594,7 @@ Special_InitialClearDSTFlag: ; 90a88
 	ld a, [hMinutes]
 	ld c, a
 	decoord 1, 14
-	callba PrintHoursMins
+	farcall PrintHoursMins
 	ld hl, .IsThatOK
 	ret
 ; 90ab7
@@ -622,26 +623,26 @@ PrintHour: ; 90b3e (24:4b3e)
 
 GetTimeOfDayString: ; 90b58 (24:4b58)
 	ld a, c
-	cp 4
+	cp MORN_HOUR
 	jr c, .nite
-	cp 10
+	cp DAY_HOUR
 	jr c, .morn
-	cp 18
+	cp NITE_HOUR
 	jr c, .day
 .nite
-	ld de, .NITE
+	ld de, .nite_string
 	ret
 .morn
-	ld de, .MORN
+	ld de, .morn_string
 	ret
 .day
-	ld de, .DAY
+	ld de, .day_string
 	ret
 ; 90b71 (24:4b71)
 
-.NITE: db "NITE@"
-.MORN: db "MORN@"
-.DAY: db "DAY@"
+.nite_string: db "NITE@"
+.morn_string: db "MORN@"
+.day_string:  db "DAY@"
 ; 90b7f
 
 AdjustHourForAMorPM:
@@ -649,12 +650,12 @@ AdjustHourForAMorPM:
 	ld a, c
 	or a
 	jr z, .midnight
-	cp 12
+	cp NOON_HOUR
 	ret c
 	ret z
-	sub 12
+	sub NOON_HOUR
 	ret
 
 .midnight
-	ld a, 12
+	ld a, NOON_HOUR
 	ret

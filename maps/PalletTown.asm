@@ -3,24 +3,22 @@ const_value set 2
 	const PALLETTOWN_FISHER
 
 PalletTown_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 1
-
-	; callbacks
 	dbw MAPCALLBACK_NEWMAP, .FlyPoint
 
 .FlyPoint:
 	setflag ENGINE_FLYPOINT_PALLET
 	return
 
-TeacherScript_0x1ac6d5:
-	jumptextfaceplayer UnknownText_0x1ac6e7
+PalletTownTeacherScript:
+	jumptextfaceplayer PalletTownTeacherText
 
-FisherScript_0x1ac6d8:
-	jumptextfaceplayer UnknownText_0x1ac720
+PalletTownFisherScript:
+	jumptextfaceplayer PalletTownFisherText
 
 PalletTownSign:
 	jumptext PalletTownSignText
@@ -34,7 +32,7 @@ OaksLabSign:
 BluesHouseSign:
 	jumptext BluesHouseSignText
 
-UnknownText_0x1ac6e7:
+PalletTownTeacherText:
 	text "I'm raising #-"
 	line "MON too."
 
@@ -42,7 +40,7 @@ UnknownText_0x1ac6e7:
 	line "private guards."
 	done
 
-UnknownText_0x1ac720:
+PalletTownFisherText:
 	text "Technology is"
 	line "incredible!"
 
@@ -77,21 +75,21 @@ PalletTown_MapEventHeader:
 
 .Warps:
 	db 3
-	warp_def $5, $5, 1, REDS_HOUSE_1F
-	warp_def $5, $d, 1, BLUES_HOUSE
-	warp_def $b, $c, 1, OAKS_LAB
+	warp_def 5, 5, 1, REDS_HOUSE_1F
+	warp_def 13, 5, 1, BLUES_HOUSE
+	warp_def 12, 11, 1, OAKS_LAB
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 4
-	signpost 9, 7, SIGNPOST_READ, PalletTownSign
-	signpost 5, 3, SIGNPOST_READ, RedsHouseSign
-	signpost 13, 13, SIGNPOST_READ, OaksLabSign
-	signpost 5, 11, SIGNPOST_READ, BluesHouseSign
+	bg_event 7, 9, BGEVENT_READ, PalletTownSign
+	bg_event 3, 5, BGEVENT_READ, RedsHouseSign
+	bg_event 13, 13, BGEVENT_READ, OaksLabSign
+	bg_event 11, 5, BGEVENT_READ, BluesHouseSign
 
-.PersonEvents:
+.ObjectEvents:
 	db 2
-	person_event SPRITE_TEACHER, 8, 3, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, 0, PERSONTYPE_SCRIPT, 0, TeacherScript_0x1ac6d5, -1
-	person_event SPRITE_FISHER, 14, 12, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 2, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, FisherScript_0x1ac6d8, -1
+	object_event 3, 8, SPRITE_TEACHER, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, PalletTownTeacherScript, -1
+	object_event 12, 14, SPRITE_FISHER, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 2, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, PalletTownFisherScript, -1

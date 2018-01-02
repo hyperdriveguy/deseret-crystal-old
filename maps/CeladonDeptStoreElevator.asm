@@ -1,33 +1,31 @@
 CeladonDeptStoreElevator_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-MapCeladonDeptStoreElevatorSignpost0Script:
+CeladonDeptStoreElevatorScript:
 	opentext
-	elevator Elevator_0x713be
+	elevator CeladonDeptStoreElevatorData
 	closetext
-	iffalse UnknownScript_0x713bd
+	iffalse .Done
 	pause 5
 	playsound SFX_ELEVATOR
 	earthquake 60
 	waitsfx
-UnknownScript_0x713bd:
+.Done:
 	end
 
-
-Elevator_0x713be:
+CeladonDeptStoreElevatorData:
 	db 6 ; floors
-	elevfloor _1F,  4, CELADON_DEPT_STORE_1F
-	elevfloor _2F,  3, CELADON_DEPT_STORE_2F
-	elevfloor _3F,  3, CELADON_DEPT_STORE_3F
-	elevfloor _4F,  3, CELADON_DEPT_STORE_4F
-	elevfloor _5F,  3, CELADON_DEPT_STORE_5F
-	elevfloor _6F,  2, CELADON_DEPT_STORE_6F
+	elevfloor FLOOR_1F, 4, CELADON_DEPT_STORE_1F
+	elevfloor FLOOR_2F, 3, CELADON_DEPT_STORE_2F
+	elevfloor FLOOR_3F, 3, CELADON_DEPT_STORE_3F
+	elevfloor FLOOR_4F, 3, CELADON_DEPT_STORE_4F
+	elevfloor FLOOR_5F, 3, CELADON_DEPT_STORE_5F
+	elevfloor FLOOR_6F, 2, CELADON_DEPT_STORE_6F
 	db $ff ; end
-
 
 CeladonDeptStoreElevator_MapEventHeader:
 	; filler
@@ -35,15 +33,15 @@ CeladonDeptStoreElevator_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $3, $1, 255, CELADON_DEPT_STORE_1F
-	warp_def $3, $2, 255, CELADON_DEPT_STORE_1F
+	warp_def 1, 3, -1, CELADON_DEPT_STORE_1F
+	warp_def 2, 3, -1, CELADON_DEPT_STORE_1F
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 1
-	signpost 0, 3, SIGNPOST_READ, MapCeladonDeptStoreElevatorSignpost0Script
+	bg_event 3, 0, BGEVENT_READ, CeladonDeptStoreElevatorScript
 
-.PersonEvents:
+.ObjectEvents:
 	db 0

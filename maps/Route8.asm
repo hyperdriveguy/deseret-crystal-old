@@ -7,63 +7,63 @@ const_value set 2
 	const ROUTE8_FRUIT_TREE
 
 Route8_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
 TrainerBikerDwayne:
-	trainer EVENT_BEAT_BIKER_DWAYNE, BIKER, DWAYNE, BikerDwayneSeenText, BikerDwayneBeatenText, 0, BikerDwayneScript
+	trainer EVENT_BEAT_BIKER_DWAYNE, BIKER, DWAYNE, BikerDwayneSeenText, BikerDwayneBeatenText, 0, .Script
 
-BikerDwayneScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x6c0c8
+	writetext BikerDwayneAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerBikerHarris:
-	trainer EVENT_BEAT_BIKER_HARRIS, BIKER, HARRIS, BikerHarrisSeenText, BikerHarrisBeatenText, 0, BikerHarrisScript
+	trainer EVENT_BEAT_BIKER_HARRIS, BIKER, HARRIS, BikerHarrisSeenText, BikerHarrisBeatenText, 0, .Script
 
-BikerHarrisScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x6c143
+	writetext BikerHarrisAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerBikerZeke:
-	trainer EVENT_BEAT_BIKER_ZEKE, BIKER, ZEKE, BikerZekeSeenText, BikerZekeBeatenText, 0, BikerZekeScript
+	trainer EVENT_BEAT_BIKER_ZEKE, BIKER, ZEKE, BikerZekeSeenText, BikerZekeBeatenText, 0, .Script
 
-BikerZekeScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x6c1a3
+	writetext BikerZekeAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSupernerdSam:
-	trainer EVENT_BEAT_SUPER_NERD_SAM, SUPER_NERD, SAM, SupernerdSamSeenText, SupernerdSamBeatenText, 0, SupernerdSamScript
+	trainer EVENT_BEAT_SUPER_NERD_SAM, SUPER_NERD, SAM, SupernerdSamSeenText, SupernerdSamBeatenText, 0, .Script
 
-SupernerdSamScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x6c219
+	writetext SupernerdSamAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSupernerdTom:
-	trainer EVENT_BEAT_SUPER_NERD_TOM, SUPER_NERD, TOM, SupernerdTomSeenText, SupernerdTomBeatenText, 0, SupernerdTomScript
+	trainer EVENT_BEAT_SUPER_NERD_TOM, SUPER_NERD, TOM, SupernerdTomSeenText, SupernerdTomBeatenText, 0, .Script
 
-SupernerdTomScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x6c27e
+	writetext SupernerdTomAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -90,7 +90,7 @@ BikerDwayneBeatenText:
 	text "S-sorry!"
 	done
 
-UnknownText_0x6c0c8:
+BikerDwayneAfterBattleText:
 	text "The KANTO #MON"
 	line "FEDERATION will"
 	cont "never fall!"
@@ -108,7 +108,7 @@ BikerHarrisBeatenText:
 	text "F-forgive me!"
 	done
 
-UnknownText_0x6c143:
+BikerHarrisAfterBattleText:
 	text "Wiped out by some"
 	line "punk from JOHTO…"
 	done
@@ -124,7 +124,7 @@ BikerZekeBeatenText:
 	text "Yikes! Sorry!"
 	done
 
-UnknownText_0x6c1a3:
+BikerZekeAfterBattleText:
 	text "We'll try not to"
 	line "disturb anyone"
 	cont "from now on…"
@@ -140,7 +140,7 @@ SupernerdSamBeatenText:
 	line "the MAGNET TRAIN…"
 	done
 
-UnknownText_0x6c219:
+SupernerdSamAfterBattleText:
 	text "The power of mag-"
 	line "nets is awesome!"
 	done
@@ -155,7 +155,7 @@ SupernerdTomBeatenText:
 	line "You're tough!"
 	done
 
-UnknownText_0x6c27e:
+SupernerdTomAfterBattleText:
 	text "GYM BADGES give"
 	line "you advantages in"
 	cont "battles."
@@ -178,22 +178,22 @@ Route8_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $4, $4, 3, ROUTE_8_SAFFRON_GATE
-	warp_def $5, $4, 4, ROUTE_8_SAFFRON_GATE
+	warp_def 4, 4, 3, ROUTE_8_SAFFRON_GATE
+	warp_def 4, 5, 4, ROUTE_8_SAFFRON_GATE
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 7, 11, SIGNPOST_READ, Route8UndergroundPathSign
-	signpost 5, 10, SIGNPOST_READ, Route8LockedDoor
+	bg_event 11, 7, BGEVENT_READ, Route8UndergroundPathSign
+	bg_event 10, 5, BGEVENT_READ, Route8LockedDoor
 
-.PersonEvents:
+.ObjectEvents:
 	db 6
-	person_event SPRITE_BIKER, 8, 10, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 5, TrainerBikerDwayne, -1
-	person_event SPRITE_BIKER, 9, 10, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 5, TrainerBikerHarris, -1
-	person_event SPRITE_BIKER, 10, 10, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 5, TrainerBikerZeke, -1
-	person_event SPRITE_SUPER_NERD, 2, 23, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 3, TrainerSupernerdSam, -1
-	person_event SPRITE_SUPER_NERD, 12, 31, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 4, TrainerSupernerdTom, -1
-	person_event SPRITE_FRUIT_TREE, 5, 33, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, FruitTreeScript_0x6c06c, -1
+	object_event 10, 8, SPRITE_BIKER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 5, TrainerBikerDwayne, -1
+	object_event 10, 9, SPRITE_BIKER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 5, TrainerBikerHarris, -1
+	object_event 10, 10, SPRITE_BIKER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 5, TrainerBikerZeke, -1
+	object_event 23, 2, SPRITE_SUPER_NERD, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 3, TrainerSupernerdSam, -1
+	object_event 31, 12, SPRITE_SUPER_NERD, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 4, TrainerSupernerdTom, -1
+	object_event 33, 5, SPRITE_FRUIT_TREE, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, FruitTreeScript_0x6c06c, -1

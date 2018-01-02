@@ -2,7 +2,7 @@ const_value set 2
 	const SILVERCAVEROOM3_RED
 
 SilverCaveRoom3_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -56,14 +56,14 @@ SilverCaveRoom3_MapEventHeader:
 
 .Warps:
 	db 1
-	warp_def $21, $9, 2, SILVER_CAVE_ROOM_2
+	warp_def 9, 33, 2, SILVER_CAVE_ROOM_2
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_RED, 10, 9, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, Red, EVENT_RED_IN_MT_SILVER
+	object_event 9, 10, SPRITE_RED, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, Red, EVENT_RED_IN_MT_SILVER

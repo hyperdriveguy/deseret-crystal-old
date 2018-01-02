@@ -4,7 +4,7 @@ PlayRadioShow:
 	cp POKE_FLUTE_RADIO
 	jr nc, .ok
 ; If Team Rocket is not occupying the radio tower, we don't need to be here.
-	ld a, [StatusFlags2]
+	ld a, [wStatusFlags2]
 	bit 0, a ; checkflag ENGINE_ROCKETS_IN_RADIO_TOWER
 	jr z, .ok
 ; If we're in Kanto, we don't need to be here.
@@ -218,7 +218,7 @@ OaksPkmnTalk4:
 	jr z, .done
 .next
 	dec hl
-	ld de, WILDMON_GRASS_STRUCTURE_LENGTH
+	ld de, GRASS_WILDDATA_LENGTH
 	add hl, de
 	jr .loop
 
@@ -233,12 +233,12 @@ endr
 	cp 3
 	jr z, .loop2
 
-	ld bc, 2 * NUM_WILDMONS_PER_AREA_TIME_OF_DAY
+	ld bc, 2 * NUM_GRASSMON
 	call AddNTimes
 .loop3
 	; Choose one of the middle three Pokemon.
 	call Random
-	and NUM_WILDMONS_PER_AREA_TIME_OF_DAY
+	and NUM_GRASSMON
 	cp 2
 	jr c, .loop3
 	cp 5
@@ -262,7 +262,7 @@ endr
 	pop bc
 	call GetWorldMapLocation
 	ld e, a
-	callba GetLandmarkName
+	farcall GetLandmarkName
 	ld hl, OPT_OakText1
 	call CopyRadioTextToRAM
 	ld a, OAKS_POKEMON_TALK_5
@@ -576,7 +576,7 @@ OaksPkmnTalk9:
 	db "@"
 
 OaksPkmnTalk10:
-	callba RadioMusicRestartPokemonChannel
+	farcall RadioMusicRestartPokemonChannel
 	ld hl, OPT_RestartText
 	call PrintText
 	call WaitBGMap
@@ -637,7 +637,7 @@ OaksPkmnTalk14:
 	dec [hl]
 	ret nz
 	ld de, $1d
-	callab RadioMusicRestartDE
+	callfar RadioMusicRestartDE
 	ld hl, .terminator
 	call PrintText
 	ld a, OAKS_POKEMON_TALK_4
@@ -907,7 +907,7 @@ StartPokemonMusicChannel:
 	jr z, .SunTueThurSun
 	ld de, MUSIC_POKEMON_LULLABY
 .SunTueThurSun:
-	callab RadioMusicRestartDE
+	callfar RadioMusicRestartDE
 	ret
 
 BenIntroText1:
@@ -962,9 +962,9 @@ BenFernText3B:
 
 LuckyNumberShow1:
 	call StartRadioStation
-	callab Special_CheckLuckyNumberShowFlag
+	callfar Special_CheckLuckyNumberShowFlag
 	jr nc, .dontreset
-	callab Special_ResetLuckyNumberShowFlag
+	callfar Special_ResetLuckyNumberShowFlag
 .dontreset
 	ld hl, LC_Text1
 	ld a, LUCKY_NUMBER_SHOW_2
@@ -1160,11 +1160,11 @@ PeoplePlaces4: ; People
 	jr nc, PeoplePlaces4
 	push af
 	ld hl, .E4Names
-	ld a, [StatusFlags]
+	ld a, [wStatusFlags]
 	bit 6, a ; ENGINE_CREDITS_SKIP
 	jr z, .ok
 	ld hl, .KantoLeaderNames
-	ld a, [KantoBadges]
+	ld a, [wKantoBadges]
 	cp %11111111
 	jr nz, .ok
 	ld hl, .MiscNames
@@ -1177,12 +1177,12 @@ PeoplePlaces4: ; People
 	pop bc
 	jr c, PeoplePlaces4
 	push bc
-	callab GetTrainerClassName
+	callfar GetTrainerClassName
 	ld de, StringBuffer1
 	call CopyName1
 	pop bc
 	ld b, 1
-	callab GetTrainerName
+	callfar GetTrainerName
 	ld hl, PnP_Text4
 	ld a, PLACES_AND_PEOPLE_5
 	jp NextRadioLine
@@ -1332,7 +1332,7 @@ PeoplePlaces6: ; Places
 	ld c, [hl]
 	call GetWorldMapLocation
 	ld e, a
-	callba GetLandmarkName
+	farcall GetLandmarkName
 	ld hl, PnP_Text5
 	ld a, PLACES_AND_PEOPLE_7
 	jp NextRadioLine
@@ -1555,14 +1555,13 @@ BuenasPassword4:
 	jp c, BuenasPassword8
 	ld a, [wBuenasPassword]
 ; If we already generated the password today, we don't need to generate a new one.
-	ld hl, WeeklyFlags
+	ld hl, wWeeklyFlags
 	bit 7, [hl]
 	jr nz, .AlreadyGotIt
 ; There are only 11 groups to choose from.
 .greater_than_11
 	call Random
 	maskbits NUM_PASSWORD_CATEGORIES
-	and x
 	cp NUM_PASSWORD_CATEGORIES
 	jr nc, .greater_than_11
 ; Store it in the high nybble of e.
@@ -1578,7 +1577,7 @@ BuenasPassword4:
 	add e
 	ld [wBuenasPassword], a
 ; Set the flag so that we don't generate a new password this week.
-	ld hl, WeeklyFlags
+	ld hl, wWeeklyFlags
 	set 7, [hl]
 .AlreadyGotIt:
 	ld c, a
@@ -1722,14 +1721,14 @@ BuenasPassword7:
 
 BuenasPasswordAfterMidnight:
 	push hl
-	ld hl, WeeklyFlags
+	ld hl, wWeeklyFlags
 	res 7, [hl]
 	pop hl
 	ld a, BUENAS_PASSWORD_8
 	jp NextRadioLine
 
 BuenasPassword8:
-	ld hl, WeeklyFlags
+	ld hl, wWeeklyFlags
 	res 7, [hl]
 	ld hl, BuenaRadioMidnightText10
 	ld a, BUENAS_PASSWORD_9
@@ -1793,11 +1792,11 @@ BuenasPassword19:
 BuenasPassword20:
 	ld a, [hBGMapMode]
 	push af
-	callba NoRadioMusic
-	callba NoRadioName
+	farcall NoRadioMusic
+	farcall NoRadioName
 	pop af
 	ld [hBGMapMode], a
-	ld hl, WeeklyFlags
+	ld hl, wWeeklyFlags
 	res 7, [hl]
 	ld a, BUENAS_PASSWORD
 	ld [wCurrentRadioLine], a
@@ -1821,7 +1820,7 @@ BuenasPassword21:
 BuenasPasswordCheckTime:
 	call UpdateTime
 	ld a, [hHours]
-	cp 18 ; 6 PM
+	cp NITE_HOUR
 	ret
 
 BuenasPasswordChannelName:
@@ -1940,7 +1939,7 @@ StartRadioStation:
 	ld e, [hl]
 	inc hl
 	ld d, [hl]
-	callab RadioMusicRestartDE
+	callfar RadioMusicRestartDE
 	ret
 
 RadioChannelSongs:

@@ -10,10 +10,10 @@ _TitleScreen: ; 10ed67
 
 ; Reset timing variables
 	ld hl, wJumptableIndex
-	ld [hli], a ; cf63 ; Scene?
-	ld [hli], a ; cf64
-	ld [hli], a ; cf65 ; Timer lo
-	ld [hl], a  ; cf66 ; Timer hi
+	ld [hli], a ; wJumptableIndex
+	ld [hli], a ; wIntroSceneFrameCounter
+	ld [hli], a ; wTitleScreenTimer
+	ld [hl], a  ; wTitleScreenTimer + 1
 
 ; Turn LCD off
 	call DisableLCD
@@ -26,7 +26,7 @@ _TitleScreen: ; 10ed67
 
 ; Decompress running Suicune gfx
 	ld hl, TitleSuicuneGFX
-	ld de, VTiles1
+	ld de, vTiles1
 	call Decompress
 
 
@@ -42,7 +42,7 @@ _TitleScreen: ; 10ed67
 ; BG Map 1:
 
 ; line 0 (copyright)
-	hlbgcoord 0, 0, VBGMap1
+	hlbgcoord 0, 0, vBGMap1
 	ld bc, 1 bgrows
 	ld a, 7 ; palette
 	call ByteFill
@@ -88,7 +88,7 @@ _TitleScreen: ; 10ed67
 ; Suicune gfx
 	hlbgcoord 0, 12
 	ld bc, 6 bgrows ; the rest of the screen
-	ld a, 8
+	ld a, 0 | VRAM_BANK_1
 	call ByteFill
 
 
@@ -99,12 +99,12 @@ _TitleScreen: ; 10ed67
 
 ; Decompress logo
 	ld hl, TitleLogoGFX
-	ld de, VTiles1
+	ld de, vTiles1
 	call Decompress
 
 ; Decompress background crystal
 	ld hl, TitleCrystalGFX
-	ld de, VTiles0
+	ld de, vTiles0
 	call Decompress
 
 
@@ -122,7 +122,7 @@ _TitleScreen: ; 10ed67
 	call DrawTitleGraphic
 
 ; Draw copyright text
-	hlbgcoord 3, 0, VBGMap1
+	hlbgcoord 3, 0, vBGMap1
 	lb bc, 1, 13
 	ld d, $c
 	ld e, $10
@@ -145,12 +145,12 @@ _TitleScreen: ; 10ed67
 ; Update palette colors
 	ld hl, TitleScreenPalettes
 	ld de, UnknBGPals
-	ld bc, 4 * 32
+	ld bc, 16 palettes
 	call CopyBytes
 
 	ld hl, TitleScreenPalettes
 	ld de, BGPals
-	ld bc, 4 * 32
+	ld bc, 16 palettes
 	call CopyBytes
 
 ; Restore WRAM bank
@@ -260,10 +260,10 @@ SuicuneFrameIterator: ; 10eea7
 ; 10eece
 
 .Frames: ; 10eece
-	db $80 ; VTiles4 tile $00
-	db $88 ; VTiles4 tile $08
-	db $00 ; VTiles5 tile $00
-	db $08 ; VTiles5 tile $08
+	db $80 ; vTiles4 tile $00
+	db $88 ; vTiles4 tile $08
+	db $00 ; vTiles5 tile $00
+	db $08 ; vTiles5 tile $08
 ; 10eed2
 
 
@@ -399,84 +399,4 @@ INCBIN "gfx/title/crystal.2bpp.lz"
 ; 10fede
 
 TitleScreenPalettes:
-; BG
-	RGB 00, 00, 00
-	RGB 19, 00, 00
-	RGB 15, 08, 31
-	RGB 15, 08, 31
-
-	RGB 00, 00, 00
-	RGB 31, 31, 31
-	RGB 15, 16, 31
-	RGB 31, 01, 13
-
-	RGB 00, 00, 00
-	RGB 07, 07, 07
-	RGB 31, 31, 31
-	RGB 02, 03, 30
-
-	RGB 00, 00, 00
-	RGB 13, 13, 13
-	RGB 31, 31, 18
-	RGB 02, 03, 30
-
-	RGB 00, 00, 00
-	RGB 19, 19, 19
-	RGB 29, 28, 12
-	RGB 02, 03, 30
-
-	RGB 00, 00, 00
-	RGB 25, 25, 25
-	RGB 28, 25, 06
-	RGB 02, 03, 30
-
-	RGB 00, 00, 00
-	RGB 31, 31, 31
-	RGB 26, 21, 00
-	RGB 02, 03, 30
-
-	RGB 00, 00, 00
-	RGB 11, 11, 19
-	RGB 31, 31, 31
-	RGB 00, 00, 00
-
-; OBJ
-	RGB 00, 00, 00
-	RGB 10, 00, 15
-	RGB 17, 05, 22
-	RGB 19, 09, 31
-
-	RGB 31, 31, 31
-	RGB 00, 00, 00
-	RGB 00, 00, 00
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 00, 00, 00
-	RGB 00, 00, 00
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 00, 00, 00
-	RGB 00, 00, 00
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 00, 00, 00
-	RGB 00, 00, 00
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 00, 00, 00
-	RGB 00, 00, 00
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 00, 00, 00
-	RGB 00, 00, 00
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 00, 00, 00
-	RGB 00, 00, 00
-	RGB 00, 00, 00
+INCLUDE "data/palettes/title.pal"

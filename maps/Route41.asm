@@ -11,118 +11,118 @@ const_value set 2
 	const ROUTE41_SWIMMER_GIRL5
 
 Route41_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
 TrainerSwimmerfKaylee:
-	trainer EVENT_BEAT_SWIMMERF_KAYLEE, SWIMMERF, KAYLEE, SwimmerfKayleeSeenText, SwimmerfKayleeBeatenText, 0, SwimmerfKayleeScript
+	trainer EVENT_BEAT_SWIMMERF_KAYLEE, SWIMMERF, KAYLEE, SwimmerfKayleeSeenText, SwimmerfKayleeBeatenText, 0, .Script
 
-SwimmerfKayleeScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a6c7f
+	writetext SwimmerfKayleeAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSwimmerfSusie:
-	trainer EVENT_BEAT_SWIMMERF_SUSIE, SWIMMERF, SUSIE, SwimmerfSusieSeenText, SwimmerfSusieBeatenText, 0, SwimmerfSusieScript
+	trainer EVENT_BEAT_SWIMMERF_SUSIE, SWIMMERF, SUSIE, SwimmerfSusieSeenText, SwimmerfSusieBeatenText, 0, .Script
 
-SwimmerfSusieScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a6d11
+	writetext SwimmerfSusieAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSwimmerfDenise:
-	trainer EVENT_BEAT_SWIMMERF_DENISE, SWIMMERF, DENISE, SwimmerfDeniseSeenText, SwimmerfDeniseBeatenText, 0, SwimmerfDeniseScript
+	trainer EVENT_BEAT_SWIMMERF_DENISE, SWIMMERF, DENISE, SwimmerfDeniseSeenText, SwimmerfDeniseBeatenText, 0, .Script
 
-SwimmerfDeniseScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a6d79
+	writetext SwimmerfDeniseAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSwimmerfKara:
-	trainer EVENT_BEAT_SWIMMERF_KARA, SWIMMERF, KARA, SwimmerfKaraSeenText, SwimmerfKaraBeatenText, 0, SwimmerfKaraScript
+	trainer EVENT_BEAT_SWIMMERF_KARA, SWIMMERF, KARA, SwimmerfKaraSeenText, SwimmerfKaraBeatenText, 0, .Script
 
-SwimmerfKaraScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a6e58
+	writetext SwimmerfKaraAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSwimmerfWendy:
-	trainer EVENT_BEAT_SWIMMERF_WENDY, SWIMMERF, WENDY, SwimmerfWendySeenText, SwimmerfWendyBeatenText, 0, SwimmerfWendyScript
+	trainer EVENT_BEAT_SWIMMERF_WENDY, SWIMMERF, WENDY, SwimmerfWendySeenText, SwimmerfWendyBeatenText, 0, .Script
 
-SwimmerfWendyScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a6ec2
+	writetext SwimmerfWendyAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSwimmermCharlie:
-	trainer EVENT_BEAT_SWIMMERM_CHARLIE, SWIMMERM, CHARLIE, SwimmermCharlieSeenText, SwimmermCharlieBeatenText, 0, SwimmermCharlieScript
+	trainer EVENT_BEAT_SWIMMERM_CHARLIE, SWIMMERM, CHARLIE, SwimmermCharlieSeenText, SwimmermCharlieBeatenText, 0, .Script
 
-SwimmermCharlieScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a696e
+	writetext SwimmermCharlieAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSwimmermGeorge:
-	trainer EVENT_BEAT_SWIMMERM_GEORGE, SWIMMERM, GEORGE, SwimmermGeorgeSeenText, SwimmermGeorgeBeatenText, 0, SwimmermGeorgeScript
+	trainer EVENT_BEAT_SWIMMERM_GEORGE, SWIMMERM, GEORGE, SwimmermGeorgeSeenText, SwimmermGeorgeBeatenText, 0, .Script
 
-SwimmermGeorgeScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a69d4
+	writetext SwimmermGeorgeAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSwimmermBerke:
-	trainer EVENT_BEAT_SWIMMERM_BERKE, SWIMMERM, BERKE, SwimmermBerkeSeenText, SwimmermBerkeBeatenText, 0, SwimmermBerkeScript
+	trainer EVENT_BEAT_SWIMMERM_BERKE, SWIMMERM, BERKE, SwimmermBerkeSeenText, SwimmermBerkeBeatenText, 0, .Script
 
-SwimmermBerkeScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a6aa4
+	writetext SwimmermBerkeAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSwimmermKirk:
-	trainer EVENT_BEAT_SWIMMERM_KIRK, SWIMMERM, KIRK, SwimmermKirkSeenText, SwimmermKirkBeatenText, 0, SwimmermKirkScript
+	trainer EVENT_BEAT_SWIMMERM_KIRK, SWIMMERM, KIRK, SwimmermKirkSeenText, SwimmermKirkBeatenText, 0, .Script
 
-SwimmermKirkScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a6b6c
+	writetext SwimmermKirkAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSwimmermMathew:
-	trainer EVENT_BEAT_SWIMMERM_MATHEW, SWIMMERM, MATHEW, SwimmermMathewSeenText, SwimmermMathewBeatenText, 0, SwimmermMathewScript
+	trainer EVENT_BEAT_SWIMMERM_MATHEW, SWIMMERM, MATHEW, SwimmermMathewSeenText, SwimmermMathewBeatenText, 0, .Script
 
-SwimmermMathewScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a6bed
+	writetext SwimmermMathewAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -144,7 +144,7 @@ SwimmermCharlieBeatenText:
 	line "prune skin!"
 	done
 
-UnknownText_0x1a696e:
+SwimmermCharlieAfterBattleText:
 	text "Isn't it relaxing"
 	line "just floating like"
 	cont "this?"
@@ -160,7 +160,7 @@ SwimmermGeorgeBeatenText:
 	text "Pant, pant…"
 	done
 
-UnknownText_0x1a69d4:
+SwimmermGeorgeAfterBattleText:
 	text "It's so far to"
 	line "CIANWOOD."
 
@@ -185,7 +185,7 @@ SwimmermBerkeBeatenText:
 	line "to your strength?"
 	done
 
-UnknownText_0x1a6aa4:
+SwimmermBerkeAfterBattleText:
 	text "It was a dark and"
 	line "stormy night…"
 
@@ -210,7 +210,7 @@ SwimmermKirkBeatenText:
 	text "I'm beat!"
 	done
 
-UnknownText_0x1a6b6c:
+SwimmermKirkAfterBattleText:
 	text "The currents keep"
 	line "me from reaching"
 	cont "that island."
@@ -227,7 +227,7 @@ SwimmermMathewBeatenText:
 	line "great endurance!"
 	done
 
-UnknownText_0x1a6bed:
+SwimmermMathewAfterBattleText:
 	text "A secret about"
 	line "WHIRL ISLANDS…"
 
@@ -248,7 +248,7 @@ SwimmerfKayleeBeatenText:
 	line "it?"
 	done
 
-UnknownText_0x1a6c7f:
+SwimmerfKayleeAfterBattleText:
 	text "There's supposed"
 	line "to be a big #-"
 	cont "MON deep beneath"
@@ -268,7 +268,7 @@ SwimmerfSusieBeatenText:
 	text "I'm crushed…"
 	done
 
-UnknownText_0x1a6d11:
+SwimmerfSusieAfterBattleText:
 	text "Wasn't there a hit"
 	line "song about a boy"
 	cont "riding a LAPRAS?"
@@ -284,7 +284,7 @@ SwimmerfDeniseBeatenText:
 	text "Ohhh!"
 	done
 
-UnknownText_0x1a6d79:
+SwimmerfDeniseAfterBattleText:
 	text "A sunburn is the"
 	line "worst for skin."
 
@@ -312,7 +312,7 @@ SwimmerfKaraBeatenText:
 	line "energy than I do."
 	done
 
-UnknownText_0x1a6e58:
+SwimmerfKaraAfterBattleText:
 	text "I heard roars from"
 	line "deep inside the"
 	cont "ISLANDS."
@@ -328,7 +328,7 @@ SwimmerfWendyBeatenText:
 	text "Oh, dear…"
 	done
 
-UnknownText_0x1a6ec2:
+SwimmerfWendyAfterBattleText:
 	text "The clusters of"
 	line "STARYU light up"
 	cont "at the same time."
@@ -343,27 +343,27 @@ Route41_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $11, $c, 1, WHIRL_ISLAND_NW
-	warp_def $13, $24, 1, WHIRL_ISLAND_NE
-	warp_def $25, $c, 1, WHIRL_ISLAND_SW
-	warp_def $2d, $24, 1, WHIRL_ISLAND_SE
+	warp_def 12, 17, 1, WHIRL_ISLAND_NW
+	warp_def 36, 19, 1, WHIRL_ISLAND_NE
+	warp_def 12, 37, 1, WHIRL_ISLAND_SW
+	warp_def 36, 45, 1, WHIRL_ISLAND_SE
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 1
-	signpost 35, 9, SIGNPOST_ITEM, Route41HiddenMaxEther
+	bg_event 9, 35, BGEVENT_ITEM, Route41HiddenMaxEther
 
-.PersonEvents:
+.ObjectEvents:
 	db 10
-	person_event SPRITE_OLIVINE_RIVAL, 6, 32, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerSwimmermCharlie, -1
-	person_event SPRITE_OLIVINE_RIVAL, 8, 46, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerSwimmermGeorge, -1
-	person_event SPRITE_OLIVINE_RIVAL, 26, 20, SPRITEMOVEDATA_SPINCOUNTERCLOCKWISE, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerSwimmermBerke, -1
-	person_event SPRITE_OLIVINE_RIVAL, 30, 32, SPRITEMOVEDATA_SPINCLOCKWISE, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerSwimmermKirk, -1
-	person_event SPRITE_OLIVINE_RIVAL, 46, 19, SPRITEMOVEDATA_SPINCOUNTERCLOCKWISE, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerSwimmermMathew, -1
-	person_event SPRITE_SWIMMER_GIRL, 4, 17, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 3, TrainerSwimmerfKaylee, -1
-	person_event SPRITE_SWIMMER_GIRL, 19, 23, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 3, TrainerSwimmerfSusie, -1
-	person_event SPRITE_SWIMMER_GIRL, 34, 27, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 3, TrainerSwimmerfDenise, -1
-	person_event SPRITE_SWIMMER_GIRL, 28, 44, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 4, TrainerSwimmerfKara, -1
-	person_event SPRITE_SWIMMER_GIRL, 50, 9, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 2, TrainerSwimmerfWendy, -1
+	object_event 32, 6, SPRITE_OLIVINE_RIVAL, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerSwimmermCharlie, -1
+	object_event 46, 8, SPRITE_OLIVINE_RIVAL, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerSwimmermGeorge, -1
+	object_event 20, 26, SPRITE_OLIVINE_RIVAL, SPRITEMOVEDATA_SPINCOUNTERCLOCKWISE, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerSwimmermBerke, -1
+	object_event 32, 30, SPRITE_OLIVINE_RIVAL, SPRITEMOVEDATA_SPINCLOCKWISE, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerSwimmermKirk, -1
+	object_event 19, 46, SPRITE_OLIVINE_RIVAL, SPRITEMOVEDATA_SPINCOUNTERCLOCKWISE, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerSwimmermMathew, -1
+	object_event 17, 4, SPRITE_SWIMMER_GIRL, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 3, TrainerSwimmerfKaylee, -1
+	object_event 23, 19, SPRITE_SWIMMER_GIRL, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 3, TrainerSwimmerfSusie, -1
+	object_event 27, 34, SPRITE_SWIMMER_GIRL, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 3, TrainerSwimmerfDenise, -1
+	object_event 44, 28, SPRITE_SWIMMER_GIRL, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 4, TrainerSwimmerfKara, -1
+	object_event 9, 50, SPRITE_SWIMMER_GIRL, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 2, TrainerSwimmerfWendy, -1

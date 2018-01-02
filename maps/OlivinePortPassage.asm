@@ -2,16 +2,16 @@ const_value set 2
 	const OLIVINEPORTPASSAGE_POKEFAN_M
 
 OlivinePortPassage_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-PokefanMScript_0x76fac:
-	jumptextfaceplayer UnknownText_0x76faf
+OlivinePortPassagePokefanMScript:
+	jumptextfaceplayer OlivinePortPassagePokefanMText
 
-UnknownText_0x76faf:
+OlivinePortPassagePokefanMText:
 	text "FAST SHIP S.S.AQUA"
 	line "sails to KANTO on"
 
@@ -25,18 +25,18 @@ OlivinePortPassage_MapEventHeader:
 
 .Warps:
 	db 5
-	warp_def $0, $f, 9, OLIVINE_CITY
-	warp_def $0, $10, 10, OLIVINE_CITY
-	warp_def $4, $f, 4, OLIVINE_PORT_PASSAGE
-	warp_def $2, $3, 3, OLIVINE_PORT_PASSAGE
-	warp_def $e, $3, 1, OLIVINE_PORT
+	warp_def 15, 0, 9, OLIVINE_CITY
+	warp_def 16, 0, 10, OLIVINE_CITY
+	warp_def 15, 4, 4, OLIVINE_PORT_PASSAGE
+	warp_def 3, 2, 3, OLIVINE_PORT_PASSAGE
+	warp_def 3, 14, 1, OLIVINE_PORT
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_POKEFAN_M, 1, 17, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, PokefanMScript_0x76fac, EVENT_OLIVINE_PORT_PASSAGE_POKEFAN_M
+	object_event 17, 1, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, OlivinePortPassagePokefanMScript, EVENT_OLIVINE_PORT_PASSAGE_POKEFAN_M

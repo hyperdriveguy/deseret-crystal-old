@@ -3,14 +3,14 @@ const_value set 2
 	const MAHOGANYREDGYARADOSSPEECHHOUSE_TEACHER
 
 MahoganyRedGyaradosSpeechHouse_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-BlackBeltScript_0x19997f:
-	jumptextfaceplayer UnknownText_0x19999c
+MahoganyRedGyaradosSpeechHouseBlackBeltScript:
+	jumptextfaceplayer MahoganyRedGyaradosSpeechHouseBlackBeltText
 
 TeacherScript_0x199982:
 	faceplayer
@@ -28,7 +28,7 @@ UnknownScript_0x199990:
 	closetext
 	end
 
-UnknownText_0x19999c:
+MahoganyRedGyaradosSpeechHouseBlackBeltText:
 	text "I heard that a red"
 	line "GYARADOS appeared"
 	cont "at the LAKE."
@@ -60,16 +60,16 @@ MahoganyRedGyaradosSpeechHouse_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $2, 2, MAHOGANY_TOWN
-	warp_def $7, $3, 2, MAHOGANY_TOWN
+	warp_def 2, 7, 2, MAHOGANY_TOWN
+	warp_def 3, 7, 2, MAHOGANY_TOWN
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 2
-	person_event SPRITE_BLACK_BELT, 3, 2, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, BlackBeltScript_0x19997f, -1
-	person_event SPRITE_TEACHER, 5, 6, SPRITEMOVEDATA_WALK_UP_DOWN, 1, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, TeacherScript_0x199982, -1
+	object_event 2, 3, SPRITE_BLACK_BELT, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, MahoganyRedGyaradosSpeechHouseBlackBeltScript, -1
+	object_event 6, 5, SPRITE_TEACHER, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, TeacherScript_0x199982, -1

@@ -6,7 +6,7 @@ const_value set 2
 	const CELADONDEPTSTORE5F_TEACHER
 
 CeladonDeptStore5F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -26,14 +26,14 @@ ClerkScript_0x7100c:
 	closetext
 	end
 
-GentlemanScript_0x71014:
-	jumptextfaceplayer UnknownText_0x71023
+CeladonDeptStore5FGentlemanScript:
+	jumptextfaceplayer CeladonDeptStore5FGentlemanText
 
-SailorScript_0x71017:
-	jumptextfaceplayer UnknownText_0x71072
+CeladonDeptStore5FSailorScript:
+	jumptextfaceplayer CeladonDeptStore5FSailorText
 
-TeacherScript_0x7101a:
-	jumptextfaceplayer UnknownText_0x710b6
+CeladonDeptStore5FTeacherScript:
+	jumptextfaceplayer CeladonDeptStore5FTeacherText
 
 CeladonDeptStore5FDirectory:
 	jumptext CeladonDeptStore5FDirectoryText
@@ -41,7 +41,7 @@ CeladonDeptStore5FDirectory:
 CeladonDeptStore5FElevatorButton:
 	jumpstd elevatorbutton
 
-UnknownText_0x71023:
+CeladonDeptStore5FGentlemanText:
 	text "I want to buy some"
 	line "items that raise"
 
@@ -50,7 +50,7 @@ UnknownText_0x71023:
 	cont "enough money…"
 	done
 
-UnknownText_0x71072:
+CeladonDeptStore5FSailorText:
 	text "I want PP UP, so I"
 	line "can raise the PP"
 
@@ -58,7 +58,7 @@ UnknownText_0x71072:
 	line "can't buy it…"
 	done
 
-UnknownText_0x710b6:
+CeladonDeptStore5FTeacherText:
 	text "Using items on"
 	line "them makes #-"
 	cont "MON happy."
@@ -77,22 +77,22 @@ CeladonDeptStore5F_MapEventHeader:
 
 .Warps:
 	db 3
-	warp_def $0, $c, 1, CELADON_DEPT_STORE_4F
-	warp_def $0, $f, 1, CELADON_DEPT_STORE_6F
-	warp_def $0, $2, 1, CELADON_DEPT_STORE_ELEVATOR
+	warp_def 12, 0, 1, CELADON_DEPT_STORE_4F
+	warp_def 15, 0, 1, CELADON_DEPT_STORE_6F
+	warp_def 2, 0, 1, CELADON_DEPT_STORE_ELEVATOR
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 0, 14, SIGNPOST_READ, CeladonDeptStore5FDirectory
-	signpost 0, 3, SIGNPOST_READ, CeladonDeptStore5FElevatorButton
+	bg_event 14, 0, BGEVENT_READ, CeladonDeptStore5FDirectory
+	bg_event 3, 0, BGEVENT_READ, CeladonDeptStore5FElevatorButton
 
-.PersonEvents:
+.ObjectEvents:
 	db 5
-	person_event SPRITE_CLERK, 5, 7, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, ClerkScript_0x71004, -1
-	person_event SPRITE_CLERK, 5, 8, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, ClerkScript_0x7100c, -1
-	person_event SPRITE_GENTLEMAN, 5, 13, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, GentlemanScript_0x71014, -1
-	person_event SPRITE_SAILOR, 4, 3, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, SailorScript_0x71017, -1
-	person_event SPRITE_TEACHER, 7, 1, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, TeacherScript_0x7101a, -1
+	object_event 7, 5, SPRITE_CLERK, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, ClerkScript_0x71004, -1
+	object_event 8, 5, SPRITE_CLERK, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, ClerkScript_0x7100c, -1
+	object_event 13, 5, SPRITE_GENTLEMAN, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, CeladonDeptStore5FGentlemanScript, -1
+	object_event 3, 4, SPRITE_SAILOR, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, CeladonDeptStore5FSailorScript, -1
+	object_event 1, 7, SPRITE_TEACHER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, CeladonDeptStore5FTeacherScript, -1

@@ -1,4 +1,19 @@
-; trainer groups
+trainerclass: MACRO
+	enum \1
+const_value = 1
+ENDM
+
+; trainer class ids
+; `trainerclass` indexes are for:
+; - TrainerClassNames (see data/trainers/class_names.asm)
+; - TrainerClassAttributes (see data/trainers/attributes.asm)
+; - TrainerClassDVs (see data/trainers/dvs.asm)
+; - TrainerGroups (see data/trainers/party_pointers.asm)
+; - TrainerEncounterMusic (see data/trainers/encounter_music.asm)
+; - TrainerPicPointers (see data/trainers/pic_pointers.asm)
+; - TrainerPalettes (see data/trainers/palettes.asm)
+; - BTTrainerClassGenders (see data/trainers/genders.asm)
+; trainer constants are Trainers indexes, for the sub-tables of TrainerGroups (see data/trainers/parties.asm)
 	enum_start
 CHRIS EQU __enum__
 	trainerclass TRAINER_NONE ; 0
@@ -26,21 +41,21 @@ KRIS EQU __enum__
 	trainerclass CLAIR ; 8
 
 	trainerclass RIVAL1 ; 9
-	const RIVAL1_1
-	const RIVAL1_2
-	const RIVAL1_3
-	const RIVAL1_4
-	const RIVAL1_5
-	const RIVAL1_6
-	const RIVAL1_7
-	const RIVAL1_8
-	const RIVAL1_9
-	const RIVAL1_10
-	const RIVAL1_11
-	const RIVAL1_12
-	const RIVAL1_13
-	const RIVAL1_14
-	const RIVAL1_15
+	const RIVAL1_1_CHIKORITA
+	const RIVAL1_1_CYNDAQUIL
+	const RIVAL1_1_TOTODILE
+	const RIVAL1_2_CHIKORITA
+	const RIVAL1_2_CYNDAQUIL
+	const RIVAL1_2_TOTODILE
+	const RIVAL1_3_CHIKORITA
+	const RIVAL1_3_CYNDAQUIL
+	const RIVAL1_3_TOTODILE
+	const RIVAL1_4_CHIKORITA
+	const RIVAL1_4_CYNDAQUIL
+	const RIVAL1_4_TOTODILE
+	const RIVAL1_5_CHIKORITA
+	const RIVAL1_5_CYNDAQUIL
+	const RIVAL1_5_TOTODILE
 
 	trainerclass POKEMON_PROF ; a
 
@@ -415,6 +430,12 @@ KRIS EQU __enum__
 	const MARKUS
 
 	trainerclass RIVAL2 ; 2a
+	const RIVAL2_1_CHIKORITA
+	const RIVAL2_1_CYNDAQUIL
+	const RIVAL2_1_TOTODILE
+	const RIVAL2_2_CHIKORITA
+	const RIVAL2_2_CYNDAQUIL
+	const RIVAL2_2_TOTODILE
 
 	trainerclass GUITARIST ; 2b
 	const CLYDE
@@ -492,6 +513,10 @@ KRIS EQU __enum__
 	const WAI
 
 	trainerclass EXECUTIVEM ; 33
+	const EXECUTIVEM_1
+	const EXECUTIVEM_2
+	const EXECUTIVEM_3
+	const EXECUTIVEM_4
 
 	trainerclass PSYCHIC_T ; 34
 	const NATHAN
@@ -560,6 +585,8 @@ KRIS EQU __enum__
 	const QUENTIN
 
 	trainerclass EXECUTIVEF ; 37
+	const EXECUTIVEF_1
+	const EXECUTIVEF_2
 
 	trainerclass SAGE ; 38
 	const CHOW
@@ -648,38 +675,7 @@ KRIS EQU __enum__
 	const GRUNTF_4
 	const GRUNTF_5
 
-
 	trainerclass MYSTICALMAN ; 43
 	const EUSINE
 
 NUM_TRAINER_CLASSES EQU __enum__
-
-	const_def
-	const       NO_AI
-const_value = 0
-	shift_const AI_BASIC
-	shift_const AI_SETUP
-	shift_const AI_TYPES
-	shift_const AI_OFFENSIVE
-	shift_const AI_SMART
-	shift_const AI_OPPORTUNIST
-	shift_const AI_AGGRESSIVE
-	shift_const AI_CAUTIOUS
-	shift_const AI_STATUS
-	shift_const AI_RISKY
-	shift_const AI_10
-	shift_const AI_11
-	shift_const AI_12
-	shift_const AI_13
-	shift_const AI_14
-	shift_const AI_15
-
-	const_def
-	const TRNATTR_ITEM1
-	const TRNATTR_ITEM2
-	const TRNATTR_BASEMONEY
-	const TRNATTR_AI_MOVE_WEIGHTS
-	const TRNATTR_AI2
-	const TRNATTR_AI_ITEM_SWITCH
-	const TRNATTR_AI4
-NUM_TRAINER_ATTRIBUTES EQU const_value

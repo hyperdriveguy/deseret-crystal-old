@@ -3,7 +3,7 @@ const_value set 2
 	const VIRIDIANGYM_GYM_GUY
 
 ViridianGym_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -175,18 +175,18 @@ ViridianGym_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $11, $4, 1, VIRIDIAN_CITY
-	warp_def $11, $5, 1, VIRIDIAN_CITY
+	warp_def 4, 17, 1, VIRIDIAN_CITY
+	warp_def 5, 17, 1, VIRIDIAN_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 13, 3, SIGNPOST_READ, ViridianGymStatue
-	signpost 13, 6, SIGNPOST_READ, ViridianGymStatue
+	bg_event 3, 13, BGEVENT_READ, ViridianGymStatue
+	bg_event 6, 13, BGEVENT_READ, ViridianGymStatue
 
-.PersonEvents:
+.ObjectEvents:
 	db 2
-	person_event SPRITE_BLUE, 3, 5, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ViridianGymBlueScript, EVENT_VIRIDIAN_GYM_BLUE
-	person_event SPRITE_GYM_GUY, 13, 7, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, ViridianGymGuyScript, EVENT_VIRIDIAN_GYM_BLUE
+	object_event 5, 3, SPRITE_BLUE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ViridianGymBlueScript, EVENT_VIRIDIAN_GYM_BLUE
+	object_event 7, 13, SPRITE_GYM_GUY, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, ViridianGymGuyScript, EVENT_VIRIDIAN_GYM_BLUE

@@ -6,33 +6,30 @@ const_value set 2
 	const KURTSHOUSE_TWIN2
 
 KurtsHouse_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 1
+	dbw MAPCALLBACK_OBJECTS, .KurtCallback
 
-	; callbacks
-
-	dbw MAPCALLBACK_OBJECTS, UnknownScript_0x18e154
-
-UnknownScript_0x18e154:
+.KurtCallback:
 	checkevent EVENT_CLEARED_SLOWPOKE_WELL
-	iffalse UnknownScript_0x18e177
+	iffalse .Done
 	checkflag ENGINE_KURT_MAKING_BALLS
-	iftrue UnknownScript_0x18e16f
+	iftrue .MakingBalls
 	disappear KURTSHOUSE_KURT2
 	appear KURTSHOUSE_KURT1
 	disappear KURTSHOUSE_TWIN2
 	appear KURTSHOUSE_TWIN1
 	return
 
-UnknownScript_0x18e16f:
+.MakingBalls:
 	disappear KURTSHOUSE_KURT1
 	appear KURTSHOUSE_KURT2
 	disappear KURTSHOUSE_TWIN1
 	appear KURTSHOUSE_TWIN2
-UnknownScript_0x18e177:
+.Done:
 	return
 
 KurtScript_0x18e178:
@@ -562,26 +559,26 @@ KurtsHouse_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $3, 4, AZALEA_TOWN
-	warp_def $7, $4, 4, AZALEA_TOWN
+	warp_def 3, 7, 4, AZALEA_TOWN
+	warp_def 4, 7, 4, AZALEA_TOWN
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 7
-	signpost 1, 6, SIGNPOST_READ, KurtsHouseRadio
-	signpost 0, 8, SIGNPOST_READ, KurtsHouseOakPhoto
-	signpost 0, 9, SIGNPOST_READ, KurtsHouseOakPhoto
-	signpost 1, 5, SIGNPOST_READ, KurtsHouseBookshelf
-	signpost 1, 2, SIGNPOST_READ, KurtsHouseBookshelf
-	signpost 1, 3, SIGNPOST_READ, KurtsHouseBookshelf
-	signpost 1, 4, SIGNPOST_READ, KurtsHouseCelebiStatue
+	bg_event 6, 1, BGEVENT_READ, KurtsHouseRadio
+	bg_event 8, 0, BGEVENT_READ, KurtsHouseOakPhoto
+	bg_event 9, 0, BGEVENT_READ, KurtsHouseOakPhoto
+	bg_event 5, 1, BGEVENT_READ, KurtsHouseBookshelf
+	bg_event 2, 1, BGEVENT_READ, KurtsHouseBookshelf
+	bg_event 3, 1, BGEVENT_READ, KurtsHouseBookshelf
+	bg_event 4, 1, BGEVENT_READ, KurtsHouseCelebiStatue
 
-.PersonEvents:
+.ObjectEvents:
 	db 5
-	person_event SPRITE_KURT, 2, 3, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, KurtScript_0x18e178, EVENT_KURTS_HOUSE_KURT_1
-	person_event SPRITE_TWIN, 3, 5, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, KurtsGranddaughter1, EVENT_KURTS_HOUSE_GRANDDAUGHTER_1
-	person_event SPRITE_SLOWPOKE, 3, 6, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, KurtsHouseSlowpoke, EVENT_KURTS_HOUSE_SLOWPOKE
-	person_event SPRITE_KURT, 3, 14, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, KurtScript_0x18e3bd, EVENT_KURTS_HOUSE_KURT_2
-	person_event SPRITE_TWIN, 4, 11, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, KurtsGranddaughter2, EVENT_KURTS_HOUSE_GRANDDAUGHTER_2
+	object_event 3, 2, SPRITE_KURT, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, KurtScript_0x18e178, EVENT_KURTS_HOUSE_KURT_1
+	object_event 5, 3, SPRITE_TWIN, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, KurtsGranddaughter1, EVENT_KURTS_HOUSE_GRANDDAUGHTER_1
+	object_event 6, 3, SPRITE_SLOWPOKE, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, KurtsHouseSlowpoke, EVENT_KURTS_HOUSE_SLOWPOKE
+	object_event 14, 3, SPRITE_KURT, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, KurtScript_0x18e3bd, EVENT_KURTS_HOUSE_KURT_2
+	object_event 11, 4, SPRITE_TWIN, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, KurtsGranddaughter2, EVENT_KURTS_HOUSE_GRANDDAUGHTER_2

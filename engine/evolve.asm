@@ -133,13 +133,13 @@ EvolveAfterBattle_MasterLoop
 
 ; TR_NITE
 	ld a, [TimeOfDay]
-	cp NITE
+	cp NITE_F
 	jp nz, .dont_evolve_3
 	jr .proceed
 
 .happiness_daylight
 	ld a, [TimeOfDay]
-	cp NITE
+	cp NITE_F
 	jp z, .dont_evolve_3
 	jr .proceed
 
@@ -225,7 +225,7 @@ EvolveAfterBattle_MasterLoop
 	ld [hBGMapMode], a
 	call ClearSprites
 
-	callba EvolutionAnimation
+	farcall EvolutionAnimation
 
 	push af
 	call ClearSprites
@@ -311,7 +311,7 @@ EvolveAfterBattle_MasterLoop
 
 	ld hl, TempMonDVs
 	predef GetUnownLetter
-	callab UpdateUnownDex
+	callfar UpdateUnownDex
 
 .skip_unown
 	pop de

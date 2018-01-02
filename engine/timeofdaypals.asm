@@ -37,19 +37,18 @@ _TimeOfDayPals:: ; 8c011
 ; update palette id
 	ld [TimeOfDayPal], a
 
-
-; save bg palette 8
-	ld hl, UnknBGPals + 8 * 7 ; UnknBGPals + 7 pals
+; save bg palette 7
+	ld hl, UnknBGPals palette PAL_BG_TEXT
 
 ; save wram bank
 	ld a, [rSVBK]
 	ld b, a
 ; wram bank 5
-	ld a, 5
+	ld a, $5
 	ld [rSVBK], a
 
 ; push palette
-	ld c, 4 ; NUM_PAL_COLORS
+	ld c, NUM_PAL_COLORS
 .push
 	ld d, [hl]
 	inc hl
@@ -69,7 +68,7 @@ _TimeOfDayPals:: ; 8c011
 	call GetSGBLayout
 
 
-; restore bg palette 8
+; restore bg palette 7
 	ld hl, UnknOBPals - 1 ; last byte in UnknBGPals
 
 ; save wram bank
@@ -80,7 +79,7 @@ _TimeOfDayPals:: ; 8c011
 	ld [rSVBK], a
 
 ; pop palette
-	ld e, 4 ; NUM_PAL_COLORS
+	ld e, NUM_PAL_COLORS
 .pop
 	pop bc
 	ld [hl], c
@@ -196,10 +195,6 @@ endr
 	ret
 ; 8c0e5
 
-brightlevel: MACRO
-	db (\1 << 6) | (\2 << 4) | (\3 << 2) | \4
-ENDM
-
 ReplaceTimeOfDayPals: ; 8c0e5
 	ld hl, .BrightnessLevels
 	ld a, [wMapTimeOfDay]
@@ -216,7 +211,7 @@ ReplaceTimeOfDayPals: ; 8c0e5
 	ret
 
 .DarkCave:
-	ld a, [StatusFlags]
+	ld a, [wStatusFlags]
 	bit 2, a ; Flash
 	jr nz, .UsedFlash
 	ld a, %11111111 ; 3, 3, 3, 3
@@ -230,14 +225,14 @@ ReplaceTimeOfDayPals: ; 8c0e5
 ; 8c10f (23:410f)
 
 .BrightnessLevels: ; 8c10f
-	brightlevel 3, 2, 1, 0
-	brightlevel 1, 1, 1, 1
-	brightlevel 2, 2, 2, 2
-	brightlevel 0, 0, 0, 0
-	brightlevel 3, 3, 3, 3
-	brightlevel 3, 2, 1, 0
-	brightlevel 3, 2, 1, 0
-	brightlevel 3, 2, 1, 0
+	dc 3, 2, 1, 0
+	dc 1, 1, 1, 1
+	dc 2, 2, 2, 2
+	dc 0, 0, 0, 0
+	dc 3, 3, 3, 3
+	dc 3, 2, 1, 0
+	dc 3, 2, 1, 0
+	dc 3, 2, 1, 0
 ; 8c117
 
 GetTimePalette: ; 8c117

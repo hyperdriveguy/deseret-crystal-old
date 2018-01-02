@@ -4,7 +4,7 @@ const_value set 2
 	const GOLDENRODHAPPINESSRATER_TWIN
 
 GoldenrodHappinessRater_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -59,11 +59,11 @@ UnknownScript_0x54991:
 	closetext
 	end
 
-PokefanMScript_0x54997:
-	jumptextfaceplayer UnknownText_0x54b04
+GoldenrodHappinessRaterPokefanMScript:
+	jumptextfaceplayer GoldenrodHappinessRaterPokefanMText
 
-TwinScript_0x5499a:
-	jumptextfaceplayer UnknownText_0x54b67
+GoldenrodHappinessRaterTwinScript:
+	jumptextfaceplayer GoldenrodHappinessRaterTwinText
 
 HappinessRatersHouseBookshelf:
 	jumpstd difficultbookshelf
@@ -118,7 +118,7 @@ UnknownText_0x54ad1:
 	cont "It looks mean."
 	done
 
-UnknownText_0x54b04:
+GoldenrodHappinessRaterPokefanMText:
 	text "I keep losing in"
 	line "battles, and my"
 
@@ -130,7 +130,7 @@ UnknownText_0x54b04:
 	cont "like me much…"
 	done
 
-UnknownText_0x54b67:
+GoldenrodHappinessRaterTwinText:
 	text "When I use an item"
 	line "on my #MON, it"
 	cont "acts really glad!"
@@ -142,20 +142,20 @@ GoldenrodHappinessRater_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $2, 3, GOLDENROD_CITY
-	warp_def $7, $3, 3, GOLDENROD_CITY
+	warp_def 2, 7, 3, GOLDENROD_CITY
+	warp_def 3, 7, 3, GOLDENROD_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 3
-	signpost 1, 0, SIGNPOST_READ, HappinessRatersHouseBookshelf
-	signpost 1, 1, SIGNPOST_READ, HappinessRatersHouseBookshelf
-	signpost 1, 7, SIGNPOST_READ, HappinessRatersHouseRadio
+	bg_event 0, 1, BGEVENT_READ, HappinessRatersHouseBookshelf
+	bg_event 1, 1, BGEVENT_READ, HappinessRatersHouseBookshelf
+	bg_event 7, 1, BGEVENT_READ, HappinessRatersHouseRadio
 
-.PersonEvents:
+.ObjectEvents:
 	db 3
-	person_event SPRITE_TEACHER, 4, 2, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, TeacherScript_0x54953, -1
-	person_event SPRITE_POKEFAN_M, 3, 5, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, PokefanMScript_0x54997, -1
-	person_event SPRITE_TWIN, 6, 5, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 1, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, TwinScript_0x5499a, -1
+	object_event 2, 4, SPRITE_TEACHER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, TeacherScript_0x54953, -1
+	object_event 5, 3, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GoldenrodHappinessRaterPokefanMScript, -1
+	object_event 5, 6, SPRITE_TWIN, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, GoldenrodHappinessRaterTwinScript, -1

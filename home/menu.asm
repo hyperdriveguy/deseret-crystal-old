@@ -38,7 +38,7 @@ LoadMenuTextBox:: ; 1d58
 	db $40 ; tile backup
 	db 12, 0 ; start coords
 	db 17, 19 ; end coords
-	dw VTiles0
+	dw vTiles0
 	db 0 ; default option
 ; 1d67
 
@@ -546,7 +546,7 @@ Place2DMenuItemName:: ; 201c
 _2DMenu:: ; 202a
 	ld a, [hROMBank]
 	ld [wMenuData2_2DMenuItemStringsBank], a
-	callba _2DMenu_
+	farcall _2DMenu_
 	ld a, [wMenuCursorBuffer]
 	ret
 ; 2039
@@ -554,7 +554,7 @@ _2DMenu:: ; 202a
 InterpretBattleMenu:: ; 2039
 	ld a, [hROMBank]
 	ld [wMenuData2_2DMenuItemStringsBank], a
-	callba _InterpretBattleMenu
+	farcall _InterpretBattleMenu
 	ld a, [wMenuCursorBuffer]
 	ret
 ; 2048

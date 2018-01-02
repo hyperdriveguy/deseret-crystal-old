@@ -2,7 +2,7 @@
 
 
 WarpToSpawnPoint:: ; 97c28
-	ld hl, StatusFlags2
+	ld hl, wStatusFlags2
 	res 1, [hl] ; safari zone?
 	res 2, [hl] ; bug contest
 	ret
@@ -50,42 +50,42 @@ LoadScriptBDE:: ; 97c4f
 	ret
 ; 97c5f
 
-CheckFacingTileEvent:: ; 97c5f
+TryTileCollisionEvent:: ; 97c5f
 	call GetFacingTileCoord
 	ld [EngineBuffer1], a
 	ld c, a
-	callba CheckFacingTileForStd
+	farcall CheckFacingTileForStdScript
 	jr c, .done
 
 	call CheckCutTreeTile
 	jr nz, .whirlpool
-	callba TryCutOW
+	farcall TryCutOW
 	jr .done
 
 .whirlpool
 	ld a, [EngineBuffer1]
 	call CheckWhirlpoolTile
 	jr nz, .waterfall
-	callba TryWhirlpoolOW
+	farcall TryWhirlpoolOW
 	jr .done
 
 .waterfall
 	ld a, [EngineBuffer1]
 	call CheckWaterfallTile
 	jr nz, .headbutt
-	callba TryWaterfallOW
+	farcall TryWaterfallOW
 	jr .done
 
 .headbutt
 	ld a, [EngineBuffer1]
 	call CheckHeadbuttTreeTile
 	jr nz, .surf
-	callba TryHeadbuttOW
+	farcall TryHeadbuttOW
 	jr c, .done
 	jr .noevent
 
 .surf
-	callba TrySurfOW
+	farcall TrySurfOW
 	jr nc, .noevent
 	jr .done
 
@@ -108,10 +108,10 @@ RandomEncounter:: ; 97cc0
 	jr c, .nope
 	call CanUseSweetScent
 	jr nc, .nope
-	ld hl, StatusFlags2
+	ld hl, wStatusFlags2
 	bit 2, [hl] ; bug contest
 	jr nz, .bug_contest
-	callba TryWildEncounter
+	farcall TryWildEncounter
 	jr nz, .nope
 	jr .ok
 
@@ -149,15 +149,15 @@ WildBattleScript: ; 97cf9
 ; 97cfd
 
 CanUseSweetScent:: ; 97cfd
-	ld hl, StatusFlags
+	ld hl, wStatusFlags
 	bit 5, [hl]
 	jr nz, .no
-	ld a, [wPermission]
+	ld a, [wEnvironment]
 	cp CAVE
 	jr z, .ice_check
 	cp DUNGEON
 	jr z, .ice_check
-	callba CheckGrassCollision
+	farcall CheckGrassCollision
 	jr nc, .no
 
 .ice_check
@@ -176,7 +176,7 @@ _TryWildEncounter_BugContest: ; 97d23
 	call TryWildEncounter_BugContest
 	ret nc
 	call ChooseWildEncounter_BugContest
-	callba CheckRepelEffect
+	farcall CheckRepelEffect
 	ret
 ; 97d31
 
@@ -242,8 +242,8 @@ TryWildEncounter_BugContest: ; 97d64
 	ld b, 20 percent
 
 .ok
-	callba ApplyMusicEffectOnEncounterRate
-	callba ApplyCleanseTagEffectOnEncounterRate
+	farcall ApplyMusicEffectOnEncounterRate
+	farcall ApplyCleanseTagEffectOnEncounterRate
 	call Random
 	ld a, [hRandomAdd]
 	cp b
@@ -253,20 +253,9 @@ TryWildEncounter_BugContest: ; 97d64
 	ret
 ; 97d87
 
-ContestMons: ; 97d87
-	;   %, species,   min, max
-	db 20, CATERPIE,    7, 18
-	db 20, WEEDLE,      7, 18
-	db 10, METAPOD,     9, 18
-	db 10, KAKUNA,      9, 18
-	db  5, BUTTERFREE, 12, 15
-	db  5, BEEDRILL,   12, 15
-	db 10, VENONAT,    10, 16
-	db 10, PARAS,      10, 17
-	db  5, SCYTHER,    13, 14
-	db  5, PINSIR,     13, 14
-	db -1, VENOMOTH,   30, 40
-; 97db3
+
+INCLUDE "data/wild/bug_contest_mons.asm"
+
 
 DoBikeStep:: ; 97db3
 	nop
@@ -274,7 +263,7 @@ DoBikeStep:: ; 97db3
 	; If the bike shop owner doesn't have our number, or
 	; if we've already gotten the call, we don't have to
 	; be here.
-	ld hl, StatusFlags2
+	ld hl, wStatusFlags2
 	bit 4, [hl] ; bike shop call
 	jr z, .NoCall
 
@@ -311,7 +300,7 @@ DoBikeStep:: ; 97db3
 	; If we've taken at least 1024 steps, have the bike
 	;  shop owner try to call us.
 	ld a, d
-	cp 1024 >> 8
+	cp HIGH(1024)
 	jr c, .NoCall
 
 	; If a call has already been queued, don't overwrite
@@ -325,7 +314,7 @@ DoBikeStep:: ; 97db3
 	ld [wSpecialPhoneCallID], a
 	xor a
 	ld [wSpecialPhoneCallID + 1], a
-	ld hl, StatusFlags2
+	ld hl, wStatusFlags2
 	res 4, [hl] ; bike shop call
 	scf
 	ret
@@ -618,7 +607,7 @@ CmdQueue_StoneTable: ; 97f42
 	ld hl, OBJECT_MOVEMENTTYPE
 	add hl, de
 	ld a, [hl]
-	cp STEP_TYPE_SKYFALL_TOP
+	cp SPRITEMOVEDATA_STRENGTH_BOULDER
 	jr nz, .next
 
 	ld hl, OBJECT_NEXT_TILE

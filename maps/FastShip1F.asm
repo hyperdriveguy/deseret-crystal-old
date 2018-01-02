@@ -5,28 +5,26 @@ const_value set 2
 	const FASTSHIP1F_GENTLEMAN
 
 FastShip1F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 3
-
-	; triggers
-	maptrigger .Trigger0
-	maptrigger .Trigger1
-	maptrigger .Trigger2
+	scene_script .DummyScene0
+	scene_script .EnterFastShip
+	scene_script .DummyScene2
 
 .MapCallbacks:
 	db 0
 
-.Trigger0:
+.DummyScene0:
 	end
 
-.Trigger1:
-	priorityjump .PriorityJump2
+.EnterFastShip:
+	priorityjump .EnterFastShipScript
 	end
 
-.Trigger2:
+.DummyScene2:
 	end
 
-.PriorityJump2:
+.EnterFastShipScript:
 	applymovement FASTSHIP1F_SAILOR1, MovementData_0x7520e
 	applymovement PLAYER, MovementData_0x75217
 	applymovement FASTSHIP1F_SAILOR1, MovementData_0x75211
@@ -37,11 +35,11 @@ FastShip1F_MapScriptHeader:
 	clearevent EVENT_FAST_SHIP_HAS_ARRIVED
 	checkevent EVENT_FAST_SHIP_FIRST_TIME
 	iftrue .SkipGrandpa
-	dotrigger $2
+	setscene $2
 	end
 
 .SkipGrandpa:
-	dotrigger $0
+	setscene $0
 	end
 
 SailorScript_0x75160:
@@ -73,7 +71,7 @@ SailorScript_0x75160:
 	special FadeOutPalettes
 	waitsfx
 	setevent EVENT_VERMILION_PORT_SAILOR_AT_GANGWAY
-	domaptrigger VERMILION_PORT, $1
+	setmapscene VERMILION_PORT, $1
 	warp VERMILION_PORT, $7, $11
 	end
 
@@ -86,7 +84,7 @@ SailorScript_0x75160:
 	special FadeOutPalettes
 	waitsfx
 	setevent EVENT_OLIVINE_PORT_SAILOR_AT_GANGWAY
-	domaptrigger OLIVINE_PORT, $1
+	setmapscene OLIVINE_PORT, $1
 	warp OLIVINE_PORT, $7, $17
 	end
 
@@ -118,13 +116,13 @@ SailorScript_0x751d0:
 	closetext
 	end
 
-SailorScript_0x751e4:
-	jumptextfaceplayer UnknownText_0x753c0
+FastShip1FSailorScript:
+	jumptextfaceplayer FastShip1FSailorText
 
-WorriedGrandpaTriggerRight:
-	moveperson FASTSHIP1F_GENTLEMAN, $14, $6
+WorriedGrandpaSceneRight:
+	moveobject FASTSHIP1F_GENTLEMAN, $14, $6
 
-WorriedGrandpaTriggerLeft:
+WorriedGrandpaSceneLeft:
 	appear FASTSHIP1F_GENTLEMAN
 	applymovement FASTSHIP1F_GENTLEMAN, MovementData_0x7521b
 	playsound SFX_TACKLE
@@ -137,7 +135,7 @@ WorriedGrandpaTriggerLeft:
 	spriteface PLAYER, RIGHT
 	applymovement FASTSHIP1F_GENTLEMAN, MovementData_0x75222
 	disappear FASTSHIP1F_GENTLEMAN
-	dotrigger $0
+	setscene $0
 	end
 
 MovementData_0x7520e:
@@ -244,7 +242,7 @@ UnknownText_0x7534f:
 	cont "you're sleeping."
 	done
 
-UnknownText_0x753c0:
+FastShip1FSailorText:
 	text "The passengers are"
 	line "all trainers."
 
@@ -285,30 +283,30 @@ FastShip1F_MapEventHeader:
 
 .Warps:
 	db 12
-	warp_def $1, $19, -1, FAST_SHIP_1F
-	warp_def $8, $1b, 1, FAST_SHIP_CABINS_NNW_NNE_NE
-	warp_def $8, $17, 2, FAST_SHIP_CABINS_NNW_NNE_NE
-	warp_def $8, $13, 3, FAST_SHIP_CABINS_NNW_NNE_NE
-	warp_def $8, $f, 1, FAST_SHIP_CABINS_SW_SSW_NW
-	warp_def $f, $f, 2, FAST_SHIP_CABINS_SW_SSW_NW
-	warp_def $f, $13, 4, FAST_SHIP_CABINS_SW_SSW_NW
-	warp_def $f, $17, 1, FAST_SHIP_CABINS_SE_SSE_CAPTAINS_CABIN
-	warp_def $f, $1b, 3, FAST_SHIP_CABINS_SE_SSE_CAPTAINS_CABIN
-	warp_def $d, $3, 5, FAST_SHIP_CABINS_SE_SSE_CAPTAINS_CABIN
-	warp_def $c, $6, 1, FAST_SHIP_B1F
-	warp_def $e, $1e, 2, FAST_SHIP_B1F
+	warp_def 25, 1, -1, FAST_SHIP_1F
+	warp_def 27, 8, 1, FAST_SHIP_CABINS_NNW_NNE_NE
+	warp_def 23, 8, 2, FAST_SHIP_CABINS_NNW_NNE_NE
+	warp_def 19, 8, 3, FAST_SHIP_CABINS_NNW_NNE_NE
+	warp_def 15, 8, 1, FAST_SHIP_CABINS_SW_SSW_NW
+	warp_def 15, 15, 2, FAST_SHIP_CABINS_SW_SSW_NW
+	warp_def 19, 15, 4, FAST_SHIP_CABINS_SW_SSW_NW
+	warp_def 23, 15, 1, FAST_SHIP_CABINS_SE_SSE_CAPTAINS_CABIN
+	warp_def 27, 15, 3, FAST_SHIP_CABINS_SE_SSE_CAPTAINS_CABIN
+	warp_def 3, 13, 5, FAST_SHIP_CABINS_SE_SSE_CAPTAINS_CABIN
+	warp_def 6, 12, 1, FAST_SHIP_B1F
+	warp_def 30, 14, 2, FAST_SHIP_B1F
 
-.XYTriggers:
+.CoordEvents:
 	db 2
-	xy_trigger 2, $6, $18, $0, WorriedGrandpaTriggerLeft, $0, $0
-	xy_trigger 2, $6, $19, $0, WorriedGrandpaTriggerRight, $0, $0
+	coord_event 24, 6, 2, WorriedGrandpaSceneLeft
+	coord_event 25, 6, 2, WorriedGrandpaSceneRight
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 4
-	person_event SPRITE_SAILOR, 2, 25, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, SailorScript_0x75160, -1
-	person_event SPRITE_SAILOR, 7, 14, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, SailorScript_0x751d0, -1
-	person_event SPRITE_SAILOR, 17, 22, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 2, -1, -1, 0, PERSONTYPE_SCRIPT, 0, SailorScript_0x751e4, -1
-	person_event SPRITE_GENTLEMAN, 6, 19, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ObjectEvent, EVENT_FAST_SHIP_1F_GENTLEMAN
+	object_event 25, 2, SPRITE_SAILOR, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, SailorScript_0x75160, -1
+	object_event 14, 7, SPRITE_SAILOR, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, SailorScript_0x751d0, -1
+	object_event 22, 17, SPRITE_SAILOR, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 2, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, FastShip1FSailorScript, -1
+	object_event 19, 6, SPRITE_GENTLEMAN, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_FAST_SHIP_1F_GENTLEMAN

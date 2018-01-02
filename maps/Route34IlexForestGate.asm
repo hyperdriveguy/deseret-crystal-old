@@ -5,24 +5,21 @@ const_value set 2
 	const ROUTE34ILEXFORESTGATE_TEACHER2
 
 Route34IlexForestGate_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 1
+	dbw MAPCALLBACK_OBJECTS, .IsForestRestless
 
-	; callbacks
-
-	dbw MAPCALLBACK_OBJECTS, UnknownScript_0x62d2d
-
-UnknownScript_0x62d2d:
+.IsForestRestless:
 	checkevent EVENT_FOREST_IS_RESTLESS
-	iffalse UnknownScript_0x62d38
+	iffalse .Normal
 	disappear ROUTE34ILEXFORESTGATE_TEACHER1
 	appear ROUTE34ILEXFORESTGATE_TEACHER2
 	return
 
-UnknownScript_0x62d38:
+.Normal:
 	disappear ROUTE34ILEXFORESTGATE_TEACHER2
 	appear ROUTE34ILEXFORESTGATE_TEACHER1
 	return
@@ -78,8 +75,8 @@ IlexGateButterfree:
 	closetext
 	end
 
-LassScript_0x62d94:
-	jumptextfaceplayer UnknownText_0x62e97
+Route34IlexForestGateLassScript:
+	jumptextfaceplayer Route34IlexForestGateLassText
 
 MovementData_0x62d97:
 	step UP
@@ -124,7 +121,7 @@ UnknownText_0x62e83:
 	text "BUTTERFREE: Freeh!"
 	done
 
-UnknownText_0x62e97:
+Route34IlexForestGateLassText:
 	text "Did you see the"
 	line "shrine honoring"
 	cont "the protector?"
@@ -144,21 +141,21 @@ Route34IlexForestGate_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $0, $4, 1, ROUTE_34
-	warp_def $0, $5, 2, ROUTE_34
-	warp_def $7, $4, 1, ILEX_FOREST
-	warp_def $7, $5, 1, ILEX_FOREST
+	warp_def 4, 0, 1, ROUTE_34
+	warp_def 5, 0, 2, ROUTE_34
+	warp_def 4, 7, 1, ILEX_FOREST
+	warp_def 5, 7, 1, ILEX_FOREST
 
-.XYTriggers:
+.CoordEvents:
 	db 1
-	xy_trigger 0, $7, $4, $0, UnknownScript_0x62d3d, $0, $0
+	coord_event 4, 7, 0, UnknownScript_0x62d3d
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 4
-	person_event SPRITE_TEACHER, 3, 9, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, TeacherScript_0x62d63, EVENT_ROUTE_34_ILEX_FOREST_GATE_TEACHER_BEHIND_COUNTER
-	person_event SPRITE_BUTTERFREE, 4, 9, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, IlexGateButterfree, -1
-	person_event SPRITE_LASS, 4, 3, SPRITEMOVEDATA_WALK_UP_DOWN, 1, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, LassScript_0x62d94, EVENT_ROUTE_34_ILEX_FOREST_GATE_LASS
-	person_event SPRITE_TEACHER, 7, 5, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, TeacherScript_0x62d63, EVENT_ROUTE_34_ILEX_FOREST_GATE_TEACHER_IN_WALKWAY
+	object_event 9, 3, SPRITE_TEACHER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, TeacherScript_0x62d63, EVENT_ROUTE_34_ILEX_FOREST_GATE_TEACHER_BEHIND_COUNTER
+	object_event 9, 4, SPRITE_BUTTERFREE, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, IlexGateButterfree, -1
+	object_event 3, 4, SPRITE_LASS, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, Route34IlexForestGateLassScript, EVENT_ROUTE_34_ILEX_FOREST_GATE_LASS
+	object_event 5, 7, SPRITE_TEACHER, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, TeacherScript_0x62d63, EVENT_ROUTE_34_ILEX_FOREST_GATE_TEACHER_IN_WALKWAY

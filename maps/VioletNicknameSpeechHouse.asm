@@ -4,17 +4,17 @@ const_value set 2
 	const VIOLETNICKNAMESPEECHHOUSE_BIRD
 
 VioletNicknameSpeechHouse_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-TeacherScript_0x693e9:
-	jumptextfaceplayer UnknownText_0x693fa
+VioletNicknameSpeechHouseTeacherScript:
+	jumptextfaceplayer VioletNicknameSpeechHouseTeacherText
 
-LassScript_0x693ec:
-	jumptextfaceplayer UnknownText_0x6945e
+VioletNicknameSpeechHouseLassScript:
+	jumptextfaceplayer VioletNicknameSpeechHouseLassText
 
 BirdScript_0x693ef:
 	faceplayer
@@ -25,7 +25,7 @@ BirdScript_0x693ef:
 	closetext
 	end
 
-UnknownText_0x693fa:
+VioletNicknameSpeechHouseTeacherText:
 	text "She uses the names"
 	line "of her favorite"
 	cont "things to eat."
@@ -35,7 +35,7 @@ UnknownText_0x693fa:
 	cont "#MON, I mean."
 	done
 
-UnknownText_0x6945e:
+VioletNicknameSpeechHouseLassText:
 	text "I call my PIDGEY"
 	line "STRAWBERRY!"
 	done
@@ -50,17 +50,17 @@ VioletNicknameSpeechHouse_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $3, 4, VIOLET_CITY
-	warp_def $7, $4, 4, VIOLET_CITY
+	warp_def 3, 7, 4, VIOLET_CITY
+	warp_def 4, 7, 4, VIOLET_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 3
-	person_event SPRITE_TEACHER, 3, 2, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, TeacherScript_0x693e9, -1
-	person_event SPRITE_LASS, 4, 6, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, LassScript_0x693ec, -1
-	person_event SPRITE_BIRD, 2, 5, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 1, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_SCRIPT, 0, BirdScript_0x693ef, -1
+	object_event 2, 3, SPRITE_TEACHER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, VioletNicknameSpeechHouseTeacherScript, -1
+	object_event 6, 4, SPRITE_LASS, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, VioletNicknameSpeechHouseLassScript, -1
+	object_event 5, 2, SPRITE_BIRD, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_SCRIPT, 0, BirdScript_0x693ef, -1

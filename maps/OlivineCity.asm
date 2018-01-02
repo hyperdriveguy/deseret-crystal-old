@@ -5,23 +5,19 @@ const_value set 2
 	const OLIVINECITY_OLIVINE_RIVAL
 
 OlivineCity_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 2
-
-	; triggers
-	maptrigger .Trigger0
-	maptrigger .Trigger1
+	scene_script .DummyScene0
+	scene_script .DummyScene1
 
 .MapCallbacks:
 	db 1
-
-	; callbacks
 	dbw MAPCALLBACK_NEWMAP, .FlyPoint
 
-.Trigger0:
+.DummyScene0:
 	end
 
-.Trigger1:
+.DummyScene1:
 	end
 
 .FlyPoint:
@@ -45,7 +41,7 @@ UnknownScript_0x1a8833:
 	applymovement PLAYER, MovementData_0x1a88f4
 	spriteface PLAYER, RIGHT
 	applymovement OLIVINECITY_OLIVINE_RIVAL, MovementData_0x1a88db
-	dotrigger $1
+	setscene $1
 	disappear OLIVINECITY_OLIVINE_RIVAL
 	special RestartMapMusic
 	variablesprite SPRITE_OLIVINE_RIVAL, SPRITE_SWIMMER_GUY
@@ -70,14 +66,14 @@ UnknownScript_0x1a886b:
 	spriteface PLAYER, RIGHT
 	applymovement OLIVINECITY_OLIVINE_RIVAL, MovementData_0x1a88e8
 	disappear OLIVINECITY_OLIVINE_RIVAL
-	dotrigger $1
+	setscene $1
 	special RestartMapMusic
 	variablesprite SPRITE_OLIVINE_RIVAL, SPRITE_SWIMMER_GUY
 	special MapCallbackSprites_LoadUsedSpritesGFX
 	end
 
-SailorScript_0x1a88a3:
-	jumptextfaceplayer UnknownText_0x1a8a58
+OlivineCitySailor1Script:
+	jumptextfaceplayer OlivineCitySailor1Text
 
 StandingYoungsterScript_0x1a88a6:
 	faceplayer
@@ -95,8 +91,8 @@ UnknownScript_0x1a88b4:
 	closetext
 	end
 
-SailorScript_0x1a88ba:
-	jumptextfaceplayer UnknownText_0x1a8b71
+OlivineCitySailor2Script:
+	jumptextfaceplayer OlivineCitySailor2Text
 
 OlivineCitySign:
 	jumptext OlivineCitySignText
@@ -113,7 +109,7 @@ OlivineLighthouseSign:
 OlivineCityBattleTowerSign:
 	jumptext OlivineCityBattleTowerSignText
 
-OlivineCityPokeCenterSign:
+OlivineCityPokecenterSign:
 	jumpstd pokecentersign
 
 OlivineCityMartSign:
@@ -211,7 +207,7 @@ UnknownText_0x1a88fa:
 	cont "less weak!"
 	done
 
-UnknownText_0x1a8a58:
+OlivineCitySailor1Text:
 	text "Dark roads are"
 	line "dangerous at"
 	cont "night."
@@ -244,7 +240,7 @@ UnknownText_0x1a8b41:
 	line "awesome."
 	done
 
-UnknownText_0x1a8b71:
+OlivineCitySailor2Text:
 	text "The sea is sweet!"
 
 	para "Sunsets on the sea"
@@ -293,35 +289,35 @@ OlivineCity_MapEventHeader:
 
 .Warps:
 	db 10
-	warp_def $15, $d, 1, OLIVINE_POKECENTER_1F
-	warp_def $b, $a, 1, OLIVINE_GYM
-	warp_def $b, $19, 1, OLIVINE_TIMS_HOUSE
-	warp_def $b, $1d, 1, OLIVINE_PUNISHMENT_SPEECH_HOUSE
-	warp_def $f, $d, 1, OLIVINE_GOOD_ROD_HOUSE
-	warp_def $15, $7, 1, OLIVINE_CAFE
-	warp_def $11, $13, 2, OLIVINE_MART
-	warp_def $1b, $1d, 1, OLIVINE_LIGHTHOUSE_1F
-	warp_def $1b, $13, 1, OLIVINE_PORT_PASSAGE
-	warp_def $1b, $14, 2, OLIVINE_PORT_PASSAGE
+	warp_def 13, 21, 1, OLIVINE_POKECENTER_1F
+	warp_def 10, 11, 1, OLIVINE_GYM
+	warp_def 25, 11, 1, OLIVINE_TIMS_HOUSE
+	warp_def 29, 11, 1, OLIVINE_PUNISHMENT_SPEECH_HOUSE
+	warp_def 13, 15, 1, OLIVINE_GOOD_ROD_HOUSE
+	warp_def 7, 21, 1, OLIVINE_CAFE
+	warp_def 19, 17, 2, OLIVINE_MART
+	warp_def 29, 27, 1, OLIVINE_LIGHTHOUSE_1F
+	warp_def 19, 27, 1, OLIVINE_PORT_PASSAGE
+	warp_def 20, 27, 2, OLIVINE_PORT_PASSAGE
 
-.XYTriggers:
+.CoordEvents:
 	db 2
-	xy_trigger 0, $c, $d, $0, UnknownScript_0x1a8833, $0, $0
-	xy_trigger 0, $d, $d, $0, UnknownScript_0x1a886b, $0, $0
+	coord_event 13, 12, 0, UnknownScript_0x1a8833
+	coord_event 13, 13, 0, UnknownScript_0x1a886b
 
-.Signposts:
+.BGEvents:
 	db 7
-	signpost 11, 17, SIGNPOST_READ, OlivineCitySign
-	signpost 24, 20, SIGNPOST_READ, OlivineCityPortSign
-	signpost 11, 7, SIGNPOST_READ, OlivineGymSign
-	signpost 28, 30, SIGNPOST_READ, OlivineLighthouseSign
-	signpost 23, 3, SIGNPOST_READ, OlivineCityBattleTowerSign
-	signpost 21, 14, SIGNPOST_READ, OlivineCityPokeCenterSign
-	signpost 17, 20, SIGNPOST_READ, OlivineCityMartSign
+	bg_event 17, 11, BGEVENT_READ, OlivineCitySign
+	bg_event 20, 24, BGEVENT_READ, OlivineCityPortSign
+	bg_event 7, 11, BGEVENT_READ, OlivineGymSign
+	bg_event 30, 28, BGEVENT_READ, OlivineLighthouseSign
+	bg_event 3, 23, BGEVENT_READ, OlivineCityBattleTowerSign
+	bg_event 14, 21, BGEVENT_READ, OlivineCityPokecenterSign
+	bg_event 20, 17, BGEVENT_READ, OlivineCityMartSign
 
-.PersonEvents:
+.ObjectEvents:
 	db 4
-	person_event SPRITE_SAILOR, 27, 26, SPRITEMOVEDATA_WALK_UP_DOWN, 1, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, SailorScript_0x1a88a3, -1
-	person_event SPRITE_STANDING_YOUNGSTER, 13, 20, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, StandingYoungsterScript_0x1a88a6, -1
-	person_event SPRITE_SAILOR, 21, 17, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, 0, PERSONTYPE_SCRIPT, 0, SailorScript_0x1a88ba, -1
-	person_event SPRITE_OLIVINE_RIVAL, 11, 10, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ObjectEvent, EVENT_RIVAL_OLIVINE_CITY
+	object_event 26, 27, SPRITE_SAILOR, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, OlivineCitySailor1Script, -1
+	object_event 20, 13, SPRITE_STANDING_YOUNGSTER, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, StandingYoungsterScript_0x1a88a6, -1
+	object_event 17, 21, SPRITE_SAILOR, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, OlivineCitySailor2Script, -1
+	object_event 10, 11, SPRITE_OLIVINE_RIVAL, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_RIVAL_OLIVINE_CITY

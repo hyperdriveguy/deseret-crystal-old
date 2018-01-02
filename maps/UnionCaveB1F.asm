@@ -8,52 +8,52 @@ const_value set 2
 	const UNIONCAVEB1F_POKE_BALL2
 
 UnionCaveB1F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
 TrainerPokemaniacAndrew:
-	trainer EVENT_BEAT_POKEMANIAC_ANDREW, POKEMANIAC, ANDREW, PokemaniacAndrewSeenText, PokemaniacAndrewBeatenText, 0, PokemaniacAndrewScript
+	trainer EVENT_BEAT_POKEMANIAC_ANDREW, POKEMANIAC, ANDREW, PokemaniacAndrewSeenText, PokemaniacAndrewBeatenText, 0, .Script
 
-PokemaniacAndrewScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x5a181
+	writetext PokemaniacAndrewAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerPokemaniacCalvin:
-	trainer EVENT_BEAT_POKEMANIAC_CALVIN, POKEMANIAC, CALVIN, PokemaniacCalvinSeenText, PokemaniacCalvinBeatenText, 0, PokemaniacCalvinScript
+	trainer EVENT_BEAT_POKEMANIAC_CALVIN, POKEMANIAC, CALVIN, PokemaniacCalvinSeenText, PokemaniacCalvinBeatenText, 0, .Script
 
-PokemaniacCalvinScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x5a230
+	writetext PokemaniacCalvinAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerHikerPhillip:
-	trainer EVENT_BEAT_HIKER_PHILLIP, HIKER, PHILLIP, HikerPhillipSeenText, HikerPhillipBeatenText, 0, HikerPhillipScript
+	trainer EVENT_BEAT_HIKER_PHILLIP, HIKER, PHILLIP, HikerPhillipSeenText, HikerPhillipBeatenText, 0, .Script
 
-HikerPhillipScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x5a073
+	writetext HikerPhillipAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerHikerLeonard:
-	trainer EVENT_BEAT_HIKER_LEONARD, HIKER, LEONARD, HikerLeonardSeenText, HikerLeonardBeatenText, 0, HikerLeonardScript
+	trainer EVENT_BEAT_HIKER_LEONARD, HIKER, LEONARD, HikerLeonardSeenText, HikerLeonardBeatenText, 0, .Script
 
-HikerLeonardScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x5a0fb
+	writetext HikerLeonardAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -80,7 +80,7 @@ HikerPhillipBeatenText:
 	text "Uurggh…"
 	done
 
-UnknownText_0x5a073:
+HikerPhillipAfterBattleText:
 	text "I've been lost for"
 	line "a long time…"
 
@@ -99,7 +99,7 @@ HikerLeonardBeatenText:
 	line "feisty one!"
 	done
 
-UnknownText_0x5a0fb:
+HikerLeonardAfterBattleText:
 	text "I live down here."
 
 	para "You can, too, if"
@@ -121,7 +121,7 @@ PokemaniacAndrewBeatenText:
 	line "Go away!"
 	done
 
-UnknownText_0x5a181:
+PokemaniacAndrewAfterBattleText:
 	text "Just me and my"
 	line "#MON. I'm de-"
 	cont "lirious with joy."
@@ -142,7 +142,7 @@ PokemaniacCalvinBeatenText:
 	line "on me!"
 	done
 
-UnknownText_0x5a230:
+PokemaniacCalvinAfterBattleText:
 	text "I should compile"
 	line "and announce my"
 	cont "study findings."
@@ -158,24 +158,24 @@ UnionCaveB1F_MapEventHeader:
 
 .Warps:
 	db 5
-	warp_def $3, $3, 7, RUINS_OF_ALPH_OUTSIDE
-	warp_def $b, $3, 8, RUINS_OF_ALPH_OUTSIDE
-	warp_def $13, $7, 1, UNION_CAVE_1F
-	warp_def $21, $3, 2, UNION_CAVE_1F
-	warp_def $1f, $11, 1, UNION_CAVE_B2F
+	warp_def 3, 3, 7, RUINS_OF_ALPH_OUTSIDE
+	warp_def 3, 11, 8, RUINS_OF_ALPH_OUTSIDE
+	warp_def 7, 19, 1, UNION_CAVE_1F
+	warp_def 3, 33, 2, UNION_CAVE_1F
+	warp_def 17, 31, 1, UNION_CAVE_B2F
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 7
-	person_event SPRITE_POKEFAN_M, 4, 9, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 3, TrainerHikerPhillip, -1
-	person_event SPRITE_POKEFAN_M, 7, 16, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 3, TrainerHikerLeonard, -1
-	person_event SPRITE_SUPER_NERD, 32, 5, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 3, TrainerPokemaniacAndrew, -1
-	person_event SPRITE_SUPER_NERD, 30, 17, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 3, TrainerPokemaniacCalvin, -1
-	person_event SPRITE_POKE_BALL, 16, 2, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, UnionCaveB1FTMSwift, EVENT_UNION_CAVE_B1F_TM_SWIFT
-	person_event SPRITE_BOULDER, 10, 7, SPRITEMOVEDATA_STRENGTH_BOULDER, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, UnionCaveB1FBoulder, -1
-	person_event SPRITE_POKE_BALL, 23, 17, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, UnionCaveB1FXDefend, EVENT_UNION_CAVE_B1F_X_DEFEND
+	object_event 9, 4, SPRITE_POKEFAN_M, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 3, TrainerHikerPhillip, -1
+	object_event 16, 7, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 3, TrainerHikerLeonard, -1
+	object_event 5, 32, SPRITE_SUPER_NERD, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerPokemaniacAndrew, -1
+	object_event 17, 30, SPRITE_SUPER_NERD, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerPokemaniacCalvin, -1
+	object_event 2, 16, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, UnionCaveB1FTMSwift, EVENT_UNION_CAVE_B1F_TM_SWIFT
+	object_event 7, 10, SPRITE_BOULDER, SPRITEMOVEDATA_STRENGTH_BOULDER, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, UnionCaveB1FBoulder, -1
+	object_event 17, 23, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, UnionCaveB1FXDefend, EVENT_UNION_CAVE_B1F_X_DEFEND

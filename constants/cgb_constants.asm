@@ -1,3 +1,4 @@
+; GetSGBLayout arguments (see engine/cgb_layouts.asm and engine/sgb_layouts.asm)
 	const_def
 	const SCGB_BATTLE_GRAYSCALE
 	const SCGB_BATTLE_COLORS

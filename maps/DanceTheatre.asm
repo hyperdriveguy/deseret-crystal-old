@@ -10,151 +10,151 @@ const_value set 2
 	const DANCETHEATRE_GRANNY
 
 DanceTheatre_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-TrainerKimono_girlNaoko2:
-	trainer EVENT_BEAT_KIMONO_GIRL_NAOKO, KIMONO_GIRL, NAOKO2, Kimono_girlNaoko2SeenText, Kimono_girlNaoko2BeatenText, 0, Kimono_girlNaoko2Script
+TrainerKimonoGirlNaoko2:
+	trainer EVENT_BEAT_KIMONO_GIRL_NAOKO, KIMONO_GIRL, NAOKO2, KimonoGirlNaoko2SeenText, KimonoGirlNaoko2BeatenText, 0, .Script
 
-Kimono_girlNaoko2Script:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x99579
+	writetext KimonoGirlNaoko2AfterBattleText
 	waitbutton
 	closetext
 	end
 
-TrainerKimono_girlSayo:
-	trainer EVENT_BEAT_KIMONO_GIRL_SAYO, KIMONO_GIRL, SAYO, Kimono_girlSayoSeenText, Kimono_girlSayoBeatenText, 0, Kimono_girlSayoScript
+TrainerKimonoGirlSayo:
+	trainer EVENT_BEAT_KIMONO_GIRL_SAYO, KIMONO_GIRL, SAYO, KimonoGirlSayoSeenText, KimonoGirlSayoBeatenText, 0, .Script
 
-Kimono_girlSayoScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x9960b
+	writetext KimonoGirlSayoAfterBattleText
 	waitbutton
 	closetext
 	end
 
-TrainerKimono_girlZuki:
-	trainer EVENT_BEAT_KIMONO_GIRL_ZUKI, KIMONO_GIRL, ZUKI, Kimono_girlZukiSeenText, Kimono_girlZukiBeatenText, 0, Kimono_girlZukiScript
+TrainerKimonoGirlZuki:
+	trainer EVENT_BEAT_KIMONO_GIRL_ZUKI, KIMONO_GIRL, ZUKI, KimonoGirlZukiSeenText, KimonoGirlZukiBeatenText, 0, .Script
 
-Kimono_girlZukiScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x99688
+	writetext KimonoGirlZukiAfterBattleText
 	waitbutton
 	closetext
 	end
 
-TrainerKimono_girlKuni:
-	trainer EVENT_BEAT_KIMONO_GIRL_KUNI, KIMONO_GIRL, KUNI, Kimono_girlKuniSeenText, Kimono_girlKuniBeatenText, 0, Kimono_girlKuniScript
+TrainerKimonoGirlKuni:
+	trainer EVENT_BEAT_KIMONO_GIRL_KUNI, KIMONO_GIRL, KUNI, KimonoGirlKuniSeenText, KimonoGirlKuniBeatenText, 0, .Script
 
-Kimono_girlKuniScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x99714
+	writetext KimonoGirlKuniAfterBattleText
 	waitbutton
 	closetext
 	end
 
-TrainerKimono_girlMiki:
-	trainer EVENT_BEAT_KIMONO_GIRL_MIKI, KIMONO_GIRL, MIKI, Kimono_girlMikiSeenText, Kimono_girlMikiBeatenText, 0, Kimono_girlMikiScript
+TrainerKimonoGirlMiki:
+	trainer EVENT_BEAT_KIMONO_GIRL_MIKI, KIMONO_GIRL, MIKI, KimonoGirlMikiSeenText, KimonoGirlMikiBeatenText, 0, .Script
 
-Kimono_girlMikiScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x997a8
+	writetext KimonoGirlMikiAfterBattleText
 	waitbutton
 	closetext
 	end
 
-GentlemanScript_0x994c6:
+DanceTheaterSurfGuy:
 	faceplayer
 	opentext
-	writetext UnknownText_0x9980a
+	writetext SurfGuyNeverLeftAScratchText
 	buttonsound
 	checkevent EVENT_GOT_HM03_SURF
-	iftrue UnknownScript_0x99515
+	iftrue SurfGuyAlreadyGaveSurf
 	checkevent EVENT_BEAT_KIMONO_GIRL_NAOKO
-	iffalse UnknownScript_0x994f3
+	iffalse .KimonoGirlsUndefeated
 	checkevent EVENT_BEAT_KIMONO_GIRL_SAYO
-	iffalse UnknownScript_0x994f3
+	iffalse .KimonoGirlsUndefeated
 	checkevent EVENT_BEAT_KIMONO_GIRL_ZUKI
-	iffalse UnknownScript_0x994f3
+	iffalse .KimonoGirlsUndefeated
 	checkevent EVENT_BEAT_KIMONO_GIRL_KUNI
-	iffalse UnknownScript_0x994f3
+	iffalse .KimonoGirlsUndefeated
 	checkevent EVENT_BEAT_KIMONO_GIRL_MIKI
-	iffalse UnknownScript_0x994f3
-	jump UnknownScript_0x99505
+	iffalse .KimonoGirlsUndefeated
+	jump .GetSurf
 
-UnknownScript_0x994f3:
+.KimonoGirlsUndefeated:
 	checkflag ENGINE_PLAYER_IS_FEMALE
-	iftrue UnknownScript_0x994ff
-	writetext UnknownText_0x99891
+	iftrue .PlayerIsFemale
+	writetext SurfGuyLadGiftText
 	waitbutton
 	closetext
 	end
 
-UnknownScript_0x994ff:
-	writetext UnknownText_0x998d4
+.PlayerIsFemale:
+	writetext SurfGuyLassieGiftText
 	waitbutton
 	closetext
 	end
 
-UnknownScript_0x99505:
-	writetext UnknownText_0x9991a
+.GetSurf:
+	writetext SurfGuyLikeADanceText
 	buttonsound
 	verbosegiveitem HM_SURF
 	setevent EVENT_GOT_HM03_SURF
-	writetext UnknownText_0x9999b
+	writetext SurfGuySurfExplanationText
 	waitbutton
 	closetext
 	end
 
-UnknownScript_0x99515:
-	writetext UnknownText_0x999d5
+SurfGuyAlreadyGaveSurf:
+	writetext SurfGuyElegantKimonoGirlsText
 	waitbutton
 	closetext
 	end
 
-RhydonScript_0x9951b:
+DanceTheaterRhydon:
 	opentext
-	writetext UnknownText_0x99a0a
+	writetext RhydonText
 	cry RHYDON
 	waitbutton
 	closetext
 	end
 
-CooltrainerMScript_0x99525:
-	jumptextfaceplayer UnknownText_0x99a24
+DanceTheatreCooltrainerMScript:
+	jumptextfaceplayer DanceTheatreCooltrainerMText
 
-GrannyScript_0x99528:
-	jumptextfaceplayer UnknownText_0x99aaa
+DanceTheatreGrannyScript:
+	jumptextfaceplayer DanceTheatreGrannyText
 
 MapDanceTheatreSignpost1Script:
-	jumptext UnknownText_0x99b79
+	jumptext FancyPanelText
 
-Kimono_girlNaoko2SeenText:
+KimonoGirlNaoko2SeenText:
 	text "You have lovely"
 	line "#MON. May I see"
 	cont "them in battle?"
 	done
 
-Kimono_girlNaoko2BeatenText:
+KimonoGirlNaoko2BeatenText:
 	text "Oh, you are very"
 	line "strong."
 	done
 
-UnknownText_0x99579:
+KimonoGirlNaoko2AfterBattleText:
 	text "I enjoyed that"
 	line "bout. I would like"
 	cont "to see you again."
 	done
 
-Kimono_girlSayoSeenText:
+KimonoGirlSayoSeenText:
 	text "I always dance"
 	line "with my #MON."
 
@@ -162,12 +162,12 @@ Kimono_girlSayoSeenText:
 	line "train them."
 	done
 
-Kimono_girlSayoBeatenText:
+KimonoGirlSayoBeatenText:
 	text "Oh, so close!"
 	line "I almost had you."
 	done
 
-UnknownText_0x9960b:
+KimonoGirlSayoAfterBattleText:
 	text "Rhythm is impor-"
 	line "tant for both"
 
@@ -175,7 +175,7 @@ UnknownText_0x9960b:
 	line "MON."
 	done
 
-Kimono_girlZukiSeenText:
+KimonoGirlZukiSeenText:
 	text "Isn't my barrette"
 	line "pretty?"
 
@@ -183,29 +183,29 @@ Kimono_girlZukiSeenText:
 	line "battle?"
 	done
 
-Kimono_girlZukiBeatenText:
+KimonoGirlZukiBeatenText:
 	text "I don't have any"
 	line "#MON left…"
 	done
 
-UnknownText_0x99688:
+KimonoGirlZukiAfterBattleText:
 	text "I put a different"
 	line "flower in my bar-"
 	cont "rette every month."
 	done
 
-Kimono_girlKuniSeenText:
+KimonoGirlKuniSeenText:
 	text "Oh, you're a cute"
 	line "trainer. Would you"
 	cont "like to battle?"
 	done
 
-Kimono_girlKuniBeatenText:
+KimonoGirlKuniBeatenText:
 	text "You're stronger"
 	line "than you look."
 	done
 
-UnknownText_0x99714:
+KimonoGirlKuniAfterBattleText:
 	text "I trained a lot,"
 	line "so I thought I was"
 
@@ -213,18 +213,18 @@ UnknownText_0x99714:
 	line "I guess I'm not."
 	done
 
-Kimono_girlMikiSeenText:
+KimonoGirlMikiSeenText:
 	text "Do you like my"
 	line "dancing? I'm good"
 	cont "at #MON too."
 	done
 
-Kimono_girlMikiBeatenText:
+KimonoGirlMikiBeatenText:
 	text "Ooh, you're good"
 	line "at #MON too."
 	done
 
-UnknownText_0x997a8:
+KimonoGirlMikiAfterBattleText:
 	text "I can keep dancing"
 	line "because there are"
 
@@ -235,7 +235,7 @@ UnknownText_0x997a8:
 	line "spirits up too."
 	done
 
-UnknownText_0x9980a:
+SurfGuyNeverLeftAScratchText:
 	text "Not only are the"
 	line "KIMONO GIRLS great"
 
@@ -250,7 +250,7 @@ UnknownText_0x9980a:
 	line "scratch…"
 	done
 
-UnknownText_0x99891:
+SurfGuyLadGiftText:
 	text "Lad! If you can"
 	line "defeat all the"
 
@@ -258,7 +258,7 @@ UnknownText_0x99891:
 	line "give you a gift."
 	done
 
-UnknownText_0x998d4:
+SurfGuyLassieGiftText:
 	text "Lassie, if you can"
 	line "defeat all the"
 
@@ -266,7 +266,7 @@ UnknownText_0x998d4:
 	line "give you a gift."
 	done
 
-UnknownText_0x9991a:
+SurfGuyLikeADanceText:
 	text "The way you bat-"
 	line "tled, it was like"
 	cont "watching a dance."
@@ -279,7 +279,7 @@ UnknownText_0x9991a:
 	cont "--take it!"
 	done
 
-UnknownText_0x9999b:
+SurfGuySurfExplanationText:
 	text "That's SURF."
 
 	para "It's a move that"
@@ -287,18 +287,18 @@ UnknownText_0x9999b:
 	cont "across water."
 	done
 
-UnknownText_0x999d5:
+SurfGuyElegantKimonoGirlsText:
 	text "I wish my #MON"
 	line "were as elegant as"
 	cont "the KIMONO GIRLS…"
 	done
 
-UnknownText_0x99a0a:
+RhydonText:
 	text "RHYDON: Gugooh"
 	line "gugogooh!"
 	done
 
-UnknownText_0x99a24:
+DanceTheatreCooltrainerMText:
 	text "That man's always"
 	line "with his RHYDON."
 
@@ -312,7 +312,7 @@ UnknownText_0x99a24:
 	cont "#MON?"
 	done
 
-UnknownText_0x99aaa:
+DanceTheatreGrannyText:
 	text "The KIMONO GIRLS"
 	line "are so beautiful…"
 
@@ -331,7 +331,7 @@ UnknownText_0x99aaa:
 	cont "thing is possible."
 	done
 
-UnknownText_0x99b79:
+FancyPanelText:
 	text "It's a fancy panel"
 	line "that's decorated"
 	cont "with flowers."
@@ -343,25 +343,25 @@ DanceTheatre_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $d, $5, 8, ECRUTEAK_CITY
-	warp_def $d, $6, 8, ECRUTEAK_CITY
+	warp_def 5, 13, 8, ECRUTEAK_CITY
+	warp_def 6, 13, 8, ECRUTEAK_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 6, 5, SIGNPOST_UP, MapDanceTheatreSignpost1Script
-	signpost 6, 6, SIGNPOST_UP, MapDanceTheatreSignpost1Script
+	bg_event 5, 6, BGEVENT_UP, MapDanceTheatreSignpost1Script
+	bg_event 6, 6, BGEVENT_UP, MapDanceTheatreSignpost1Script
 
-.PersonEvents:
+.ObjectEvents:
 	db 9
-	person_event SPRITE_KIMONO_GIRL, 2, 0, SPRITEMOVEDATA_SPINCOUNTERCLOCKWISE, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 0, TrainerKimono_girlNaoko2, -1
-	person_event SPRITE_KIMONO_GIRL, 1, 2, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 0, TrainerKimono_girlSayo, -1
-	person_event SPRITE_KIMONO_GIRL, 2, 6, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 0, TrainerKimono_girlZuki, -1
-	person_event SPRITE_KIMONO_GIRL, 1, 9, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 0, TrainerKimono_girlKuni, -1
-	person_event SPRITE_KIMONO_GIRL, 2, 11, SPRITEMOVEDATA_SPINCLOCKWISE, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 0, TrainerKimono_girlMiki, -1
-	person_event SPRITE_GENTLEMAN, 10, 7, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, GentlemanScript_0x994c6, -1
-	person_event SPRITE_RHYDON, 8, 6, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, RhydonScript_0x9951b, -1
-	person_event SPRITE_COOLTRAINER_M, 10, 10, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, CooltrainerMScript_0x99525, -1
-	person_event SPRITE_GRANNY, 6, 3, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, GrannyScript_0x99528, -1
+	object_event 0, 2, SPRITE_KIMONO_GIRL, SPRITEMOVEDATA_SPINCOUNTERCLOCKWISE, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 0, TrainerKimonoGirlNaoko2, -1
+	object_event 2, 1, SPRITE_KIMONO_GIRL, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 0, TrainerKimonoGirlSayo, -1
+	object_event 6, 2, SPRITE_KIMONO_GIRL, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 0, TrainerKimonoGirlZuki, -1
+	object_event 9, 1, SPRITE_KIMONO_GIRL, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 0, TrainerKimonoGirlKuni, -1
+	object_event 11, 2, SPRITE_KIMONO_GIRL, SPRITEMOVEDATA_SPINCLOCKWISE, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 0, TrainerKimonoGirlMiki, -1
+	object_event 7, 10, SPRITE_GENTLEMAN, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, DanceTheaterSurfGuy, -1
+	object_event 6, 8, SPRITE_RHYDON, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, DanceTheaterRhydon, -1
+	object_event 10, 10, SPRITE_COOLTRAINER_M, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, DanceTheatreCooltrainerMScript, -1
+	object_event 3, 6, SPRITE_GRANNY, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, DanceTheatreGrannyScript, -1

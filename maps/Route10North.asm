@@ -1,5 +1,5 @@
 Route10North_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -8,7 +8,7 @@ Route10North_MapScriptHeader:
 PowerPlantSign:
 	jumptext PowerPlantSignText
 
-Route10PokeCenterSign:
+Route10PokecenterSign:
 	jumpstd pokecentersign
 
 PowerPlantSignText:
@@ -21,16 +21,16 @@ Route10North_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $1, $b, 1, ROUTE_10_POKECENTER_1F
-	warp_def $9, $3, 1, POWER_PLANT
+	warp_def 11, 1, 1, ROUTE_10_POKECENTER_1F
+	warp_def 3, 9, 1, POWER_PLANT
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 11, 5, SIGNPOST_READ, PowerPlantSign
-	signpost 1, 12, SIGNPOST_READ, Route10PokeCenterSign
+	bg_event 5, 11, BGEVENT_READ, PowerPlantSign
+	bg_event 12, 1, BGEVENT_READ, Route10PokecenterSign
 
-.PersonEvents:
+.ObjectEvents:
 	db 0

@@ -2,25 +2,20 @@ const_value set 2
 	const KOGASROOM_KOGA
 
 KogasRoom_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 2
-
-	; triggers
-	dw .Trigger0, 0
-	dw .Trigger1, 0
+	scene_script .LockDoor
+	scene_script .DummyScene
 
 .MapCallbacks:
 	db 1
-
-	; callbacks
-
 	dbw MAPCALLBACK_TILES, .KogasRoomDoors
 
-.Trigger0:
+.LockDoor:
 	priorityjump .KogasDoorLocksBehindYou
 	end
 
-.Trigger1:
+.DummyScene:
 	end
 
 .KogasRoomDoors:
@@ -42,7 +37,7 @@ KogasRoom_MapScriptHeader:
 	changeblock $4, $e, $2a
 	reloadmappart
 	closetext
-	dotrigger $1
+	setscene $1
 	setevent EVENT_KOGAS_ROOM_ENTRANCE_CLOSED
 	waitsfx
 	end
@@ -140,17 +135,17 @@ KogasRoom_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $11, $4, 2, WILLS_ROOM
-	warp_def $11, $5, 3, WILLS_ROOM
-	warp_def $2, $4, 1, BRUNOS_ROOM
-	warp_def $2, $5, 2, BRUNOS_ROOM
+	warp_def 4, 17, 2, WILLS_ROOM
+	warp_def 5, 17, 3, WILLS_ROOM
+	warp_def 4, 2, 1, BRUNOS_ROOM
+	warp_def 5, 2, 2, BRUNOS_ROOM
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_KOGA, 7, 5, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, KogaScript_Battle, -1
+	object_event 5, 7, SPRITE_KOGA, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, KogaScript_Battle, -1

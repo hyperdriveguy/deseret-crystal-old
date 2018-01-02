@@ -10,21 +10,19 @@ const_value set 2
 	const CELADONCITY_LASS
 
 CeladonCity_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 1
-
-	; callbacks
 	dbw MAPCALLBACK_NEWMAP, .FlyPoint
 
 .FlyPoint:
 	setflag ENGINE_FLYPOINT_CELADON
 	return
 
-FisherScript_0x1a9f43:
-	jumptextfaceplayer UnknownText_0x1a9f7d
+CeladonCityFisherScript:
+	jumptextfaceplayer CeladonCityFisherText
 
 CeladonCityPoliwrath:
 	opentext
@@ -34,26 +32,26 @@ CeladonCityPoliwrath:
 	closetext
 	end
 
-TeacherScript_0x1a9f50:
-	jumptextfaceplayer UnknownText_0x1a9fde
+CeladonCityTeacher1Script:
+	jumptextfaceplayer CeladonCityTeacher1Text
 
-GrampsScript_0x1a9f53:
-	jumptextfaceplayer UnknownText_0x1aa043
+CeladonCityGramps1Script:
+	jumptextfaceplayer CeladonCityGramps1Text
 
-GrampsScript_0x1a9f56:
-	jumptextfaceplayer UnknownText_0x1aa0dc
+CeladonCityGramps2Script:
+	jumptextfaceplayer CeladonCityGramps2Text
 
-YoungsterScript_0x1a9f59:
-	jumptextfaceplayer UnknownText_0x1aa115
+CeladonCityYoungster1Script:
+	jumptextfaceplayer CeladonCityYoungster1Text
 
-YoungsterScript_0x1a9f5c:
-	jumptextfaceplayer UnknownText_0x1aa155
+CeladonCityYoungster2Script:
+	jumptextfaceplayer CeladonCityYoungster2Text
 
-TeacherScript_0x1a9f5f:
-	jumptextfaceplayer UnknownText_0x1aa1bd
+CeladonCityTeacher2Script:
+	jumptextfaceplayer CeladonCityTeacher2Text
 
-LassScript_0x1a9f62:
-	jumptextfaceplayer UnknownText_0x1aa306
+CeladonCityLassScript:
+	jumptextfaceplayer CeladonCityLassText
 
 CeladonCitySign:
 	jumptext CeladonCitySignText
@@ -73,13 +71,13 @@ CeladonCityGameCornerSign:
 CeladonCityTrainerTips:
 	jumptext CeladonCityTrainerTipsText
 
-CeladonCityPokeCenterSign:
+CeladonCityPokecenterSign:
 	jumpstd pokecentersign
 
 CeladonCityHiddenPpUp:
 	dwb EVENT_CELADON_CITY_HIDDEN_PP_UP, PP_UP
 
-UnknownText_0x1a9f7d:
+CeladonCityFisherText:
 	text "This POLIWRATH is"
 	line "my partner."
 
@@ -92,7 +90,7 @@ CeladonCityPoliwrathText:
 	text "POLIWRATH: Croak!"
 	done
 
-UnknownText_0x1a9fde:
+CeladonCityTeacher1Text:
 	text "I lost at the slot"
 	line "machines again…"
 
@@ -103,7 +101,7 @@ UnknownText_0x1a9fde:
 	line "them out too."
 	done
 
-UnknownText_0x1aa043:
+CeladonCityGramps1Text:
 	text "GRIMER have been"
 	line "appearing lately."
 
@@ -118,7 +116,7 @@ UnknownText_0x1aa043:
 	cont "a serious problem…"
 	done
 
-UnknownText_0x1aa0dc:
+CeladonCityGramps2Text:
 	text "Nihihi! This GYM"
 	line "is great! Only"
 
@@ -126,7 +124,7 @@ UnknownText_0x1aa0dc:
 	line "here!"
 	done
 
-UnknownText_0x1aa115:
+CeladonCityYoungster1Text:
 	text "Want to know a"
 	line "secret?"
 
@@ -135,7 +133,7 @@ UnknownText_0x1aa115:
 	cont "door."
 	done
 
-UnknownText_0x1aa155:
+CeladonCityYoungster2Text:
 	text "They're holding an"
 	line "eating contest at"
 	cont "the restaurant."
@@ -145,7 +143,7 @@ UnknownText_0x1aa155:
 	cont "feel bloated…"
 	done
 
-UnknownText_0x1aa1bd:
+CeladonCityTeacher2Text:
 	text "CELADON DEPT.STORE"
 	line "has the biggest"
 
@@ -162,7 +160,7 @@ UnknownText_0x1aa1bd:
 	line "a sales clerk."
 	done
 
-UnknownText_0x1aa306:
+CeladonCityLassText:
 	text "Looking at the"
 	line "ground while I was"
 
@@ -223,38 +221,38 @@ CeladonCity_MapEventHeader:
 
 .Warps:
 	db 9
-	warp_def $9, $4, 1, CELADON_DEPT_STORE_1F
-	warp_def $9, $10, 1, CELADON_MANSION_1F
-	warp_def $3, $10, 3, CELADON_MANSION_1F
-	warp_def $3, $11, 3, CELADON_MANSION_1F
-	warp_def $9, $1d, 1, CELADON_POKECENTER_1F
-	warp_def $13, $12, 1, CELADON_GAME_CORNER
-	warp_def $13, $17, 1, CELADON_GAME_CORNER_PRIZE_ROOM
-	warp_def $1d, $a, 1, CELADON_GYM
-	warp_def $1d, $19, 1, CELADON_CAFE
+	warp_def 4, 9, 1, CELADON_DEPT_STORE_1F
+	warp_def 16, 9, 1, CELADON_MANSION_1F
+	warp_def 16, 3, 3, CELADON_MANSION_1F
+	warp_def 17, 3, 3, CELADON_MANSION_1F
+	warp_def 29, 9, 1, CELADON_POKECENTER_1F
+	warp_def 18, 19, 1, CELADON_GAME_CORNER
+	warp_def 23, 19, 1, CELADON_GAME_CORNER_PRIZE_ROOM
+	warp_def 10, 29, 1, CELADON_GYM
+	warp_def 25, 29, 1, CELADON_CAFE
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 8
-	signpost 21, 23, SIGNPOST_READ, CeladonCitySign
-	signpost 31, 11, SIGNPOST_READ, CeladonGymSign
-	signpost 9, 6, SIGNPOST_READ, CeladonCityDeptStoreSign
-	signpost 9, 13, SIGNPOST_READ, CeladonCityMansionSign
-	signpost 21, 19, SIGNPOST_READ, CeladonCityGameCornerSign
-	signpost 21, 29, SIGNPOST_READ, CeladonCityTrainerTips
-	signpost 9, 30, SIGNPOST_READ, CeladonCityPokeCenterSign
-	signpost 21, 37, SIGNPOST_ITEM, CeladonCityHiddenPpUp
+	bg_event 23, 21, BGEVENT_READ, CeladonCitySign
+	bg_event 11, 31, BGEVENT_READ, CeladonGymSign
+	bg_event 6, 9, BGEVENT_READ, CeladonCityDeptStoreSign
+	bg_event 13, 9, BGEVENT_READ, CeladonCityMansionSign
+	bg_event 19, 21, BGEVENT_READ, CeladonCityGameCornerSign
+	bg_event 29, 21, BGEVENT_READ, CeladonCityTrainerTips
+	bg_event 30, 9, BGEVENT_READ, CeladonCityPokecenterSign
+	bg_event 37, 21, BGEVENT_ITEM, CeladonCityHiddenPpUp
 
-.PersonEvents:
+.ObjectEvents:
 	db 9
-	person_event SPRITE_FISHER, 11, 26, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, FisherScript_0x1a9f43, -1
-	person_event SPRITE_POLIWAG, 11, 27, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, CeladonCityPoliwrath, -1
-	person_event SPRITE_TEACHER, 24, 20, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 2, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, TeacherScript_0x1a9f50, -1
-	person_event SPRITE_GRAMPS, 16, 14, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_SCRIPT, 0, GrampsScript_0x1a9f53, -1
-	person_event SPRITE_GRAMPS, 31, 8, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, GrampsScript_0x1a9f56, -1
-	person_event SPRITE_YOUNGSTER, 13, 18, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 2, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, YoungsterScript_0x1a9f59, -1
-	person_event SPRITE_YOUNGSTER, 33, 24, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, YoungsterScript_0x1a9f5c, -1
-	person_event SPRITE_TEACHER, 14, 6, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, TeacherScript_0x1a9f5f, -1
-	person_event SPRITE_LASS, 22, 7, SPRITEMOVEDATA_WALK_UP_DOWN, 2, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, LassScript_0x1a9f62, -1
+	object_event 26, 11, SPRITE_FISHER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, CeladonCityFisherScript, -1
+	object_event 27, 11, SPRITE_POLIWAG, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, CeladonCityPoliwrath, -1
+	object_event 20, 24, SPRITE_TEACHER, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 2, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, CeladonCityTeacher1Script, -1
+	object_event 14, 16, SPRITE_GRAMPS, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_SCRIPT, 0, CeladonCityGramps1Script, -1
+	object_event 8, 31, SPRITE_GRAMPS, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, CeladonCityGramps2Script, -1
+	object_event 18, 13, SPRITE_YOUNGSTER, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 2, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, CeladonCityYoungster1Script, -1
+	object_event 24, 33, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, CeladonCityYoungster2Script, -1
+	object_event 6, 14, SPRITE_TEACHER, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, CeladonCityTeacher2Script, -1
+	object_event 7, 22, SPRITE_LASS, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 2, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, CeladonCityLassScript, -1

@@ -10,20 +10,18 @@ const_value set 2
 	const ROUTE27_FISHER
 
 Route27_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 2
-
-	; triggers
-	dw UnknownScript_0x1a0871, 0
-	dw UnknownScript_0x1a0872, 0
+	scene_script .DummyScene0
+	scene_script .DummyScene1
 
 .MapCallbacks:
 	db 0
 
-UnknownScript_0x1a0871:
+.DummyScene0:
 	end
 
-UnknownScript_0x1a0872:
+.DummyScene1:
 	end
 
 UnknownScript_0x1a0873:
@@ -41,30 +39,30 @@ UnknownScript_0x1a088c:
 	opentext
 	writetext UnknownText_0x1a0a6b
 	buttonsound
-	writetext UnknownText_0x1a0a71
+	writetext Route27FisherText
 	waitbutton
 	closetext
-	dotrigger $1
+	setscene $1
 	end
 
-FisherScript_0x1a089c:
-	jumptextfaceplayer UnknownText_0x1a0a71
+Route27FisherScript:
+	jumptextfaceplayer Route27FisherText
 
 TrainerPsychicGilbert:
-	trainer EVENT_BEAT_PSYCHIC_GILBERT, PSYCHIC_T, GILBERT, PsychicGilbertSeenText, PsychicGilbertBeatenText, 0, PsychicGilbertScript
+	trainer EVENT_BEAT_PSYCHIC_GILBERT, PSYCHIC_T, GILBERT, PsychicGilbertSeenText, PsychicGilbertBeatenText, 0, .Script
 
-PsychicGilbertScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a0dd2
+	writetext PsychicGilbertAfterBattleText
 	waitbutton
 	closetext
 	end
 
-TrainerBird_keeperJose2:
-	trainer EVENT_BEAT_BIRD_KEEPER_JOSE2, BIRD_KEEPER, JOSE2, Bird_keeperJose2SeenText, Bird_keeperJose2BeatenText, 0, Bird_keeperJose2Script
+TrainerBirdKeeperJose2:
+	trainer EVENT_BEAT_BIRD_KEEPER_JOSE2, BIRD_KEEPER, JOSE2, BirdKeeperJose2SeenText, BirdKeeperJose2BeatenText, 0, .Script
 
-Bird_keeperJose2Script:
+.Script:
 	writecode VAR_CALLERID, PHONE_BIRDKEEPER_JOSE
 	end_if_just_battled
 	opentext
@@ -94,7 +92,7 @@ UnknownScript_0x1a08eb:
 
 UnknownScript_0x1a08ff:
 	scall UnknownScript_0x1a096f
-	winlosstext Bird_keeperJose2BeatenText, 0
+	winlosstext BirdKeeperJose2BeatenText, 0
 	copybytetovar wJoseFightCount
 	if_equal 2, .Fight2
 	if_equal 1, .Fight1
@@ -175,31 +173,31 @@ UnknownScript_0x1a0977:
 	end
 
 TrainerCooltrainermBlake:
-	trainer EVENT_BEAT_COOLTRAINERM_BLAKE, COOLTRAINERM, BLAKE, CooltrainermBlakeSeenText, CooltrainermBlakeBeatenText, 0, CooltrainermBlakeScript
+	trainer EVENT_BEAT_COOLTRAINERM_BLAKE, COOLTRAINERM, BLAKE, CooltrainermBlakeSeenText, CooltrainermBlakeBeatenText, 0, .Script
 
-CooltrainermBlakeScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a0b0b
+	writetext CooltrainermBlakeAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerCooltrainermBrian:
-	trainer EVENT_BEAT_COOLTRAINERM_BRIAN, COOLTRAINERM, BRIAN, CooltrainermBrianSeenText, CooltrainermBrianBeatenText, 0, CooltrainermBrianScript
+	trainer EVENT_BEAT_COOLTRAINERM_BRIAN, COOLTRAINERM, BRIAN, CooltrainermBrianSeenText, CooltrainermBrianBeatenText, 0, .Script
 
-CooltrainermBrianScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a0bac
+	writetext CooltrainermBrianAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerCooltrainerfReena:
-	trainer EVENT_BEAT_COOLTRAINERF_REENA, COOLTRAINERF, REENA1, CooltrainerfReena1SeenText, CooltrainerfReena1BeatenText, 0, CooltrainerfReena1Script
+	trainer EVENT_BEAT_COOLTRAINERF_REENA, COOLTRAINERF, REENA1, CooltrainerfReena1SeenText, CooltrainerfReena1BeatenText, 0, .Script
 
-CooltrainerfReena1Script:
+.Script:
 	writecode VAR_CALLERID, PHONE_COOLTRAINERF_REENA
 	end_if_just_battled
 	opentext
@@ -290,12 +288,12 @@ UnknownScript_0x1a0a47:
 	end
 
 TrainerCooltrainerfMegan:
-	trainer EVENT_BEAT_COOLTRAINERF_MEGAN, COOLTRAINERF, MEGAN, CooltrainerfMeganSeenText, CooltrainerfMeganBeatenText, 0, CooltrainerfMeganScript
+	trainer EVENT_BEAT_COOLTRAINERF_MEGAN, COOLTRAINERF, MEGAN, CooltrainerfMeganSeenText, CooltrainerfMeganBeatenText, 0, .Script
 
-CooltrainerfMeganScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a0cce
+	writetext CooltrainerfMeganAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -322,7 +320,7 @@ UnknownText_0x1a0a6b:
 	text "Hey!"
 	done
 
-UnknownText_0x1a0a71:
+Route27FisherText:
 	text "Do you know what"
 	line "you just did?"
 
@@ -344,7 +342,7 @@ CooltrainermBlakeBeatenText:
 	text "Yow!"
 	done
 
-UnknownText_0x1a0b0b:
+CooltrainermBlakeAfterBattleText:
 	text "If you prevail on"
 	line "this harsh trek,"
 
@@ -365,7 +363,7 @@ CooltrainermBrianBeatenText:
 	text "Just as I thought!"
 	done
 
-UnknownText_0x1a0bac:
+CooltrainermBrianAfterBattleText:
 	text "A good trainer can"
 	line "recognize other"
 	cont "good trainers."
@@ -405,7 +403,7 @@ CooltrainerfMeganBeatenText:
 	line "strong!"
 	done
 
-UnknownText_0x1a0cce:
+CooltrainerfMeganAfterBattleText:
 	text "I'm checking out"
 	line "pre- and post-"
 	cont "evolution #MON."
@@ -436,7 +434,7 @@ PsychicGilbertBeatenText:
 	text "You're too much!"
 	done
 
-UnknownText_0x1a0dd2:
+PsychicGilbertAfterBattleText:
 	text "With your skills,"
 	line "you'll do well at"
 	cont "the LEAGUE."
@@ -445,12 +443,12 @@ UnknownText_0x1a0dd2:
 	line "premonition says."
 	done
 
-Bird_keeperJose2SeenText:
+BirdKeeperJose2SeenText:
 	text "Tweet! Tweet!"
 	line "Tetweet!"
 	done
 
-Bird_keeperJose2BeatenText:
+BirdKeeperJose2BeatenText:
 	text "Tweet!"
 	done
 
@@ -475,27 +473,27 @@ Route27_MapEventHeader:
 
 .Warps:
 	db 3
-	warp_def $7, $21, 1, ROUTE_27_SANDSTORM_HOUSE
-	warp_def $5, $1a, 1, TOHJO_FALLS
-	warp_def $5, $24, 2, TOHJO_FALLS
+	warp_def 33, 7, 1, ROUTE_27_SANDSTORM_HOUSE
+	warp_def 26, 5, 1, TOHJO_FALLS
+	warp_def 36, 5, 2, TOHJO_FALLS
 
-.XYTriggers:
+.CoordEvents:
 	db 2
-	xy_trigger 0, $a, $12, $0, UnknownScript_0x1a0873, $0, $0
-	xy_trigger 0, $a, $13, $0, UnknownScript_0x1a0881, $0, $0
+	coord_event 18, 10, 0, UnknownScript_0x1a0873
+	coord_event 19, 10, 0, UnknownScript_0x1a0881
 
-.Signposts:
+.BGEvents:
 	db 1
-	signpost 7, 25, SIGNPOST_READ, TohjoFallsSign
+	bg_event 25, 7, BGEVENT_READ, TohjoFallsSign
 
-.PersonEvents:
+.ObjectEvents:
 	db 9
-	person_event SPRITE_COOLTRAINER_M, 7, 48, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerCooltrainermBlake, -1
-	person_event SPRITE_COOLTRAINER_M, 6, 58, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 4, TrainerCooltrainermBrian, -1
-	person_event SPRITE_COOLTRAINER_F, 10, 72, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 4, TrainerCooltrainerfReena, -1
-	person_event SPRITE_COOLTRAINER_F, 6, 37, SPRITEMOVEDATA_SPINCLOCKWISE, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 2, TrainerCooltrainerfMegan, -1
-	person_event SPRITE_YOUNGSTER, 7, 65, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 3, TrainerPsychicGilbert, -1
-	person_event SPRITE_YOUNGSTER, 13, 58, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 3, TrainerBird_keeperJose2, -1
-	person_event SPRITE_POKE_BALL, 12, 60, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, Route27TMSolarbeam, EVENT_ROUTE_27_TM_SOLARBEAM
-	person_event SPRITE_POKE_BALL, 12, 53, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, Route27RareCandy, EVENT_ROUTE_27_RARE_CANDY
-	person_event SPRITE_FISHER, 10, 21, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 3, FisherScript_0x1a089c, -1
+	object_event 48, 7, SPRITE_COOLTRAINER_M, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerCooltrainermBlake, -1
+	object_event 58, 6, SPRITE_COOLTRAINER_M, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 4, TrainerCooltrainermBrian, -1
+	object_event 72, 10, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 4, TrainerCooltrainerfReena, -1
+	object_event 37, 6, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_SPINCLOCKWISE, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 2, TrainerCooltrainerfMegan, -1
+	object_event 65, 7, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerPsychicGilbert, -1
+	object_event 58, 13, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerBirdKeeperJose2, -1
+	object_event 60, 12, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, Route27TMSolarbeam, EVENT_ROUTE_27_TM_SOLARBEAM
+	object_event 53, 12, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, Route27RareCandy, EVENT_ROUTE_27_RARE_CANDY
+	object_event 21, 10, SPRITE_FISHER, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 3, Route27FisherScript, -1

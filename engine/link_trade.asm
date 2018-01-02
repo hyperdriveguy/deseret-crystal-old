@@ -1,10 +1,10 @@
 LinkCommsBorderGFX:
-INCBIN "gfx/unknown/16cfc1.2bpp"
+INCBIN "gfx/trade/border_tiles.2bpp"
 ; 16d421
 
 __LoadTradeScreenBorder: ; 16d421
 	ld de, LinkCommsBorderGFX
-	ld hl, VTiles2
+	ld hl, vTiles2
 	lb bc, BANK(LinkCommsBorderGFX), 70
 	call Get2bpp
 	ret
@@ -19,13 +19,13 @@ Function16d42e: ; 16d42e
 ; 16d43b
 
 Tilemap_16d465:
-INCBIN "gfx/unknown/16d465.tilemap"
+INCBIN "gfx/trade/border_mobile_fullscreen.tilemap"
 
 Tilemap_16d5cd:
-INCBIN "gfx/unknown/16d5cd.tilemap"
+INCBIN "gfx/trade/border_cable_top.tilemap"
 
 Tilemap_16d5f5:
-INCBIN "gfx/unknown/16d5f5.tilemap"
+INCBIN "gfx/trade/border_cable_bottom.tilemap"
 
 _LinkTextbox: ; 16d61d
 	ld h, d
@@ -103,8 +103,8 @@ _LinkTextbox: ; 16d61d
 InitTradeSpeciesList: ; 16d673
 	call _LoadTradeScreenBorder
 	call Function16d6ae
-	callba InitMG_Mobile_LinkTradePalMap
-	callba PlaceTradePartnerNamesAndParty
+	farcall InitMG_Mobile_LinkTradePalMap
+	farcall PlaceTradePartnerNamesAndParty
 	hlcoord 10, 17
 	ld de, .CANCEL
 	call PlaceString
@@ -123,14 +123,14 @@ _LoadTradeScreenBorder: ; 16d696
 
 LinkComms_LoadPleaseWaitTextboxBorderGFX: ; 16d69a
 	ld de, LinkCommsBorderGFX + $30 tiles
-	ld hl, VTiles2 tile $76
+	ld hl, vTiles2 tile $76
 	lb bc, BANK(LinkCommsBorderGFX), 8
 	call Get2bpp
 	ret
 ; 16d6a7
 
 LoadTradeRoomBGPals_: ; 16d6a7
-	callba LoadTradeRoomBGPals
+	farcall LoadTradeRoomBGPals
 	ret
 ; 16d6ae
 
@@ -155,7 +155,7 @@ LinkTextbox: ; 16d6ca
 Function16d6ce: ; 16d6ce
 	call LoadStandardMenuDataHeader
 	call Function16d6e1
-	callba WaitLinkTransfer
+	farcall WaitLinkTransfer
 	call Call_ExitMenu
 	call WaitBGMap2
 	ret
@@ -217,7 +217,7 @@ LinkTradeMenu: ; 16d70c
 	call .UpdateBGMapAndOAM
 	call .loop2
 	jr nc, .done
-	callba _2DMenuInterpretJoypad
+	farcall _2DMenuInterpretJoypad
 	jr c, .done
 	ld a, [w2DMenuFlags1]
 	bit 7, a
@@ -336,7 +336,7 @@ LinkTradeMenu: ; 16d70c
 	ld a, [w2DMenuFlags1]
 	bit 6, a
 	jr z, .skip_anims
-	callba PlaySpriteAnimationsAndDelayFrame
+	farcall PlaySpriteAnimationsAndDelayFrame
 .skip_anims
 	call JoyTextDelay
 	call .GetJoypad

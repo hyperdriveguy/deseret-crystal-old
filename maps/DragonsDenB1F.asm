@@ -10,24 +10,19 @@ const_value set 2
 	const DRAGONSDENB1F_POKE_BALL3
 
 DragonsDenB1F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 2
-
-	; triggers
-	maptrigger .Trigger0
-	maptrigger .Trigger1
+	scene_script .DummyScene0
+	scene_script .DummyScene1
 
 .MapCallbacks:
 	db 1
-
-	; callbacks
-
 	dbw MAPCALLBACK_NEWMAP, .CheckSilver
 
-.Trigger0:
+.DummyScene0:
 	end
 
-.Trigger1:
+.DummyScene1:
 	end
 
 .CheckSilver:
@@ -47,7 +42,7 @@ DragonsDenB1F_MapScriptHeader:
 	appear DRAGONSDENB1F_SILVER
 	return
 
-DragonsDenB1F_ClairTrigger:
+DragonsDenB1F_ClairScene:
 	appear DRAGONSDENB1F_CLAIR
 	opentext
 	writetext ClairText_Wait
@@ -85,49 +80,49 @@ DragonsDenB1F_ClairTrigger:
 	pause 30
 	special RestartMapMusic
 	disappear DRAGONSDENB1F_CLAIR
-	dotrigger $0
+	setscene $0
 	end
 
 TrainerCooltrainermDarin:
-	trainer EVENT_BEAT_COOLTRAINERM_DARIN, COOLTRAINERM, DARIN, CooltrainermDarinSeenText, CooltrainermDarinBeatenText, 0, CooltrainermDarinScript
+	trainer EVENT_BEAT_COOLTRAINERM_DARIN, COOLTRAINERM, DARIN, CooltrainermDarinSeenText, CooltrainermDarinBeatenText, 0, .Script
 
-CooltrainermDarinScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext CooltrainermDarinAfterText
+	writetext CooltrainermDarinAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerCooltrainerfCara:
-	trainer EVENT_BEAT_COOLTRAINERF_CARA, COOLTRAINERF, CARA, CooltrainerfCaraSeenText, CooltrainerfCaraBeatenText, 0, CooltrainerfCaraScript
+	trainer EVENT_BEAT_COOLTRAINERF_CARA, COOLTRAINERF, CARA, CooltrainerfCaraSeenText, CooltrainerfCaraBeatenText, 0, .Script
 
-CooltrainerfCaraScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext CooltrainerfCaraAfterText
+	writetext CooltrainerfCaraAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerTwinsLeaandpia1:
-	trainer EVENT_BEAT_TWINS_LEA_AND_PIA, TWINS, LEAANDPIA1, TwinsLeaandpia1SeenText, TwinsLeaandpia1BeatenText, 0, TwinsLeaandpia1Script
+	trainer EVENT_BEAT_TWINS_LEA_AND_PIA, TWINS, LEAANDPIA1, TwinsLeaandpia1SeenText, TwinsLeaandpia1BeatenText, 0, .Script
 
-TwinsLeaandpia1Script:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext TrinsLeaandpia1AfterText
+	writetext TwinsLeaandpia1AfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerTwinsLeaandpia2:
-	trainer EVENT_BEAT_TWINS_LEA_AND_PIA, TWINS, LEAANDPIA1, TwinsLeaandpia2SeenText, TwinsLeaandpia2BeatenText, 0, TwinsLeaandpia2Script
+	trainer EVENT_BEAT_TWINS_LEA_AND_PIA, TWINS, LEAANDPIA1, TwinsLeaandpia2SeenText, TwinsLeaandpia2BeatenText, 0, .Script
 
-TwinsLeaandpia2Script:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext TrinsLeaandpia2AfterText
+	writetext TwinsLeaandpia2AfterBattleText
 	waitbutton
 	closetext
 	end
@@ -332,7 +327,7 @@ CooltrainermDarinBeatenText:
 	text "S-strong!"
 	done
 
-CooltrainermDarinAfterText:
+CooltrainermDarinAfterBattleText:
 	text "The SHRINE ahead"
 	line "is home to the"
 
@@ -352,7 +347,7 @@ CooltrainerfCaraBeatenText:
 	text "Oh yikes, I lost!"
 	done
 
-CooltrainerfCaraAfterText:
+CooltrainerfCaraAfterBattleText:
 	text "Soon I'm going to"
 	line "get permission"
 
@@ -378,7 +373,7 @@ TwinsLeaandpia1BeatenText:
 	text "Ouchies."
 	done
 
-TrinsLeaandpia1AfterText:
+TwinsLeaandpia1AfterBattleText:
 	text "It was like having"
 	line "to battle LANCE."
 	done
@@ -391,7 +386,7 @@ TwinsLeaandpia2BeatenText:
 	text "Meanie."
 	done
 
-TrinsLeaandpia2AfterText:
+TwinsLeaandpia2AfterBattleText:
 	text "We'll tell on you."
 
 	para "MASTER will be"
@@ -417,28 +412,28 @@ DragonsDenB1F_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $3, $14, 3, DRAGONS_DEN_1F
-	warp_def $1d, $13, 1, DRAGON_SHRINE
+	warp_def 20, 3, 3, DRAGONS_DEN_1F
+	warp_def 19, 29, 1, DRAGON_SHRINE
 
-.XYTriggers:
+.CoordEvents:
 	db 1
-	xy_trigger 1, $1e, $13, $0, DragonsDenB1F_ClairTrigger, $0, $0
+	coord_event 19, 30, 1, DragonsDenB1F_ClairScene
 
-.Signposts:
+.BGEvents:
 	db 4
-	signpost 24, 18, SIGNPOST_READ, MapDragonsDenB1FSignpost0Script
-	signpost 29, 33, SIGNPOST_ITEM, DragonsDenB1FHiddenRevive
-	signpost 17, 21, SIGNPOST_ITEM, DragonsDenB1FHiddenMaxPotion
-	signpost 15, 31, SIGNPOST_ITEM, DragonsDenB1FHiddenMaxElixer
+	bg_event 18, 24, BGEVENT_READ, MapDragonsDenB1FSignpost0Script
+	bg_event 33, 29, BGEVENT_ITEM, DragonsDenB1FHiddenRevive
+	bg_event 21, 17, BGEVENT_ITEM, DragonsDenB1FHiddenMaxPotion
+	bg_event 31, 15, BGEVENT_ITEM, DragonsDenB1FHiddenMaxElixer
 
-.PersonEvents:
+.ObjectEvents:
 	db 9
-	person_event SPRITE_POKE_BALL, 16, 35, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, PokeBallScript_0x18c95a, EVENT_DRAGONS_DEN_B1F_DRAGON_FANG
-	person_event SPRITE_CLAIR, 30, 14, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, ObjectEvent, EVENT_DRAGONS_DEN_CLAIR
-	person_event SPRITE_SILVER, 23, 20, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, 0, PERSONTYPE_SCRIPT, 0, SilverScript_0x18c97e, EVENT_RIVAL_DRAGONS_DEN
-	person_event SPRITE_COOLTRAINER_M, 8, 20, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 4, TrainerCooltrainermDarin, -1
-	person_event SPRITE_COOLTRAINER_F, 8, 8, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerCooltrainerfCara, -1
-	person_event SPRITE_TWIN, 17, 4, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 1, TrainerTwinsLeaandpia1, -1
-	person_event SPRITE_TWIN, 18, 4, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 1, TrainerTwinsLeaandpia2, -1
-	person_event SPRITE_POKE_BALL, 4, 30, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, DragonsDenB1FCalcium, EVENT_DRAGONS_DEN_B1F_CALCIUM
-	person_event SPRITE_POKE_BALL, 20, 5, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, DragonsDenB1FMaxElixer, EVENT_DRAGONS_DEN_B1F_MAX_ELIXER
+	object_event 35, 16, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, PokeBallScript_0x18c95a, EVENT_DRAGONS_DEN_B1F_DRAGON_FANG
+	object_event 14, 30, SPRITE_CLAIR, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_DRAGONS_DEN_CLAIR
+	object_event 20, 23, SPRITE_SILVER, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, SilverScript_0x18c97e, EVENT_RIVAL_DRAGONS_DEN
+	object_event 20, 8, SPRITE_COOLTRAINER_M, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 4, TrainerCooltrainermDarin, -1
+	object_event 8, 8, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerCooltrainerfCara, -1
+	object_event 4, 17, SPRITE_TWIN, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 1, TrainerTwinsLeaandpia1, -1
+	object_event 4, 18, SPRITE_TWIN, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 1, TrainerTwinsLeaandpia2, -1
+	object_event 30, 4, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, DragonsDenB1FCalcium, EVENT_DRAGONS_DEN_B1F_CALCIUM
+	object_event 5, 20, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, DragonsDenB1FMaxElixer, EVENT_DRAGONS_DEN_B1F_MAX_ELIXER

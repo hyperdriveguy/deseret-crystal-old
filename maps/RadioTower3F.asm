@@ -8,17 +8,14 @@ const_value set 2
 	const RADIOTOWER3F_SCIENTIST
 
 RadioTower3F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 1
+	dbw MAPCALLBACK_TILES, .CardKeyShutterCallback
 
-	; callbacks
-
-	dbw MAPCALLBACK_TILES, CardKeyShutterCallback
-
-CardKeyShutterCallback:
+.CardKeyShutterCallback:
 	checkevent EVENT_USED_THE_CARD_KEY_IN_THE_RADIO_TOWER
 	iftrue .Change
 	return
@@ -28,8 +25,8 @@ CardKeyShutterCallback:
 	changeblock $e, $4, $1
 	return
 
-SuperNerdScript_0x5e553:
-	jumptextfaceplayer UnknownText_0x5e621
+RadioTower3FSuperNerdScript:
+	jumptextfaceplayer RadioTower3FSuperNerdText
 
 GymGuyScript_0x5e556:
 	faceplayer
@@ -86,45 +83,45 @@ UnknownScript_0x5e5a1:
 	end
 
 TrainerGruntM7:
-	trainer EVENT_BEAT_ROCKET_GRUNTM_7, GRUNTM, GRUNTM_7, GruntM7SeenText, GruntM7BeatenText, 0, GruntM7Script
+	trainer EVENT_BEAT_ROCKET_GRUNTM_7, GRUNTM, GRUNTM_7, GruntM7SeenText, GruntM7BeatenText, 0, .Script
 
-GruntM7Script:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x5e8d0
+	writetext GruntM7AfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerGruntM8:
-	trainer EVENT_BEAT_ROCKET_GRUNTM_8, GRUNTM, GRUNTM_8, GruntM8SeenText, GruntM8BeatenText, 0, GruntM8Script
+	trainer EVENT_BEAT_ROCKET_GRUNTM_8, GRUNTM, GRUNTM_8, GruntM8SeenText, GruntM8BeatenText, 0, .Script
 
-GruntM8Script:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x5e944
+	writetext GruntM8AfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerGruntM9:
-	trainer EVENT_BEAT_ROCKET_GRUNTM_9, GRUNTM, GRUNTM_9, GruntM9SeenText, GruntM9BeatenText, 0, GruntM9Script
+	trainer EVENT_BEAT_ROCKET_GRUNTM_9, GRUNTM, GRUNTM_9, GruntM9SeenText, GruntM9BeatenText, 0, .Script
 
-GruntM9Script:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x5e9d0
+	writetext GruntM9AfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerScientistMarc:
-	trainer EVENT_BEAT_SCIENTIST_MARC, SCIENTIST, MARC, ScientistMarcSeenText, ScientistMarcBeatenText, 0, ScientistMarcScript
+	trainer EVENT_BEAT_SCIENTIST_MARC, SCIENTIST, MARC, ScientistMarcSeenText, ScientistMarcBeatenText, 0, .Script
 
-ScientistMarcScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x5ea61
+	writetext ScientistMarcAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -159,7 +156,7 @@ MapRadioTower3FSignpost0Script:
 MapRadioTower3FSignpost1Script:
 	jumptext UnknownText_0x5eae4
 
-UnknownText_0x5e621:
+RadioTower3FSuperNerdText:
 	text "We have recordings"
 	line "of the cries of"
 
@@ -246,7 +243,7 @@ GruntM7BeatenText:
 	text "What?!"
 	done
 
-UnknownText_0x5e8d0:
+GruntM7AfterBattleText:
 	text "I failed in my"
 	line "duties…"
 
@@ -264,7 +261,7 @@ GruntM8BeatenText:
 	text "You're kidding!"
 	done
 
-UnknownText_0x5e944:
+GruntM8AfterBattleText:
 	text "I feel lousy over"
 	line "losing!"
 
@@ -284,7 +281,7 @@ GruntM9BeatenText:
 	text "I'm done for!"
 	done
 
-UnknownText_0x5e9d0:
+GruntM9AfterBattleText:
 	text "What?! You made it"
 	line "past our men in"
 	cont "the UNDERGROUND?"
@@ -304,7 +301,7 @@ ScientistMarcBeatenText:
 	line "too lightly!"
 	done
 
-UnknownText_0x5ea61:
+ScientistMarcAfterBattleText:
 	text "Bwahahaha…"
 
 	para "I can transmit as"
@@ -337,25 +334,25 @@ RadioTower3F_MapEventHeader:
 
 .Warps:
 	db 3
-	warp_def $0, $0, 1, RADIO_TOWER_2F
-	warp_def $0, $7, 2, RADIO_TOWER_4F
-	warp_def $0, $11, 4, RADIO_TOWER_4F
+	warp_def 0, 0, 1, RADIO_TOWER_2F
+	warp_def 7, 0, 2, RADIO_TOWER_4F
+	warp_def 17, 0, 4, RADIO_TOWER_4F
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 3
-	signpost 0, 3, SIGNPOST_READ, MapRadioTower3FSignpost0Script
-	signpost 0, 9, SIGNPOST_READ, MapRadioTower3FSignpost1Script
-	signpost 2, 14, SIGNPOST_UP, MapRadioTower3FSignpost2Script
+	bg_event 3, 0, BGEVENT_READ, MapRadioTower3FSignpost0Script
+	bg_event 9, 0, BGEVENT_READ, MapRadioTower3FSignpost1Script
+	bg_event 14, 2, BGEVENT_UP, MapRadioTower3FSignpost2Script
 
-.PersonEvents:
+.ObjectEvents:
 	db 7
-	person_event SPRITE_SUPER_NERD, 4, 7, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, SuperNerdScript_0x5e553, EVENT_RADIO_TOWER_CIVILIANS_AFTER
-	person_event SPRITE_GYM_GUY, 4, 3, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, GymGuyScript_0x5e556, -1
-	person_event SPRITE_COOLTRAINER_F, 3, 11, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, CooltrainerFScript_0x5e56a, -1
-	person_event SPRITE_ROCKET, 1, 5, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_TRAINER, 2, TrainerGruntM7, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
-	person_event SPRITE_ROCKET, 2, 6, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_TRAINER, 3, TrainerGruntM8, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
-	person_event SPRITE_ROCKET, 6, 16, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_TRAINER, 3, TrainerGruntM9, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
-	person_event SPRITE_SCIENTIST, 6, 9, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 5, TrainerScientistMarc, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
+	object_event 7, 4, SPRITE_SUPER_NERD, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, RadioTower3FSuperNerdScript, EVENT_RADIO_TOWER_CIVILIANS_AFTER
+	object_event 3, 4, SPRITE_GYM_GUY, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, GymGuyScript_0x5e556, -1
+	object_event 11, 3, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, CooltrainerFScript_0x5e56a, -1
+	object_event 5, 1, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_TRAINER, 2, TrainerGruntM7, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
+	object_event 6, 2, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_TRAINER, 3, TrainerGruntM8, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
+	object_event 16, 6, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_TRAINER, 3, TrainerGruntM9, EVENT_RADIO_TOWER_ROCKET_TAKEOVER
+	object_event 9, 6, SPRITE_SCIENTIST, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 5, TrainerScientistMarc, EVENT_RADIO_TOWER_ROCKET_TAKEOVER

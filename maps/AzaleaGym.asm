@@ -8,13 +8,13 @@ const_value set 2
 	const AZALEAGYM_GYM_GUY
 
 AzaleaGym_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-BugsyScript:
+AzaleaGymBugsyScript:
 	faceplayer
 	opentext
 	checkevent EVENT_BEAT_BUGSY
@@ -33,7 +33,7 @@ BugsyScript:
 	waitsfx
 	setflag ENGINE_HIVEBADGE
 	checkcode VAR_BADGES
-	scall AzaleaGymTriggerRockets
+	scall AzaleaGymActivateRockets
 .FightDone:
 	checkevent EVENT_GOT_TM49_FURY_CUTTER
 	iftrue .GotFuryCutter
@@ -58,7 +58,7 @@ BugsyScript:
 	closetext
 	end
 
-AzaleaGymTriggerRockets:
+AzaleaGymActivateRockets:
 	if_equal 7, .RadioTowerRockets
 	if_equal 6, .GoldenrodRockets
 	end
@@ -91,35 +91,35 @@ TrainerTwinsAmyandmay2:
 	closetext
 	end
 
-TrainerBug_catcherbenny:
-	trainer EVENT_BEAT_BUG_CATCHER_BENNY, BUG_CATCHER, BUG_CATCHER_BENNY, Bug_catcherbennySeenText, Bug_catcherbennyBeatenText, 0, .AfterScript
+TrainerBugCatcherBenny:
+	trainer EVENT_BEAT_BUG_CATCHER_BENNY, BUG_CATCHER, BUG_CATCHER_BENNY, BugCatcherBennySeenText, BugCatcherBennyBeatenText, 0, .AfterScript
 
 .AfterScript:
 	end_if_just_battled
 	opentext
-	writetext Bug_catcherbennyAfterBattleText
+	writetext BugCatcherBennyAfterBattleText
 	waitbutton
 	closetext
 	end
 
-TrainerBug_catcherAl:
-	trainer EVENT_BEAT_BUG_CATCHER_AL, BUG_CATCHER, AL, Bug_catcherAlSeenText, Bug_catcherAlBeatenText, 0, .AfterScript
+TrainerBugCatcherAl:
+	trainer EVENT_BEAT_BUG_CATCHER_AL, BUG_CATCHER, AL, BugCatcherAlSeenText, BugCatcherAlBeatenText, 0, .AfterScript
 
 .AfterScript:
 	end_if_just_battled
 	opentext
-	writetext Bug_catcherAlAfterBattleText
+	writetext BugCatcherAlAfterBattleText
 	waitbutton
 	closetext
 	end
 
-TrainerBug_catcherJosh:
-	trainer EVENT_BEAT_BUG_CATCHER_JOSH, BUG_CATCHER, JOSH, Bug_catcherJoshSeenText, Bug_catcherJoshBeatenText, 0, .AfterScript
+TrainerBugCatcherJosh:
+	trainer EVENT_BEAT_BUG_CATCHER_JOSH, BUG_CATCHER, JOSH, BugCatcherJoshSeenText, BugCatcherJoshBeatenText, 0, .AfterScript
 
 .AfterScript:
 	end_if_just_battled
 	opentext
-	writetext Bug_catcherJoshAfterBattleText
+	writetext BugCatcherJoshAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -232,7 +232,7 @@ BugsyText_BugMonsAreDeep:
 	line "ites thoroughly."
 	done
 
-Bug_catcherbennySeenText:
+BugCatcherBennySeenText:
 	text "Bug #MON evolve"
 	line "young. So they get"
 
@@ -240,18 +240,18 @@ Bug_catcherbennySeenText:
 	line "faster."
 	done
 
-Bug_catcherbennyBeatenText:
+BugCatcherBennyBeatenText:
 	text "Just evolving"
 	line "isn't enough!"
 	done
 
-Bug_catcherbennyAfterBattleText:
+BugCatcherBennyAfterBattleText:
 	text "#MON become"
 	line "stronger if they"
 	cont "evolve. Really!"
 	done
 
-Bug_catcherAlSeenText:
+BugCatcherAlSeenText:
 	text "Bug #MON are"
 	line "cool and tough!"
 
@@ -259,12 +259,12 @@ Bug_catcherAlSeenText:
 	line "you!"
 	done
 
-Bug_catcherAlBeatenText:
+BugCatcherAlBeatenText:
 	text "You proved how"
 	line "tough you are…"
 	done
 
-Bug_catcherAlAfterBattleText:
+BugCatcherAlAfterBattleText:
 	text "They're so cool,"
 	line "but most girls"
 
@@ -274,7 +274,7 @@ Bug_catcherAlAfterBattleText:
 	para "I don't know why…"
 	done
 
-Bug_catcherJoshSeenText:
+BugCatcherJoshSeenText:
 	text "You saved all the"
 	line "SLOWPOKE? Whew,"
 	cont "you're mighty!"
@@ -284,11 +284,11 @@ Bug_catcherJoshSeenText:
 	cont "tough too!"
 	done
 
-Bug_catcherJoshBeatenText:
+BugCatcherJoshBeatenText:
 	text "Urrgggh!"
 	done
 
-Bug_catcherJoshAfterBattleText:
+BugCatcherJoshAfterBattleText:
 	text "I guess I should"
 	line "teach them better"
 	cont "moves…"
@@ -367,23 +367,23 @@ AzaleaGym_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $f, $4, 5, AZALEA_TOWN
-	warp_def $f, $5, 5, AZALEA_TOWN
+	warp_def 4, 15, 5, AZALEA_TOWN
+	warp_def 5, 15, 5, AZALEA_TOWN
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 13, 3, SIGNPOST_READ, AzaleaGymStatue
-	signpost 13, 6, SIGNPOST_READ, AzaleaGymStatue
+	bg_event 3, 13, BGEVENT_READ, AzaleaGymStatue
+	bg_event 6, 13, BGEVENT_READ, AzaleaGymStatue
 
-.PersonEvents:
+.ObjectEvents:
 	db 7
-	person_event SPRITE_BUGSY, 7, 5, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, BugsyScript, -1
-	person_event SPRITE_BUG_CATCHER, 3, 5, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 2, TrainerBug_catcherbenny, -1
-	person_event SPRITE_BUG_CATCHER, 8, 8, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 3, TrainerBug_catcherAl, -1
-	person_event SPRITE_BUG_CATCHER, 2, 0, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 3, TrainerBug_catcherJosh, -1
-	person_event SPRITE_TWIN, 10, 4, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 1, TrainerTwinsAmyandmay1, -1
-	person_event SPRITE_TWIN, 10, 5, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 1, TrainerTwinsAmyandmay2, -1
-	person_event SPRITE_GYM_GUY, 13, 7, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, AzaleaGymGuyScript, -1
+	object_event 5, 7, SPRITE_BUGSY, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, AzaleaGymBugsyScript, -1
+	object_event 5, 3, SPRITE_BUG_CATCHER, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 2, TrainerBugCatcherBenny, -1
+	object_event 8, 8, SPRITE_BUG_CATCHER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 3, TrainerBugCatcherAl, -1
+	object_event 0, 2, SPRITE_BUG_CATCHER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 3, TrainerBugCatcherJosh, -1
+	object_event 4, 10, SPRITE_TWIN, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 1, TrainerTwinsAmyandmay1, -1
+	object_event 5, 10, SPRITE_TWIN, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 1, TrainerTwinsAmyandmay2, -1
+	object_event 7, 13, SPRITE_GYM_GUY, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, AzaleaGymGuyScript, -1

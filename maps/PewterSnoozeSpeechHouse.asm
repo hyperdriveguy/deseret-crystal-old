@@ -2,19 +2,19 @@ const_value set 2
 	const PEWTERSNOOZESPEECHHOUSE_GRAMPS
 
 PewterSnoozeSpeechHouse_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-GrampsScript_0x1a3059:
-	jumptextfaceplayer UnknownText_0x1a305f
+PewterSnoozeSpeechHouseGrampsScript:
+	jumptextfaceplayer PewterSnoozeSpeechHouseGrampsText
 
 PewterSnoozeSpeechHouseBookshelf:
 	jumpstd picturebookshelf
 
-UnknownText_0x1a305f:
+PewterSnoozeSpeechHouseGrampsText:
 	text "I like snoozing"
 	line "with the radio on…"
 	cont "…Zzzz…"
@@ -26,17 +26,17 @@ PewterSnoozeSpeechHouse_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $2, 5, PEWTER_CITY
-	warp_def $7, $3, 5, PEWTER_CITY
+	warp_def 2, 7, 5, PEWTER_CITY
+	warp_def 3, 7, 5, PEWTER_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 1, 0, SIGNPOST_READ, PewterSnoozeSpeechHouseBookshelf
-	signpost 1, 1, SIGNPOST_READ, PewterSnoozeSpeechHouseBookshelf
+	bg_event 0, 1, BGEVENT_READ, PewterSnoozeSpeechHouseBookshelf
+	bg_event 1, 1, BGEVENT_READ, PewterSnoozeSpeechHouseBookshelf
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_GRAMPS, 3, 5, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, GrampsScript_0x1a3059, -1
+	object_event 5, 3, SPRITE_GRAMPS, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, PewterSnoozeSpeechHouseGrampsScript, -1

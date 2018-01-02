@@ -9,52 +9,49 @@ const_value set 2
 	const ROUTE43_POKE_BALL
 
 Route43_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 1
+	dbw MAPCALLBACK_NEWMAP, .CheckIfRockets
 
-	; callbacks
-
-	dbw MAPCALLBACK_NEWMAP, UnknownScript_0x19d051
-
-UnknownScript_0x19d051:
+.CheckIfRockets:
 	checkevent EVENT_CLEARED_ROCKET_HIDEOUT
-	iftrue UnknownScript_0x19d05c
-	domaptrigger ROUTE_43_GATE, $0
+	iftrue .NoRockets
+	setmapscene ROUTE_43_GATE, $0
 	return
 
-UnknownScript_0x19d05c:
-	domaptrigger ROUTE_43_GATE, $1
+.NoRockets:
+	setmapscene ROUTE_43_GATE, $1
 	return
 
 TrainerCamperSpencer:
-	trainer EVENT_BEAT_CAMPER_SPENCER, CAMPER, SPENCER, CamperSpencerSeenText, CamperSpencerBeatenText, 0, CamperSpencerScript
+	trainer EVENT_BEAT_CAMPER_SPENCER, CAMPER, SPENCER, CamperSpencerSeenText, CamperSpencerBeatenText, 0, .Script
 
-CamperSpencerScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x19d57e
+	writetext CamperSpencerAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerPokemaniacBen:
-	trainer EVENT_BEAT_POKEMANIAC_BEN, POKEMANIAC, BEN, PokemaniacBenSeenText, PokemaniacBenBeatenText, 0, PokemaniacBenScript
+	trainer EVENT_BEAT_POKEMANIAC_BEN, POKEMANIAC, BEN, PokemaniacBenSeenText, PokemaniacBenBeatenText, 0, .Script
 
-PokemaniacBenScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x19d2d2
+	writetext PokemaniacBenAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerPokemaniacBrent1:
-	trainer EVENT_BEAT_POKEMANIAC_BRENT, POKEMANIAC, BRENT1, PokemaniacBrent1SeenText, PokemaniacBrent1BeatenText, 0, PokemaniacBrent1Script
+	trainer EVENT_BEAT_POKEMANIAC_BRENT, POKEMANIAC, BRENT1, PokemaniacBrent1SeenText, PokemaniacBrent1BeatenText, 0, .Script
 
-PokemaniacBrent1Script:
+.Script:
 	writecode VAR_CALLERID, PHONE_POKEMANIAC_BRENT
 	end_if_just_battled
 	opentext
@@ -157,31 +154,31 @@ UnknownScript_0x19d144:
 	end
 
 TrainerPokemaniacRon:
-	trainer EVENT_BEAT_POKEMANIAC_RON, POKEMANIAC, RON, PokemaniacRonSeenText, PokemaniacRonBeatenText, 0, PokemaniacRonScript
+	trainer EVENT_BEAT_POKEMANIAC_RON, POKEMANIAC, RON, PokemaniacRonSeenText, PokemaniacRonBeatenText, 0, .Script
 
-PokemaniacRonScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x19d3f8
+	writetext PokemaniacRonAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerFisherMarvin:
-	trainer EVENT_BEAT_FISHER_MARVIN, FISHER, MARVIN, FisherMarvinSeenText, FisherMarvinBeatenText, 0, FisherMarvinScript
+	trainer EVENT_BEAT_FISHER_MARVIN, FISHER, MARVIN, FisherMarvinSeenText, FisherMarvinBeatenText, 0, .Script
 
-FisherMarvinScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x19d4d3
+	writetext FisherMarvinAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerPicnickerTiffany3:
-	trainer EVENT_BEAT_PICNICKER_TIFFANY, PICNICKER, TIFFANY3, PicnickerTiffany3SeenText, PicnickerTiffany3BeatenText, 0, PicnickerTiffany3Script
+	trainer EVENT_BEAT_PICNICKER_TIFFANY, PICNICKER, TIFFANY3, PicnickerTiffany3SeenText, PicnickerTiffany3BeatenText, 0, .Script
 
-PicnickerTiffany3Script:
+.Script:
 	writecode VAR_CALLERID, PHONE_PICNICKER_TIFFANY
 	end_if_just_battled
 	opentext
@@ -342,7 +339,7 @@ PokemaniacBenBeatenText:
 	line "this to me?"
 	done
 
-UnknownText_0x19d2d2:
+PokemaniacBenAfterBattleText:
 	text "What else do I"
 	line "like besides"
 	cont "#MON?"
@@ -384,7 +381,7 @@ PokemaniacRonBeatenText:
 	line "pretty right on!"
 	done
 
-UnknownText_0x19d3f8:
+PokemaniacRonAfterBattleText:
 	text "It's okay for"
 	line "people to like"
 
@@ -411,7 +408,7 @@ FisherMarvinBeatenText:
 	line "better anyway."
 	done
 
-UnknownText_0x19d4d3:
+FisherMarvinAfterBattleText:
 	text "KURT's LURE BALL"
 	line "is the best for"
 
@@ -434,7 +431,7 @@ CamperSpencerBeatenText:
 	line "at all…"
 	done
 
-UnknownText_0x19d57e:
+CamperSpencerAfterBattleText:
 	text "What is going on"
 	line "at LAKE OF RAGE?"
 
@@ -509,28 +506,28 @@ Route43_MapEventHeader:
 
 .Warps:
 	db 5
-	warp_def $33, $9, 1, ROUTE_43_MAHOGANY_GATE
-	warp_def $33, $a, 2, ROUTE_43_MAHOGANY_GATE
-	warp_def $23, $11, 3, ROUTE_43_GATE
-	warp_def $1f, $11, 1, ROUTE_43_GATE
-	warp_def $1f, $12, 2, ROUTE_43_GATE
+	warp_def 9, 51, 1, ROUTE_43_MAHOGANY_GATE
+	warp_def 10, 51, 2, ROUTE_43_MAHOGANY_GATE
+	warp_def 17, 35, 3, ROUTE_43_GATE
+	warp_def 17, 31, 1, ROUTE_43_GATE
+	warp_def 18, 31, 2, ROUTE_43_GATE
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 3
-	signpost 3, 13, SIGNPOST_READ, Route43Sign1
-	signpost 49, 11, SIGNPOST_READ, Route43Sign2
-	signpost 38, 16, SIGNPOST_READ, Route43TrainerTips
+	bg_event 13, 3, BGEVENT_READ, Route43Sign1
+	bg_event 11, 49, BGEVENT_READ, Route43Sign2
+	bg_event 16, 38, BGEVENT_READ, Route43TrainerTips
 
-.PersonEvents:
+.ObjectEvents:
 	db 8
-	person_event SPRITE_SUPER_NERD, 5, 13, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 2, TrainerPokemaniacBen, -1
-	person_event SPRITE_SUPER_NERD, 20, 13, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 3, TrainerPokemaniacBrent1, -1
-	person_event SPRITE_SUPER_NERD, 7, 14, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 2, TrainerPokemaniacRon, -1
-	person_event SPRITE_FISHER, 16, 4, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 4, TrainerFisherMarvin, -1
-	person_event SPRITE_LASS, 25, 9, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 2, TrainerPicnickerTiffany3, -1
-	person_event SPRITE_YOUNGSTER, 40, 13, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 3, TrainerCamperSpencer, -1
-	person_event SPRITE_FRUIT_TREE, 26, 1, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, FruitTreeScript_0x19d266, -1
-	person_event SPRITE_POKE_BALL, 32, 12, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, Route43MaxEther, EVENT_ROUTE_43_MAX_ETHER
+	object_event 13, 5, SPRITE_SUPER_NERD, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 2, TrainerPokemaniacBen, -1
+	object_event 13, 20, SPRITE_SUPER_NERD, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerPokemaniacBrent1, -1
+	object_event 14, 7, SPRITE_SUPER_NERD, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 2, TrainerPokemaniacRon, -1
+	object_event 4, 16, SPRITE_FISHER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 4, TrainerFisherMarvin, -1
+	object_event 9, 25, SPRITE_LASS, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 2, TrainerPicnickerTiffany3, -1
+	object_event 13, 40, SPRITE_YOUNGSTER, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 3, TrainerCamperSpencer, -1
+	object_event 1, 26, SPRITE_FRUIT_TREE, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, FruitTreeScript_0x19d266, -1
+	object_event 12, 32, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, Route43MaxEther, EVENT_ROUTE_43_MAX_ETHER

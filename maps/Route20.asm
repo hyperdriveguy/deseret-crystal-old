@@ -4,14 +4,11 @@ const_value set 2
 	const ROUTE20_SWIMMER_GUY
 
 Route20_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 1
-
-	; callbacks
-
 	dbw MAPCALLBACK_NEWMAP, .ClearRocks
 
 .ClearRocks:
@@ -19,34 +16,34 @@ Route20_MapScriptHeader:
 	return
 
 TrainerSwimmerfNicole:
-	trainer EVENT_BEAT_SWIMMERF_NICOLE, SWIMMERF, NICOLE, SwimmerfNicoleSeenText, SwimmerfNicoleBeatenText, 0, SwimmerfNicoleScript
+	trainer EVENT_BEAT_SWIMMERF_NICOLE, SWIMMERF, NICOLE, SwimmerfNicoleSeenText, SwimmerfNicoleBeatenText, 0, .Script
 
-SwimmerfNicoleScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1acd93
+	writetext SwimmerfNicoleAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSwimmerfLori:
-	trainer EVENT_BEAT_SWIMMERF_LORI, SWIMMERF, LORI, SwimmerfLoriSeenText, SwimmerfLoriBeatenText, 0, SwimmerfLoriScript
+	trainer EVENT_BEAT_SWIMMERF_LORI, SWIMMERF, LORI, SwimmerfLoriSeenText, SwimmerfLoriBeatenText, 0, .Script
 
-SwimmerfLoriScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ace15
+	writetext SwimmerfLoriAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSwimmermCameron:
-	trainer EVENT_BEAT_SWIMMERM_CAMERON, SWIMMERM, CAMERON, SwimmermCameronSeenText, SwimmermCameronBeatenText, 0, SwimmermCameronScript
+	trainer EVENT_BEAT_SWIMMERM_CAMERON, SWIMMERM, CAMERON, SwimmermCameronSeenText, SwimmermCameronBeatenText, 0, .Script
 
-SwimmermCameronScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ace8b
+	writetext SwimmermCameronAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -63,7 +60,7 @@ SwimmerfNicoleBeatenText:
 	text "Oh, no!"
 	done
 
-UnknownText_0x1acd93:
+SwimmerfNicoleAfterBattleText:
 	text "Swimming exercises"
 	line "your full body."
 
@@ -83,7 +80,7 @@ SwimmerfLoriBeatenText:
 	text "No!"
 	done
 
-UnknownText_0x1ace15:
+SwimmerfLoriAfterBattleText:
 	text "SURF is no longer"
 	line "the only HM move"
 	cont "you use in water."
@@ -101,7 +98,7 @@ SwimmermCameronBeatenText:
 	text "Aiyah!"
 	done
 
-UnknownText_0x1ace8b:
+SwimmermCameronAfterBattleText:
 	text "Besides the sea, I"
 	line "can also swim in"
 	cont "ponds and rivers."
@@ -121,17 +118,17 @@ Route20_MapEventHeader:
 
 .Warps:
 	db 1
-	warp_def $7, $26, 1, SEAFOAM_GYM
+	warp_def 38, 7, 1, SEAFOAM_GYM
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 1
-	signpost 11, 37, SIGNPOST_READ, CinnabarGymSign
+	bg_event 37, 11, BGEVENT_READ, CinnabarGymSign
 
-.PersonEvents:
+.ObjectEvents:
 	db 3
-	person_event SPRITE_SWIMMER_GIRL, 8, 52, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 3, TrainerSwimmerfNicole, -1
-	person_event SPRITE_SWIMMER_GIRL, 13, 45, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 3, TrainerSwimmerfLori, -1
-	person_event SPRITE_SWIMMER_GUY, 13, 12, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerSwimmermCameron, -1
+	object_event 52, 8, SPRITE_SWIMMER_GIRL, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 3, TrainerSwimmerfNicole, -1
+	object_event 45, 13, SPRITE_SWIMMER_GIRL, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 3, TrainerSwimmerfLori, -1
+	object_event 12, 13, SPRITE_SWIMMER_GUY, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerSwimmermCameron, -1

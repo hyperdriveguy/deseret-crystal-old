@@ -4,30 +4,30 @@ const_value set 2
 	const ROUTE1_FRUIT_TREE
 
 Route1_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
 TrainerSchoolboyDanny:
-	trainer EVENT_BEAT_SCHOOLBOY_DANNY, SCHOOLBOY, DANNY, SchoolboyDannySeenText, SchoolboyDannyBeatenText, 0, SchoolboyDannyScript
+	trainer EVENT_BEAT_SCHOOLBOY_DANNY, SCHOOLBOY, DANNY, SchoolboyDannySeenText, SchoolboyDannyBeatenText, 0, .Script
 
-SchoolboyDannyScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ac5d7
+	writetext SchoolboyDannyAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerCooltrainerfQuinn:
-	trainer EVENT_BEAT_COOLTRAINERF_QUINN, COOLTRAINERF, QUINN, CooltrainerfQuinnSeenText, CooltrainerfQuinnBeatenText, 0, CooltrainerfQuinnScript
+	trainer EVENT_BEAT_COOLTRAINERF_QUINN, COOLTRAINERF, QUINN, CooltrainerfQuinnSeenText, CooltrainerfQuinnBeatenText, 0, .Script
 
-CooltrainerfQuinnScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ac640
+	writetext CooltrainerfQuinnAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -49,7 +49,7 @@ SchoolboyDannyBeatenText:
 	line "losing record…"
 	done
 
-UnknownText_0x1ac5d7:
+SchoolboyDannyAfterBattleText:
 	text "For trainers, it's"
 	line "a given that we'll"
 
@@ -66,7 +66,7 @@ CooltrainerfQuinnBeatenText:
 	text "Down and out…"
 	done
 
-UnknownText_0x1ac640:
+CooltrainerfQuinnAfterBattleText:
 	text "You're strong."
 
 	para "You obviously must"
@@ -87,15 +87,15 @@ Route1_MapEventHeader:
 .Warps:
 	db 0
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 1
-	signpost 27, 7, SIGNPOST_READ, Route1Sign
+	bg_event 7, 27, BGEVENT_READ, Route1Sign
 
-.PersonEvents:
+.ObjectEvents:
 	db 3
-	person_event SPRITE_YOUNGSTER, 12, 4, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 4, TrainerSchoolboyDanny, -1
-	person_event SPRITE_COOLTRAINER_F, 25, 9, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 2, TrainerCooltrainerfQuinn, -1
-	person_event SPRITE_FRUIT_TREE, 7, 3, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, FruitTreeScript_0x1ac581, -1
+	object_event 4, 12, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 4, TrainerSchoolboyDanny, -1
+	object_event 9, 25, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 2, TrainerCooltrainerfQuinn, -1
+	object_event 3, 7, SPRITE_FRUIT_TREE, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, FruitTreeScript_0x1ac581, -1

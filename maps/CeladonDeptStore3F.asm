@@ -6,7 +6,7 @@ const_value set 2
 	const CELADONDEPTSTORE3F_SUPER_NERD
 
 CeladonDeptStore3F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -19,29 +19,29 @@ ClerkScript_0x70d29:
 	closetext
 	end
 
-YoungsterScript_0x70d31:
-	jumptextfaceplayer UnknownText_0x70d53
+CeladonDeptStore3FYoungsterScript:
+	jumptextfaceplayer CeladonDeptStore3FYoungsterText
 
-GameboyKidScript_0x70d34:
+CeladonDeptStore3FGameboyKid1Script:
 	faceplayer
 	opentext
-	writetext UnknownText_0x70d86
+	writetext CeladonDeptStore3FGameboyKid1Text
 	waitbutton
 	closetext
 	spriteface CELADONDEPTSTORE3F_GAMEBOY_KID1, DOWN
 	end
 
-GameboyKidScript_0x70d3f:
+CeladonDeptStore3FGameboyKid2Script:
 	faceplayer
 	opentext
-	writetext UnknownText_0x70dc7
+	writetext CeladonDeptStore3FGameboyKid2Text
 	waitbutton
 	closetext
 	spriteface CELADONDEPTSTORE3F_GAMEBOY_KID2, DOWN
 	end
 
-SuperNerdScript_0x70d4a:
-	jumptextfaceplayer UnknownText_0x70e61
+CeladonDeptStore3FSuperNerdScript:
+	jumptextfaceplayer CeladonDeptStore3FSuperNerdText
 
 CeladonDeptStore3FElevatorButton:
 	jumpstd elevatorbutton
@@ -49,7 +49,7 @@ CeladonDeptStore3FElevatorButton:
 CeladonDeptStore3FDirectory:
 	jumptext CeladonDeptStore3FDirectoryText
 
-UnknownText_0x70d53:
+CeladonDeptStore3FYoungsterText:
 	text "I can't decide"
 	line "which #MON I"
 
@@ -57,7 +57,7 @@ UnknownText_0x70d53:
 	line "on…"
 	done
 
-UnknownText_0x70d86:
+CeladonDeptStore3FGameboyKid1Text:
 	text "Uh-oh! I traded my"
 	line "#MON without"
 
@@ -65,7 +65,7 @@ UnknownText_0x70d86:
 	line "GRADE from it."
 	done
 
-UnknownText_0x70dc7:
+CeladonDeptStore3FGameboyKid2Text:
 	text "Yeah! I'm finally"
 	line "getting a PORYGON!"
 
@@ -82,7 +82,7 @@ UnknownText_0x70dc7:
 	cont "ferent #MON!"
 	done
 
-UnknownText_0x70e61:
+CeladonDeptStore3FSuperNerdText:
 	text "The TM SHOP sells"
 	line "some rare moves."
 	done
@@ -100,22 +100,22 @@ CeladonDeptStore3F_MapEventHeader:
 
 .Warps:
 	db 3
-	warp_def $0, $c, 1, CELADON_DEPT_STORE_2F
-	warp_def $0, $f, 2, CELADON_DEPT_STORE_4F
-	warp_def $0, $2, 1, CELADON_DEPT_STORE_ELEVATOR
+	warp_def 12, 0, 1, CELADON_DEPT_STORE_2F
+	warp_def 15, 0, 2, CELADON_DEPT_STORE_4F
+	warp_def 2, 0, 1, CELADON_DEPT_STORE_ELEVATOR
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 0, 14, SIGNPOST_READ, CeladonDeptStore3FDirectory
-	signpost 0, 3, SIGNPOST_READ, CeladonDeptStore3FElevatorButton
+	bg_event 14, 0, BGEVENT_READ, CeladonDeptStore3FDirectory
+	bg_event 3, 0, BGEVENT_READ, CeladonDeptStore3FElevatorButton
 
-.PersonEvents:
+.ObjectEvents:
 	db 5
-	person_event SPRITE_CLERK, 1, 7, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, ClerkScript_0x70d29, -1
-	person_event SPRITE_YOUNGSTER, 4, 6, SPRITEMOVEDATA_WALK_UP_DOWN, 1, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, YoungsterScript_0x70d31, -1
-	person_event SPRITE_GAMEBOY_KID, 1, 9, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, GameboyKidScript_0x70d34, -1
-	person_event SPRITE_GAMEBOY_KID, 1, 10, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, GameboyKidScript_0x70d3f, -1
-	person_event SPRITE_SUPER_NERD, 4, 13, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, SuperNerdScript_0x70d4a, -1
+	object_event 7, 1, SPRITE_CLERK, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, ClerkScript_0x70d29, -1
+	object_event 6, 4, SPRITE_YOUNGSTER, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, CeladonDeptStore3FYoungsterScript, -1
+	object_event 9, 1, SPRITE_GAMEBOY_KID, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, CeladonDeptStore3FGameboyKid1Script, -1
+	object_event 10, 1, SPRITE_GAMEBOY_KID, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, CeladonDeptStore3FGameboyKid2Script, -1
+	object_event 13, 4, SPRITE_SUPER_NERD, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, CeladonDeptStore3FSuperNerdScript, -1

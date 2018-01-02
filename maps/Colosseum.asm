@@ -3,34 +3,28 @@ const_value set 2
 	const COLOSSEUM_CHRIS2
 
 Colosseum_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 3
-
-	; triggers
-	maptrigger .Trigger0
-	maptrigger .Trigger1
-	maptrigger .Trigger2
+	scene_script .InitializeColosseum
+	scene_script .DummyScene1
+	scene_script .DummyScene2
 
 .MapCallbacks:
 	db 2
+	dbw MAPCALLBACK_OBJECTS, .SetWhichChris
+	dbw MAPCALLBACK_NEWMAP, .PreparePokecenter2F
 
-	; callbacks
-
-	dbw MAPCALLBACK_OBJECTS, ColosseumScript_SetWhichChris
-
-	dbw MAPCALLBACK_NEWMAP, ColosseumScript_InitializeCB
-
-.Trigger0:
-	priorityjump ColosseumScript_Initialize
+.InitializeColosseum:
+	priorityjump .InitializeAndPreparePokecenter2F
 	end
 
-.Trigger1:
+.DummyScene1:
 	end
 
-.Trigger2:
+.DummyScene2:
 	end
 
-ColosseumScript_SetWhichChris:
+.SetWhichChris:
 	special Special_CableClubCheckWhichChris
 	iffalse .Chris2
 	disappear COLOSSEUM_CHRIS2
@@ -42,13 +36,13 @@ ColosseumScript_SetWhichChris:
 	appear COLOSSEUM_CHRIS2
 	return
 
-ColosseumScript_InitializeCB:
-	domaptrigger POKECENTER_2F, $2
+.PreparePokecenter2F:
+	setmapscene POKECENTER_2F, $2
 	return
 
-ColosseumScript_Initialize:
-	dotrigger $1
-	domaptrigger POKECENTER_2F, $2
+.InitializeAndPreparePokecenter2F:
+	setscene $1
+	setmapscene POKECENTER_2F, $2
 	end
 
 MapColosseumSignpost1Script:
@@ -74,18 +68,18 @@ Colosseum_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $4, 3, POKECENTER_2F
-	warp_def $7, $5, 3, POKECENTER_2F
+	warp_def 4, 7, 3, POKECENTER_2F
+	warp_def 5, 7, 3, POKECENTER_2F
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 4, 4, SIGNPOST_RIGHT, MapColosseumSignpost1Script
-	signpost 4, 5, SIGNPOST_LEFT, MapColosseumSignpost1Script
+	bg_event 4, 4, BGEVENT_RIGHT, MapColosseumSignpost1Script
+	bg_event 5, 4, BGEVENT_LEFT, MapColosseumSignpost1Script
 
-.PersonEvents:
+.ObjectEvents:
 	db 2
-	person_event SPRITE_CHRIS, 4, 3, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ChrisScript_0x193499, EVENT_GAVE_KURT_APRICORNS
-	person_event SPRITE_CHRIS, 4, 6, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ChrisScript_0x193499, EVENT_RECEIVED_BALLS_FROM_KURT
+	object_event 3, 4, SPRITE_CHRIS, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ChrisScript_0x193499, EVENT_GAVE_KURT_APRICORNS
+	object_event 6, 4, SPRITE_CHRIS, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ChrisScript_0x193499, EVENT_RECEIVED_BALLS_FROM_KURT

@@ -3,7 +3,7 @@ const_value set 2
 	const FIGHTINGDOJO_POKE_BALL
 
 FightingDojo_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -48,18 +48,18 @@ FightingDojo_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $b, $4, 1, SAFFRON_CITY
-	warp_def $b, $5, 1, SAFFRON_CITY
+	warp_def 4, 11, 1, SAFFRON_CITY
+	warp_def 5, 11, 1, SAFFRON_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 0, 4, SIGNPOST_READ, MapFightingDojoSignpost0Script
-	signpost 0, 5, SIGNPOST_READ, MapFightingDojoSignpost1Script
+	bg_event 4, 0, BGEVENT_READ, MapFightingDojoSignpost0Script
+	bg_event 5, 0, BGEVENT_READ, MapFightingDojoSignpost1Script
 
-.PersonEvents:
+.ObjectEvents:
 	db 2
-	person_event SPRITE_BLACK_BELT, 4, 4, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, FightingDojoBlackBelt, -1
-	person_event SPRITE_POKE_BALL, 1, 3, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, FightingDojoFocusBand, EVENT_PICKED_UP_FOCUS_BAND
+	object_event 4, 4, SPRITE_BLACK_BELT, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, FightingDojoBlackBelt, -1
+	object_event 3, 1, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, FightingDojoFocusBand, EVENT_PICKED_UP_FOCUS_BAND

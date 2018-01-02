@@ -3,21 +3,19 @@ const_value set 2
 	const MRPOKEMONSHOUSE_OAK
 
 MrPokemonsHouse_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 2
-
-	; triggers
-	maptrigger .Trigger0
-	maptrigger .Trigger1
+	scene_script .MeetMrPokemon
+	scene_script .DummyScene
 
 .MapCallbacks:
 	db 0
 
-.Trigger0:
+.MeetMrPokemon:
 	priorityjump .MrPokemonEvent
 	end
 
-.Trigger1:
+.DummyScene:
 	end
 
 .MrPokemonEvent:
@@ -126,9 +124,9 @@ MrPokemonsHouse_OakScript:
 	setevent EVENT_RIVAL_NEW_BARK_TOWN
 	setevent EVENT_KRISS_HOUSE_1F_NEIGHBOR
 	clearevent EVENT_KRISS_NEIGHBORS_HOUSE_NEIGHBOR
-	dotrigger $1
-	domaptrigger CHERRYGROVE_CITY, $1
-	domaptrigger ELMS_LAB, $3
+	setscene $1
+	setmapscene CHERRYGROVE_CITY, $1
+	setmapscene ELMS_LAB, $3
 	specialphonecall SPECIALCALL_ROBBED
 	clearevent EVENT_COP_IN_ELMS_LAB
 	checkevent EVENT_GOT_TOTODILE_FROM_ELM
@@ -379,21 +377,21 @@ MrPokemonsHouse_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $2, 2, ROUTE_30
-	warp_def $7, $3, 2, ROUTE_30
+	warp_def 2, 7, 2, ROUTE_30
+	warp_def 3, 7, 2, ROUTE_30
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 5
-	signpost 1, 0, SIGNPOST_READ, MapMrPokemonsHouseSignpost1Script
-	signpost 1, 1, SIGNPOST_READ, MapMrPokemonsHouseSignpost1Script
-	signpost 1, 6, SIGNPOST_READ, MapMrPokemonsHouseSignpost3Script
-	signpost 1, 7, SIGNPOST_READ, MapMrPokemonsHouseSignpost3Script
-	signpost 4, 6, SIGNPOST_READ, MapMrPokemonsHouseSignpost4Script
+	bg_event 0, 1, BGEVENT_READ, MapMrPokemonsHouseSignpost1Script
+	bg_event 1, 1, BGEVENT_READ, MapMrPokemonsHouseSignpost1Script
+	bg_event 6, 1, BGEVENT_READ, MapMrPokemonsHouseSignpost3Script
+	bg_event 7, 1, BGEVENT_READ, MapMrPokemonsHouseSignpost3Script
+	bg_event 6, 4, BGEVENT_READ, MapMrPokemonsHouseSignpost4Script
 
-.PersonEvents:
+.ObjectEvents:
 	db 2
-	person_event SPRITE_GENTLEMAN, 5, 3, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, MrPokemonsHouse_MrPokemonScript, -1
-	person_event SPRITE_OAK, 5, 6, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ObjectEvent, EVENT_MR_POKEMONS_HOUSE_OAK
+	object_event 3, 5, SPRITE_GENTLEMAN, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, MrPokemonsHouse_MrPokemonScript, -1
+	object_event 6, 5, SPRITE_OAK, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_MR_POKEMONS_HOUSE_OAK

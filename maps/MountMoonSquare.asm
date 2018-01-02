@@ -4,21 +4,16 @@ const_value set 2
 	const MOUNTMOONSQUARE_ROCK
 
 MountMoonSquare_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 1
-
-	; triggers
-	dw .Trigger0, 0
+	scene_script .DummyScene
 
 .MapCallbacks:
 	db 2
-
-	; callbacks
-
 	dbw MAPCALLBACK_NEWMAP, .DisappearMoonStone
 	dbw MAPCALLBACK_OBJECTS, .DisappearRock
 
-.Trigger0:
+.DummyScene:
 	end
 
 .DisappearMoonStone:
@@ -144,21 +139,21 @@ MountMoonSquare_MapEventHeader:
 
 .Warps:
 	db 3
-	warp_def $5, $14, 5, MOUNT_MOON
-	warp_def $b, $16, 6, MOUNT_MOON
-	warp_def $7, $d, 1, MOUNT_MOON_GIFT_SHOP
+	warp_def 20, 5, 5, MOUNT_MOON
+	warp_def 22, 11, 6, MOUNT_MOON
+	warp_def 13, 7, 1, MOUNT_MOON_GIFT_SHOP
 
-.XYTriggers:
+.CoordEvents:
 	db 1
-	xy_trigger 0, $b, $7, $0, ClefairyDance, $0, $0
+	coord_event 7, 11, 0, ClefairyDance
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 7, 7, SIGNPOST_ITEM, MountMoonSquareHiddenMoonStone
-	signpost 7, 17, SIGNPOST_READ, DontLitterSign
+	bg_event 7, 7, BGEVENT_ITEM, MountMoonSquareHiddenMoonStone
+	bg_event 17, 7, BGEVENT_READ, DontLitterSign
 
-.PersonEvents:
+.ObjectEvents:
 	db 3
-	person_event SPRITE_FAIRY, 6, 6, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ObjectEvent, EVENT_MT_MOON_SQUARE_CLEFAIRY
-	person_event SPRITE_FAIRY, 6, 7, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ObjectEvent, EVENT_MT_MOON_SQUARE_CLEFAIRY
-	person_event SPRITE_ROCK, 7, 7, SPRITEMOVEDATA_SMASHABLE_ROCK, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, MtMoonSquareRock, EVENT_MT_MOON_SQUARE_ROCK
+	object_event 6, 6, SPRITE_FAIRY, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_MT_MOON_SQUARE_CLEFAIRY
+	object_event 7, 6, SPRITE_FAIRY, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_MT_MOON_SQUARE_CLEFAIRY
+	object_event 7, 7, SPRITE_ROCK, SPRITEMOVEDATA_SMASHABLE_ROCK, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, MtMoonSquareRock, EVENT_MT_MOON_SQUARE_ROCK

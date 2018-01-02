@@ -5,16 +5,14 @@ const_value set 2
 	const SAFFRONTRAINSTATION_LASS
 
 SaffronTrainStation_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 1
-
-	; triggers
-	maptrigger .Trigger0
+	scene_script .DummyScene
 
 .MapCallbacks:
 	db 0
 
-.Trigger0:
+.DummyScene:
 	end
 
 OfficerScript_0x18a81e:
@@ -88,11 +86,11 @@ UnknownScript_0x18a883:
 	closetext
 	end
 
-TeacherScript_0x18a889:
-	jumptextfaceplayer UnknownText_0x18aaab
+SaffronTrainStationTeacherScript:
+	jumptextfaceplayer SaffronTrainStationTeacherText
 
-LassScript_0x18a88c:
-	jumptextfaceplayer UnknownText_0x18ab20
+SaffronTrainStationLassScript:
+	jumptextfaceplayer SaffronTrainStationLassText
 
 MovementData_0x18a88f:
 	step UP
@@ -194,7 +192,7 @@ UnknownText_0x18aa61:
 	line "KANTO and JOHTO?"
 	done
 
-UnknownText_0x18aaab:
+SaffronTrainStationTeacherText:
 	text "Before the MAGNET"
 	line "TRAIN STATION was"
 
@@ -206,7 +204,7 @@ UnknownText_0x18aaab:
 	cont "to live there."
 	done
 
-UnknownText_0x18ab20:
+SaffronTrainStationLassText:
 	text "Hi. Do you have a"
 	line "rail PASS? I have"
 
@@ -223,21 +221,21 @@ SaffronTrainStation_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $11, $8, 6, SAFFRON_CITY
-	warp_def $11, $9, 6, SAFFRON_CITY
-	warp_def $5, $6, 4, GOLDENROD_MAGNET_TRAIN_STATION
-	warp_def $5, $b, 3, GOLDENROD_MAGNET_TRAIN_STATION
+	warp_def 8, 17, 6, SAFFRON_CITY
+	warp_def 9, 17, 6, SAFFRON_CITY
+	warp_def 6, 5, 4, GOLDENROD_MAGNET_TRAIN_STATION
+	warp_def 11, 5, 3, GOLDENROD_MAGNET_TRAIN_STATION
 
-.XYTriggers:
+.CoordEvents:
 	db 1
-	xy_trigger 0, $6, $b, $0, Script_ArriveFromGoldenrod, $0, $0
+	coord_event 11, 6, 0, Script_ArriveFromGoldenrod
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 4
-	person_event SPRITE_OFFICER, 9, 9, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, OfficerScript_0x18a81e, -1
-	person_event SPRITE_GYM_GUY, 14, 10, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, 0, PERSONTYPE_SCRIPT, 0, GymGuyScript_0x18a875, -1
-	person_event SPRITE_TEACHER, 11, 6, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, TeacherScript_0x18a889, EVENT_SAFFRON_TRAIN_STATION_POPULATION
-	person_event SPRITE_LASS, 10, 6, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, LassScript_0x18a88c, EVENT_SAFFRON_TRAIN_STATION_POPULATION
+	object_event 9, 9, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, OfficerScript_0x18a81e, -1
+	object_event 10, 14, SPRITE_GYM_GUY, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GymGuyScript_0x18a875, -1
+	object_event 6, 11, SPRITE_TEACHER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, SaffronTrainStationTeacherScript, EVENT_SAFFRON_TRAIN_STATION_POPULATION
+	object_event 6, 10, SPRITE_LASS, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, SaffronTrainStationLassScript, EVENT_SAFFRON_TRAIN_STATION_POPULATION

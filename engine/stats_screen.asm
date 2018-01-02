@@ -17,7 +17,7 @@ StatsScreenInit: ; 4dc8a
 	call ClearBGPalettes
 	call ClearTileMap
 	call UpdateSprites
-	callba StatsScreen_LoadFont
+	farcall StatsScreen_LoadFont
 	pop hl
 	call _hl_
 	call ClearBGPalettes
@@ -79,14 +79,14 @@ StatsScreen_WaitAnim: ; 4dd3a (13:5d3a)
 	ret
 
 .try_anim
-	callba SetUpPokeAnim
+	farcall SetUpPokeAnim
 	jr nc, .finish
 	ld hl, wcf64
 	res 6, [hl]
 .finish
 	ld hl, wcf64
 	res 5, [hl]
-	callba HDMATransferTileMapToWRAMBank3
+	farcall HDMATransferTileMapToWRAMBank3
 	ret
 
 StatsScreen_SetJumptableIndex: ; 4dd62 (13:5d62)
@@ -106,7 +106,7 @@ MonStatsInit: ; 4dd72 (13:5d72)
 	res 6, [hl]
 	call ClearBGPalettes
 	call ClearTileMap
-	callba HDMATransferTileMapToWRAMBank3
+	farcall HDMATransferTileMapToWRAMBank3
 	call StatsScreen_CopyToTempMon
 	ld a, [CurPartySpecies]
 	cp EGG
@@ -192,14 +192,14 @@ StatsScreen_CopyToTempMon: ; 4ddf2 (13:5df2)
 	jr .done
 
 .breedmon
-	callba CopyPkmnToTempMon
+	farcall CopyPkmnToTempMon
 	ld a, [CurPartySpecies]
 	cp EGG
 	jr z, .done
 	ld a, [MonType]
 	cp BOXMON
 	jr c, .done
-	callba CalcTempmonStats
+	farcall CalcTempmonStats
 .done
 	and a
 	ret
@@ -212,7 +212,7 @@ StatsScreen_GetJoypad: ; 4de2c (13:5e2c)
 	push hl
 	push de
 	push bc
-	callba StatsScreenDPad
+	farcall StatsScreenDPad
 	pop bc
 	pop de
 	pop hl
@@ -335,7 +335,7 @@ StatsScreen_InitUpperHalf: ; 4deea (13:5eea)
 	call .PlaceHPBar
 	xor a
 	ld [hBGMapMode], a
-	ld a, [CurBaseData] ; wd236 (aliases: BaseDexNo)
+	ld a, [BaseDexNo]
 	ld [wd265], a
 	ld [CurSpecies], a
 	hlcoord 8, 0
@@ -359,7 +359,7 @@ StatsScreen_InitUpperHalf: ; 4deea (13:5eea)
 	hlcoord 9, 4
 	ld a, "/"
 	ld [hli], a
-	ld a, [CurBaseData] ; wd236 (aliases: BaseDexNo)
+	ld a, [BaseDexNo]
 	ld [wd265], a
 	call GetPokemonName
 	call PlaceString
@@ -377,8 +377,8 @@ StatsScreen_InitUpperHalf: ; 4deea (13:5eea)
 	ld a, [hli]
 	ld d, a
 	ld e, [hl]
-	callba ComputeHPBarPixels
-	ld hl, wcda1
+	farcall ComputeHPBarPixels
+	ld hl, wCurHPPal
 	call SetHPPal
 	ld b, SCGB_STATS_SCREEN_HP_PALS
 	call GetSGBLayout
@@ -387,7 +387,7 @@ StatsScreen_InitUpperHalf: ; 4deea (13:5eea)
 
 .PlaceGenderChar: ; 4df66 (13:5f66)
 	push hl
-	callba GetGender
+	farcall GetGender
 	pop hl
 	ret c
 	ld a, "♂"
@@ -424,14 +424,14 @@ StatsScreen_PlacePageSwitchArrows: ; 4df9b (13:5f9b)
 
 StatsScreen_PlaceShinyIcon: ; 4dfa6 (13:5fa6)
 	ld bc, TempMonDVs
-	callba CheckShininess
+	farcall CheckShininess
 	ret nc
 	hlcoord 19, 0
 	ld [hl], "<SHINY>"
 	ret
 
 StatsScreen_LoadGFX: ; 4dfb6 (13:5fb6)
-	ld a, [BaseDexNo] ; wd236 (aliases: BaseDexNo)
+	ld a, [BaseDexNo]
 	ld [wd265], a
 	ld [CurSpecies], a
 	xor a
@@ -463,7 +463,7 @@ StatsScreen_LoadGFX: ; 4dfb6 (13:5fb6)
 	ld a, [wcf64]
 	and $3
 	ld c, a
-	callba LoadStatsScreenPals
+	farcall LoadStatsScreenPals
 	call DelayFrame
 	ld hl, wcf64
 	set 5, [hl]
@@ -527,7 +527,7 @@ StatsScreen_LoadGFX: ; 4dfb6 (13:5fb6)
 	hlcoord 9, 8
 	ld de, SCREEN_WIDTH
 	ld b, 10
-	ld a, $31
+	ld a, "|"
 .vertical_divider
 	ld [hl], a
 	add hl, de
@@ -545,7 +545,7 @@ StatsScreen_LoadGFX: ; 4dfb6 (13:5fb6)
 	call .CalcExpToNextLevel
 	hlcoord 13, 13
 	lb bc, 3, 7
-	ld de, Buffer1 ; wd1ea (aliases: MagikarpLength)
+	ld de, Buffer1
 	call PrintNum
 	ld de, .LevelUpStr
 	hlcoord 10, 12
@@ -583,7 +583,7 @@ StatsScreen_LoadGFX: ; 4dfb6 (13:5fb6)
 	jr z, .AlreadyAtMaxLevel
 	inc a
 	ld d, a
-	callba CalcExpAtLevel
+	farcall CalcExpAtLevel
 	ld hl, TempMonExp + 2
 	ld hl, TempMonExp + 2
 	ld a, [hQuotient + 2]
@@ -593,14 +593,14 @@ StatsScreen_LoadGFX: ; 4dfb6 (13:5fb6)
 	ld a, [hQuotient + 1]
 	sbc [hl]
 	dec hl
-	ld [Buffer2], a ; wd1eb (aliases: MovementType)
+	ld [Buffer2], a
 	ld a, [hQuotient]
 	sbc [hl]
-	ld [Buffer1], a ; wd1ea (aliases: MagikarpLength)
+	ld [Buffer1], a
 	ret
 
 .AlreadyAtMaxLevel:
-	ld hl, Buffer1 ; wd1ea (aliases: MagikarpLength)
+	ld hl, Buffer1
 	xor a
 	ld [hli], a
 	ld [hli], a
@@ -663,7 +663,7 @@ StatsScreen_LoadGFX: ; 4dfb6 (13:5fb6)
 	and a
 	ret z
 	ld b, a
-	callba TimeCapsule_ReplaceTeruSama
+	farcall TimeCapsule_ReplaceTeruSama
 	ld a, b
 	ld [wd265], a
 	call GetItemName
@@ -687,7 +687,7 @@ StatsScreen_LoadGFX: ; 4dfb6 (13:5fb6)
 	hlcoord 10, 8
 	ld de, SCREEN_WIDTH
 	ld b, 10
-	ld a, $31
+	ld a, "|"
 .BluePageVerticalDivider:
 	ld [hl], a
 	add hl, de
@@ -712,7 +712,7 @@ StatsScreen_LoadGFX: ; 4dfb6 (13:5fb6)
 	ld hl, .OTNamePointers
 	call GetNicknamePointer
 	call CopyNickname
-	callba CheckNickErrors
+	farcall CheckNickErrors
 	hlcoord 2, 13
 	call PlaceString
 	ld a, [TempMonCaughtGender]
@@ -809,8 +809,8 @@ StatsScreen_PlaceFrontpic: ; 4e226 (13:6226)
 	call IsAPokemon
 	ret c
 	call StatsScreen_LoadTextBoxSpaceGFX
-	ld de, VTiles2 tile $00
-	predef FrontpicPredef
+	ld de, vTiles2 tile $00
+	predef GetAnimatedFrontpicPredef
 	hlcoord 0, 0
 	ld d, $0
 	ld e, ANIM_MON_MENU
@@ -835,7 +835,7 @@ StatsScreen_GetAnimationParam: ; 4e2ad (13:62ad)
 
 .PartyMon: ; 4e2bf (13:62bf)
 	ld a, [CurPartyMon]
-	ld hl, PartyMons ; wdcdf (aliases: PartyMon1, PartyMon1Species)
+	ld hl, PartyMon1
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 	ld b, h
@@ -862,7 +862,7 @@ StatsScreen_GetAnimationParam: ; 4e2ad (13:62ad)
 	ret
 
 .Tempmon: ; 4e2ed (13:62ed)
-	ld bc, TempMonSpecies ; wd10e (aliases: TempMon)
+	ld bc, TempMonSpecies
 	jr .CheckEggFaintedFrzSlp ; utterly pointless
 
 .CheckEggFaintedFrzSlp: ; 4e2f2 (13:62f2)
@@ -898,7 +898,7 @@ StatsScreen_LoadTextBoxSpaceGFX: ; 4e307 (13:6307)
 	ld [rVBK], a
 	ld de, TextBoxSpaceGFX
 	lb bc, BANK(TextBoxSpaceGFX), 1
-	ld hl, VTiles2 tile $7f
+	ld hl, vTiles2 tile $7f
 	call Get2bpp
 	pop af
 	ld [rVBK], a
@@ -912,7 +912,7 @@ StatsScreen_LoadTextBoxSpaceGFX: ; 4e307 (13:6307)
 EggStatsScreen: ; 4e33a
 	xor a
 	ld [hBGMapMode], a
-	ld hl, wcda1
+	ld hl, wCurHPPal
 	call SetHPPal
 	ld b, SCGB_STATS_SCREEN_HP_PALS
 	call GetSGBLayout
@@ -952,7 +952,7 @@ EggStatsScreen: ; 4e33a
 	call DelayFrame
 	hlcoord 0, 0
 	call PrepMonFrontpic
-	callba HDMATransferTileMapToWRAMBank3
+	farcall HDMATransferTileMapToWRAMBank3
 	call StatsScreen_AnimateEgg
 
 	ld a, [TempMonHappiness]
@@ -1009,8 +1009,8 @@ StatsScreen_AnimateEgg: ; 4e497 (13:6497)
 	ld a, $1
 	ld [wBoxAlignment], a
 	call StatsScreen_LoadTextBoxSpaceGFX
-	ld de, VTiles2 tile $00
-	predef FrontpicPredef
+	ld de, vTiles2 tile $00
+	predef GetAnimatedFrontpicPredef
 	pop de
 	hlcoord 0, 0
 	ld d, $0

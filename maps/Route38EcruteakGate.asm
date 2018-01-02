@@ -2,16 +2,16 @@ const_value set 2
 	const ROUTE38ECRUTEAKGATE_OFFICER
 
 Route38EcruteakGate_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-OfficerScript_0x9cbd7:
-	jumptextfaceplayer UnknownText_0x9cbda
+Route38EcruteakGateOfficerScript:
+	jumptextfaceplayer Route38EcruteakGateOfficerText
 
-UnknownText_0x9cbda:
+Route38EcruteakGateOfficerText:
 	text "Where did you say"
 	line "you're from?"
 
@@ -30,17 +30,17 @@ Route38EcruteakGate_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $4, $0, 1, ROUTE_38
-	warp_def $5, $0, 2, ROUTE_38
-	warp_def $4, $9, 14, ECRUTEAK_CITY
-	warp_def $5, $9, 15, ECRUTEAK_CITY
+	warp_def 0, 4, 1, ROUTE_38
+	warp_def 0, 5, 2, ROUTE_38
+	warp_def 9, 4, 14, ECRUTEAK_CITY
+	warp_def 9, 5, 15, ECRUTEAK_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_OFFICER, 2, 5, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, OfficerScript_0x9cbd7, -1
+	object_event 5, 2, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, Route38EcruteakGateOfficerScript, -1

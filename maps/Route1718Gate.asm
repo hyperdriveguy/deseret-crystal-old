@@ -2,20 +2,18 @@ const_value set 2
 	const ROUTE1718GATE_OFFICER
 
 Route1718Gate_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 1
-
-	; triggers
-	dw UnknownScript_0x7360d, 0
+	scene_script .DummyScene
 
 .MapCallbacks:
 	db 0
 
-UnknownScript_0x7360d:
+.DummyScene:
 	end
 
-OfficerScript_0x7360e:
-	jumptextfaceplayer UnknownText_0x7362c
+Route1718GateOfficerScript:
+	jumptextfaceplayer Route1718GateOfficerText
 
 UnknownScript_0x73611:
 	checkitem BICYCLE
@@ -37,7 +35,7 @@ MovementData_0x73629:
 	turn_head LEFT
 	step_end
 
-UnknownText_0x7362c:
+Route1718GateOfficerText:
 	text "CYCLING ROAD"
 	line "Uphill Starts Here"
 	done
@@ -59,19 +57,19 @@ Route1718Gate_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $4, $0, 1, ROUTE_17
-	warp_def $5, $0, 2, ROUTE_17
-	warp_def $4, $9, 1, ROUTE_18
-	warp_def $5, $9, 2, ROUTE_18
+	warp_def 0, 4, 1, ROUTE_17
+	warp_def 0, 5, 2, ROUTE_17
+	warp_def 9, 4, 1, ROUTE_18
+	warp_def 9, 5, 2, ROUTE_18
 
-.XYTriggers:
+.CoordEvents:
 	db 2
-	xy_trigger 0, $4, $5, $0, UnknownScript_0x73611, $0, $0
-	xy_trigger 0, $5, $5, $0, UnknownScript_0x73611, $0, $0
+	coord_event 5, 4, 0, UnknownScript_0x73611
+	coord_event 5, 5, 0, UnknownScript_0x73611
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_OFFICER, 2, 5, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, OfficerScript_0x7360e, -1
+	object_event 5, 2, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, Route1718GateOfficerScript, -1

@@ -4,7 +4,7 @@ const_value set 2
 	const CELADONDEPTSTORE4F_YOUNGSTER
 
 CeladonDeptStore4F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -17,11 +17,11 @@ ClerkScript_0x70f0d:
 	closetext
 	end
 
-SuperNerdScript_0x70f15:
-	jumptextfaceplayer UnknownText_0x70f21
+CeladonDeptStore4FSuperNerdScript:
+	jumptextfaceplayer CeladonDeptStore4FSuperNerdText
 
-YoungsterScript_0x70f18:
-	jumptextfaceplayer UnknownText_0x70f55
+CeladonDeptStore4FYoungsterScript:
+	jumptextfaceplayer CeladonDeptStore4FYoungsterText
 
 CeladonDeptStore4FDirectory:
 	jumptext CeladonDeptStore4FDirectoryText
@@ -29,13 +29,13 @@ CeladonDeptStore4FDirectory:
 CeladonDeptStore4FElevatorButton:
 	jumpstd elevatorbutton
 
-UnknownText_0x70f21:
+CeladonDeptStore4FSuperNerdText:
 	text "I'm here to buy"
 	line "SURF MAIL to send"
 	cont "to my girlfriend."
 	done
 
-UnknownText_0x70f55:
+CeladonDeptStore4FYoungsterText:
 	text "This is the only"
 	line "place where you"
 
@@ -56,20 +56,20 @@ CeladonDeptStore4F_MapEventHeader:
 
 .Warps:
 	db 3
-	warp_def $0, $c, 1, CELADON_DEPT_STORE_5F
-	warp_def $0, $f, 2, CELADON_DEPT_STORE_3F
-	warp_def $0, $2, 1, CELADON_DEPT_STORE_ELEVATOR
+	warp_def 12, 0, 1, CELADON_DEPT_STORE_5F
+	warp_def 15, 0, 2, CELADON_DEPT_STORE_3F
+	warp_def 2, 0, 1, CELADON_DEPT_STORE_ELEVATOR
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 0, 14, SIGNPOST_READ, CeladonDeptStore4FDirectory
-	signpost 0, 3, SIGNPOST_READ, CeladonDeptStore4FElevatorButton
+	bg_event 14, 0, BGEVENT_READ, CeladonDeptStore4FDirectory
+	bg_event 3, 0, BGEVENT_READ, CeladonDeptStore4FElevatorButton
 
-.PersonEvents:
+.ObjectEvents:
 	db 3
-	person_event SPRITE_CLERK, 5, 13, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, ClerkScript_0x70f0d, -1
-	person_event SPRITE_SUPER_NERD, 6, 7, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 1, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, SuperNerdScript_0x70f15, -1
-	person_event SPRITE_YOUNGSTER, 2, 8, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, YoungsterScript_0x70f18, -1
+	object_event 13, 5, SPRITE_CLERK, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, ClerkScript_0x70f0d, -1
+	object_event 7, 6, SPRITE_SUPER_NERD, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, CeladonDeptStore4FSuperNerdScript, -1
+	object_event 8, 2, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, CeladonDeptStore4FYoungsterScript, -1

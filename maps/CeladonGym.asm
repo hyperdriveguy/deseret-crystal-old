@@ -7,7 +7,7 @@ const_value set 2
 	const CELADONGYM_TWIN2
 
 CeladonGym_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -50,56 +50,56 @@ UnknownScript_0x72aae:
 	end
 
 TrainerLassMichelle:
-	trainer EVENT_BEAT_LASS_MICHELLE, LASS, MICHELLE, LassMichelleSeenText, LassMichelleBeatenText, 0, LassMichelleScript
+	trainer EVENT_BEAT_LASS_MICHELLE, LASS, MICHELLE, LassMichelleSeenText, LassMichelleBeatenText, 0, .Script
 
-LassMichelleScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x72e30
+	writetext LassMichelleAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerPicnickerTanya:
-	trainer EVENT_BEAT_PICNICKER_TANYA, PICNICKER, TANYA, PicnickerTanyaSeenText, PicnickerTanyaBeatenText, 0, PicnickerTanyaScript
+	trainer EVENT_BEAT_PICNICKER_TANYA, PICNICKER, TANYA, PicnickerTanyaSeenText, PicnickerTanyaBeatenText, 0, .Script
 
-PicnickerTanyaScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x72e8e
+	writetext PicnickerTanyaAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerBeautyJulia:
-	trainer EVENT_BEAT_BEAUTY_JULIA, BEAUTY, JULIA, BeautyJuliaSeenText, BeautyJuliaBeatenText, 0, BeautyJuliaScript
+	trainer EVENT_BEAT_BEAUTY_JULIA, BEAUTY, JULIA, BeautyJuliaSeenText, BeautyJuliaBeatenText, 0, .Script
 
-BeautyJuliaScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x72f01
+	writetext BeautyJuliaAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerTwinsJoandzoe1:
-	trainer EVENT_BEAT_TWINS_JO_AND_ZOE, TWINS, JOANDZOE1, TwinsJoandzoe1SeenText, TwinsJoandzoe1BeatenText, 0, TwinsJoandzoe1Script
+	trainer EVENT_BEAT_TWINS_JO_AND_ZOE, TWINS, JOANDZOE1, TwinsJoandzoe1SeenText, TwinsJoandzoe1BeatenText, 0, .Script
 
-TwinsJoandzoe1Script:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x72f70
+	writetext TwinsJoandzoe1AfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerTwinsJoandzoe2:
-	trainer EVENT_BEAT_TWINS_JO_AND_ZOE, TWINS, JOANDZOE2, TwinsJoandzoe2SeenText, TwinsJoandzoe2BeatenText, 0, TwinsJoandzoe2Script
+	trainer EVENT_BEAT_TWINS_JO_AND_ZOE, TWINS, JOANDZOE2, TwinsJoandzoe2SeenText, TwinsJoandzoe2BeatenText, 0, .Script
 
-TwinsJoandzoe2Script:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x72fc0
+	writetext TwinsJoandzoe2AfterBattleText
 	waitbutton
 	closetext
 	end
@@ -199,7 +199,7 @@ LassMichelleBeatenText:
 	text "Oh, bleah!"
 	done
 
-UnknownText_0x72e30:
+LassMichelleAfterBattleText:
 	text "I just got care-"
 	line "less, that's all!"
 	done
@@ -214,7 +214,7 @@ PicnickerTanyaBeatenText:
 	text "Oh, that's it?"
 	done
 
-UnknownText_0x72e8e:
+PicnickerTanyaAfterBattleText:
 	text "Oh, look at all"
 	line "your BADGES. No"
 
@@ -232,7 +232,7 @@ BeautyJuliaBeatenText:
 	text "How annoying!"
 	done
 
-UnknownText_0x72f01:
+BeautyJuliaAfterBattleText:
 	text "How do I go about"
 	line "becoming ladylike"
 	cont "like ERIKA?"
@@ -248,7 +248,7 @@ TwinsJoandzoe1BeatenText:
 	text "Oh… We lost…"
 	done
 
-UnknownText_0x72f70:
+TwinsJoandzoe1AfterBattleText:
 	text "ERIKA will get you"
 	line "back for us!"
 	done
@@ -262,7 +262,7 @@ TwinsJoandzoe2BeatenText:
 	text "We couldn't win…"
 	done
 
-UnknownText_0x72fc0:
+TwinsJoandzoe2AfterBattleText:
 	text "ERIKA is much,"
 	line "much stronger!"
 	done
@@ -273,22 +273,22 @@ CeladonGym_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $11, $4, 8, CELADON_CITY
-	warp_def $11, $5, 8, CELADON_CITY
+	warp_def 4, 17, 8, CELADON_CITY
+	warp_def 5, 17, 8, CELADON_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 15, 3, SIGNPOST_READ, CeladonGymStatue
-	signpost 15, 6, SIGNPOST_READ, CeladonGymStatue
+	bg_event 3, 15, BGEVENT_READ, CeladonGymStatue
+	bg_event 6, 15, BGEVENT_READ, CeladonGymStatue
 
-.PersonEvents:
+.ObjectEvents:
 	db 6
-	person_event SPRITE_ERIKA, 3, 5, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, ErikaScript_0x72a6a, -1
-	person_event SPRITE_LASS, 8, 7, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 2, TrainerLassMichelle, -1
-	person_event SPRITE_LASS, 8, 2, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 2, TrainerPicnickerTanya, -1
-	person_event SPRITE_BUENA, 5, 3, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 2, TrainerBeautyJulia, -1
-	person_event SPRITE_TWIN, 10, 4, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 1, TrainerTwinsJoandzoe1, -1
-	person_event SPRITE_TWIN, 10, 5, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 1, TrainerTwinsJoandzoe2, -1
+	object_event 5, 3, SPRITE_ERIKA, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, ErikaScript_0x72a6a, -1
+	object_event 7, 8, SPRITE_LASS, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 2, TrainerLassMichelle, -1
+	object_event 2, 8, SPRITE_LASS, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 2, TrainerPicnickerTanya, -1
+	object_event 3, 5, SPRITE_BUENA, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 2, TrainerBeautyJulia, -1
+	object_event 4, 10, SPRITE_TWIN, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 1, TrainerTwinsJoandzoe1, -1
+	object_event 5, 10, SPRITE_TWIN, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 1, TrainerTwinsJoandzoe2, -1

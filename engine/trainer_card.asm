@@ -34,16 +34,16 @@ TrainerCard: ; 25105
 	call ClearTileMap
 	call DisableLCD
 
-	callba GetCardPic
+	farcall GetCardPic
 
 	ld hl, CardRightCornerGFX
-	ld de, VTiles2 tile $1c
+	ld de, vTiles2 tile $1c
 	ld bc, 1 tiles
 	ld a, BANK(CardRightCornerGFX)
 	call FarCopyBytes
 
 	ld hl, CardStatusGFX
-	ld de, VTiles2 tile $29
+	ld de, vTiles2 tile $29
 	ld bc, 86 tiles
 	ld a, BANK(CardStatusGFX)
 	call FarCopyBytes
@@ -98,7 +98,7 @@ TrainerCard_Page1_LoadGFX: ; 251b6 (9:51b6)
 	call TrainerCard_InitBorder
 	call WaitBGMap
 	ld de, CardStatusGFX
-	ld hl, VTiles2 tile $29
+	ld hl, vTiles2 tile $29
 	lb bc, BANK(CardStatusGFX), 86
 	call Request2bpp
 	call TrainerCard_Page1_PrintDexCaught_GameTime
@@ -127,11 +127,11 @@ TrainerCard_Page2_LoadGFX: ; 251f4 (9:51f4)
 	call TrainerCard_InitBorder
 	call WaitBGMap
 	ld de, LeaderGFX
-	ld hl, VTiles2 tile $29
+	ld hl, vTiles2 tile $29
 	lb bc, BANK(LeaderGFX), $56
 	call Request2bpp
 	ld de, BadgeGFX
-	ld hl, VTiles0 tile $00
+	ld hl, vTiles0 tile $00
 	lb bc, BANK(BadgeGFX), $2c
 	call Request2bpp
 	call TrainerCard_Page2_3_InitObjectsAndStrings
@@ -167,11 +167,11 @@ TrainerCard_Page3_LoadGFX: ; 2524c (9:524c)
 	call TrainerCard_InitBorder
 	call WaitBGMap
 	ld de, LeaderGFX2
-	ld hl, VTiles2 tile $29
+	ld hl, vTiles2 tile $29
 	lb bc, BANK(LeaderGFX2), $56
 	call Request2bpp
 	ld de, BadgeGFX2
-	ld hl, VTiles0 tile $00
+	ld hl, vTiles0 tile $00
 	lb bc, BANK(BadgeGFX2), $2c
 	call Request2bpp
 	call TrainerCard_Page2_3_InitObjectsAndStrings
@@ -263,7 +263,7 @@ TrainerCard_Page1_PrintDexCaught_GameTime: ; 2530a (9:530a)
 	hlcoord 2, 8
 	ld de, .StatusTilemap
 	call TrainerCardSetup_PlaceTilemapString
-	ld a, [StatusFlags] ; pokedex
+	ld a, [wStatusFlags]
 	bit 0, a
 	ret nz
 	hlcoord 1, 9
@@ -430,7 +430,7 @@ TrainerCard_Page1_PrintGameTime: ; 25415 (9:5415)
 	ret nz
 	hlcoord 15, 12
 	ld a, [hl]
-	xor %01010001 ; $7F <--> $2E
+	xor " " ^ $2e ; alternate between space and small colon ($2e) tiles
 	ld [hl], a
 	ret
 
@@ -544,7 +544,7 @@ TrainerCard_JohtoBadgesOAM: ; 254c9
 	; cycle 1: face tile, in1 tile, in2 tile, in3 tile
 	; cycle 2: face tile, in1 tile, in2 tile, in3 tile
 
-	dw JohtoBadges
+	dw wJohtoBadges
 
 	; Zephyrbadge
 	db $68, $18, 0
@@ -588,11 +588,11 @@ TrainerCard_JohtoBadgesOAM: ; 254c9
 	db $1c | $80, $20, $24, $20 | $80
 ; 25523
 
-CardStatusGFX: INCBIN "gfx/misc/card_status.2bpp"
+CardStatusGFX: INCBIN "gfx/trainer_card/card_status.2bpp"
 
-LeaderGFX:  INCBIN "gfx/misc/leaders.2bpp"
-LeaderGFX2: INCBIN "gfx/misc/leaders.2bpp"
-BadgeGFX:   INCBIN "gfx/misc/badges.2bpp"
-BadgeGFX2:  INCBIN "gfx/misc/badges.2bpp"
+LeaderGFX:  INCBIN "gfx/trainer_card/leaders.2bpp"
+LeaderGFX2: INCBIN "gfx/trainer_card/leaders.2bpp"
+BadgeGFX:   INCBIN "gfx/trainer_card/badges.2bpp"
+BadgeGFX2:  INCBIN "gfx/trainer_card/badges.2bpp"
 
-CardRightCornerGFX: INCBIN "gfx/misc/card_right_corner.2bpp"
+CardRightCornerGFX: INCBIN "gfx/trainer_card/card_right_corner.2bpp"

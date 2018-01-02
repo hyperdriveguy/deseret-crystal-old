@@ -9,41 +9,41 @@ const_value set 2
 	const ROUTE2_FRUIT_TREE
 
 Route2_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-TrainerBug_catcherRob:
-	trainer EVENT_BEAT_BUG_CATCHER_ROB, BUG_CATCHER, ROB, Bug_catcherRobSeenText, Bug_catcherRobBeatenText, 0, Bug_catcherRobScript
+TrainerBugCatcherRob:
+	trainer EVENT_BEAT_BUG_CATCHER_ROB, BUG_CATCHER, ROB, BugCatcherRobSeenText, BugCatcherRobBeatenText, 0, .Script
 
-Bug_catcherRobScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ac34d
+	writetext BugCatcherRobAfterBattleText
 	waitbutton
 	closetext
 	end
 
-TrainerBug_catcherEd:
-	trainer EVENT_BEAT_BUG_CATCHER_ED, BUG_CATCHER, ED, Bug_catcherEdSeenText, Bug_catcherEdBeatenText, 0, Bug_catcherEdScript
+TrainerBugCatcherEd:
+	trainer EVENT_BEAT_BUG_CATCHER_ED, BUG_CATCHER, ED, BugCatcherEdSeenText, BugCatcherEdBeatenText, 0, .Script
 
-Bug_catcherEdScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ac3cf
+	writetext BugCatcherEdAfterBattleText
 	waitbutton
 	closetext
 	end
 
-TrainerBug_catcherDoug:
-	trainer EVENT_BEAT_BUG_CATCHER_DOUG, BUG_CATCHER, DOUG, Bug_catcherDougSeenText, Bug_catcherDougBeatenText, 0, Bug_catcherDougScript
+TrainerBugCatcherDoug:
+	trainer EVENT_BEAT_BUG_CATCHER_DOUG, BUG_CATCHER, DOUG, BugCatcherDougSeenText, BugCatcherDougBeatenText, 0, .Script
 
-Bug_catcherDougScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ac423
+	writetext BugCatcherDougAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -81,23 +81,23 @@ Route2HiddenFullRestore:
 Route2HiddenRevive:
 	dwb EVENT_ROUTE_2_HIDDEN_REVIVE, REVIVE
 
-Bug_catcherRobSeenText:
+BugCatcherRobSeenText:
 	text "My bug #MON are"
 	line "tough. Prepare to"
 	cont "lose!"
 	done
 
-Bug_catcherRobBeatenText:
+BugCatcherRobBeatenText:
 	text "I was whipped…"
 	done
 
-UnknownText_0x1ac34d:
+BugCatcherRobAfterBattleText:
 	text "I'm going to look"
 	line "for stronger bug"
 	cont "#MON."
 	done
 
-Bug_catcherEdSeenText:
+BugCatcherEdSeenText:
 	text "If you walk in"
 	line "tall grass wearing"
 
@@ -105,26 +105,26 @@ Bug_catcherEdSeenText:
 	line "nicks and cuts?"
 	done
 
-Bug_catcherEdBeatenText:
+BugCatcherEdBeatenText:
 	text "Ouch, ouch, ouch!"
 	done
 
-UnknownText_0x1ac3cf:
+BugCatcherEdAfterBattleText:
 	text "They'll really"
 	line "sting when you"
 	cont "take a bath."
 	done
 
-Bug_catcherDougSeenText:
+BugCatcherDougSeenText:
 	text "Why don't girls"
 	line "like bug #MON?"
 	done
 
-Bug_catcherDougBeatenText:
+BugCatcherDougBeatenText:
 	text "No good!"
 	done
 
-UnknownText_0x1ac423:
+BugCatcherDougAfterBattleText:
 	text "Bug #MON squish"
 	line "like plush toys"
 
@@ -152,31 +152,31 @@ Route2_MapEventHeader:
 
 .Warps:
 	db 5
-	warp_def $f, $f, 1, ROUTE_2_NUGGET_SPEECH_HOUSE
-	warp_def $1f, $f, 3, ROUTE_2_GATE
-	warp_def $1b, $10, 1, ROUTE_2_GATE
-	warp_def $1b, $11, 2, ROUTE_2_GATE
-	warp_def $7, $c, 3, DIGLETTS_CAVE
+	warp_def 15, 15, 1, ROUTE_2_NUGGET_SPEECH_HOUSE
+	warp_def 15, 31, 3, ROUTE_2_GATE
+	warp_def 16, 27, 1, ROUTE_2_GATE
+	warp_def 17, 27, 2, ROUTE_2_GATE
+	warp_def 12, 7, 3, DIGLETTS_CAVE
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 6
-	signpost 51, 7, SIGNPOST_READ, Route2Sign
-	signpost 9, 11, SIGNPOST_READ, MapRoute2Signpost1Script
-	signpost 23, 7, SIGNPOST_ITEM, Route2HiddenMaxEther
-	signpost 14, 4, SIGNPOST_ITEM, Route2HiddenFullHeal
-	signpost 27, 4, SIGNPOST_ITEM, Route2HiddenFullRestore
-	signpost 30, 11, SIGNPOST_ITEM, Route2HiddenRevive
+	bg_event 7, 51, BGEVENT_READ, Route2Sign
+	bg_event 11, 9, BGEVENT_READ, MapRoute2Signpost1Script
+	bg_event 7, 23, BGEVENT_ITEM, Route2HiddenMaxEther
+	bg_event 4, 14, BGEVENT_ITEM, Route2HiddenFullHeal
+	bg_event 4, 27, BGEVENT_ITEM, Route2HiddenFullRestore
+	bg_event 11, 30, BGEVENT_ITEM, Route2HiddenRevive
 
-.PersonEvents:
+.ObjectEvents:
 	db 8
-	person_event SPRITE_BUG_CATCHER, 45, 10, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 5, TrainerBug_catcherRob, -1
-	person_event SPRITE_BUG_CATCHER, 4, 6, SPRITEMOVEDATA_SPINCLOCKWISE, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 3, TrainerBug_catcherEd, -1
-	person_event SPRITE_BUG_CATCHER, 40, 0, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 3, TrainerBug_catcherDoug, -1
-	person_event SPRITE_POKE_BALL, 29, 0, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, Route2DireHit, EVENT_ROUTE_2_DIRE_HIT
-	person_event SPRITE_POKE_BALL, 23, 2, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, Route2MaxPotion, EVENT_ROUTE_2_MAX_POTION
-	person_event SPRITE_POKE_BALL, 2, 19, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, Route2Carbos, EVENT_ROUTE_2_CARBOS
-	person_event SPRITE_POKE_BALL, 50, 14, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, Route2Elixer, EVENT_ROUTE_2_ELIXER
-	person_event SPRITE_FRUIT_TREE, 14, 10, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, FruitTreeScript_0x1ac306, -1
+	object_event 10, 45, SPRITE_BUG_CATCHER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 5, TrainerBugCatcherRob, -1
+	object_event 6, 4, SPRITE_BUG_CATCHER, SPRITEMOVEDATA_SPINCLOCKWISE, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 3, TrainerBugCatcherEd, -1
+	object_event 0, 40, SPRITE_BUG_CATCHER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 3, TrainerBugCatcherDoug, -1
+	object_event 0, 29, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, Route2DireHit, EVENT_ROUTE_2_DIRE_HIT
+	object_event 2, 23, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, Route2MaxPotion, EVENT_ROUTE_2_MAX_POTION
+	object_event 19, 2, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, Route2Carbos, EVENT_ROUTE_2_CARBOS
+	object_event 14, 50, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, Route2Elixer, EVENT_ROUTE_2_ELIXER
+	object_event 10, 14, SPRITE_FRUIT_TREE, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, FruitTreeScript_0x1ac306, -1

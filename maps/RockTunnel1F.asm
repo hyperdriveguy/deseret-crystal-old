@@ -3,7 +3,7 @@ const_value set 2
 	const ROCKTUNNEL1F_POKE_BALL2
 
 RockTunnel1F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -29,22 +29,22 @@ RockTunnel1F_MapEventHeader:
 
 .Warps:
 	db 6
-	warp_def $3, $f, 1, ROUTE_9
-	warp_def $19, $b, 1, ROUTE_10_SOUTH
-	warp_def $3, $5, 3, ROCK_TUNNEL_B1F
-	warp_def $9, $f, 2, ROCK_TUNNEL_B1F
-	warp_def $3, $1b, 4, ROCK_TUNNEL_B1F
-	warp_def $d, $1b, 1, ROCK_TUNNEL_B1F
+	warp_def 15, 3, 1, ROUTE_9
+	warp_def 11, 25, 1, ROUTE_10_SOUTH
+	warp_def 5, 3, 3, ROCK_TUNNEL_B1F
+	warp_def 15, 9, 2, ROCK_TUNNEL_B1F
+	warp_def 27, 3, 4, ROCK_TUNNEL_B1F
+	warp_def 27, 13, 1, ROCK_TUNNEL_B1F
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 4, 24, SIGNPOST_ITEM, RockTunnel1FHiddenXAccuracy
-	signpost 15, 21, SIGNPOST_ITEM, RockTunnel1FHiddenXDefend
+	bg_event 24, 4, BGEVENT_ITEM, RockTunnel1FHiddenXAccuracy
+	bg_event 21, 15, BGEVENT_ITEM, RockTunnel1FHiddenXDefend
 
-.PersonEvents:
+.ObjectEvents:
 	db 2
-	person_event SPRITE_POKE_BALL, 18, 4, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, RockTunnel1FElixer, EVENT_ROCK_TUNNEL_1F_ELIXER
-	person_event SPRITE_POKE_BALL, 15, 10, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, RockTunnel1FTMSteelWing, EVENT_ROCK_TUNNEL_1F_TM_STEEL_WING
+	object_event 4, 18, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, RockTunnel1FElixer, EVENT_ROCK_TUNNEL_1F_ELIXER
+	object_event 10, 15, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, RockTunnel1FTMSteelWing, EVENT_ROCK_TUNNEL_1F_TM_STEEL_WING

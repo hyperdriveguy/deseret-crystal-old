@@ -6,63 +6,63 @@ const_value set 2
 	const ROUTE13_POKEFAN_M3
 
 Route13_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
 TrainerPokefanmAlex:
-	trainer EVENT_BEAT_POKEFANM_ALEX, POKEFANM, ALEX, PokefanmAlexSeenText, PokefanmAlexBeatenText, 0, PokefanmAlexScript
+	trainer EVENT_BEAT_POKEFANM_ALEX, POKEFANM, ALEX, PokefanmAlexSeenText, PokefanmAlexBeatenText, 0, .Script
 
-PokefanmAlexScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a24e3
+	writetext PokefanmAlexAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerPokefanmJoshua:
-	trainer EVENT_BEAT_POKEFANM_JOSHUA, POKEFANM, JOSHUA, PokefanmJoshuaSeenText, PokefanmJoshuaBeatenText, 0, PokefanmJoshuaScript
+	trainer EVENT_BEAT_POKEFANM_JOSHUA, POKEFANM, JOSHUA, PokefanmJoshuaSeenText, PokefanmJoshuaBeatenText, 0, .Script
 
-PokefanmJoshuaScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a254f
+	writetext PokefanmJoshuaAfterBattleText
 	waitbutton
 	closetext
 	end
 
-TrainerBird_keeperPerry:
-	trainer EVENT_BEAT_BIRD_KEEPER_PERRY, BIRD_KEEPER, PERRY, Bird_keeperPerrySeenText, Bird_keeperPerryBeatenText, 0, Bird_keeperPerryScript
+TrainerBirdKeeperPerry:
+	trainer EVENT_BEAT_BIRD_KEEPER_PERRY, BIRD_KEEPER, PERRY, BirdKeeperPerrySeenText, BirdKeeperPerryBeatenText, 0, .Script
 
-Bird_keeperPerryScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a25db
+	writetext BirdKeeperPerryAfterBattleText
 	waitbutton
 	closetext
 	end
 
-TrainerBird_keeperBret:
-	trainer EVENT_BEAT_BIRD_KEEPER_BRET, BIRD_KEEPER, BRET, Bird_keeperBretSeenText, Bird_keeperBretBeatenText, 0, Bird_keeperBretScript
+TrainerBirdKeeperBret:
+	trainer EVENT_BEAT_BIRD_KEEPER_BRET, BIRD_KEEPER, BRET, BirdKeeperBretSeenText, BirdKeeperBretBeatenText, 0, .Script
 
-Bird_keeperBretScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a2662
+	writetext BirdKeeperBretAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerHikerKenny:
-	trainer EVENT_BEAT_HIKER_KENNY, HIKER, KENNY, HikerKennySeenText, HikerKennyBeatenText, 0, HikerKennyScript
+	trainer EVENT_BEAT_HIKER_KENNY, HIKER, KENNY, HikerKennySeenText, HikerKennyBeatenText, 0, .Script
 
-HikerKennyScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a26c2
+	writetext HikerKennyAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -90,7 +90,7 @@ PokefanmAlexBeatenText:
 	line "mock royalty!"
 	done
 
-UnknownText_0x1a24e3:
+PokefanmAlexAfterBattleText:
 	text "Doesn't everyone"
 	line "wish to someday be"
 	cont "a king?"
@@ -106,7 +106,7 @@ PokefanmJoshuaBeatenText:
 	text "PI-PIKACHU!"
 	done
 
-UnknownText_0x1a254f:
+PokefanmJoshuaAfterBattleText:
 	text "You look like you"
 	line "have many #MON,"
 
@@ -114,24 +114,24 @@ UnknownText_0x1a254f:
 	line "still the best."
 	done
 
-Bird_keeperPerrySeenText:
+BirdKeeperPerrySeenText:
 	text "Agility is the key"
 	line "attribute of bird"
 	cont "#MON."
 	done
 
-Bird_keeperPerryBeatenText:
+BirdKeeperPerryBeatenText:
 	text "You beat me with"
 	line "your speed…"
 	done
 
-UnknownText_0x1a25db:
+BirdKeeperPerryAfterBattleText:
 	text "Your #MON are"
 	line "remarkably well-"
 	cont "trained."
 	done
 
-Bird_keeperBretSeenText:
+BirdKeeperBretSeenText:
 	text "Check out my #-"
 	line "MON. Just look at"
 
@@ -139,12 +139,12 @@ Bird_keeperBretSeenText:
 	line "their plumage."
 	done
 
-Bird_keeperBretBeatenText:
+BirdKeeperBretBeatenText:
 	text "Shoot!"
 	line "Not good enough!"
 	done
 
-UnknownText_0x1a2662:
+BirdKeeperBretAfterBattleText:
 	text "If you groom them,"
 	line "#MON get happy."
 	done
@@ -159,7 +159,7 @@ HikerKennyBeatenText:
 	text "I lost…"
 	done
 
-UnknownText_0x1a26c2:
+HikerKennyAfterBattleText:
 	text "Geological fea-"
 	line "tures don't appear"
 	cont "to change."
@@ -199,20 +199,20 @@ Route13_MapEventHeader:
 .Warps:
 	db 0
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 4
-	signpost 13, 29, SIGNPOST_READ, Route13TrainerTips
-	signpost 11, 41, SIGNPOST_READ, Route13Sign
-	signpost 13, 17, SIGNPOST_READ, Route13DirectionsSign
-	signpost 13, 30, SIGNPOST_ITEM, Route13HiddenCalcium
+	bg_event 29, 13, BGEVENT_READ, Route13TrainerTips
+	bg_event 41, 11, BGEVENT_READ, Route13Sign
+	bg_event 17, 13, BGEVENT_READ, Route13DirectionsSign
+	bg_event 30, 13, BGEVENT_ITEM, Route13HiddenCalcium
 
-.PersonEvents:
+.ObjectEvents:
 	db 5
-	person_event SPRITE_YOUNGSTER, 6, 42, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 2, TrainerBird_keeperPerry, -1
-	person_event SPRITE_YOUNGSTER, 6, 43, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 2, TrainerBird_keeperBret, -1
-	person_event SPRITE_POKEFAN_M, 8, 32, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerPokefanmJoshua, -1
-	person_event SPRITE_POKEFAN_M, 10, 14, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 4, TrainerHikerKenny, -1
-	person_event SPRITE_POKEFAN_M, 6, 25, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 4, TrainerPokefanmAlex, -1
+	object_event 42, 6, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 2, TrainerBirdKeeperPerry, -1
+	object_event 43, 6, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 2, TrainerBirdKeeperBret, -1
+	object_event 32, 8, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerPokefanmJoshua, -1
+	object_event 14, 10, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 4, TrainerHikerKenny, -1
+	object_event 25, 6, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 4, TrainerPokefanmAlex, -1

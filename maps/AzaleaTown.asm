@@ -13,35 +13,31 @@ const_value set 2
 	const AZALEATOWN_KURT_OUTSIDE
 
 AzaleaTown_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 3
-
-	; triggers
-	maptrigger .Trigger0
-	maptrigger .Trigger1
-	maptrigger .Trigger2
+	scene_script .DummyScene0
+	scene_script .DummyScene1
+	scene_script .DummyScene2
 
 .MapCallbacks:
 	db 1
-
-	; callbacks
 	dbw MAPCALLBACK_NEWMAP, .Flypoint
 
-.Trigger0:
+.DummyScene0:
 	end
 
-.Trigger1:
+.DummyScene1:
 	end
 
-.Trigger2:
+.DummyScene2:
 	end
 
 .Flypoint:
 	setflag ENGINE_FLYPOINT_AZALEA
 	return
 
-AzaleaTownRivalBattleTrigger1:
-	moveperson AZALEATOWN_SILVER, $b, $b
+AzaleaTownRivalBattleScene1:
+	moveobject AZALEATOWN_SILVER, $b, $b
 	spriteface PLAYER, RIGHT
 	showemote EMOTE_SHOCK, PLAYER, 15
 	special Special_FadeOutMusic
@@ -51,7 +47,7 @@ AzaleaTownRivalBattleTrigger1:
 	spriteface PLAYER, DOWN
 	jump AzaleaTownRivalBattleScript
 
-AzaleaTownRivalBattleTrigger2:
+AzaleaTownRivalBattleScene2:
 	spriteface PLAYER, RIGHT
 	showemote EMOTE_SHOCK, PLAYER, 15
 	special Special_FadeOutMusic
@@ -72,7 +68,7 @@ AzaleaTownRivalBattleScript:
 	iftrue .Chikorita
 	winlosstext AzaleaTownRivalWinText, AzaleaTownRivalLossText
 	setlasttalked AZALEATOWN_SILVER
-	loadtrainer RIVAL1, RIVAL1_6
+	loadtrainer RIVAL1, RIVAL1_2_TOTODILE
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle
@@ -81,7 +77,7 @@ AzaleaTownRivalBattleScript:
 .Totodile:
 	winlosstext AzaleaTownRivalWinText, AzaleaTownRivalLossText
 	setlasttalked AZALEATOWN_SILVER
-	loadtrainer RIVAL1, RIVAL1_4
+	loadtrainer RIVAL1, RIVAL1_2_CHIKORITA
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle
@@ -90,7 +86,7 @@ AzaleaTownRivalBattleScript:
 .Chikorita:
 	winlosstext AzaleaTownRivalWinText, AzaleaTownRivalLossText
 	setlasttalked AZALEATOWN_SILVER
-	loadtrainer RIVAL1, RIVAL1_5
+	loadtrainer RIVAL1, RIVAL1_2_CYNDAQUIL
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle
@@ -106,16 +102,16 @@ AzaleaTownRivalBattleScript:
 	applymovement AZALEATOWN_SILVER, AzaleaTownRivalBattleExitMovement
 	playsound SFX_EXIT_BUILDING
 	disappear AZALEATOWN_SILVER
-	dotrigger $0
+	setscene $0
 	waitsfx
 	playmapmusic
 	end
 
 AzaleaTownRocket1Script:
-	jumptextfaceplayer GoodSamaritanRocketText
+	jumptextfaceplayer AzaleaTownRocket1Text
 
 AzaleaTownRocket2Script:
-	jumptextfaceplayer TastySlowpokeTailRocketText
+	jumptextfaceplayer AzaleaTownRocket2Text
 
 AzaleaTownGrampsScript:
 	faceplayer
@@ -167,7 +163,7 @@ CharcoalKilnSign:
 AzaleaTownIlextForestSign:
 	jumptext AzaleaTownIlexForestSignText
 
-AzaleaTownPokeCenterSign:
+AzaleaTownPokecenterSign:
 	jumpstd pokecentersign
 
 AzaleaTownMartSign:
@@ -178,7 +174,6 @@ WhiteApricornTree:
 
 AzaleaTownHiddenFullHeal:
 	dwb EVENT_AZALEA_TOWN_HIDDEN_FULL_HEAL, FULL_HEAL
-
 
 AzaleaTownRivalBattleApproachMovement1:
 	step LEFT
@@ -269,7 +264,7 @@ AzaleaTownRivalLossText:
 	line "you were lying."
 	done
 
-GoodSamaritanRocketText:
+AzaleaTownRocket1Text:
 	text "It's unsafe to go"
 	line "in there, so I'm"
 	cont "standing guard."
@@ -278,7 +273,7 @@ GoodSamaritanRocketText:
 	line "Samaritan?"
 	done
 
-TastySlowpokeTailRocketText:
+AzaleaTownRocket2Text:
 	text "Do you know about"
 	line "SLOWPOKETAIL? I"
 	cont "heard it's tasty!"
@@ -399,42 +394,42 @@ AzaleaTown_MapEventHeader:
 
 .Warps:
 	db 8
-	warp_def $9, $f, 1, AZALEA_POKECENTER_1F
-	warp_def $d, $15, 1, CHARCOAL_KILN
-	warp_def $5, $15, 2, AZALEA_MART
-	warp_def $5, $9, 1, KURTS_HOUSE
-	warp_def $f, $a, 1, AZALEA_GYM
-	warp_def $7, $1f, 1, SLOWPOKE_WELL_B1F
-	warp_def $a, $2, 3, ILEX_FOREST_AZALEA_GATE
-	warp_def $b, $2, 4, ILEX_FOREST_AZALEA_GATE
+	warp_def 15, 9, 1, AZALEA_POKECENTER_1F
+	warp_def 21, 13, 1, CHARCOAL_KILN
+	warp_def 21, 5, 2, AZALEA_MART
+	warp_def 9, 5, 1, KURTS_HOUSE
+	warp_def 10, 15, 1, AZALEA_GYM
+	warp_def 31, 7, 1, SLOWPOKE_WELL_B1F
+	warp_def 2, 10, 3, ILEX_FOREST_AZALEA_GATE
+	warp_def 2, 11, 4, ILEX_FOREST_AZALEA_GATE
 
-.XYTriggers:
+.CoordEvents:
 	db 2
-	xy_trigger 1, $a, $5, $0, AzaleaTownRivalBattleTrigger1, $0, $0
-	xy_trigger 1, $b, $5, $0, AzaleaTownRivalBattleTrigger2, $0, $0
+	coord_event 5, 10, 1, AzaleaTownRivalBattleScene1
+	coord_event 5, 11, 1, AzaleaTownRivalBattleScene2
 
-.Signposts:
+.BGEvents:
 	db 9
-	signpost 9, 19, SIGNPOST_READ, AzaleaTownSign
-	signpost 9, 10, SIGNPOST_READ, KurtsHouseSign
-	signpost 15, 14, SIGNPOST_READ, AzaleaGymSign
-	signpost 7, 29, SIGNPOST_READ, SlowpokeWellSign
-	signpost 13, 19, SIGNPOST_READ, CharcoalKilnSign
-	signpost 9, 16, SIGNPOST_READ, AzaleaTownPokeCenterSign
-	signpost 5, 22, SIGNPOST_READ, AzaleaTownMartSign
-	signpost 9, 3, SIGNPOST_READ, AzaleaTownIlextForestSign
-	signpost 6, 31, SIGNPOST_ITEM, AzaleaTownHiddenFullHeal
+	bg_event 19, 9, BGEVENT_READ, AzaleaTownSign
+	bg_event 10, 9, BGEVENT_READ, KurtsHouseSign
+	bg_event 14, 15, BGEVENT_READ, AzaleaGymSign
+	bg_event 29, 7, BGEVENT_READ, SlowpokeWellSign
+	bg_event 19, 13, BGEVENT_READ, CharcoalKilnSign
+	bg_event 16, 9, BGEVENT_READ, AzaleaTownPokecenterSign
+	bg_event 22, 5, BGEVENT_READ, AzaleaTownMartSign
+	bg_event 3, 9, BGEVENT_READ, AzaleaTownIlextForestSign
+	bg_event 31, 6, BGEVENT_ITEM, AzaleaTownHiddenFullHeal
 
-.PersonEvents:
+.ObjectEvents:
 	db 11
-	person_event SPRITE_AZALEA_ROCKET, 9, 31, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, AzaleaTownRocket1Script, EVENT_AZALEA_TOWN_SLOWPOKETAIL_ROCKET
-	person_event SPRITE_GRAMPS, 9, 21, SPRITEMOVEDATA_WANDER, 2, 1, -1, -1, 0, PERSONTYPE_SCRIPT, 0, AzaleaTownGrampsScript, -1
-	person_event SPRITE_TEACHER, 13, 15, SPRITEMOVEDATA_WALK_UP_DOWN, 2, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, AzaleaTownTeacherScript, -1
-	person_event SPRITE_YOUNGSTER, 9, 7, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 1, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, AzaleaTownYoungsterScript, -1
-	person_event SPRITE_SLOWPOKE, 17, 8, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, AzaleaTownSlowpokeScript, EVENT_AZALEA_TOWN_SLOWPOKES
-	person_event SPRITE_SLOWPOKE, 9, 18, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, AzaleaTownSlowpokeScript, EVENT_AZALEA_TOWN_SLOWPOKES
-	person_event SPRITE_SLOWPOKE, 9, 29, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, AzaleaTownSlowpokeScript, EVENT_AZALEA_TOWN_SLOWPOKES
-	person_event SPRITE_SLOWPOKE, 15, 15, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, AzaleaTownSlowpokeScript, EVENT_AZALEA_TOWN_SLOWPOKES
-	person_event SPRITE_FRUIT_TREE, 2, 8, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, WhiteApricornTree, -1
-	person_event SPRITE_AZALEA_ROCKET, 10, 11, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ObjectEvent, EVENT_RIVAL_AZALEA_TOWN
-	person_event SPRITE_AZALEA_ROCKET, 16, 10, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, AzaleaTownRocket2Script, EVENT_SLOWPOKE_WELL_ROCKETS
+	object_event 31, 9, SPRITE_AZALEA_ROCKET, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, AzaleaTownRocket1Script, EVENT_AZALEA_TOWN_SLOWPOKETAIL_ROCKET
+	object_event 21, 9, SPRITE_GRAMPS, SPRITEMOVEDATA_WANDER, 1, 2, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, AzaleaTownGrampsScript, -1
+	object_event 15, 13, SPRITE_TEACHER, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 2, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, AzaleaTownTeacherScript, -1
+	object_event 7, 9, SPRITE_YOUNGSTER, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, AzaleaTownYoungsterScript, -1
+	object_event 8, 17, SPRITE_SLOWPOKE, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, AzaleaTownSlowpokeScript, EVENT_AZALEA_TOWN_SLOWPOKES
+	object_event 18, 9, SPRITE_SLOWPOKE, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, AzaleaTownSlowpokeScript, EVENT_AZALEA_TOWN_SLOWPOKES
+	object_event 29, 9, SPRITE_SLOWPOKE, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, AzaleaTownSlowpokeScript, EVENT_AZALEA_TOWN_SLOWPOKES
+	object_event 15, 15, SPRITE_SLOWPOKE, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, AzaleaTownSlowpokeScript, EVENT_AZALEA_TOWN_SLOWPOKES
+	object_event 8, 2, SPRITE_FRUIT_TREE, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, WhiteApricornTree, -1
+	object_event 11, 10, SPRITE_AZALEA_ROCKET, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_RIVAL_AZALEA_TOWN
+	object_event 10, 16, SPRITE_AZALEA_ROCKET, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, AzaleaTownRocket2Script, EVENT_SLOWPOKE_WELL_ROCKETS

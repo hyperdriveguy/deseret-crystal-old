@@ -36,10 +36,10 @@ EvolutionAnimation: ; 4e5e1
 	ld de, MUSIC_NONE
 	call PlayMusic
 
-	callba ClearSpriteAnims
+	farcall ClearSpriteAnims
 
 	ld de, .GFX
-	ld hl, VTiles0
+	ld hl, vTiles0
 	lb bc, BANK(.GFX), 8
 	call Request2bpp
 
@@ -58,8 +58,8 @@ EvolutionAnimation: ; 4e5e1
 	ld [CurSpecies], a
 	call .PlaceFrontpic
 
-	ld de, VTiles2
-	ld hl, VTiles2 tile $31
+	ld de, vTiles2
+	ld hl, vTiles2 tile $31
 	ld bc, 7 * 7
 	call Request2bpp
 
@@ -106,7 +106,7 @@ EvolutionAnimation: ; 4e5e1
 	ld c, $0
 	call .GetSGBLayout
 	call .PlayEvolvedSFX
-	callba ClearSpriteAnims
+	farcall ClearSpriteAnims
 	call .check_statused
 	jr c, .no_anim
 
@@ -143,7 +143,7 @@ EvolutionAnimation: ; 4e5e1
 	ld c, $0
 	call .GetSGBLayout
 	call .PlayEvolvedSFX
-	callba ClearSpriteAnims
+	farcall ClearSpriteAnims
 	call .check_statused
 	ret c
 
@@ -167,8 +167,8 @@ EvolutionAnimation: ; 4e5e1
 	call GetBaseData
 	ld a, $1
 	ld [wBoxAlignment], a
-	ld de, VTiles2
-	predef FrontpicPredef
+	ld de, vTiles2
+	predef GetAnimatedFrontpicPredef
 	xor a
 	ld [wBoxAlignment], a
 	ret
@@ -263,7 +263,7 @@ EvolutionAnimation: ; 4e5e1
 	call GetPartyLocation
 	ld b, h
 	ld c, l
-	callba CheckFaintedFrzSlp
+	farcall CheckFaintedFrzSlp
 	ret
 ; 4e7a6
 
@@ -316,7 +316,7 @@ EvolutionAnimation: ; 4e5e1
 .GenerateBallOfLight: ; 4e7e8
 	push de
 	depixel 9, 11
-	ld a, SPRITE_ANIM_INDEX_13
+	ld a, SPRITE_ANIM_INDEX_EVOLUTION_BALL_OF_LIGHT
 	call _InitSpriteAnimStruct
 	ld hl, SPRITEANIMSTRUCT_JUMPTABLE_INDEX
 	add hl, bc
@@ -337,7 +337,7 @@ EvolutionAnimation: ; 4e5e1
 
 .AnimateBallsOfLight: ; 4e80c
 	push bc
-	callab PlaySpriteAnimations
+	callfar PlaySpriteAnimations
 	; a = (([hVBlankCounter] + 4) / 2) % NUM_PALETTES
 	ld a, [hVBlankCounter]
 	and %1110

@@ -7,14 +7,11 @@ const_value set 2
 	const UNIONCAVEB2F_LAPRAS
 
 UnionCaveB2F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 1
-
-	; callbacks
-
 	dbw MAPCALLBACK_OBJECTS, .Lapras
 
 .Lapras:
@@ -41,34 +38,34 @@ UnionCaveLapras:
 	end
 
 TrainerCooltrainermNick:
-	trainer EVENT_BEAT_COOLTRAINERM_NICK, COOLTRAINERM, NICK, CooltrainermNickSeenText, CooltrainermNickBeatenText, 0, CooltrainermNickScript
+	trainer EVENT_BEAT_COOLTRAINERM_NICK, COOLTRAINERM, NICK, CooltrainermNickSeenText, CooltrainermNickBeatenText, 0, .Script
 
-CooltrainermNickScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x5a3f0
+	writetext CooltrainermNickAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerCooltrainerfGwen:
-	trainer EVENT_BEAT_COOLTRAINERF_GWEN, COOLTRAINERF, GWEN, CooltrainerfGwenSeenText, CooltrainerfGwenBeatenText, 0, CooltrainerfGwenScript
+	trainer EVENT_BEAT_COOLTRAINERF_GWEN, COOLTRAINERF, GWEN, CooltrainerfGwenSeenText, CooltrainerfGwenBeatenText, 0, .Script
 
-CooltrainerfGwenScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x5a488
+	writetext CooltrainerfGwenAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerCooltrainerfEmma:
-	trainer EVENT_BEAT_COOLTRAINERF_EMMA, COOLTRAINERF, EMMA, CooltrainerfEmmaSeenText, CooltrainerfEmmaBeatenText, 0, CooltrainerfEmmaScript
+	trainer EVENT_BEAT_COOLTRAINERF_EMMA, COOLTRAINERF, EMMA, CooltrainerfEmmaSeenText, CooltrainerfEmmaBeatenText, 0, .Script
 
-CooltrainerfEmmaScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x5a52b
+	writetext CooltrainerfEmmaAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -96,7 +93,7 @@ CooltrainermNickBeatenText:
 	line "dazzling style!"
 	done
 
-UnknownText_0x5a3f0:
+CooltrainermNickAfterBattleText:
 	text "Your #MON style"
 	line "is stunning and"
 	cont "colorful, I admit."
@@ -115,7 +112,7 @@ CooltrainerfGwenBeatenText:
 	line "too good for me."
 	done
 
-UnknownText_0x5a488:
+CooltrainerfGwenAfterBattleText:
 	text "I'm going to train"
 	line "by myself until I"
 	cont "improve."
@@ -135,7 +132,7 @@ CooltrainerfEmmaBeatenText:
 	line "babies than this!"
 	done
 
-UnknownText_0x5a52b:
+CooltrainerfEmmaAfterBattleText:
 	text "Just once a week,"
 	line "a #MON comes to"
 	cont "the water's edge."
@@ -150,19 +147,19 @@ UnionCaveB2F_MapEventHeader:
 
 .Warps:
 	db 1
-	warp_def $3, $5, 5, UNION_CAVE_B1F
+	warp_def 5, 3, 5, UNION_CAVE_B1F
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 6
-	person_event SPRITE_ROCKER, 19, 15, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerCooltrainermNick, -1
-	person_event SPRITE_COOLTRAINER_F, 13, 5, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 1, TrainerCooltrainerfGwen, -1
-	person_event SPRITE_COOLTRAINER_F, 30, 3, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerCooltrainerfEmma, -1
-	person_event SPRITE_POKE_BALL, 2, 16, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, UnionCaveB2FElixer, EVENT_UNION_CAVE_B2F_ELIXER
-	person_event SPRITE_POKE_BALL, 19, 12, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, UnionCaveB2FHyperPotion, EVENT_UNION_CAVE_B2F_HYPER_POTION
-	person_event SPRITE_SURF, 31, 11, SPRITEMOVEDATA_LAPRAS, 1, 1, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, UnionCaveLapras, EVENT_UNION_CAVE_B2F_LAPRAS
+	object_event 15, 19, SPRITE_ROCKER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerCooltrainermNick, -1
+	object_event 5, 13, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 1, TrainerCooltrainerfGwen, -1
+	object_event 3, 30, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerCooltrainerfEmma, -1
+	object_event 16, 2, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, UnionCaveB2FElixer, EVENT_UNION_CAVE_B2F_ELIXER
+	object_event 12, 19, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, UnionCaveB2FHyperPotion, EVENT_UNION_CAVE_B2F_HYPER_POTION
+	object_event 11, 31, SPRITE_SURF, SPRITEMOVEDATA_LAPRAS, 1, 1, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, UnionCaveLapras, EVENT_UNION_CAVE_B2F_LAPRAS

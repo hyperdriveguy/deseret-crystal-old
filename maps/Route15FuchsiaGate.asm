@@ -2,16 +2,16 @@ const_value set 2
 	const ROUTE15FUCHSIAGATE_OFFICER
 
 Route15FuchsiaGate_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-OfficerScript_0x19679e:
-	jumptextfaceplayer UnknownText_0x1967a1
+Route15FuchsiaGateOfficerScript:
+	jumptextfaceplayer Route15FuchsiaGateOfficerText
 
-UnknownText_0x1967a1:
+Route15FuchsiaGateOfficerText:
 	text "You're working on"
 	line "a #DEX? That's"
 
@@ -25,17 +25,17 @@ Route15FuchsiaGate_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $4, $0, 7, FUCHSIA_CITY
-	warp_def $5, $0, 8, FUCHSIA_CITY
-	warp_def $4, $9, 1, ROUTE_15
-	warp_def $5, $9, 2, ROUTE_15
+	warp_def 0, 4, 7, FUCHSIA_CITY
+	warp_def 0, 5, 8, FUCHSIA_CITY
+	warp_def 9, 4, 1, ROUTE_15
+	warp_def 9, 5, 2, ROUTE_15
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_OFFICER, 2, 5, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, OfficerScript_0x19679e, -1
+	object_event 5, 2, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, Route15FuchsiaGateOfficerScript, -1

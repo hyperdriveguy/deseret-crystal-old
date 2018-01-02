@@ -1,3 +1,7 @@
+; TypeNames indexes (see data/type_names.asm)
+; also used in:
+; - TypeMatchups (see data/type_matchups.asm)
+; - Pokedex_SearchForMons.TypeConversionTable and Pokedex_PlaceSearchScreenTypeStrings.TypeStrings (see engine/pokedex.asm)
 	const_def
 
 PHYSICAL EQU const_value

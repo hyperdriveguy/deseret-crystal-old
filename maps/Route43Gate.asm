@@ -1,46 +1,43 @@
+ROUTE43GATE_TOLL EQU 1000
+
 const_value set 2
 	const ROUTE43GATE_OFFICER
 	const ROUTE43GATE_ROCKET1
 	const ROUTE43GATE_ROCKET2
 
 Route43Gate_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 2
-
-	; triggers
-	dw .Trigger0, 0
-	dw .Trigger1, 0
+	scene_script .RocketShakedown
+	scene_script .DummyScene
 
 .MapCallbacks:
 	db 1
+	dbw MAPCALLBACK_NEWMAP, .CheckIfRockets
 
-	; callbacks
-
-	dbw MAPCALLBACK_NEWMAP, GateScript_CheckIfRockets
-
-.Trigger0:
-	priorityjump GateScript_RocketTakeover
+.RocketShakedown:
+	priorityjump .RocketTakeover
 	end
 
-.Trigger1:
+.DummyScene:
 	end
 
-GateScript_CheckIfRockets:
+.CheckIfRockets:
 	checkevent EVENT_CLEARED_ROCKET_HIDEOUT
-	iftrue GateScript_NoRockets
-	domaptrigger ROUTE_43, $0
+	iftrue .NoRockets
+	setmapscene ROUTE_43, $0
 	return
 
-GateScript_NoRockets:
-	domaptrigger ROUTE_43, $1
+.NoRockets:
+	setmapscene ROUTE_43, $1
 	return
 
-GateScript_RocketTakeover:
+.RocketTakeover:
 	playmusic MUSIC_ROCKET_ENCOUNTER
 	checkcode VAR_FACING
 	if_equal DOWN, RocketScript_Southbound
 	if_equal UP, RocketScript_Northbound
-	dotrigger $1
+	setscene $1
 	end
 
 RocketScript_Southbound:
@@ -53,17 +50,17 @@ RocketScript_Southbound:
 	opentext
 	writetext RocketText_TollFee
 	buttonsound
-	checkmoney $0, 999
+	checkmoney $0, ROUTE43GATE_TOLL - 1
 	if_equal $0, RocketScript_TollSouth
 	jump RocketScript_YoureBrokeSouth
 
 RocketScript_TollSouth:
-	takemoney $0, 1000
+	takemoney $0, ROUTE43GATE_TOLL
 	writetext RocketText_ThankYou
 	jump RocketScript_ShakeDownSouth
 
 RocketScript_YoureBrokeSouth:
-	takemoney $0, 1000
+	takemoney $0, ROUTE43GATE_TOLL
 	writetext RocketText_AllYouGot
 	jump RocketScript_ShakeDownSouth
 
@@ -72,7 +69,7 @@ RocketScript_ShakeDownSouth:
 	closetext
 	applymovement ROUTE43GATE_ROCKET1, Rocket1Script_LetsYouPassSouth
 	applymovement ROUTE43GATE_ROCKET2, Rocket2Script_LetsYouPassSouth
-	dotrigger $1
+	setscene $1
 	special RestartMapMusic
 	end
 
@@ -85,17 +82,17 @@ RocketScript_Northbound:
 	opentext
 	writetext RocketText_TollFee
 	buttonsound
-	checkmoney $0, 999
+	checkmoney $0, ROUTE43GATE_TOLL - 1
 	if_equal $0, RocketScript_TollNorth
 	jump RocketScript_YoureBrokeNorth
 
 RocketScript_TollNorth:
-	takemoney $0, 1000
+	takemoney $0, ROUTE43GATE_TOLL
 	writetext RocketText_ThankYou
 	jump RocketScript_ShakeDownNorth
 
 RocketScript_YoureBrokeNorth:
-	takemoney $0, 1000
+	takemoney $0, ROUTE43GATE_TOLL
 	writetext RocketText_AllYouGot
 	jump RocketScript_ShakeDownNorth
 
@@ -104,7 +101,7 @@ RocketScript_ShakeDownNorth:
 	closetext
 	applymovement ROUTE43GATE_ROCKET2, Rocket2Script_LetsYouPassNorth
 	applymovement ROUTE43GATE_ROCKET1, Rocket1Script_LetsYouPassNorth
-	dotrigger $1
+	setscene $1
 	special RestartMapMusic
 	end
 
@@ -251,19 +248,19 @@ Route43Gate_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $0, $4, 4, ROUTE_43
-	warp_def $0, $5, 5, ROUTE_43
-	warp_def $7, $4, 3, ROUTE_43
-	warp_def $7, $5, 3, ROUTE_43
+	warp_def 4, 0, 4, ROUTE_43
+	warp_def 5, 0, 5, ROUTE_43
+	warp_def 4, 7, 3, ROUTE_43
+	warp_def 5, 7, 3, ROUTE_43
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 3
-	person_event SPRITE_OFFICER, 4, 0, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, OfficerScript_GuardWithSludgeBomb, EVENT_LAKE_OF_RAGE_CIVILIANS
-	person_event SPRITE_ROCKET, 4, 2, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, RocketScript_MakingABundle, EVENT_ROUTE_43_GATE_ROCKETS
-	person_event SPRITE_ROCKET, 4, 7, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, RocketScript_MakingABundle, EVENT_ROUTE_43_GATE_ROCKETS
+	object_event 0, 4, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, OfficerScript_GuardWithSludgeBomb, EVENT_LAKE_OF_RAGE_CIVILIANS
+	object_event 2, 4, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, RocketScript_MakingABundle, EVENT_ROUTE_43_GATE_ROCKETS
+	object_event 7, 4, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, RocketScript_MakingABundle, EVENT_ROUTE_43_GATE_ROCKETS

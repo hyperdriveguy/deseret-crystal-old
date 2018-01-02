@@ -152,13 +152,13 @@ PlayCryHeader:: ; 3be3
 	ld a, [hROMBank]
 	push af
 
-	; Cry headers are stuck in one bank.
-	ld a, BANK(CryHeaders)
+	; Cries are stuck in one bank.
+	ld a, BANK(PokemonCries)
 	ld [hROMBank], a
 	ld [MBC3RomBank], a
 
-	ld hl, CryHeaders
-rept 6
+	ld hl, PokemonCries
+rept 6 ; sizeof(mon_cry)
 	add hl, de
 endr
 
@@ -295,7 +295,7 @@ IsSFXPlaying:: ; 3c74
 ; 3c97
 
 MaxVolume:: ; 3c97
-	ld a, $77 ; max
+	ld a, MAX_VOLUME
 	ld [Volume], a
 	ret
 ; 3c9d
@@ -342,9 +342,9 @@ FadeToMapMusic:: ; 3cbc
 	ld a, 8
 	ld [MusicFade], a
 	ld a, e
-	ld [MusicFadeIDLo], a
+	ld [MusicFadeID], a
 	ld a, d
-	ld [MusicFadeIDHi], a
+	ld [MusicFadeID + 1], a
 	ld a, e
 	ld [wMapMusic], a
 
@@ -455,7 +455,7 @@ SpecialMapMusic:: ; 3d62
 	cp PLAYER_SURF_PIKA
 	jr z, .surf
 
-	ld a, [StatusFlags2]
+	ld a, [wStatusFlags2]
 	bit 2, a
 	jr nz, .contest
 

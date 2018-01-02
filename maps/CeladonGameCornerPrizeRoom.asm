@@ -3,7 +3,7 @@ const_value set 2
 	const CELADONGAMECORNERPRIZEROOM_PHARMACIST
 
 CeladonGameCornerPrizeRoom_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -47,10 +47,10 @@ CeladonPrizeRoom_tmcounterloop:
 .psychic
 	checkcoins 3500
 	if_equal $2, CeladonPrizeRoom_notenoughcoins
-	itemtotext TM_PSYCHIC, $0
+	itemtotext TM_PSYCHIC_M, $0
 	scall CeladonPrizeRoom_askbuy
 	iffalse CeladonPrizeRoom_cancel
-	giveitem TM_PSYCHIC
+	giveitem TM_PSYCHIC_M
 	iffalse CeladonPrizeRoom_notenoughroom
 	takecoins 3500
 	jump CeladonPrizeRoom_purchased
@@ -275,18 +275,18 @@ CeladonGameCornerPrizeRoom_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $5, $2, 7, CELADON_CITY
-	warp_def $5, $3, 7, CELADON_CITY
+	warp_def 2, 5, 7, CELADON_CITY
+	warp_def 3, 5, 7, CELADON_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 1, 2, SIGNPOST_READ, GoldenrodGameCornerTMVendor
-	signpost 1, 4, SIGNPOST_READ, GoldenrodGameCornerPokemonVendor
+	bg_event 2, 1, BGEVENT_READ, GoldenrodGameCornerTMVendor
+	bg_event 4, 1, BGEVENT_READ, GoldenrodGameCornerPokemonVendor
 
-.PersonEvents:
+.ObjectEvents:
 	db 2
-	person_event SPRITE_GENTLEMAN, 2, 0, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, CeladonGameCornerPrizeRoomGentlemanScript, -1
-	person_event SPRITE_PHARMACIST, 4, 4, SPRITEMOVEDATA_WALK_UP_DOWN, 1, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, CeladonGameCornerPrizeRoomPharmacistScript, -1
+	object_event 0, 2, SPRITE_GENTLEMAN, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, CeladonGameCornerPrizeRoomGentlemanScript, -1
+	object_event 4, 4, SPRITE_PHARMACIST, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, CeladonGameCornerPrizeRoomPharmacistScript, -1

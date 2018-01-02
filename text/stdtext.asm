@@ -134,7 +134,7 @@ TrashCanText:
 	line "here…"
 	done
 
-PokeCenterSignText:
+PokecenterSignText:
 	text "Heal Your #MON!"
 	line "#MON CENTER"
 	done

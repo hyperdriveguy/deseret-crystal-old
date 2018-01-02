@@ -5,61 +5,58 @@ const_value set 2
 	const ROUTE17_BIKER4
 
 Route17_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 1
+	dbw MAPCALLBACK_NEWMAP, .AlwaysOnBike
 
-	; callbacks
-
-	dbw MAPCALLBACK_NEWMAP, UnknownScript_0x1ad0ab
-
-UnknownScript_0x1ad0ab:
+.AlwaysOnBike:
 	setflag ENGINE_ALWAYS_ON_BIKE
 	setflag ENGINE_DOWNHILL
 	return
 
 TrainerBikerCharles:
-	trainer EVENT_BEAT_BIKER_CHARLES, BIKER, CHARLES, BikerCharlesSeenText, BikerCharlesBeatenText, 0, BikerCharlesScript
+	trainer EVENT_BEAT_BIKER_CHARLES, BIKER, CHARLES, BikerCharlesSeenText, BikerCharlesBeatenText, 0, .Script
 
-BikerCharlesScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ad293
+	writetext BikerCharlesAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerBikerRiley:
-	trainer EVENT_BEAT_BIKER_RILEY, BIKER, RILEY, BikerRileySeenText, BikerRileyBeatenText, 0, BikerRileyScript
+	trainer EVENT_BEAT_BIKER_RILEY, BIKER, RILEY, BikerRileySeenText, BikerRileyBeatenText, 0, .Script
 
-BikerRileyScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ad13b
+	writetext BikerRileyAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerBikerJoel:
-	trainer EVENT_BEAT_BIKER_JOEL, BIKER, JOEL, BikerJoelSeenText, BikerJoelBeatenText, 0, BikerJoelScript
+	trainer EVENT_BEAT_BIKER_JOEL, BIKER, JOEL, BikerJoelSeenText, BikerJoelBeatenText, 0, .Script
 
-BikerJoelScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ad196
+	writetext BikerJoelAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerBikerGlenn:
-	trainer EVENT_BEAT_BIKER_GLENN, BIKER, GLENN, BikerGlennSeenText, BikerGlennBeatenText, 0, BikerGlennScript
+	trainer EVENT_BEAT_BIKER_GLENN, BIKER, GLENN, BikerGlennSeenText, BikerGlennBeatenText, 0, .Script
 
-BikerGlennScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ad225
+	writetext BikerGlennAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -81,7 +78,7 @@ BikerRileyBeatenText:
 	text "Whoa, you kick!"
 	done
 
-UnknownText_0x1ad13b:
+BikerRileyAfterBattleText:
 	text "Don't get cocky,"
 	line "you JOHTO punk!"
 	done
@@ -96,7 +93,7 @@ BikerJoelBeatenText:
 	line "look cool…"
 	done
 
-UnknownText_0x1ad196:
+BikerJoelAfterBattleText:
 	text "I look cool, but"
 	line "I'm weak, so I'm"
 	cont "not really cool."
@@ -115,7 +112,7 @@ BikerGlennBeatenText:
 	line "awesome torque!"
 	done
 
-UnknownText_0x1ad225:
+BikerGlennAfterBattleText:
 	text "Hands-free riding"
 	line "is considered cool"
 	cont "on CYCLING ROAD."
@@ -131,7 +128,7 @@ BikerCharlesBeatenText:
 	line "burn!"
 	done
 
-UnknownText_0x1ad293:
+BikerCharlesAfterBattleText:
 	text "Reckless driving"
 	line "causes accidents!"
 	cont "Take it easy!"
@@ -143,20 +140,20 @@ Route17_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $52, $11, 1, ROUTE_17_18_GATE
-	warp_def $53, $11, 2, ROUTE_17_18_GATE
+	warp_def 17, 82, 1, ROUTE_17_18_GATE
+	warp_def 17, 83, 2, ROUTE_17_18_GATE
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 54, 9, SIGNPOST_ITEM, Route17HiddenMaxEther
-	signpost 77, 8, SIGNPOST_ITEM, Route17HiddenMaxElixer
+	bg_event 9, 54, BGEVENT_ITEM, Route17HiddenMaxEther
+	bg_event 8, 77, BGEVENT_ITEM, Route17HiddenMaxElixer
 
-.PersonEvents:
+.ObjectEvents:
 	db 4
-	person_event SPRITE_BIKER, 17, 4, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 4, TrainerBikerRiley, -1
-	person_event SPRITE_BIKER, 68, 9, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 1, TrainerBikerJoel, -1
-	person_event SPRITE_BIKER, 53, 3, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 3, TrainerBikerGlenn, -1
-	person_event SPRITE_BIKER, 80, 6, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 4, TrainerBikerCharles, -1
+	object_event 4, 17, SPRITE_BIKER, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 4, TrainerBikerRiley, -1
+	object_event 9, 68, SPRITE_BIKER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 1, TrainerBikerJoel, -1
+	object_event 3, 53, SPRITE_BIKER, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 3, TrainerBikerGlenn, -1
+	object_event 6, 80, SPRITE_BIKER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 4, TrainerBikerCharles, -1

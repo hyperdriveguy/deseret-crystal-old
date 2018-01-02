@@ -5,7 +5,7 @@ MainMenu: ; 49cdc
 	ld b, SCGB_DIPLOMA
 	call GetSGBLayout
 	call SetPalettes
-	ld hl, GameTimerPause
+	ld hl, wGameTimerPause
 	res 0, [hl]
 	call MainMenu_GetWhichMenu
 	ld [wWhichIndexSet], a
@@ -98,7 +98,7 @@ MainMenu_GetWhichMenu: ; 49da4
 	cp -1
 	call CloseSRAM
 	jr nz, .mystery_gift
-	ld a, [StatusFlags]
+	ld a, [wStatusFlags]
 	bit 7, a
 	ld a, $1 ; Continue
 	jr z, .ok
@@ -109,7 +109,7 @@ MainMenu_GetWhichMenu: ; 49da4
 	ret
 
 .mystery_gift
-	ld a, [StatusFlags]
+	ld a, [wStatusFlags]
 	bit 7, a
 	jr z, .ok2
 	jr .ok2
@@ -195,7 +195,7 @@ MainMenu_PrintCurrentTimeAndDay: ; 49e09
 	decoord 4, 16
 	ld a, [hHours]
 	ld c, a
-	callba PrintHour
+	farcall PrintHour
 	ld [hl], ":"
 	inc hl
 	ld de, hMinutes
@@ -254,21 +254,21 @@ Function49ed0: ; 49ed0
 
 
 MainMenu_NewGame: ; 49ee0
-	callba NewGame
+	farcall NewGame
 	ret
 ; 49ee7
 
 MainMenu_Options: ; 49ee7
-	callba OptionsMenu
+	farcall OptionsMenu
 	ret
 ; 49eee
 
 MainMenu_Continue: ; 49eee
-	callba Continue
+	farcall Continue
 	ret
 ; 49ef5
 
 MainMenu_MysteryGift: ; 49ef5
-	callba MysteryGift
+	farcall MysteryGift
 	ret
 ; 49efc

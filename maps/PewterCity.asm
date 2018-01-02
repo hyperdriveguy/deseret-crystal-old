@@ -6,24 +6,22 @@ const_value set 2
 	const PEWTERCITY_FRUIT_TREE2
 
 PewterCity_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 1
-
-	; callbacks
 	dbw MAPCALLBACK_NEWMAP, .FlyPoint
 
 .FlyPoint:
 	setflag ENGINE_FLYPOINT_PEWTER
 	return
 
-CooltrainerFScript_0x18c009:
-	jumptextfaceplayer UnknownText_0x18c042
+PewterCityCooltrainerFScript:
+	jumptextfaceplayer PewterCityCooltrainerFText
 
-BugCatcherScript_0x18c00c:
-	jumptextfaceplayer UnknownText_0x18c080
+PewterCityBugCatcherScript:
+	jumptextfaceplayer PewterCityBugCatcherText
 
 GrampsScript_0x18c00f:
 	faceplayer
@@ -58,7 +56,7 @@ PewterCityMtMoonGiftShopSign:
 PewterCityWelcomeSign:
 	jumptext PewterCityWelcomeSignText
 
-PewterCityPokeCenterSign:
+PewterCityPokecenterSign:
 	jumpstd pokecentersign
 
 PewterCityMartSign:
@@ -70,7 +68,7 @@ FruitTreeScript_0x18c03e:
 FruitTreeScript_0x18c040:
 	fruittree FRUITTREE_PEWTER_CITY_2
 
-UnknownText_0x18c042:
+PewterCityCooltrainerFText:
 	text "Have you visited"
 	line "PEWTER GYM?"
 
@@ -78,7 +76,7 @@ UnknownText_0x18c042:
 	line "rock-type #MON."
 	done
 
-UnknownText_0x18c080:
+PewterCityBugCatcherText:
 	text "At night, CLEFAIRY"
 	line "come out to play"
 	cont "at MT.MOON."
@@ -160,29 +158,29 @@ PewterCity_MapEventHeader:
 
 .Warps:
 	db 5
-	warp_def $d, $1d, 1, PEWTER_NIDORAN_SPEECH_HOUSE
-	warp_def $11, $10, 1, PEWTER_GYM
-	warp_def $11, $17, 2, PEWTER_MART
-	warp_def $19, $d, 1, PEWTER_POKECENTER_1F
-	warp_def $1d, $7, 1, PEWTER_SNOOZE_SPEECH_HOUSE
+	warp_def 29, 13, 1, PEWTER_NIDORAN_SPEECH_HOUSE
+	warp_def 16, 17, 1, PEWTER_GYM
+	warp_def 23, 17, 2, PEWTER_MART
+	warp_def 13, 25, 1, PEWTER_POKECENTER_1F
+	warp_def 7, 29, 1, PEWTER_SNOOZE_SPEECH_HOUSE
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 7
-	signpost 23, 25, SIGNPOST_READ, PewterCitySign
-	signpost 17, 11, SIGNPOST_READ, PewterGymSign
-	signpost 9, 15, SIGNPOST_READ, PewterMuseumSign
-	signpost 19, 33, SIGNPOST_READ, PewterCityMtMoonGiftShopSign
-	signpost 29, 19, SIGNPOST_READ, PewterCityWelcomeSign
-	signpost 25, 14, SIGNPOST_READ, PewterCityPokeCenterSign
-	signpost 17, 24, SIGNPOST_READ, PewterCityMartSign
+	bg_event 25, 23, BGEVENT_READ, PewterCitySign
+	bg_event 11, 17, BGEVENT_READ, PewterGymSign
+	bg_event 15, 9, BGEVENT_READ, PewterMuseumSign
+	bg_event 33, 19, BGEVENT_READ, PewterCityMtMoonGiftShopSign
+	bg_event 19, 29, BGEVENT_READ, PewterCityWelcomeSign
+	bg_event 14, 25, BGEVENT_READ, PewterCityPokecenterSign
+	bg_event 24, 17, BGEVENT_READ, PewterCityMartSign
 
-.PersonEvents:
+.ObjectEvents:
 	db 5
-	person_event SPRITE_COOLTRAINER_F, 11, 19, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, CooltrainerFScript_0x18c009, -1
-	person_event SPRITE_BUG_CATCHER, 29, 14, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, BugCatcherScript_0x18c00c, -1
-	person_event SPRITE_GRAMPS, 17, 29, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 2, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, GrampsScript_0x18c00f, -1
-	person_event SPRITE_FRUIT_TREE, 3, 32, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, FruitTreeScript_0x18c03e, -1
-	person_event SPRITE_FRUIT_TREE, 3, 30, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, FruitTreeScript_0x18c040, -1
+	object_event 19, 11, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, PewterCityCooltrainerFScript, -1
+	object_event 14, 29, SPRITE_BUG_CATCHER, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, PewterCityBugCatcherScript, -1
+	object_event 29, 17, SPRITE_GRAMPS, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 2, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, GrampsScript_0x18c00f, -1
+	object_event 32, 3, SPRITE_FRUIT_TREE, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, FruitTreeScript_0x18c03e, -1
+	object_event 30, 3, SPRITE_FRUIT_TREE, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, FruitTreeScript_0x18c040, -1

@@ -2,7 +2,7 @@ const_value set 2
 	const BLACKTHORNEMYSHOUSE_EMY
 
 BlackthornEmysHouse_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -11,7 +11,7 @@ BlackthornEmysHouse_MapScriptHeader:
 Emy:
 	faceplayer
 	opentext
-	trade $3
+	trade NPCTRADE_EMY
 	waitbutton
 	closetext
 	end
@@ -25,17 +25,17 @@ BlackthornEmysHouse_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $2, 3, BLACKTHORN_CITY
-	warp_def $7, $3, 3, BLACKTHORN_CITY
+	warp_def 2, 7, 3, BLACKTHORN_CITY
+	warp_def 3, 7, 3, BLACKTHORN_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 1, 0, SIGNPOST_READ, EmysHouseBookshelf
-	signpost 1, 1, SIGNPOST_READ, EmysHouseBookshelf
+	bg_event 0, 1, BGEVENT_READ, EmysHouseBookshelf
+	bg_event 1, 1, BGEVENT_READ, EmysHouseBookshelf
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_LASS, 3, 2, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, Emy, -1
+	object_event 2, 3, SPRITE_LASS, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, Emy, -1

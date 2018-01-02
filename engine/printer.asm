@@ -1,4 +1,4 @@
-INCLUDE "engine/printer/serial.asm"
+INCLUDE "engine/printer_serial.asm"
 
 SendScreenToPrinter: ; 843f0
 .loop
@@ -49,7 +49,7 @@ PrintDexEntry: ; 8442c
 	ld a, [wPrinterQueueLength]
 	push af
 
-	ld hl, VTiles1
+	ld hl, vTiles1
 	ld de, FontInversed
 	lb bc, BANK(FontInversed), $80
 	call Request1bpp
@@ -68,7 +68,7 @@ PrintDexEntry: ; 8442c
 	call Printer_StartTransmission
 	ld a, $10
 	ld [wcbfa], a
-	callba PrintPage1
+	farcall PrintPage1
 	call ClearTileMap
 	ld a, %11100100
 	call DmgToCgbBGPals
@@ -94,7 +94,7 @@ PrintDexEntry: ; 8442c
 	call Printer_StartTransmission
 	ld a, $3
 	ld [wcbfa], a
-	callba PrintPage2
+	farcall PrintPage2
 	call Printer_ResetJoypadRegisters
 	ld a, 4
 	ld [wPrinterQueueLength], a
@@ -235,7 +235,7 @@ PrintUnownStamp: ; 84560
 	xor a
 	ld [hBGMapMode], a
 	call LoadTileMapToTempTileMap
-	callba PlaceUnownPrinterFrontpic
+	farcall PlaceUnownPrinterFrontpic
 	ld a, $0 ; to be loaded to wcbfa
 	call Printer_PrepareTileMapForPrint
 	call Call_LoadTempTileMapToTileMap
@@ -341,7 +341,7 @@ PrintPartymon: ; 8461a
 
 	xor a
 	ld [hBGMapMode], a
-	callba PrintPartyMonPage1
+	farcall PrintPartyMonPage1
 	ld a, $10 ; to be loaded to wcbfa
 	call Printer_PrepareTileMapForPrint
 
@@ -362,7 +362,7 @@ PrintPartymon: ; 8461a
 
 	xor a
 	ld [hBGMapMode], a
-	callba PrintPartyMonPage2
+	farcall PrintPartyMonPage2
 	ld a, $3 ; to be loaded to wcbfa
 	call Printer_PrepareTileMapForPrint
 
@@ -391,7 +391,7 @@ _PrintDiploma: ; 84688
 	ld a, [wPrinterQueueLength]
 	push af
 
-	callba PlaceDiplomaOnScreen
+	farcall PlaceDiplomaOnScreen
 
 	xor a
 	ld [hPrinter], a
@@ -425,7 +425,7 @@ _PrintDiploma: ; 84688
 	xor a
 	ld [hBGMapMode], a
 
-	callba PrintDiplomaPage2
+	farcall PrintDiplomaPage2
 
 	ld a, $3 ; to be loaded to wcbfa
 	call Printer_PrepareTileMapForPrint
@@ -828,7 +828,7 @@ Printer_GetMonGender: ; 8498a (21:498a)
 	ld [CurPartyMon], a
 	ld a, TEMPMON
 	ld [MonType], a
-	callba GetGender
+	farcall GetGender
 	ld a, " "
 	jr c, .got_gender
 	ld a, "♂"

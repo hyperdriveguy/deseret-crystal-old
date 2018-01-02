@@ -8,20 +8,18 @@ const_value set 2
 	const SPROUTTOWER3F_SILVER
 
 SproutTower3F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 2
-
-	; triggers
-	dw UnknownScript_0x184945, 0
-	dw UnknownScript_0x184946, 0
+	scene_script .DummyScene0
+	scene_script .DummyScene1
 
 .MapCallbacks:
 	db 0
 
-UnknownScript_0x184945:
+.DummyScene0:
 	end
 
-UnknownScript_0x184946:
+.DummyScene1:
 	end
 
 UnknownScript_0x184947:
@@ -61,7 +59,7 @@ UnknownScript_0x184947:
 	disappear SPROUTTOWER3F_SILVER
 	waitsfx
 	special Special_FadeInQuickly
-	dotrigger $1
+	setscene $1
 	special RestartMapMusic
 	end
 
@@ -95,34 +93,34 @@ UnknownScript_0x1849d1:
 	end
 
 TrainerSageJin:
-	trainer EVENT_BEAT_SAGE_JIN, SAGE, JIN, SageJinSeenText, SageJinBeatenText, 0, SageJinScript
+	trainer EVENT_BEAT_SAGE_JIN, SAGE, JIN, SageJinSeenText, SageJinBeatenText, 0, .Script
 
-SageJinScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x184dfa
+	writetext SageJinAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSageTroy:
-	trainer EVENT_BEAT_SAGE_TROY, SAGE, TROY, SageTroySeenText, SageTroyBeatenText, 0, SageTroyScript
+	trainer EVENT_BEAT_SAGE_TROY, SAGE, TROY, SageTroySeenText, SageTroyBeatenText, 0, .Script
 
-SageTroyScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x184ea4
+	writetext SageTroyAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSageNeal:
-	trainer EVENT_BEAT_SAGE_NEAL, SAGE, NEAL, SageNealSeenText, SageNealBeatenText, 0, SageNealScript
+	trainer EVENT_BEAT_SAGE_NEAL, SAGE, NEAL, SageNealSeenText, SageNealBeatenText, 0, .Script
 
-SageNealScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x184f12
+	writetext SageNealAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -274,7 +272,7 @@ SageJinBeatenText:
 	line "incomplete…"
 	done
 
-UnknownText_0x184dfa:
+SageJinAfterBattleText:
 	text "As #MON grow"
 	line "stronger, so does"
 	cont "the trainer."
@@ -297,7 +295,7 @@ SageTroyBeatenText:
 	line "real!"
 	done
 
-UnknownText_0x184ea4:
+SageTroyAfterBattleText:
 	text "It is not far to"
 	line "the ELDER."
 	done
@@ -313,7 +311,7 @@ SageNealBeatenText:
 	line "is bright!"
 	done
 
-UnknownText_0x184f12:
+SageNealAfterBattleText:
 	text "Let there be light"
 	line "on your journey."
 	done
@@ -337,27 +335,27 @@ SproutTower3F_MapEventHeader:
 
 .Warps:
 	db 1
-	warp_def $e, $a, 4, SPROUT_TOWER_2F
+	warp_def 10, 14, 4, SPROUT_TOWER_2F
 
-.XYTriggers:
+.CoordEvents:
 	db 1
-	xy_trigger 0, $9, $b, $0, UnknownScript_0x184947, $0, $0
+	coord_event 11, 9, 0, UnknownScript_0x184947
 
-.Signposts:
+.BGEvents:
 	db 6
-	signpost 1, 8, SIGNPOST_READ, MapSproutTower3FSignpost5Script
-	signpost 1, 11, SIGNPOST_READ, MapSproutTower3FSignpost5Script
-	signpost 0, 9, SIGNPOST_READ, MapSproutTower3FSignpost3Script
-	signpost 0, 10, SIGNPOST_READ, MapSproutTower3FSignpost3Script
-	signpost 15, 5, SIGNPOST_READ, MapSproutTower3FSignpost5Script
-	signpost 15, 14, SIGNPOST_READ, MapSproutTower3FSignpost5Script
+	bg_event 8, 1, BGEVENT_READ, MapSproutTower3FSignpost5Script
+	bg_event 11, 1, BGEVENT_READ, MapSproutTower3FSignpost5Script
+	bg_event 9, 0, BGEVENT_READ, MapSproutTower3FSignpost3Script
+	bg_event 10, 0, BGEVENT_READ, MapSproutTower3FSignpost3Script
+	bg_event 5, 15, BGEVENT_READ, MapSproutTower3FSignpost5Script
+	bg_event 14, 15, BGEVENT_READ, MapSproutTower3FSignpost5Script
 
-.PersonEvents:
+.ObjectEvents:
 	db 7
-	person_event SPRITE_SAGE, 13, 8, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 3, TrainerSageJin, -1
-	person_event SPRITE_SAGE, 8, 8, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 2, TrainerSageTroy, -1
-	person_event SPRITE_SAGE, 2, 10, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, SageLiScript, -1
-	person_event SPRITE_SAGE, 11, 11, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 3, TrainerSageNeal, -1
-	person_event SPRITE_POKE_BALL, 14, 6, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, SproutTower3FPotion, EVENT_SPROUT_TOWER_3F_POTION
-	person_event SPRITE_POKE_BALL, 1, 14, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, SproutTower3FEscapeRope, EVENT_SPROUT_TOWER_3F_ESCAPE_ROPE
-	person_event SPRITE_SILVER, 4, 10, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ObjectEvent, EVENT_RIVAL_SPROUT_TOWER
+	object_event 8, 13, SPRITE_SAGE, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerSageJin, -1
+	object_event 8, 8, SPRITE_SAGE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 2, TrainerSageTroy, -1
+	object_event 10, 2, SPRITE_SAGE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, SageLiScript, -1
+	object_event 11, 11, SPRITE_SAGE, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerSageNeal, -1
+	object_event 6, 14, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, SproutTower3FPotion, EVENT_SPROUT_TOWER_3F_POTION
+	object_event 14, 1, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, SproutTower3FEscapeRope, EVENT_SPROUT_TOWER_3F_ESCAPE_ROPE
+	object_event 10, 4, SPRITE_SILVER, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_RIVAL_SPROUT_TOWER

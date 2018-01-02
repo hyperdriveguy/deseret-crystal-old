@@ -1,10 +1,9 @@
-
 Special:: ; c01b
 ; Run script special de.
 	ld hl, SpecialsPointers
-	add hl,de
-	add hl,de
-	add hl,de
+	add hl, de
+	add hl, de
+	add hl, de
 	ld b, [hl]
 	inc hl
 	ld a, [hli]
@@ -104,7 +103,7 @@ SpecialsPointers:: ; c029
 	add_special Special_DisplayLinkRecord
 	add_special GetFirstPokemonHappiness
 	add_special CheckFirstMonIsEgg
-	add_special RandomPhoneRareWildMon
+	add_special RandomUnseenWildMon
 	add_special RandomPhoneWildMon
 	add_special RandomPhoneMon
 	add_special MapCallbackSprites_LoadUsedSpritesGFX
@@ -154,7 +153,7 @@ SpecialsPointers:: ; c029
 Special_SetPlayerPalette: ; c225
 	ld a, [ScriptVar]
 	ld d, a
-	callba SetPlayerPalette
+	farcall SetPlayerPalette
 	ret
 ; c230
 
@@ -169,7 +168,7 @@ Special_GameCornerPrizeMonCheckDex: ; c230
 	call FadeToMenu
 	ld a, [ScriptVar]
 	ld [wd265], a
-	callba NewPokedexEntry
+	farcall NewPokedexEntry
 	call ExitAllMenus
 	ret
 ; c252
@@ -177,14 +176,14 @@ Special_GameCornerPrizeMonCheckDex: ; c230
 Special_FindThatSpecies: ; c276
 	ld a, [ScriptVar]
 	ld b, a
-	callba _FindThatSpecies
+	farcall _FindThatSpecies
 	jr z, FoundNone
 	jr FoundOne
 
 Special_FindThatSpeciesYourTrainerID: ; c284
 	ld a, [ScriptVar]
 	ld b, a
-	callba _FindThatSpeciesYourTrainerID
+	farcall _FindThatSpeciesYourTrainerID
 	jr z, FoundNone
 	jr FoundOne
 
@@ -202,7 +201,7 @@ FoundNone: ; c298
 SpecialNameRival: ; 0xc29d
 	ld b, $2 ; rival
 	ld de, RivalName
-	callba _NamingScreen
+	farcall _NamingScreen
 	; default to "SILVER"
 	ld hl, RivalName
 	ld de, DefaultRivalName
@@ -214,27 +213,27 @@ DefaultRivalName: ; 0xc2b2
 	db "SILVER@"
 
 SpecialNameRater: ; c2b9
-	callba NameRater
+	farcall NameRater
 	ret
 ; c2c0
 
 Special_TownMap: ; c2c0
 	call FadeToMenu
-	callba _TownMap
+	farcall _TownMap
 	call ExitAllMenus
 	ret
 ; c2cd
 
 Special_UnownPrinter: ; c2cd
 	call FadeToMenu
-	callba UnownPrinter
+	farcall UnownPrinter
 	call ExitAllMenus
 	ret
 ; c2da
 
 Special_DisplayLinkRecord: ; c2da
 	call FadeToMenu
-	callba DisplayLinkRecord
+	farcall DisplayLinkRecord
 	call ExitAllMenus
 	ret
 ; c2e7
@@ -242,7 +241,7 @@ Special_DisplayLinkRecord: ; c2da
 Special_KrissHousePC: ; c2e7
 	xor a
 	ld [ScriptVar], a
-	callba _KrissHousePC
+	farcall _KrissHousePC
 	ld a, c
 	ld [ScriptVar], a
 	ret
@@ -298,7 +297,7 @@ Special_GetMysteryGiftItem: ; c309
 ; 0xc34a
 
 BugContestJudging: ; c34a
-	callba _BugContestJudging
+	farcall _BugContestJudging
 	ld a, b
 	ld [ScriptVar], a
 	ret
@@ -307,13 +306,13 @@ BugContestJudging: ; c34a
 MapRadio: ; c355
 	ld a, [ScriptVar]
 	ld e, a
-	callba PlayRadio
+	farcall PlayRadio
 	ret
 ; c360
 
 Special_UnownPuzzle: ; c360
 	call FadeToMenu
-	callba UnownPuzzle
+	farcall UnownPuzzle
 	ld a, [wSolvedUnownPuzzle]
 	ld [ScriptVar], a
 	call ExitAllMenus
@@ -431,20 +430,20 @@ StoreSwarmMapIndices:: ; c403
 
 SpecialCheckPokerus: ; c419
 ; Check if a monster in your party has Pokerus
-	callba CheckPokerus
+	farcall CheckPokerus
 	jp ScriptReturnCarry
 ; c422
 
 Special_ResetLuckyNumberShowFlag: ; c422
-	callba RestartLuckyNumberCountdown
+	farcall RestartLuckyNumberCountdown
 	ld hl, wLuckyNumberShowFlag
 	res 0, [hl]
-	callba LoadOrRegenerateLuckyIDNumber
+	farcall LoadOrRegenerateLuckyIDNumber
 	ret
 ; c434
 
 Special_CheckLuckyNumberShowFlag: ; c434
-	callba CheckLuckyNumberShowFlag
+	farcall CheckLuckyNumberShowFlag
 	jp ScriptReturnCarry
 ; c43d
 
@@ -512,10 +511,10 @@ SpecialGameboyCheck: ; c478
 
 
 Special_FadeOutMusic: ; c48f
-	ld a, MUSIC_NONE % $100
-	ld [MusicFadeIDLo], a
-	ld a, MUSIC_NONE / $100
-	ld [MusicFadeIDHi], a
+	ld a, LOW(MUSIC_NONE)
+	ld [MusicFadeID], a
+	ld a, HIGH(MUSIC_NONE)
+	ld [MusicFadeID + 1], a
 	ld a, $2
 	ld [MusicFade], a
 	ret
@@ -523,14 +522,14 @@ Special_FadeOutMusic: ; c48f
 
 Diploma: ; c49f
 	call FadeToMenu
-	callba _Diploma
+	farcall _Diploma
 	call ExitAllMenus
 	ret
 ; c4ac
 
 PrintDiploma: ; c4ac
 	call FadeToMenu
-	callba _PrintDiploma
+	farcall _PrintDiploma
 	call ExitAllMenus
 	ret
 ; c4b9

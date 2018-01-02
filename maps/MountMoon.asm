@@ -2,21 +2,19 @@ const_value set 2
 	const MOUNTMOON_SILVER
 
 MountMoon_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 2
-
-	; triggers
-	maptrigger .Trigger0
-	maptrigger .Trigger1
+	scene_script .RivalEncounter
+	scene_script .DummyScene
 
 .MapCallbacks:
 	db 0
 
-.Trigger0:
+.RivalEncounter:
 	priorityjump .RivalBattle
 	end
 
-.Trigger1:
+.DummyScene:
 	end
 
 .RivalBattle:
@@ -36,7 +34,7 @@ MountMoon_MapScriptHeader:
 	iftrue .Chikorita
 	winlosstext MountMoonSilverTextWin, MountMoonSilverTextLoss
 	setlasttalked MOUNTMOON_SILVER
-	loadtrainer RIVAL2, 3
+	loadtrainer RIVAL2, RIVAL2_1_TOTODILE
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle
@@ -45,7 +43,7 @@ MountMoon_MapScriptHeader:
 .Totodile:
 	winlosstext MountMoonSilverTextWin, MountMoonSilverTextLoss
 	setlasttalked MOUNTMOON_SILVER
-	loadtrainer RIVAL2, 1
+	loadtrainer RIVAL2, RIVAL2_1_CHIKORITA
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle
@@ -54,7 +52,7 @@ MountMoon_MapScriptHeader:
 .Chikorita:
 	winlosstext MountMoonSilverTextWin, MountMoonSilverTextLoss
 	setlasttalked MOUNTMOON_SILVER
-	loadtrainer RIVAL2, 2
+	loadtrainer RIVAL2, RIVAL2_1_CYNDAQUIL
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle
@@ -68,7 +66,7 @@ MountMoon_MapScriptHeader:
 	closetext
 	applymovement MOUNTMOON_SILVER, MountMoonSilverMovementAfter
 	disappear MOUNTMOON_SILVER
-	dotrigger $1
+	setscene $1
 	setevent EVENT_BEAT_RIVAL_IN_MT_MOON
 	playmapmusic
 	end
@@ -168,21 +166,21 @@ MountMoon_MapEventHeader:
 
 .Warps:
 	db 8
-	warp_def $3, $3, 1, ROUTE_3
-	warp_def $f, $f, 1, ROUTE_4
-	warp_def $3, $d, 7, MOUNT_MOON
-	warp_def $b, $f, 8, MOUNT_MOON
-	warp_def $5, $19, 1, MOUNT_MOON_SQUARE
-	warp_def $f, $19, 2, MOUNT_MOON_SQUARE
-	warp_def $3, $19, 3, MOUNT_MOON
-	warp_def $d, $19, 4, MOUNT_MOON
+	warp_def 3, 3, 1, ROUTE_3
+	warp_def 15, 15, 1, ROUTE_4
+	warp_def 13, 3, 7, MOUNT_MOON
+	warp_def 15, 11, 8, MOUNT_MOON
+	warp_def 25, 5, 1, MOUNT_MOON_SQUARE
+	warp_def 25, 15, 2, MOUNT_MOON_SQUARE
+	warp_def 25, 3, 3, MOUNT_MOON
+	warp_def 25, 13, 4, MOUNT_MOON
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_SILVER, 3, 7, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ObjectEvent, EVENT_MT_MOON_RIVAL
+	object_event 7, 3, SPRITE_SILVER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_MT_MOON_RIVAL

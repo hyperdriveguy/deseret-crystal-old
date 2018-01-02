@@ -2,21 +2,19 @@ const_value set 2
 	const BATTLETOWERELEVATOR_RECEPTIONIST
 
 BattleTowerElevator_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 2
-
-	; triggers
-	maptrigger .Trigger0
-	maptrigger .Trigger1
+	scene_script .Scene0
+	scene_script .Scene1
 
 .MapCallbacks:
 	db 0
 
-.Trigger0:
+.Scene0:
 	priorityjump .RideElevator
-	dotrigger $1
+	setscene $1
 
-.Trigger1:
+.Scene1:
 	end
 
 .RideElevator:
@@ -52,15 +50,15 @@ BattleTowerElevator_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $3, $1, 1, BATTLE_TOWER_HALLWAY
-	warp_def $3, $2, 1, BATTLE_TOWER_HALLWAY
+	warp_def 1, 3, 1, BATTLE_TOWER_HALLWAY
+	warp_def 2, 3, 1, BATTLE_TOWER_HALLWAY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_RECEPTIONIST, 2, 1, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, MovementData_BattleTowerElevatorReceptionistWalksIn, -1
+	object_event 1, 2, SPRITE_RECEPTIONIST, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, MovementData_BattleTowerElevatorReceptionistWalksIn, -1

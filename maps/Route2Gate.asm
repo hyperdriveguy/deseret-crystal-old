@@ -2,16 +2,16 @@ const_value set 2
 	const ROUTE2GATE_SCIENTIST
 
 Route2Gate_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-ScientistScript_0x9b952:
-	jumptextfaceplayer UnknownText_0x9b955
+Route2GateScientistScript:
+	jumptextfaceplayer Route2GateScientistText
 
-UnknownText_0x9b955:
+Route2GateScientistText:
 	text "Are you <PLAY_G>?"
 
 	para "I work as PROF."
@@ -31,17 +31,17 @@ Route2Gate_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $0, $4, 3, ROUTE_2
-	warp_def $0, $5, 4, ROUTE_2
-	warp_def $7, $4, 2, ROUTE_2
-	warp_def $7, $5, 2, ROUTE_2
+	warp_def 4, 0, 3, ROUTE_2
+	warp_def 5, 0, 4, ROUTE_2
+	warp_def 4, 7, 2, ROUTE_2
+	warp_def 5, 7, 2, ROUTE_2
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_SCIENTIST, 4, 6, SPRITEMOVEDATA_WALK_UP_DOWN, 2, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, ScientistScript_0x9b952, -1
+	object_event 6, 4, SPRITE_SCIENTIST, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 2, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, Route2GateScientistScript, -1

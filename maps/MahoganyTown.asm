@@ -5,23 +5,19 @@ const_value set 2
 	const MAHOGANYTOWN_LASS
 
 MahoganyTown_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 2
-
-	; triggers
-	maptrigger .Trigger0
-	maptrigger .Trigger1
+	scene_script .DummyScene0
+	scene_script .DummyScene1
 
 .MapCallbacks:
 	db 1
-
-	; callbacks
 	dbw MAPCALLBACK_NEWMAP, .FlyPoint
 
-.Trigger0:
+.DummyScene0:
 	end
 
-.Trigger1:
+.DummyScene1:
 	end
 
 .FlyPoint:
@@ -107,11 +103,11 @@ UnknownScript_0x19008c:
 	closetext
 	end
 
-FisherScript_0x190092:
-	jumptextfaceplayer UnknownText_0x190276
+MahoganyTownFisherScript:
+	jumptextfaceplayer MahoganyTownFisherText
 
-LassScript_0x190095:
-	jumptextfaceplayer UnknownText_0x1902f2
+MahoganyTownLassScript:
+	jumptextfaceplayer MahoganyTownLassText
 
 MahoganyTownSign:
 	jumptext MahoganyTownSignText
@@ -122,7 +118,7 @@ MahoganyTownRagecandybarSign:
 MahoganyGymSign:
 	jumptext MahoganyGymSignText
 
-MahoganyTownPokeCenterSign:
+MahoganyTownPokecenterSign:
 	jumpstd pokecentersign
 
 MovementData_0x1900a7:
@@ -200,7 +196,7 @@ UnknownText_0x19021d:
 	cont "anglers there."
 	done
 
-UnknownText_0x190276:
+MahoganyTownFisherText:
 	text "Since you came"
 	line "this far, take the"
 
@@ -214,7 +210,7 @@ UnknownText_0x190276:
 	line "right now."
 	done
 
-UnknownText_0x1902f2:
+MahoganyTownLassText:
 	text "Visit Grandma's"
 	line "shop. She sells"
 
@@ -250,27 +246,27 @@ MahoganyTown_MapEventHeader:
 
 .Warps:
 	db 5
-	warp_def $7, $b, 1, MAHOGANY_MART_1F
-	warp_def $7, $11, 1, MAHOGANY_RED_GYARADOS_SPEECH_HOUSE
-	warp_def $d, $6, 1, MAHOGANY_GYM
-	warp_def $d, $f, 1, MAHOGANY_POKECENTER_1F
-	warp_def $1, $9, 3, ROUTE_43_MAHOGANY_GATE
+	warp_def 11, 7, 1, MAHOGANY_MART_1F
+	warp_def 17, 7, 1, MAHOGANY_RED_GYARADOS_SPEECH_HOUSE
+	warp_def 6, 13, 1, MAHOGANY_GYM
+	warp_def 15, 13, 1, MAHOGANY_POKECENTER_1F
+	warp_def 9, 1, 3, ROUTE_43_MAHOGANY_GATE
 
-.XYTriggers:
+.CoordEvents:
 	db 2
-	xy_trigger 0, $8, $13, $0, UnknownScript_0x190013, $0, $0
-	xy_trigger 0, $9, $13, $0, UnknownScript_0x190013, $0, $0
+	coord_event 19, 8, 0, UnknownScript_0x190013
+	coord_event 19, 9, 0, UnknownScript_0x190013
 
-.Signposts:
+.BGEvents:
 	db 4
-	signpost 5, 1, SIGNPOST_READ, MahoganyTownSign
-	signpost 7, 9, SIGNPOST_READ, MahoganyTownRagecandybarSign
-	signpost 13, 3, SIGNPOST_READ, MahoganyGymSign
-	signpost 13, 16, SIGNPOST_READ, MahoganyTownPokeCenterSign
+	bg_event 1, 5, BGEVENT_READ, MahoganyTownSign
+	bg_event 9, 7, BGEVENT_READ, MahoganyTownRagecandybarSign
+	bg_event 3, 13, BGEVENT_READ, MahoganyGymSign
+	bg_event 16, 13, BGEVENT_READ, MahoganyTownPokecenterSign
 
-.PersonEvents:
+.ObjectEvents:
 	db 4
-	person_event SPRITE_POKEFAN_M, 8, 19, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, PokefanMScript_0x19002e, EVENT_MAHOGANY_TOWN_POKEFAN_M_BLOCKS_EAST
-	person_event SPRITE_GRAMPS, 9, 6, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 1, -1, -1, 0, PERSONTYPE_SCRIPT, 0, GrampsScript_0x19007e, -1
-	person_event SPRITE_FISHER, 14, 6, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, FisherScript_0x190092, EVENT_MAHOGANY_TOWN_POKEFAN_M_BLOCKS_GYM
-	person_event SPRITE_LASS, 8, 12, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, LassScript_0x190095, EVENT_MAHOGANY_MART_OWNERS
+	object_event 19, 8, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, PokefanMScript_0x19002e, EVENT_MAHOGANY_TOWN_POKEFAN_M_BLOCKS_EAST
+	object_event 6, 9, SPRITE_GRAMPS, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GrampsScript_0x19007e, -1
+	object_event 6, 14, SPRITE_FISHER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, MahoganyTownFisherScript, EVENT_MAHOGANY_TOWN_POKEFAN_M_BLOCKS_GYM
+	object_event 12, 8, SPRITE_LASS, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, MahoganyTownLassScript, EVENT_MAHOGANY_MART_OWNERS

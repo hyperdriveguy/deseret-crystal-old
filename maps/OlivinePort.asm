@@ -8,27 +8,25 @@ const_value set 2
 	const OLIVINEPORT_COOLTRAINER_F
 
 OlivinePort_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 2
-
-	; triggers
-	dw UnknownScript_0x748ac, 0
-	dw UnknownScript_0x748ad, 0
+	scene_script .DummyScene0
+	scene_script .LeaveFastShip
 
 .MapCallbacks:
 	db 0
 
-UnknownScript_0x748ac:
+.DummyScene0:
 	end
 
-UnknownScript_0x748ad:
-	priorityjump UnknownScript_0x748b1
+.LeaveFastShip:
+	priorityjump .LeaveFastShipScript
 	end
 
-UnknownScript_0x748b1:
+.LeaveFastShipScript:
 	applymovement PLAYER, MovementData_0x74a32
 	appear OLIVINEPORT_SAILOR1
-	dotrigger $0
+	setscene $0
 	setevent EVENT_GAVE_KURT_APRICORNS
 	blackoutmod OLIVINE_CITY
 	end
@@ -66,7 +64,7 @@ SailorScript_0x748c0:
 UnknownScript_0x7490a:
 	clearevent EVENT_FAST_SHIP_DESTINATION_OLIVINE
 	appear OLIVINEPORT_SAILOR1
-	domaptrigger FAST_SHIP_1F, $1
+	setmapscene FAST_SHIP_1F, $1
 	warp FAST_SHIP_1F, $19, $1
 	end
 
@@ -196,8 +194,8 @@ UnknownScript_0x749f8:
 	closetext
 	end
 
-SailorScript_0x749fe:
-	jumptextfaceplayer UnknownText_0x74cd7
+OlivinePortSailorScript:
+	jumptextfaceplayer OlivinePortSailorText
 
 FishingGuruScript_0x74a01:
 	faceplayer
@@ -379,7 +377,7 @@ UnknownText_0x74ca2:
 	para "I wish I could go…"
 	done
 
-UnknownText_0x74cd7:
+OlivinePortSailorText:
 	text "We don't want you"
 	line "to fall into the"
 
@@ -393,23 +391,23 @@ OlivinePort_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $b, 5, OLIVINE_PORT_PASSAGE
-	warp_def $17, $7, 1, FAST_SHIP_1F
+	warp_def 11, 7, 5, OLIVINE_PORT_PASSAGE
+	warp_def 7, 23, 1, FAST_SHIP_1F
 
-.XYTriggers:
+.CoordEvents:
 	db 1
-	xy_trigger 0, $f, $7, $0, UnknownScript_0x7491f, $0, $0
+	coord_event 7, 15, 0, UnknownScript_0x7491f
 
-.Signposts:
+.BGEvents:
 	db 1
-	signpost 22, 1, SIGNPOST_ITEM, OlivinePortHiddenProtein
+	bg_event 1, 22, BGEVENT_ITEM, OlivinePortHiddenProtein
 
-.PersonEvents:
+.ObjectEvents:
 	db 7
-	person_event SPRITE_SAILOR, 23, 7, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, SailorScript_0x748c0, EVENT_OLIVINE_PORT_SAILOR_AT_GANGWAY
-	person_event SPRITE_SAILOR, 15, 7, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, SailorScript_0x749fe, EVENT_OLIVINE_PORT_SPRITES_BEFORE_HALL_OF_FAME
-	person_event SPRITE_SAILOR, 15, 6, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, SailorScript_0x7499c, EVENT_OLIVINE_PORT_SPRITES_AFTER_HALL_OF_FAME
-	person_event SPRITE_FISHING_GURU, 14, 4, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, FishingGuruScript_0x74a01, EVENT_OLIVINE_PORT_SPRITES_BEFORE_HALL_OF_FAME
-	person_event SPRITE_FISHING_GURU, 14, 13, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, FishingGuruScript_0x74a0c, EVENT_OLIVINE_PORT_SPRITES_BEFORE_HALL_OF_FAME
-	person_event SPRITE_YOUNGSTER, 15, 4, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, YoungsterScript_0x74a17, EVENT_OLIVINE_PORT_SPRITES_AFTER_HALL_OF_FAME
-	person_event SPRITE_COOLTRAINER_F, 15, 11, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, CooltrainerFScript_0x74a22, EVENT_OLIVINE_PORT_SPRITES_AFTER_HALL_OF_FAME
+	object_event 7, 23, SPRITE_SAILOR, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, SailorScript_0x748c0, EVENT_OLIVINE_PORT_SAILOR_AT_GANGWAY
+	object_event 7, 15, SPRITE_SAILOR, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, OlivinePortSailorScript, EVENT_OLIVINE_PORT_SPRITES_BEFORE_HALL_OF_FAME
+	object_event 6, 15, SPRITE_SAILOR, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, SailorScript_0x7499c, EVENT_OLIVINE_PORT_SPRITES_AFTER_HALL_OF_FAME
+	object_event 4, 14, SPRITE_FISHING_GURU, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, FishingGuruScript_0x74a01, EVENT_OLIVINE_PORT_SPRITES_BEFORE_HALL_OF_FAME
+	object_event 13, 14, SPRITE_FISHING_GURU, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, FishingGuruScript_0x74a0c, EVENT_OLIVINE_PORT_SPRITES_BEFORE_HALL_OF_FAME
+	object_event 4, 15, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, YoungsterScript_0x74a17, EVENT_OLIVINE_PORT_SPRITES_AFTER_HALL_OF_FAME
+	object_event 11, 15, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, CooltrainerFScript_0x74a22, EVENT_OLIVINE_PORT_SPRITES_AFTER_HALL_OF_FAME

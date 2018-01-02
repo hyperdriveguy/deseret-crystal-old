@@ -7,14 +7,14 @@ ResetMapBufferEventFlags:: ; 2e50
 
 ResetBikeFlags:: ; 2e56
 	xor a
-	ld hl, BikeFlags
+	ld hl, wBikeFlags
 	ld [hli], a
 	ld [hl], a
 	ret
 ; 2e5d
 
 ResetFlashIfOutOfCave:: ; 2e5d
-	ld a, [wPermission]
+	ld a, [wEnvironment]
 	cp $2
 	jr z, .asm_2e69
 	cp $1
@@ -22,7 +22,7 @@ ResetFlashIfOutOfCave:: ; 2e5d
 	ret
 
 .asm_2e69
-	ld hl, StatusFlags
+	ld hl, wStatusFlags
 	res 2, [hl]
 	ret
 ; 2e6f
@@ -38,9 +38,9 @@ FlagAction:: ; 0x2e76
 
 ; inputs:
 ; b: function
-;    0 clear bit
-;    1 set bit
-;    2 check bit
+;    0  RESET_FLAG  clear bit
+;    1  SET_FLAG    set bit
+;    2  CHECK_FLAG  check bit
 ; de: bit number
 ; hl: index within bit table
 
@@ -75,9 +75,9 @@ FlagAction:: ; 0x2e76
 
 	; check b's value: 0, 1, 2
 	ld a, b
-	cp 1
-	jr c, .clearbit ; 0
-	jr z, .setbit ; 1
+	cp SET_FLAG
+	jr c, .clearbit ; RESET_FLAG
+	jr z, .setbit ; SET_FLAG
 
 	; check bit
 	ld a, [hl]
@@ -105,7 +105,7 @@ FlagAction:: ; 0x2e76
 CheckReceivedDex:: ; 2ead
 	ld de, ENGINE_POKEDEX
 	ld b, CHECK_FLAG
-	callba EngineFlagAction
+	farcall EngineFlagAction
 	ld a, c
 	and a
 	ret

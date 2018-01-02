@@ -1,17 +1,17 @@
 RedsHouse2F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-MapRedsHouse2FSignpost0Script:
-	jumptext UnknownText_0x19b050
+RedsHouse2FN64Script:
+	jumptext RedsHouse2FN64Text
 
-MapRedsHouse2FSignpost1Script:
-	jumptext UnknownText_0x19b087
+RedsHouse2FPCScript:
+	jumptext RedsHouse2FPCText
 
-UnknownText_0x19b050:
+RedsHouse2FN64Text:
 	text "<PLAYER> played the"
 	line "N64."
 
@@ -19,7 +19,7 @@ UnknownText_0x19b050:
 	line "no time to lose!"
 	done
 
-UnknownText_0x19b087:
+RedsHouse2FPCText:
 	text "It looks like it"
 	line "hasn't been used"
 	cont "in a long time…"
@@ -31,15 +31,15 @@ RedsHouse2F_MapEventHeader:
 
 .Warps:
 	db 1
-	warp_def $0, $7, 3, REDS_HOUSE_1F
+	warp_def 7, 0, 3, REDS_HOUSE_1F
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 5, 3, SIGNPOST_READ, MapRedsHouse2FSignpost0Script
-	signpost 1, 0, SIGNPOST_READ, MapRedsHouse2FSignpost1Script
+	bg_event 3, 5, BGEVENT_READ, RedsHouse2FN64Script
+	bg_event 0, 1, BGEVENT_READ, RedsHouse2FPCScript
 
-.PersonEvents:
+.ObjectEvents:
 	db 0

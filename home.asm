@@ -1,16 +1,22 @@
 INCLUDE "includes.asm"
 
+
 SECTION "NULL", ROM0
 NULL::
 
-INCLUDE "rst.asm"
-INCLUDE "interrupts.asm"
+
+INCLUDE "home/rst.asm"
+
+
+INCLUDE "home/interrupts.asm"
+
 
 SECTION "Header", ROM0
 
 Start::
 	nop
 	jp _Start
+
 
 SECTION "Home", ROM0
 
@@ -476,7 +482,7 @@ ApplyTilemap:: ; 321c
 
 	ld a, 1
 	ld [hBGMapMode], a
-	jr LoadEDTile
+	jr CopyTilemapAtOnce
 
 .dmg
 ; WaitBGMap
@@ -487,8 +493,8 @@ ApplyTilemap:: ; 321c
 	ret
 ; 3238
 
-CGBOnly_LoadEDTile:: ; 3238
-LoadEDTile:: ; 323d
+CGBOnly_CopyTilemapAtOnce:: ; 3238
+CopyTilemapAtOnce:: ; 323d
 	ld a, [hBGMapMode]
 	push af
 	xor a
@@ -505,11 +511,11 @@ LoadEDTile:: ; 323d
 	jr c, .wait
 
 	di
-	ld a, 1 ; BANK(VTiles3)
+	ld a, BANK(vTiles3)
 	ld [rVBK], a
 	hlcoord 0, 0, AttrMap
 	call .StackPointerMagic
-	ld a, 0 ; BANK(VTiles0)
+	ld a, BANK(vTiles0)
 	ld [rVBK], a
 	hlcoord 0, 0
 	call .StackPointerMagic
@@ -528,7 +534,7 @@ LoadEDTile:: ; 323d
 ; 327b
 
 .StackPointerMagic: ; 327b
-; Copy all tiles to VBGMap
+; Copy all tiles to vBGMap
 	ld [hSPBuffer], sp
 	ld sp, hl
 	ld a, [hBGMapAddress + 1]
@@ -537,7 +543,7 @@ LoadEDTile:: ; 323d
 	ld a, SCREEN_HEIGHT
 	ld [hTilesPerCycle], a
 	ld b, 1 << 1 ; not in v/hblank
-	ld c, rSTAT % $100
+	ld c, LOW(rSTAT)
 
 .loop
 rept SCREEN_WIDTH / 2
@@ -554,7 +560,7 @@ rept SCREEN_WIDTH / 2
 	inc l
 endr
 
-	ld de, $20 - SCREEN_WIDTH
+	ld de, BG_MAP_WIDTH - SCREEN_WIDTH
 	add hl, de
 	ld a, [hTilesPerCycle]
 	dec a
@@ -622,22 +628,20 @@ SetHPPal:: ; 334e
 
 GetHPPal:: ; 3353
 ; Get palette for hp bar pixel length e in d.
-
 	ld d, HP_GREEN
 	ld a, e
 	cp (50 * 48 / 100)
 	ret nc
-	inc d ; yellow
+	inc d ; HP_YELLOW
 	cp (21 * 48 / 100)
 	ret nc
-	inc d ; red
+	inc d ; HP_RED
 	ret
 ; 335f
 
 CountSetBits:: ; 0x335f
 ; Count the number of set bits in b bytes starting from hl.
 ; Return in a, c and [wd265].
-
 	ld c, 0
 .next
 	ld a, [hli]
@@ -671,307 +675,7 @@ GetWeekday:: ; 3376
 
 INCLUDE "home/pokedex_flags.asm"
 
-NamesPointers:: ; 33ab
-	dba PokemonNames
-	dba MoveNames
-	dbw 0, 0
-	dba ItemNames
-	dbw 0, PartyMonOT
-	dbw 0, OTPartyMonOT
-	dba TrainerClassNames
-	dbw $4, $4b52 ; within PackMenuGFX
-; 33c3
-
-GetName:: ; 33c3
-; Return name CurSpecies from name list wNamedObjectTypeBuffer in StringBuffer1.
-
-	ld a, [hROMBank]
-	push af
-	push hl
-	push bc
-	push de
-
-	ld a, [wNamedObjectTypeBuffer]
-	cp PKMN_NAME
-	jr nz, .NotPokeName
-
-	ld a, [CurSpecies]
-	ld [wd265], a
-	call GetPokemonName
-	ld hl, PKMN_NAME_LENGTH
-	add hl, de
-	ld e, l
-	ld d, h
-	jr .done
-
-.NotPokeName:
-	ld a, [wNamedObjectTypeBuffer]
-	dec a
-	ld e, a
-	ld d, 0
-	ld hl, NamesPointers
-	add hl, de
-	add hl, de
-	add hl, de
-	ld a, [hli]
-	rst Bankswitch
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-
-	ld a, [CurSpecies]
-	dec a
-	call GetNthString
-
-	ld de, StringBuffer1
-	ld bc, ITEM_NAME_LENGTH
-	call CopyBytes
-
-.done
-	ld a, e
-	ld [wUnusedD102], a
-	ld a, d
-	ld [wUnusedD102 + 1], a
-
-	pop de
-	pop bc
-	pop hl
-	pop af
-	rst Bankswitch
-	ret
-; 3411
-
-GetNthString:: ; 3411
-; Return the address of the
-; ath string starting from hl.
-
-	and a
-	ret z
-
-	push bc
-	ld b, a
-	ld c, "@"
-.readChar
-	ld a, [hli]
-	cp c
-	jr nz, .readChar
-	dec b
-	jr nz, .readChar
-	pop bc
-	ret
-; 3420
-
-GetBasePokemonName:: ; 3420
-; Discards gender (Nidoran).
-
-	push hl
-	call GetPokemonName
-
-	ld hl, StringBuffer1
-.loop
-	ld a, [hl]
-	cp "@"
-	jr z, .quit
-	cp "♂"
-	jr z, .end
-	cp "♀"
-	jr z, .end
-	inc hl
-	jr .loop
-.end
-	ld [hl], "@"
-.quit
-	pop hl
-	ret
-
-; 343b
-
-GetPokemonName:: ; 343b
-; Get Pokemon name wd265.
-
-	ld a, [hROMBank]
-	push af
-	push hl
-	ld a, BANK(PokemonNames)
-	rst Bankswitch
-
-; Each name is ten characters
-	ld a, [wd265]
-	dec a
-	ld d, 0
-	ld e, a
-	ld h, 0
-	ld l, a
-	add hl, hl ; hl = hl * 4
-	add hl, hl ; hl = hl * 4
-	add hl, de ; hl = (hl*4) + de
-	add hl, hl ; hl = (5*hl) + (5*hl)
-	ld de, PokemonNames
-	add hl, de
-
-; Terminator
-	ld de, StringBuffer1
-	push de
-	ld bc, PKMN_NAME_LENGTH - 1
-	call CopyBytes
-	ld hl, StringBuffer1 + PKMN_NAME_LENGTH - 1
-	ld [hl], "@"
-	pop de
-
-	pop hl
-	pop af
-	rst Bankswitch
-	ret
-; 3468
-
-GetItemName:: ; 3468
-; Get item name wd265.
-
-	push hl
-	push bc
-	ld a, [wd265]
-
-	cp TM01
-	jr nc, .TM
-
-	ld [CurSpecies], a
-	ld a, ITEM_NAME
-	ld [wNamedObjectTypeBuffer], a
-	call GetName
-	jr .Copied
-.TM:
-	call GetTMHMName
-.Copied:
-	ld de, StringBuffer1
-	pop bc
-	pop hl
-	ret
-; 3487
-
-GetTMHMName:: ; 3487
-; Get TM/HM name by item id wd265.
-
-	push hl
-	push de
-	push bc
-	ld a, [wd265]
-	push af
-
-; TM/HM prefix
-	cp HM01
-	push af
-	jr c, .TM
-
-	ld hl, .HMText
-	ld bc, .HMTextEnd - .HMText
-	jr .asm_34a1
-
-.TM:
-	ld hl, .TMText
-	ld bc, .TMTextEnd - .TMText
-
-.asm_34a1
-	ld de, StringBuffer1
-	call CopyBytes
-
-; TM/HM number
-	push de
-	ld a, [wd265]
-	ld c, a
-	callab GetTMHMNumber
-	pop de
-
-; HM numbers start from 51, not 1
-	pop af
-	ld a, c
-	jr c, .asm_34b9
-	sub NUM_TMS
-.asm_34b9
-
-; Divide and mod by 10 to get the top and bottom digits respectively
-	ld b, "0"
-.mod10
-	sub 10
-	jr c, .asm_34c2
-	inc b
-	jr .mod10
-.asm_34c2
-	add 10
-
-	push af
-	ld a, b
-	ld [de], a
-	inc de
-	pop af
-
-	ld b, "0"
-	add b
-	ld [de], a
-
-; End the string
-	inc de
-	ld a, "@"
-	ld [de], a
-
-	pop af
-	ld [wd265], a
-	pop bc
-	pop de
-	pop hl
-	ret
-
-.TMText:
-	db "TM"
-.TMTextEnd:
-	db "@"
-
-.HMText:
-	db "HM"
-.HMTextEnd:
-	db "@"
-; 34df
-
-IsHM:: ; 34df
-	cp HM01
-	jr c, .NotHM
-	scf
-	ret
-.NotHM:
-	and a
-	ret
-; 34e7
-
-IsHMMove:: ; 34e7
-	ld hl, .HMMoves
-	ld de, 1
-	jp IsInArray
-
-.HMMoves:
-	db CUT
-	db FLY
-	db SURF
-	db STRENGTH
-	db FLASH
-	db WATERFALL
-	db WHIRLPOOL
-	db -1
-; 34f8
-
-GetMoveName:: ; 34f8
-	push hl
-
-	ld a, MOVE_NAME
-	ld [wNamedObjectTypeBuffer], a
-
-	ld a, [wNamedObjectIndexBuffer] ; move id
-	ld [CurSpecies], a
-
-	call GetName
-	ld de, StringBuffer1
-
-	pop hl
-	ret
-; 350c
+INCLUDE "home/names.asm"
 
 ScrollingMenu:: ; 350c
 	call CopyMenuData2
@@ -1061,7 +765,7 @@ HandleStoneQueue:: ; 3567
 
 	ld l, a
 	push hl
-	call .IsPersonOnWarp
+	call .IsObjectOnWarp
 	pop hl
 	jr nc, .nope
 	ld d, a
@@ -1069,7 +773,7 @@ HandleStoneQueue:: ; 3567
 	call .IsObjectInStoneTable
 	jr nc, .nope
 	call CallMapScript
-	callba EnableScriptMode
+	farcall EnableScriptMode
 	scf
 	ret
 
@@ -1078,7 +782,7 @@ HandleStoneQueue:: ; 3567
 	ret
 ; 3599
 
-.IsPersonOnWarp: ; 3599
+.IsObjectOnWarp: ; 3599
 	push de
 
 	ld hl, OBJECT_NEXT_MAP_X
@@ -1183,236 +887,7 @@ HandleStoneQueue:: ; 3567
 	ret
 ; 3600
 
-CheckTrainerBattle2:: ; 3600
-
-	ld a, [hROMBank]
-	push af
-
-	call SwitchToMapScriptHeaderBank
-	call CheckTrainerBattle
-
-	pop bc
-	ld a, b
-	rst Bankswitch
-	ret
-; 360d
-
-CheckTrainerBattle:: ; 360d
-; Check if any trainer on the map sees the player and wants to battle.
-
-; Skip the player object.
-	ld a, 1
-	ld de, MapObjects + OBJECT_LENGTH
-
-.loop
-
-; Start a battle if the object:
-
-	push af
-	push de
-
-; Has a sprite
-	ld hl, MAPOBJECT_SPRITE
-	add hl, de
-	ld a, [hl]
-	and a
-	jr z, .next
-
-; Is a trainer
-	ld hl, MAPOBJECT_COLOR
-	add hl, de
-	ld a, [hl]
-	and $f
-	cp $2
-	jr nz, .next
-
-; Is visible on the map
-	ld hl, MAPOBJECT_OBJECT_STRUCT_ID
-	add hl, de
-	ld a, [hl]
-	cp -1
-	jr z, .next
-
-; Is facing the player...
-	call GetObjectStruct
-	call FacingPlayerDistance_bc
-	jr nc, .next
-
-; ...within their sight range
-	ld hl, MAPOBJECT_RANGE
-	add hl, de
-	ld a, [hl]
-	cp b
-	jr c, .next
-
-; And hasn't already been beaten
-	push bc
-	push de
-	ld hl, MAPOBJECT_SCRIPT_POINTER
-	add hl, de
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-	ld e, [hl]
-	inc hl
-	ld d, [hl]
-	ld b, CHECK_FLAG
-	call EventFlagAction
-	ld a, c
-	pop de
-	pop bc
-	and a
-	jr z, .startbattle
-
-.next
-	pop de
-	ld hl, OBJECT_LENGTH
-	add hl, de
-	ld d, h
-	ld e, l
-
-	pop af
-	inc a
-	cp NUM_OBJECTS
-	jr nz, .loop
-	xor a
-	ret
-
-.startbattle
-	pop de
-	pop af
-	ld [hLastTalked], a
-	ld a, b
-	ld [EngineBuffer2], a
-	ld a, c
-	ld [EngineBuffer3], a
-	jr LoadTrainer_continue
-; 3674
-
-TalkToTrainer:: ; 3674
-	ld a, 1
-	ld [EngineBuffer2], a
-	ld a, -1
-	ld [EngineBuffer3], a
-
-LoadTrainer_continue:: ; 367e
-	call GetMapScriptHeaderBank
-	ld [EngineBuffer1], a
-
-	ld a, [hLastTalked]
-	call GetMapObject
-
-	ld hl, MAPOBJECT_SCRIPT_POINTER
-	add hl, bc
-	ld a, [EngineBuffer1]
-	call GetFarHalfword
-	ld de, wTempTrainerHeader
-	ld bc, wTempTrainerHeaderEnd - wTempTrainerHeader
-	ld a, [EngineBuffer1]
-	call FarCopyBytes
-	xor a
-	ld [wRunningTrainerBattleScript], a
-	scf
-	ret
-; 36a5
-
-FacingPlayerDistance_bc:: ; 36a5
-
-	push de
-	call FacingPlayerDistance
-	ld b, d
-	ld c, e
-	pop de
-	ret
-; 36ad
-
-FacingPlayerDistance:: ; 36ad
-; Return carry if the sprite at bc is facing the player,
-; and its distance in d.
-
-	ld hl, OBJECT_NEXT_MAP_X ; x
-	add hl, bc
-	ld d, [hl]
-
-	ld hl, OBJECT_NEXT_MAP_Y ; y
-	add hl, bc
-	ld e, [hl]
-
-	ld a, [PlayerStandingMapX]
-	cp d
-	jr z, .CheckY
-
-	ld a, [PlayerStandingMapY]
-	cp e
-	jr z, .CheckX
-
-	and a
-	ret
-
-.CheckY:
-	ld a, [PlayerStandingMapY]
-	sub e
-	jr z, .NotFacing
-	jr nc, .Above
-
-; Below
-	cpl
-	inc a
-	ld d, a
-	ld e, OW_UP
-	jr .CheckFacing
-
-.Above:
-	ld d, a
-	ld e, OW_DOWN
-	jr .CheckFacing
-
-.CheckX:
-	ld a, [PlayerStandingMapX]
-	sub d
-	jr z, .NotFacing
-	jr nc, .Left
-
-; Right
-	cpl
-	inc a
-	ld d, a
-	ld e, OW_LEFT
-	jr .CheckFacing
-
-.Left:
-	ld d, a
-	ld e, OW_RIGHT
-
-.CheckFacing:
-	call GetSpriteDirection
-	cp e
-	jr nz, .NotFacing
-	scf
-	ret
-
-.NotFacing:
-	and a
-	ret
-; 36f5
-
-PrintWinLossText:: ; 3718
-	ld a, [wBattleResult]
-	ld hl, wWinTextPointer
-	and $f
-	jr z, .ok
-	ld hl, wLossTextPointer
-
-.ok
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-	call GetMapScriptHeaderBank
-	call FarPrintText
-	call WaitBGMap
-	call WaitPressAorB_BlinkCursor
-	ret
-; 3741
+INCLUDE "home/trainers.asm"
 
 IsAPokemon:: ; 3741
 ; Return carry if species a is not a Pokemon.
@@ -1503,8 +978,8 @@ _PrepMonFrontpic:: ; 378b
 	jr c, .not_pokemon
 
 	push hl
-	ld de, VTiles2
-	predef GetFrontpic
+	ld de, vTiles2
+	predef GetMonFrontpic
 	pop hl
 	xor a
 	ld [hGraphicStartTile], a
@@ -1533,7 +1008,7 @@ PrintLevel:: ; 382d
 
 ; How many digits?
 	ld c, 2
-	cp 100
+	cp 100 ; This is distinct from MAX_LEVEL.
 	jr c, Print8BitNumRightAlign
 
 ; 3-digit numbers overwrite the :L.
@@ -1572,11 +1047,11 @@ GetBaseData:: ; 3856
 
 ; Get BaseData
 	dec a
-	ld bc, BaseData1 - BaseData0
+	ld bc, BASE_DATA_SIZE
 	ld hl, BaseData
 	call AddNTimes
 	ld de, CurBaseData
-	ld bc, BaseData1 - BaseData0
+	ld bc, BASE_DATA_SIZE
 	call CopyBytes
 	jr .end
 
@@ -1617,7 +1092,7 @@ GetNick:: ; 38a2
 	call CopyBytes
 	pop de
 
-	callab CheckNickErrors
+	callfar CheckNickErrors
 
 	pop bc
 	pop hl
@@ -1677,7 +1152,7 @@ PrintBCDNumber:: ; 38bb
 ; 0x38f2
 
 PrintBCDDigit:: ; 38f2
-	and a, %00001111
+	and %00001111
 	and a
 	jr z, .zeroDigit
 .nonzeroDigit
@@ -1692,7 +1167,7 @@ PrintBCDDigit:: ; 38f2
 .skipCurrencySymbol
 	res 7, b ; unset 7 to indicate that a nonzero digit has been reached
 .outputDigit
-	add a, "0"
+	add "0"
 	ld [hli], a
 	jp PrintLetterDelay
 
@@ -1733,14 +1208,14 @@ PushLYOverrides:: ; 3b0c
 	and a
 	ret z
 
-	ld a, LYOverridesBackup % $100
+	ld a, LOW(LYOverridesBackup)
 	ld [Requested2bppSource], a
-	ld a, LYOverridesBackup / $100
+	ld a, HIGH(LYOverridesBackup)
 	ld [Requested2bppSource + 1], a
 
-	ld a, LYOverrides % $100
+	ld a, LOW(LYOverrides)
 	ld [Requested2bppDest], a
-	ld a, LYOverrides / $100
+	ld a, HIGH(LYOverrides)
 	ld [Requested2bppDest + 1], a
 
 	ld a, (LYOverridesEnd - LYOverrides) / 16

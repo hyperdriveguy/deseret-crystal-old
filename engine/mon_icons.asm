@@ -63,15 +63,15 @@ PartyMenu_InitAnimatedMonIcon: ; 8e8d5 (23:68d5)
 	push hl
 	push bc
 	ld d, a
-	callab ItemIsMail
+	callfar ItemIsMail
 	pop bc
 	pop hl
 	jr c, .mail
-	ld a, SPRITE_ANIM_FRAMESET_03
+	ld a, SPRITE_ANIM_FRAMESET_PARTY_MON_WITH_ITEM
 	jr .okay
 
 .mail
-	ld a, SPRITE_ANIM_FRAMESET_02
+	ld a, SPRITE_ANIM_FRAMESET_PARTY_MON_WITH_MAIL
 .okay
 	ld hl, SPRITEANIMSTRUCT_FRAMESET_ID
 	add hl, bc
@@ -101,7 +101,7 @@ InitPartyMenuIcon: ; 8e908 (23:6908)
 ; x coord
 	ld e, $10
 ; type is partymon icon
-	ld a, SPRITE_ANIM_INDEX_00
+	ld a, SPRITE_ANIM_INDEX_PARTY_MON
 	call InitSpriteAnimStruct
 	pop af
 	ld hl, SPRITEANIMSTRUCT_TILE_ID
@@ -127,7 +127,7 @@ SetPartyMonIconAnimSpeed: ; 8e936 (23:6936)
 	ret
 
 .getspeed ; 8e94c (23:694c)
-	callba PlacePartymonHPBar
+	farcall PlacePartymonHPBar
 	call GetHPPal
 	ld e, d
 	ld d, 0
@@ -138,7 +138,9 @@ SetPartyMonIconAnimSpeed: ; 8e936 (23:6936)
 ; 8e95e (23:695e)
 
 .speeds ; 8e95e
-	db $00, $40, $80
+	db $00 ; HP_GREEN
+	db $40 ; HP_YELLOW
+	db $80 ; HP_RED
 ; 8e961
 
 NamingScreen_InitAnimatedMonIcon: ; 8e961 (23:6961)
@@ -148,7 +150,7 @@ NamingScreen_InitAnimatedMonIcon: ; 8e961 (23:6961)
 	xor a
 	call GetIconGFX
 	depixel 4, 4, 4, 0
-	ld a, SPRITE_ANIM_INDEX_00
+	ld a, SPRITE_ANIM_INDEX_PARTY_MON
 	call InitSpriteAnimStruct
 	ld hl, SPRITEANIMSTRUCT_ANIM_SEQ_ID
 	add hl, bc
@@ -161,9 +163,9 @@ MoveList_InitAnimatedMonIcon: ; 8e97d (23:697d)
 	ld [CurIcon], a
 	xor a
 	call GetIconGFX
-	ld d, 3 * 8 + 2
+	ld d, 3 * 8 + 2 ; depixel 3, 4, 2, 4
 	ld e, 4 * 8 + 4
-	ld a, SPRITE_ANIM_INDEX_00
+	ld a, SPRITE_ANIM_INDEX_PARTY_MON
 	call InitSpriteAnimStruct
 	ld hl, SPRITEANIMSTRUCT_ANIM_SEQ_ID
 	add hl, bc
@@ -207,7 +209,7 @@ GetMemIconGFX: ; 8e9db (23:69db)
 	ld a, [wCurIconTile]
 GetIconGFX: ; 8e9de
 	call GetIcon_a
-	ld de, $80 ; 8 tiles
+	ld de, 8 tiles
 	add hl, de
 	ld de, HeldItemIcons
 	lb bc, BANK(HeldItemIcons), 2
@@ -235,7 +237,7 @@ rept 4
 	add hl, hl
 endr
 
-	ld de, VTiles0
+	ld de, vTiles0
 	add hl, de
 	push hl
 
@@ -275,7 +277,7 @@ FreezeMonIcons: ; 8ea4a
 	jr .ok
 
 .loadwithtwo
-	ld a, SPRITE_ANIM_SEQ_02
+	ld a, SPRITE_ANIM_SEQ_PARTY_MON_SWITCH
 
 .ok
 	push hl
@@ -306,7 +308,7 @@ UnfreezeMonIcons: ; 8ea71
 	ld b, h
 	ld hl, SPRITEANIMSTRUCT_ANIM_SEQ_ID
 	add hl, bc
-	ld [hl], SPRITE_ANIM_SEQ_01
+	ld [hl], SPRITE_ANIM_SEQ_PARTY_MON
 	pop hl
 .next
 	ld bc, $10
@@ -327,11 +329,11 @@ HoldSwitchmonIcon: ; 8ea8c
 	jr z, .next
 	cp d
 	jr z, .is_switchmon
-	ld a, SPRITE_ANIM_SEQ_03
+	ld a, SPRITE_ANIM_SEQ_PARTY_MON_SELECTED
 	jr .join_back
 
 .is_switchmon
-	ld a, SPRITE_ANIM_SEQ_02
+	ld a, SPRITE_ANIM_SEQ_PARTY_MON_SWITCH
 .join_back
 	push hl
 	ld c, l
@@ -347,4 +349,24 @@ HoldSwitchmonIcon: ; 8ea8c
 	jr nz, .loop
 	ret
 
-INCLUDE "menu/mon_icons.asm"
+ReadMonMenuIcon: ; 8eab3
+	cp EGG
+	jr z, .egg
+	dec a
+	ld hl, MonMenuIcons
+	ld e, a
+	ld d, 0
+	add hl, de
+	ld a, [hl]
+	ret
+.egg
+	ld a, ICON_EGG
+	ret
+; 8eac4
+
+
+INCLUDE "data/pokemon/menu_icons.asm"
+
+INCLUDE "data/icon_pointers.asm"
+
+INCLUDE "gfx/icons.asm"

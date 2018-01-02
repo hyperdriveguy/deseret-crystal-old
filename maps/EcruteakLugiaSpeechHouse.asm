@@ -3,22 +3,22 @@ const_value set 2
 	const ECRUTEAKLUGIASPEECHHOUSE_YOUNGSTER
 
 EcruteakLugiaSpeechHouse_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-GrampsScript_0x99334:
-	jumptextfaceplayer UnknownText_0x9933d
+EcruteakLugiaSpeechHouseGrampsScript:
+	jumptextfaceplayer EcruteakLugiaSpeechHouseGrampsText
 
-YoungsterScript_0x99337:
-	jumptextfaceplayer UnknownText_0x993ec
+EcruteakLugiaSpeechHouseYoungsterScript:
+	jumptextfaceplayer EcruteakLugiaSpeechHouseYoungsterText
 
 LugiaSpeechHouseRadio:
 	jumpstd radio2
 
-UnknownText_0x9933d:
+EcruteakLugiaSpeechHouseGrampsText:
 	text "This happened when"
 	line "I was young."
 
@@ -36,7 +36,7 @@ UnknownText_0x9933d:
 	line "and a dragon."
 	done
 
-UnknownText_0x993ec:
+EcruteakLugiaSpeechHouseYoungsterText:
 	text "Is there really a"
 	line "#MON that big?"
 
@@ -50,17 +50,17 @@ EcruteakLugiaSpeechHouse_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $3, 7, ECRUTEAK_CITY
-	warp_def $7, $4, 7, ECRUTEAK_CITY
+	warp_def 3, 7, 7, ECRUTEAK_CITY
+	warp_def 4, 7, 7, ECRUTEAK_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 1
-	signpost 1, 2, SIGNPOST_READ, LugiaSpeechHouseRadio
+	bg_event 2, 1, BGEVENT_READ, LugiaSpeechHouseRadio
 
-.PersonEvents:
+.ObjectEvents:
 	db 2
-	person_event SPRITE_GRAMPS, 3, 2, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, GrampsScript_0x99334, -1
-	person_event SPRITE_YOUNGSTER, 4, 5, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, YoungsterScript_0x99337, -1
+	object_event 2, 3, SPRITE_GRAMPS, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, EcruteakLugiaSpeechHouseGrampsScript, -1
+	object_event 5, 4, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, EcruteakLugiaSpeechHouseYoungsterScript, -1

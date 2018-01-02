@@ -2,25 +2,20 @@ const_value set 2
 	const BRUNOSROOM_BRUNO
 
 BrunosRoom_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 2
-
-	; triggers
-	dw .Trigger0, 0
-	dw .Trigger1, 0
+	scene_script .LockDoor
+	scene_script .DummyScene
 
 .MapCallbacks:
 	db 1
-
-	; callbacks
-
 	dbw MAPCALLBACK_TILES, .BrunosRoomDoors
 
-.Trigger0:
+.LockDoor:
 	priorityjump .BrunosDoorLocksBehindYou
 	end
 
-.Trigger1:
+.DummyScene:
 	end
 
 .BrunosRoomDoors:
@@ -42,7 +37,7 @@ BrunosRoom_MapScriptHeader:
 	changeblock $4, $e, $2a
 	reloadmappart
 	closetext
-	dotrigger $1
+	setscene $1
 	setevent EVENT_BRUNOS_ROOM_ENTRANCE_CLOSED
 	waitsfx
 	end
@@ -135,17 +130,17 @@ BrunosRoom_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $11, $4, 3, KOGAS_ROOM
-	warp_def $11, $5, 4, KOGAS_ROOM
-	warp_def $2, $4, 1, KARENS_ROOM
-	warp_def $2, $5, 2, KARENS_ROOM
+	warp_def 4, 17, 3, KOGAS_ROOM
+	warp_def 5, 17, 4, KOGAS_ROOM
+	warp_def 4, 2, 1, KARENS_ROOM
+	warp_def 5, 2, 2, KARENS_ROOM
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_BRUNO, 7, 5, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_SCRIPT, 0, BrunoScript_Battle, -1
+	object_event 5, 7, SPRITE_BRUNO, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_SCRIPT, 0, BrunoScript_Battle, -1

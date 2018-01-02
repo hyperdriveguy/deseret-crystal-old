@@ -7,21 +7,19 @@ const_value set 2
 	const VERMILIONCITY_POKEFAN_M
 
 VermilionCity_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 1
-
-	; callbacks
 	dbw MAPCALLBACK_NEWMAP, .FlyPoint
 
 .FlyPoint:
 	setflag ENGINE_FLYPOINT_VERMILION
 	return
 
-TeacherScript_0x1aa983:
-	jumptextfaceplayer UnknownText_0x1aaa15
+VermilionCityTeacherScript:
+	jumptextfaceplayer VermilionCityTeacherText
 
 VermilionMachopOwner:
 	jumptextfaceplayer VermilionMachopOwnerText
@@ -39,8 +37,8 @@ VermilionMachop:
 	closetext
 	end
 
-SuperNerdScript_0x1aa99b:
-	jumptextfaceplayer UnknownText_0x1aab1a
+VermilionCitySuperNerdScript:
+	jumptextfaceplayer VermilionCitySuperNerdText
 
 VermilionSnorlax:
 	opentext
@@ -118,7 +116,7 @@ VermilionCityDiglettsCaveSign:
 VermilionCityPortSign:
 	jumptext VermilionCityPortSignText
 
-VermilionCityPokeCenterSign:
+VermilionCityPokecenterSign:
 	jumpstd pokecentersign
 
 VermilionCityMartSign:
@@ -127,7 +125,7 @@ VermilionCityMartSign:
 VermilionCityHiddenFullHeal:
 	dwb EVENT_VERMILION_CITY_HIDDEN_FULL_HEAL, FULL_HEAL
 
-UnknownText_0x1aaa15:
+VermilionCityTeacherText:
 	text "VERMILION PORT is"
 	line "KANTO's seaside"
 	cont "gateway."
@@ -158,7 +156,7 @@ VermilionMachopText2:
 	cont "the ground flat."
 	done
 
-UnknownText_0x1aab1a:
+VermilionCitySuperNerdText:
 	text "There are eight"
 	line "GYMS in KANTO."
 
@@ -275,36 +273,36 @@ VermilionCity_MapEventHeader:
 
 .Warps:
 	db 10
-	warp_def $5, $5, 1, VERMILION_HOUSE_FISHING_SPEECH_HOUSE
-	warp_def $5, $9, 1, VERMILION_POKECENTER_1F
-	warp_def $d, $7, 1, POKEMON_FAN_CLUB
-	warp_def $d, $d, 1, VERMILION_MAGNET_TRAIN_SPEECH_HOUSE
-	warp_def $d, $15, 2, VERMILION_MART
-	warp_def $11, $15, 1, VERMILION_HOUSE_DIGLETTS_CAVE_SPEECH_HOUSE
-	warp_def $13, $a, 1, VERMILION_GYM
-	warp_def $1f, $13, 1, VERMILION_PORT_PASSAGE
-	warp_def $1f, $14, 2, VERMILION_PORT_PASSAGE
-	warp_def $7, $22, 1, DIGLETTS_CAVE
+	warp_def 5, 5, 1, VERMILION_HOUSE_FISHING_SPEECH_HOUSE
+	warp_def 9, 5, 1, VERMILION_POKECENTER_1F
+	warp_def 7, 13, 1, POKEMON_FAN_CLUB
+	warp_def 13, 13, 1, VERMILION_MAGNET_TRAIN_SPEECH_HOUSE
+	warp_def 21, 13, 2, VERMILION_MART
+	warp_def 21, 17, 1, VERMILION_HOUSE_DIGLETTS_CAVE_SPEECH_HOUSE
+	warp_def 10, 19, 1, VERMILION_GYM
+	warp_def 19, 31, 1, VERMILION_PORT_PASSAGE
+	warp_def 20, 31, 2, VERMILION_PORT_PASSAGE
+	warp_def 34, 7, 1, DIGLETTS_CAVE
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 8
-	signpost 3, 25, SIGNPOST_READ, VermilionCitySign
-	signpost 19, 5, SIGNPOST_READ, VermilionGymSign
-	signpost 13, 5, SIGNPOST_READ, PokemonFanClubSign
-	signpost 9, 33, SIGNPOST_READ, VermilionCityDiglettsCaveSign
-	signpost 15, 27, SIGNPOST_READ, VermilionCityPortSign
-	signpost 5, 10, SIGNPOST_READ, VermilionCityPokeCenterSign
-	signpost 13, 22, SIGNPOST_READ, VermilionCityMartSign
-	signpost 19, 12, SIGNPOST_ITEM, VermilionCityHiddenFullHeal
+	bg_event 25, 3, BGEVENT_READ, VermilionCitySign
+	bg_event 5, 19, BGEVENT_READ, VermilionGymSign
+	bg_event 5, 13, BGEVENT_READ, PokemonFanClubSign
+	bg_event 33, 9, BGEVENT_READ, VermilionCityDiglettsCaveSign
+	bg_event 27, 15, BGEVENT_READ, VermilionCityPortSign
+	bg_event 10, 5, BGEVENT_READ, VermilionCityPokecenterSign
+	bg_event 22, 13, BGEVENT_READ, VermilionCityMartSign
+	bg_event 12, 19, BGEVENT_ITEM, VermilionCityHiddenFullHeal
 
-.PersonEvents:
+.ObjectEvents:
 	db 6
-	person_event SPRITE_TEACHER, 9, 18, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, 0, PERSONTYPE_SCRIPT, 0, TeacherScript_0x1aa983, -1
-	person_event SPRITE_GRAMPS, 6, 23, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, VermilionMachopOwner, -1
-	person_event SPRITE_MACHOP, 7, 26, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, VermilionMachop, -1
-	person_event SPRITE_SUPER_NERD, 16, 14, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, SuperNerdScript_0x1aa99b, -1
-	person_event SPRITE_BIG_SNORLAX, 8, 34, SPRITEMOVEDATA_SNORLAX, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, VermilionSnorlax, EVENT_VERMILION_CITY_SNORLAX
-	person_event SPRITE_POKEFAN_M, 12, 31, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, VermilionGymBadgeGuy, -1
+	object_event 18, 9, SPRITE_TEACHER, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, VermilionCityTeacherScript, -1
+	object_event 23, 6, SPRITE_GRAMPS, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, VermilionMachopOwner, -1
+	object_event 26, 7, SPRITE_MACHOP, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, VermilionMachop, -1
+	object_event 14, 16, SPRITE_SUPER_NERD, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, VermilionCitySuperNerdScript, -1
+	object_event 34, 8, SPRITE_BIG_SNORLAX, SPRITEMOVEDATA_SNORLAX, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, VermilionSnorlax, EVENT_VERMILION_CITY_SNORLAX
+	object_event 31, 12, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, VermilionGymBadgeGuy, -1

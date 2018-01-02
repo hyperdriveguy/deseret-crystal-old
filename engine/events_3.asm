@@ -1,14 +1,14 @@
 ReturnFromMapSetupScript:: ; b8000
 	xor a
 	ld [hBGMapMode], a
-	; For some reson, GameFreak chose to use a callba here instead of just falling through.
+	; For some reson, GameFreak chose to use a farcall here instead of just falling through.
 	; No other function in the game references the function at 2E:400A, here labeled
-	; ReturnFromMapSetupScript.inefficientcallba.
-	callba .inefficientcallba ; this is a waste of 6 ROM bytes and 6 stack bytes
+	; ReturnFromMapSetupScript.inefficient_farcall.
+	farcall .inefficient_farcall ; this is a waste of 6 ROM bytes and 6 stack bytes
 	ret
 ; b800a
 
-.inefficientcallba ; b800a
+.inefficient_farcall ; b800a
 	ld a, [MapGroup]
 	ld b, a
 	ld a, [MapNumber]
@@ -18,7 +18,7 @@ ReturnFromMapSetupScript:: ; b8000
 	call .CheckNationalParkGate
 	jr z, .nationalparkgate
 
-	call GetMapPermission
+	call GetMapEnvironment
 	cp GATE
 	jr nz, .not_gate
 
@@ -45,7 +45,7 @@ ReturnFromMapSetupScript:: ; b8000
 	ld [wLandmarkSignTimer], a
 	call LoadMapNameSignGFX
 	call InitMapNameFrame
-	callba HDMATransfer_OnlyTopFourRows
+	farcall HDMATransfer_OnlyTopFourRows
 	ret
 
 .dont_do_map_sign
@@ -78,7 +78,7 @@ ReturnFromMapSetupScript:: ; b8000
 	ret z
 	cp LAV_RADIO_TOWER
 	ret z
-	cp UNDERGROUND
+	cp UNDERGROUND_PATH
 	ret z
 	cp INDIGO_PLATEAU
 	ret z
@@ -113,7 +113,7 @@ PlaceMapNameSign:: ; b8098 (2e:4098)
 	jr nz, .skip2
 	call InitMapNameFrame
 	call PlaceMapNameCenterAlign
-	callba HDMATransfer_OnlyTopFourRows
+	farcall HDMATransfer_OnlyTopFourRows
 .skip2
 	ld a, $80
 	ld a, $70
@@ -132,7 +132,7 @@ PlaceMapNameSign:: ; b8098 (2e:4098)
 
 LoadMapNameSignGFX: ; b80c6
 	ld de, MapEntryFrameGFX
-	ld hl, VTiles2 tile $60
+	ld hl, vTiles2 tile $60
 	lb bc, BANK(MapEntryFrameGFX), $e
 	call Get2bpp
 	ret
@@ -151,7 +151,7 @@ InitMapNameFrame: ; b80d3
 PlaceMapNameCenterAlign: ; b80e1 (2e:40e1)
 	ld a, [wCurrentLandmark]
 	ld e, a
-	callba GetLandmarkName
+	farcall GetLandmarkName
 	call .GetNameLength
 	ld a, SCREEN_WIDTH
 	sub c
@@ -283,30 +283,30 @@ CheckForHiddenItems: ; b8172
 	ld a, [YCoord]
 	add SCREEN_HEIGHT / 4
 	ld [Buffer3], a
-; Get the pointer for the first signpost header in the map...
-	ld hl, wCurrentMapSignpostHeaderPointer
+; Get the pointer for the first BG event header in the map...
+	ld hl, wCurrMapBGEventHeaderPointer
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-; ... before even checking to see if there are any signposts on this map.
-	ld a, [wCurrentMapSignpostCount]
+; ... before even checking to see if there are any BG events on this map.
+	ld a, [wCurrMapBGEventCount]
 	and a
-	jr z, .nosignpostitems
-; For i = 1:wCurrentMapSignpostCount...
+	jr z, .nobgeventitems
+; For i = 1:wCurrMapBGEventCount...
 .loop
-; Store the counter in Buffer2, and store the signpost header pointer in the stack.
+; Store the counter in Buffer2, and store the BG event header pointer in the stack.
 	ld [Buffer2], a
 	push hl
-; Get the Y coordinate of the signpost.
+; Get the Y coordinate of the BG event.
 	call .GetFarByte
 	ld e, a
-; Is the Y coordinate of the signpost on the screen?  If not, go to the next signpost.
+; Is the Y coordinate of the BG event on the screen?  If not, go to the next BG event.
 	ld a, [Buffer3]
 	sub e
 	jr c, .next
 	cp SCREEN_HEIGHT / 2
 	jr nc, .next
-; Is the X coordinate of the signpost on the screen?  If not, go to the next signpost.
+; Is the X coordinate of the BG event on the screen?  If not, go to the next BG event.
 	call .GetFarByte
 	ld d, a
 	ld a, [Buffer4]
@@ -314,9 +314,9 @@ CheckForHiddenItems: ; b8172
 	jr c, .next
 	cp SCREEN_WIDTH / 2
 	jr nc, .next
-; Is this signpost a hidden item?  If not, go to the next signpost.
+; Is this BG event a hidden item?  If not, go to the next BG event.
 	call .GetFarByte
-	cp SIGNPOST_ITEM
+	cp BGEVENT_ITEM
 	jr nz, .next
 ; Has this item already been found?  If not, set off the Itemfinder.
 	ld a, [Buffer1]
@@ -332,16 +332,16 @@ CheckForHiddenItems: ; b8172
 	jr z, .itemnearby
 
 .next
-; Restore the signpost header pointer and increment it by the length of a signpost header.
+; Restore the BG event header pointer and increment it by the length of a BG event header.
 	pop hl
 	ld bc, 5
 	add hl, bc
-; Restore the signpost counter and decrement it.  If it hits zero, there are no hidden items in range.
+; Restore the BG event counter and decrement it.  If it hits zero, there are no hidden items in range.
 	ld a, [Buffer2]
 	dec a
 	jr nz, .loop
 
-.nosignpostitems
+.nobgeventitems
 	xor a
 	ret
 
@@ -453,55 +453,7 @@ GetTreeMonSet: ; b823f
 	ret
 ; b825e
 
-TreeMonMaps: ; b825e
-treemon_map: macro
-	map \1
-	db  \2 ; treemon set
-endm
-	treemon_map ROUTE_26, 4
-	treemon_map ROUTE_27, 4
-	treemon_map ROUTE_28, 0
-	treemon_map ROUTE_29, 3
-	treemon_map ROUTE_30, 3
-	treemon_map ROUTE_31, 3
-	treemon_map ROUTE_32, 4
-	treemon_map ROUTE_33, 2
-	treemon_map ROUTE_34, 3
-	treemon_map ROUTE_35, 3
-	treemon_map ROUTE_36, 3
-	treemon_map ROUTE_37, 3
-	treemon_map ROUTE_38, 3
-	treemon_map ROUTE_39, 3
-	treemon_map ROUTE_40, 0
-	treemon_map ROUTE_41, 0
-	treemon_map ROUTE_42, 2
-	treemon_map ROUTE_43, 5
-	treemon_map ROUTE_44, 1
-	treemon_map ROUTE_45, 1
-	treemon_map ROUTE_46, 1
-	treemon_map NEW_BARK_TOWN, 0
-	treemon_map CHERRYGROVE_CITY, 0
-	treemon_map VIOLET_CITY, 0
-	treemon_map AZALEA_TOWN, 2
-	treemon_map CIANWOOD_CITY, 0
-	treemon_map GOLDENROD_CITY, 0
-	treemon_map OLIVINE_CITY, 0
-	treemon_map ECRUTEAK_CITY, 0
-	treemon_map MAHOGANY_TOWN, 0
-	treemon_map LAKE_OF_RAGE, 5
-	treemon_map BLACKTHORN_CITY, 0
-	treemon_map SILVER_CAVE_OUTSIDE, 0
-	treemon_map ILEX_FOREST, 6
-	db -1
-; b82c5
-
-RockMonMaps: ; b82c5
-	treemon_map CIANWOOD_CITY, 7
-	treemon_map ROUTE_40, 7
-	treemon_map DARK_CAVE_VIOLET_ENTRANCE, 7
-	treemon_map SLOWPOKE_WELL_B1F, 7
-	db -1
-; b82d2
+INCLUDE "data/wild/treemon_maps.asm"
 
 GetTreeMons: ; b82d2
 ; Return the address of TreeMon table a in hl.
@@ -531,128 +483,7 @@ GetTreeMons: ; b82d2
 	ret
 ; b82e8
 
-TreeMons: ; b82e8
-	dw TreeMons1
-	dw TreeMons1
-	dw TreeMons2
-	dw TreeMons3
-	dw TreeMons4
-	dw TreeMons5
-	dw TreeMons6
-	dw RockMons
-	dw TreeMons1
-
-; Two tables each (normal, rare).
-; Structure:
-;	db  %, species, level
-
-TreeMons1: ; b82fa
-	db 50, SPEAROW,    10
-	db 15, SPEAROW,    10
-	db 15, SPEAROW,    10
-	db 10, AIPOM,      10
-	db  5, AIPOM,      10
-	db  5, AIPOM,      10
-	db -1
-
-	db 50, SPEAROW,    10
-	db 15, HERACROSS,  10
-	db 15, HERACROSS,  10
-	db 10, AIPOM,      10
-	db  5, AIPOM,      10
-	db  5, AIPOM,      10
-	db -1
-
-TreeMons2: ; b8320
-	db 50, SPEAROW,    10
-	db 15, EKANS,      10
-	db 15, SPEAROW,    10
-	db 10, AIPOM,      10
-	db  5, AIPOM,      10
-	db  5, AIPOM,      10
-	db -1
-
-	db 50, SPEAROW,    10
-	db 15, HERACROSS,  10
-	db 15, HERACROSS,  10
-	db 10, AIPOM,      10
-	db  5, AIPOM,      10
-	db  5, AIPOM,      10
-	db -1
-
-TreeMons3: ; b8346
-	db 50, HOOTHOOT,   10
-	db 15, SPINARAK,   10
-	db 15, LEDYBA,     10
-	db 10, EXEGGCUTE,  10
-	db  5, EXEGGCUTE,  10
-	db  5, EXEGGCUTE,  10
-	db -1
-
-	db 50, HOOTHOOT,   10
-	db 15, PINECO,     10
-	db 15, PINECO,     10
-	db 10, EXEGGCUTE,  10
-	db  5, EXEGGCUTE,  10
-	db  5, EXEGGCUTE,  10
-	db -1
-
-TreeMons4: ; b836c
-	db 50, HOOTHOOT,   10
-	db 15, EKANS,      10
-	db 15, HOOTHOOT,   10
-	db 10, EXEGGCUTE,  10
-	db  5, EXEGGCUTE,  10
-	db  5, EXEGGCUTE,  10
-	db -1
-
-	db 50, HOOTHOOT,   10
-	db 15, PINECO,     10
-	db 15, PINECO,     10
-	db 10, EXEGGCUTE,  10
-	db  5, EXEGGCUTE,  10
-	db  5, EXEGGCUTE,  10
-	db -1
-
-TreeMons5: ; b8392
-	db 50, HOOTHOOT,   10
-	db 15, VENONAT,    10
-	db 15, HOOTHOOT,   10
-	db 10, EXEGGCUTE,  10
-	db  5, EXEGGCUTE,  10
-	db  5, EXEGGCUTE,  10
-	db -1
-
-	db 50, HOOTHOOT,   10
-	db 15, PINECO,     10
-	db 15, PINECO,     10
-	db 10, EXEGGCUTE,  10
-	db  5, EXEGGCUTE,  10
-	db  5, EXEGGCUTE,  10
-	db -1
-
-TreeMons6: ; b83b8
-	db 50, HOOTHOOT,   10
-	db 15, PINECO,     10
-	db 15, PINECO,     10
-	db 10, NOCTOWL,    10
-	db  5, BUTTERFREE, 10
-	db  5, BEEDRILL,   10
-	db -1
-
-	db 50, HOOTHOOT,   10
-	db 15, CATERPIE,   10
-	db 15, WEEDLE,     10
-	db 10, HOOTHOOT,   10
-	db  5, METAPOD,    10
-	db  5, KAKUNA,     10
-	db -1
-
-RockMons: ; b83de
-	db 90, KRABBY,     15
-	db 10, SHUCKLE,    15
-	db -1
-; b83e5
+INCLUDE "data/wild/treemons.asm"
 
 GetTreeMon: ; b83e5
 	push hl
@@ -815,19 +646,19 @@ LoadFishingGFX: ; b84b3
 	ld [rVBK], a
 
 	ld de, FishingGFX
-	ld a, [PlayerGender]
+	ld a, [wPlayerGender]
 	bit 0, a
 	jr z, .got_gender
 	ld de, KrisFishingGFX
 .got_gender
 
-	ld hl, VTiles0 tile $02
+	ld hl, vTiles0 tile $02
 	call .LoadGFX
-	ld hl, VTiles0 tile $06
+	ld hl, vTiles0 tile $06
 	call .LoadGFX
-	ld hl, VTiles0 tile $0a
+	ld hl, vTiles0 tile $0a
 	call .LoadGFX
-	ld hl, VTiles1 tile $7c
+	ld hl, vTiles1 tile $7c
 	call .LoadGFX
 
 	pop af

@@ -2,16 +2,14 @@ const_value set 2
 	const LAVENDERNAMERATER_NAME_RATER
 
 LavenderNameRater_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 1
-
-	; triggers
-	dw UnknownScript_0x7eaf1, 0
+	scene_script .DummyScene
 
 .MapCallbacks:
 	db 0
 
-UnknownScript_0x7eaf1:
+.DummyScene:
 	end
 
 LavenderNameRater:
@@ -28,15 +26,15 @@ LavenderNameRater_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $2, 4, LAVENDER_TOWN
-	warp_def $7, $3, 4, LAVENDER_TOWN
+	warp_def 2, 7, 4, LAVENDER_TOWN
+	warp_def 3, 7, 4, LAVENDER_TOWN
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_GENTLEMAN, 3, 2, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, LavenderNameRater, -1
+	object_event 2, 3, SPRITE_GENTLEMAN, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, LavenderNameRater, -1

@@ -7,7 +7,7 @@ const_value set 2
 	const EARLSPOKEMONACADEMY_POKEDEX
 
 EarlsPokemonAcademy_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -38,35 +38,35 @@ AcademyEarl:
 	closetext
 	end
 
-YoungsterScript_0x68a83:
-	jumptextfaceplayer UnknownText_0x68d80
+EarlsPokemonAcademyYoungster1Script:
+	jumptextfaceplayer EarlsPokemonAcademyYoungster1Text
 
-GameboyKidScript_0x68a86:
+EarlsPokemonAcademyGameboyKid1Script:
 	faceplayer
 	opentext
-	writetext UnknownText_0x68dda
+	writetext EarlsPokemonAcademyGameboyKid1Text
 	waitbutton
 	closetext
 	spriteface EARLSPOKEMONACADEMY_GAMEBOY_KID1, DOWN
 	end
 
-GameboyKidScript_0x68a91:
+EarlsPokemonAcademyGameboyKid2Script:
 	faceplayer
 	opentext
-	writetext UnknownText_0x68e07
+	writetext EarlsPokemonAcademyGameboyKid2Text
 	waitbutton
 	closetext
 	spriteface EARLSPOKEMONACADEMY_GAMEBOY_KID2, DOWN
 	end
 
-YoungsterScript_0x68a9c:
-	jumptextfaceplayer UnknownText_0x68e39
+EarlsPokemonAcademyYoungster2Script:
+	jumptextfaceplayer EarlsPokemonAcademyYoungster2Text
 
 AcademyBlackboard:
 	opentext
 	writetext AcademyBlackboardText
 .Loop:
-	loadmenudata .MenuHeader
+	loadmenudata .BlackboardMenuData
 	_2dmenu
 	closewindow
 	if_equal $1, .Poison
@@ -102,14 +102,14 @@ AcademyBlackboard:
 	waitbutton
 	jump .Loop
 
-.MenuHeader:
+.BlackboardMenuData:
 	db $40 ; flags
 	db 00, 00 ; start coords
 	db 08, 11 ; end coords
-	dw .Data
+	dw .MenuData2
 	db 1 ; default option
 
-.Data:
+.MenuData2:
 	db $80 ; flags
 	dn 3, 2 ; rows, columns
 	db 5 ; spacing
@@ -227,7 +227,7 @@ UnknownText_0x68d31:
 	line "you must be!"
 	done
 
-UnknownText_0x68d80:
+EarlsPokemonAcademyYoungster1Text:
 	text "I'm taking notes"
 	line "of the teacher's"
 	cont "lecture."
@@ -237,19 +237,19 @@ UnknownText_0x68d80:
 	cont "blackboard too."
 	done
 
-UnknownText_0x68dda:
+EarlsPokemonAcademyGameboyKid1Text:
 	text "I traded my best"
 	line "#MON to the"
 	cont "guy beside me."
 	done
 
-UnknownText_0x68e07:
+EarlsPokemonAcademyGameboyKid2Text:
 	text "Huh? The #MON I"
 	line "just got is hold-"
 	cont "ing something!"
 	done
 
-UnknownText_0x68e39:
+EarlsPokemonAcademyYoungster2Text:
 	text "A #MON holding"
 	line "a BERRY will heal"
 	cont "itself in battle."
@@ -402,24 +402,24 @@ EarlsPokemonAcademy_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $f, $3, 3, VIOLET_CITY
-	warp_def $f, $4, 3, VIOLET_CITY
+	warp_def 3, 15, 3, VIOLET_CITY
+	warp_def 4, 15, 3, VIOLET_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 4
-	signpost 1, 0, SIGNPOST_READ, AcademyBookshelf
-	signpost 1, 1, SIGNPOST_READ, AcademyBookshelf
-	signpost 0, 3, SIGNPOST_READ, AcademyBlackboard
-	signpost 0, 4, SIGNPOST_READ, AcademyBlackboard
+	bg_event 0, 1, BGEVENT_READ, AcademyBookshelf
+	bg_event 1, 1, BGEVENT_READ, AcademyBookshelf
+	bg_event 3, 0, BGEVENT_READ, AcademyBlackboard
+	bg_event 4, 0, BGEVENT_READ, AcademyBlackboard
 
-.PersonEvents:
+.ObjectEvents:
 	db 6
-	person_event SPRITE_FISHER, 2, 4, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, AcademyEarl, EVENT_EARLS_ACADEMY_EARL
-	person_event SPRITE_YOUNGSTER, 5, 2, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, YoungsterScript_0x68a83, -1
-	person_event SPRITE_GAMEBOY_KID, 11, 3, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, GameboyKidScript_0x68a86, -1
-	person_event SPRITE_GAMEBOY_KID, 11, 4, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, GameboyKidScript_0x68a91, -1
-	person_event SPRITE_YOUNGSTER, 7, 4, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, YoungsterScript_0x68a9c, -1
-	person_event SPRITE_POKEDEX, 4, 2, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, AcademyNotebook, -1
+	object_event 4, 2, SPRITE_FISHER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, AcademyEarl, EVENT_EARLS_ACADEMY_EARL
+	object_event 2, 5, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, EarlsPokemonAcademyYoungster1Script, -1
+	object_event 3, 11, SPRITE_GAMEBOY_KID, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, EarlsPokemonAcademyGameboyKid1Script, -1
+	object_event 4, 11, SPRITE_GAMEBOY_KID, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, EarlsPokemonAcademyGameboyKid2Script, -1
+	object_event 4, 7, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, EarlsPokemonAcademyYoungster2Script, -1
+	object_event 2, 4, SPRITE_POKEDEX, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, AcademyNotebook, -1

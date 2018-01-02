@@ -6,7 +6,7 @@ const_value set 2
 	const GOLDENRODDEPTSTORE2F_GENTLEMAN
 
 GoldenrodDeptStore2F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -26,14 +26,14 @@ ClerkScript_0x55b65:
 	closetext
 	end
 
-YoungsterScript_0x55b6d:
-	jumptextfaceplayer UnknownText_0x55c25
+GoldenrodDeptStore2FYoungsterScript:
+	jumptextfaceplayer GoldenrodDeptStore2FYoungsterText
 
-CooltrainerFScript_0x55b70:
-	jumptextfaceplayer UnknownText_0x55c7b
+GoldenrodDeptStore2FCooltrainerFScript:
+	jumptextfaceplayer GoldenrodDeptStore2FCooltrainerFText
 
-GentlemanScript_0x55b73:
-	jumptextfaceplayer UnknownText_0x55cb7
+GoldenrodDeptStore2FGentlemanScript:
+	jumptextfaceplayer GoldenrodDeptStore2FGentlemanText
 
 GoldenrodDeptStore2FDirectory:
 	jumptext GoldenrodDeptStore2FDirectoryText
@@ -41,7 +41,7 @@ GoldenrodDeptStore2FDirectory:
 GoldenrodDeptStore2FElevatorButton:
 	jumpstd elevatorbutton
 
-UnknownText_0x55c25:
+GoldenrodDeptStore2FYoungsterText:
 	text "#GEAR can store"
 	line "up to ten phone"
 	cont "numbers."
@@ -51,7 +51,7 @@ UnknownText_0x55c25:
 	cont "to keep."
 	done
 
-UnknownText_0x55c7b:
+GoldenrodDeptStore2FCooltrainerFText:
 	text "I got my ABRA at"
 	line "the GAME CORNER."
 
@@ -59,7 +59,7 @@ UnknownText_0x55c7b:
 	line "partner."
 	done
 
-UnknownText_0x55cb7:
+GoldenrodDeptStore2FGentlemanText:
 	text "This DEPT.STORE"
 	line "makes me realize"
 
@@ -85,22 +85,22 @@ GoldenrodDeptStore2F_MapEventHeader:
 
 .Warps:
 	db 3
-	warp_def $0, $c, 1, GOLDENROD_DEPT_STORE_3F
-	warp_def $0, $f, 3, GOLDENROD_DEPT_STORE_1F
-	warp_def $0, $2, 1, GOLDENROD_DEPT_STORE_ELEVATOR
+	warp_def 12, 0, 1, GOLDENROD_DEPT_STORE_3F
+	warp_def 15, 0, 3, GOLDENROD_DEPT_STORE_1F
+	warp_def 2, 0, 1, GOLDENROD_DEPT_STORE_ELEVATOR
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 0, 14, SIGNPOST_READ, GoldenrodDeptStore2FDirectory
-	signpost 0, 3, SIGNPOST_READ, GoldenrodDeptStore2FElevatorButton
+	bg_event 14, 0, BGEVENT_READ, GoldenrodDeptStore2FDirectory
+	bg_event 3, 0, BGEVENT_READ, GoldenrodDeptStore2FElevatorButton
 
-.PersonEvents:
+.ObjectEvents:
 	db 5
-	person_event SPRITE_CLERK, 5, 13, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ClerkScript_0x55b5d, -1
-	person_event SPRITE_CLERK, 6, 13, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ClerkScript_0x55b65, -1
-	person_event SPRITE_YOUNGSTER, 6, 9, SPRITEMOVEDATA_WALK_UP_DOWN, 1, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, YoungsterScript_0x55b6d, -1
-	person_event SPRITE_COOLTRAINER_F, 2, 6, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 2, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, CooltrainerFScript_0x55b70, -1
-	person_event SPRITE_GENTLEMAN, 6, 2, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, GentlemanScript_0x55b73, -1
+	object_event 13, 5, SPRITE_CLERK, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ClerkScript_0x55b5d, -1
+	object_event 13, 6, SPRITE_CLERK, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ClerkScript_0x55b65, -1
+	object_event 9, 6, SPRITE_YOUNGSTER, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GoldenrodDeptStore2FYoungsterScript, -1
+	object_event 6, 2, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 2, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, GoldenrodDeptStore2FCooltrainerFScript, -1
+	object_event 2, 6, SPRITE_GENTLEMAN, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GoldenrodDeptStore2FGentlemanScript, -1

@@ -1,37 +1,57 @@
-
 ; MonType: ; cf5f
-PARTYMON   EQU 0
-OTPARTYMON EQU 1
-BOXMON     EQU 2
-TEMPMON   EQU 3
-WILDMON    EQU 4
+	const_def
+	const PARTYMON   ; 0
+	const OTPARTYMON ; 1
+	const BOXMON     ; 2
+	const TEMPMON    ; 3
+	const WILDMON    ; 4
 
-; Options: ; cfcc
-FAST_TEXT      EQU 0
-MED_TEXT       EQU 1
-SLOW_TEXT      EQU 2
-NO_TEXT_SCROLL EQU 4
-; bits
-STEREO         EQU 5
-BATTLE_SHIFT   EQU 6
-BATTLE_SCENE   EQU 7
+; Options: (bits) ; cfcc
+const_value SET 4
+	const NO_TEXT_SCROLL ; 4
+	const STEREO         ; 5
+	const BATTLE_SHIFT   ; 6
+	const BATTLE_SCENE   ; 7
+
+; Options: (bits 0-2)
+TEXT_DELAY_FAST EQU 1
+TEXT_DELAY_MED  EQU 3
+TEXT_DELAY_SLOW EQU 5
+
+; TextBoxFrame: ; cfce
+	const_def
+	const FRAME_1 ; 0
+	const FRAME_2 ; 1
+	const FRAME_3 ; 2
+	const FRAME_4 ; 3
+	const FRAME_5 ; 4
+	const FRAME_6 ; 5
+	const FRAME_7 ; 6
+	const FRAME_8 ; 7
 
 ; Options2:
-MENU_ACCOUNT EQU 0
+	const_def
+	const MENU_ACCOUNT ; 0
 
 ; GBPrinter:
-PRINT_LIGHTEST EQU $00
-PRINT_LIGHTER  EQU $20
-PRINT_NORMAL   EQU $40
-PRINT_DARKER   EQU $60
-PRINT_DARKEST  EQU $7f
+GBPRINTER_LIGHTEST EQU $00
+GBPRINTER_LIGHTER  EQU $20
+GBPRINTER_NORMAL   EQU $40
+GBPRINTER_DARKER   EQU $60
+GBPRINTER_DARKEST  EQU $7f
 
 ; WalkingDirection: ; d043
-STANDING EQU -1
-DOWN     EQU 0
-UP       EQU 1
-LEFT     EQU 2
-RIGHT    EQU 3
+const_value SET -1
+	const STANDING ; -1
+	const DOWN     ; 0
+	const UP       ; 1
+	const LEFT     ; 2
+	const RIGHT    ; 3
+
+DOWN_MASK  EQU 1 << DOWN
+UP_MASK    EQU 1 << UP
+LEFT_MASK  EQU 1 << LEFT
+RIGHT_MASK EQU 1 << RIGHT
 
 ; FacingDirection: ; d044
 FACE_CURRENT EQU 0
@@ -41,10 +61,16 @@ FACE_LEFT  EQU 2
 FACE_RIGHT EQU 1
 
 ; TimeOfDay: ; d269
-MORN     EQU 0
-DAY      EQU 1
-NITE     EQU 2
-DARKNESS EQU 3
+	const_def
+	const MORN_F     ; 0
+	const DAY_F      ; 1
+	const NITE_F     ; 2
+	const DARKNESS_F ; 3
+
+MORN     EQU 1 << MORN_F
+DAY      EQU 1 << DAY_F
+NITE     EQU 1 << NITE_F
+DARKNESS EQU 1 << DARKNESS_F
 
 ; ScriptFlags: ; d434
 SCRIPT_RUNNING EQU 2
@@ -56,13 +82,14 @@ SCRIPT_WAIT_MOVEMENT EQU 2
 SCRIPT_WAIT EQU 3
 
 ; CurDay: ; d4cb
-SUNDAY    EQU 0
-MONDAY    EQU 1
-TUESDAY   EQU 2
-WEDNESDAY EQU 3
-THURSDAY  EQU 4
-FRIDAY    EQU 5
-SATURDAY  EQU 6
+	const_def
+	const SUNDAY    ; 0
+	const MONDAY    ; 1
+	const TUESDAY   ; 2
+	const WEDNESDAY ; 3
+	const THURSDAY  ; 4
+	const FRIDAY    ; 5
+	const SATURDAY  ; 6
 
 ; MapObjects: ; d71e
 
@@ -80,7 +107,7 @@ REGISTERED_NUMBER EQU %00111111
 ; PlayerState: ; d95d
 PLAYER_NORMAL    EQU 0
 PLAYER_BIKE      EQU 1
-PLAYER_SLIP      EQU 2
+PLAYER_SKATE     EQU 2
 PLAYER_SURF      EQU 4
 PLAYER_SURF_PIKA EQU 8
 
@@ -89,13 +116,13 @@ NUM_OBJECT_STRUCTS EQU 13
 
 ; After-Champion Spawn
 SPAWN_LANCE EQU 1
-SPAWN_RED EQU 2
+SPAWN_RED   EQU 2
 
 ; wPokemonWithdrawDepositParameter
-PC_WITHDRAW EQU 0
-PC_DEPOSIT EQU 1
-DAYCARE_WITHDRAW EQU 2
-DAYCARE_DEPOSIT EQU 3
+PC_WITHDRAW       EQU 0
+PC_DEPOSIT        EQU 1
+DAY_CARE_WITHDRAW EQU 2
+DAY_CARE_DEPOSIT  EQU 3
 
 ; wCurrentDexMode
 	const_def
@@ -103,3 +130,35 @@ DAYCARE_DEPOSIT EQU 3
 	const DEXMODE_OLD
 	const DEXMODE_ABC
 	const DEXMODE_UNOWN
+
+; wJohtoBadges:
+	const_def
+	const ZEPHYRBADGE
+	const HIVEBADGE
+	const PLAINBADGE
+	const FOGBADGE
+	const MINERALBADGE
+	const STORMBADGE
+	const GLACIERBADGE
+	const RISINGBADGE
+NUM_JOHTO_BADGES EQU const_value
+
+; wKantoBadges:
+	const_def
+	const BOULDERBADGE
+	const CASCADEBADGE
+	const THUNDERBADGE
+	const RAINBOWBADGE
+	const SOULBADGE
+	const MARSHBADGE
+	const VOLCANOBADGE
+	const EARTHBADGE
+NUM_KANTO_BADGES EQU const_value
+NUM_BADGES EQU NUM_JOHTO_BADGES + NUM_KANTO_BADGES
+
+; wInitListType:
+INIT_ENEMYOT_LIST    EQU 1
+INIT_BAG_ITEM_LIST   EQU 2
+INIT_OTHER_ITEM_LIST EQU 3
+INIT_PLAYEROT_LIST   EQU 4
+INIT_MON_LIST        EQU 5

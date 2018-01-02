@@ -4,19 +4,10 @@ INCLUDE "includes.asm"
 SECTION "Audio", ROMX
 
 INCLUDE "audio/engine.asm"
-
-; What music plays when a trainer notices you
-INCLUDE "audio/trainer_encounters.asm"
-
-Music:
+INCLUDE "data/trainers/encounter_music.asm"
 INCLUDE "audio/music_pointers.asm"
-
 INCLUDE "audio/music/nothing.asm"
-
-Cries:
 INCLUDE "audio/cry_pointers.asm"
-
-SFX:
 INCLUDE "audio/sfx_pointers.asm"
 
 
@@ -161,6 +152,6 @@ INCLUDE "audio/sfx_crystal.asm"
 
 SECTION "Cries", ROMX
 
-CryHeaders:: INCLUDE "audio/cry_headers.asm"
+INCLUDE "data/pokemon/cries.asm"
 
 INCLUDE "audio/cries.asm"

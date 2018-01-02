@@ -7,14 +7,11 @@ const_value set 2
 	const GOLDENRODDEPTSTORE5F_RECEPTIONIST
 
 GoldenrodDeptStore5F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 1
-
-	; callbacks
-
 	dbw MAPCALLBACK_OBJECTS, .CheckIfSunday
 
 .CheckIfSunday:
@@ -123,19 +120,19 @@ Carrie:
 	closetext
 	end
 
-LassScript_0x56130:
-	jumptextfaceplayer UnknownText_0x562ad
+GoldenrodDeptStore5FLassScript:
+	jumptextfaceplayer GoldenrodDeptStore5FLassText
 
 Mike:
 	faceplayer
 	opentext
-	trade $0
+	trade NPCTRADE_MIKE
 	waitbutton
 	closetext
 	end
 
-PokefanMScript_0x5613a:
-	jumptextfaceplayer UnknownText_0x562f3
+GoldenrodDeptStore5FPokefanMScript:
+	jumptextfaceplayer GoldenrodDeptStore5FPokefanMText
 
 GoldenrodDeptStore5FDirectory:
 	jumptext GoldenrodDeptStore5FDirectoryText
@@ -192,7 +189,7 @@ UnknownText_0x56279:
 	cont "Game Boy Color."
 	done
 
-UnknownText_0x562ad:
+GoldenrodDeptStore5FLassText:
 	text "On Sundays, a lady"
 	line "comes to check out"
 	cont "#MON."
@@ -201,7 +198,7 @@ UnknownText_0x562ad:
 	line "away TMs!"
 	done
 
-UnknownText_0x562f3:
+GoldenrodDeptStore5FPokefanMText:
 	text "You can't rename a"
 	line "#MON you get in"
 	cont "a trade."
@@ -226,23 +223,23 @@ GoldenrodDeptStore5F_MapEventHeader:
 
 .Warps:
 	db 3
-	warp_def $0, $c, 1, GOLDENROD_DEPT_STORE_4F
-	warp_def $0, $f, 1, GOLDENROD_DEPT_STORE_6F
-	warp_def $0, $2, 1, GOLDENROD_DEPT_STORE_ELEVATOR
+	warp_def 12, 0, 1, GOLDENROD_DEPT_STORE_4F
+	warp_def 15, 0, 1, GOLDENROD_DEPT_STORE_6F
+	warp_def 2, 0, 1, GOLDENROD_DEPT_STORE_ELEVATOR
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 0, 14, SIGNPOST_READ, GoldenrodDeptStore5FDirectory
-	signpost 0, 3, SIGNPOST_READ, GoldenrodDeptStore5FElevatorButton
+	bg_event 14, 0, BGEVENT_READ, GoldenrodDeptStore5FDirectory
+	bg_event 3, 0, BGEVENT_READ, GoldenrodDeptStore5FElevatorButton
 
-.PersonEvents:
+.ObjectEvents:
 	db 6
-	person_event SPRITE_CLERK, 5, 8, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ClerkScript_0x5609c, -1
-	person_event SPRITE_LASS, 6, 3, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, 0, PERSONTYPE_SCRIPT, 0, LassScript_0x56130, -1
-	person_event SPRITE_COOLTRAINER_M, 3, 6, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, Mike, -1
-	person_event SPRITE_POKEFAN_M, 5, 13, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, 0, PERSONTYPE_SCRIPT, 0, PokefanMScript_0x5613a, -1
-	person_event SPRITE_TWIN, 1, 9, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, Carrie, -1
-	person_event SPRITE_RECEPTIONIST, 5, 7, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, ReceptionistScript_0x560ce, EVENT_GOLDENROD_DEPT_STORE_5F_HAPPINESS_EVENT_LADY
+	object_event 8, 5, SPRITE_CLERK, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ClerkScript_0x5609c, -1
+	object_event 3, 6, SPRITE_LASS, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GoldenrodDeptStore5FLassScript, -1
+	object_event 6, 3, SPRITE_COOLTRAINER_M, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, Mike, -1
+	object_event 13, 5, SPRITE_POKEFAN_M, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GoldenrodDeptStore5FPokefanMScript, -1
+	object_event 9, 1, SPRITE_TWIN, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, Carrie, -1
+	object_event 7, 5, SPRITE_RECEPTIONIST, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, ReceptionistScript_0x560ce, EVENT_GOLDENROD_DEPT_STORE_5F_HAPPINESS_EVENT_LADY

@@ -73,9 +73,9 @@ PredefPointers:: ; 856b
 	add_predef Predef_StartBattle
 	add_predef PlayBattleAnim
 	add_predef PartyMonItemName
-	add_predef GetFrontpic
-	add_predef GetBackpic
-	add_predef FrontpicPredef
+	add_predef GetMonFrontpic
+	add_predef GetMonBackpic
+	add_predef GetAnimatedFrontpicPredef
 	add_predef DecompressPredef ; $40
 	add_predef CheckTypeMatchup
 	add_predef NewPokedexEntry

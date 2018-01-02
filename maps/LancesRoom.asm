@@ -4,39 +4,34 @@ const_value set 2
 	const LANCESROOM_OAK
 
 LancesRoom_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 2
-
-	; triggers
-	dw .Trigger0, 0
-	dw .Trigger1, 0
+	scene_script .LockDoor
+	scene_script .DummyScene
 
 .MapCallbacks:
 	db 1
+	dbw MAPCALLBACK_TILES, .LancesRoomDoors
 
-	; callbacks
-
-	dbw MAPCALLBACK_TILES, .CheckDoor
-
-.Trigger0:
-	priorityjump LancesRoom_PlayerWalksIn_DoorsCloseBehind
+.LockDoor:
+	priorityjump .LancesDoorLocksBehindYou
 	end
 
-.Trigger1:
+.DummyScene:
 	end
 
-.CheckDoor:
+.LancesRoomDoors:
 	checkevent EVENT_LANCES_ROOM_ENTRANCE_CLOSED
-	iffalse .LanceEntranceOpen
+	iffalse .KeepDoorsClosed
 	changeblock $4, $16, $34
-.LanceEntranceOpen:
+.KeepDoorsClosed:
 	checkevent EVENT_LANCES_ROOM_EXIT_OPEN
-	iffalse .LanceExitClosed
+	iffalse .OpenDoors
 	changeblock $4, $0, $b
-.LanceExitClosed:
+.OpenDoors:
 	return
 
-LancesRoom_PlayerWalksIn_DoorsCloseBehind:
+.LancesDoorLocksBehindYou:
 	applymovement PLAYER, LancesRoom_PlayerWalksInMovementData
 	refreshscreen $86
 	playsound SFX_STRENGTH
@@ -44,7 +39,7 @@ LancesRoom_PlayerWalksIn_DoorsCloseBehind:
 	changeblock $4, $16, $34
 	reloadmappart
 	closetext
-	dotrigger $1
+	setscene $1
 	setevent EVENT_LANCES_ROOM_ENTRANCE_CLOSED
 	end
 
@@ -348,21 +343,21 @@ LancesRoom_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $17, $4, 3, KARENS_ROOM
-	warp_def $17, $5, 4, KARENS_ROOM
-	warp_def $1, $4, 1, HALL_OF_FAME
-	warp_def $1, $5, 2, HALL_OF_FAME
+	warp_def 4, 23, 3, KARENS_ROOM
+	warp_def 5, 23, 4, KARENS_ROOM
+	warp_def 4, 1, 1, HALL_OF_FAME
+	warp_def 5, 1, 2, HALL_OF_FAME
 
-.XYTriggers:
+.CoordEvents:
 	db 2
-	xy_trigger 1, $5, $4, $0, Script_ApproachLanceFromLeft, $0, $0
-	xy_trigger 1, $5, $5, $0, Script_ApproachLanceFromRight, $0, $0
+	coord_event 4, 5, 1, Script_ApproachLanceFromLeft
+	coord_event 5, 5, 1, Script_ApproachLanceFromRight
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 3
-	person_event SPRITE_LANCE, 3, 5, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, LanceScript_0x180e7b, -1
-	person_event SPRITE_TEACHER, 7, 4, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, ObjectEvent, EVENT_LANCES_ROOM_OAK_AND_MARY
-	person_event SPRITE_OAK, 7, 4, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ObjectEvent, EVENT_LANCES_ROOM_OAK_AND_MARY
+	object_event 5, 3, SPRITE_LANCE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, LanceScript_0x180e7b, -1
+	object_event 4, 7, SPRITE_TEACHER, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_LANCES_ROOM_OAK_AND_MARY
+	object_event 4, 7, SPRITE_OAK, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_LANCES_ROOM_OAK_AND_MARY

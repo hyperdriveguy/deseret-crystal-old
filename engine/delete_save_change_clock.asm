@@ -1,5 +1,5 @@
 _ResetClock: ; 4d3b1
-	callba BlankScreen
+	farcall BlankScreen
 	ld b, SCGB_DIPLOMA
 	call GetSGBLayout
 	call LoadStandardFont
@@ -127,7 +127,7 @@ ClockResetPassword: ; 4d41e
 	ld e, a
 	ld d, $0
 	add hl, de
-	ld [hl], $61
+	ld [hl], "▲"
 	ret
 
 .dpadinput ; 4d490
@@ -227,7 +227,7 @@ ClockResetPassword: ; 4d41e
 	ld c, $2
 	call .ComponentFromNumber
 	ld hl, sPlayerData + (PlayerName - wPlayerData)
-	ld c, $5 ; PLAYER_NAME_LENGTH_J
+	ld c, NAME_LENGTH_JAPANESE - 1
 	call .ComponentFromString
 	ld hl, sPlayerData + (Money - wPlayerData)
 	ld c, $3
@@ -260,7 +260,7 @@ ClockResetPassword: ; 4d41e
 	ret
 
 _DeleteSaveData: ; 4d54c
-	callba BlankScreen
+	farcall BlankScreen
 	ld b, SCGB_DIPLOMA
 	call GetSGBLayout
 	call LoadStandardFont
@@ -276,7 +276,7 @@ _DeleteSaveData: ; 4d54c
 	ld a, [wMenuCursorY]
 	cp $1
 	ret z
-	callba EmptyAllSRAMBanks
+	farcall EmptyAllSRAMBanks
 	ret
 
 .Text_ClearAllSaveData: ; 0x4d580

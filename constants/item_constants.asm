@@ -1,3 +1,9 @@
+; item ids
+; indexes for:
+; - ItemNames (see data/items/names.asm)
+; - ItemDescriptions (see data/items/descriptions.asm)
+; - ItemAttributes (see data/items/attributes.asm)
+; - ItemEffects (see engine/item_effects.asm)
 	const_def
 	const NO_ITEM      ; $00
 	const MASTER_BALL  ; $01
@@ -191,6 +197,7 @@
 	const MIRAGE_MAIL  ; $BD
 	const ITEM_BE      ; $BE
 
+; see data/moves/tmhm_moves.asm for moves
 	add_tm DYNAMICPUNCH ; $BF
 	add_tm HEADBUTT     ; $C0
 	add_tm CURSE        ; $C1
@@ -221,7 +228,7 @@
 	add_tm RETURN       ; $DA
 	add_tm DIG          ; $DB
 	const ITEM_DC       ; $DC
-	add_tm PSYCHIC      ; $DD
+	add_tm PSYCHIC_M    ; $DD
 	add_tm SHADOW_BALL  ; $DE
 	add_tm MUD_SLAP     ; $DF
 	add_tm DOUBLE_TEAM  ; $E0
@@ -243,7 +250,7 @@
 	add_tm FIRE_PUNCH   ; $F0
 	add_tm FURY_CUTTER  ; $F1
 	add_tm NIGHTMARE    ; $F2
-NUM_TMS = const_value - TM01 - 2
+NUM_TMS = const_value - TM01 - 2 ; discount ITEM_C3 and ITEM_DC
 
 	add_hm CUT          ; $F3
 	add_hm FLY          ; $F4
@@ -253,176 +260,16 @@ NUM_TMS = const_value - TM01 - 2
 	add_hm WHIRLPOOL    ; $F8
 	add_hm WATERFALL    ; $F9
 NUM_HMS = const_value - HM01
-	const HM_08         ; $FA
+	const ITEM_FA       ; $FA
 
 	add_mt FLAMETHROWER
 	add_mt THUNDERBOLT
 	add_mt ICE_BEAM
+NUM_TM_HM_TUTOR = __enum__ +- 1
 
-ITEM_FROM_MEM EQU $ff
-
+ITEM_FROM_MEM EQU $FF
 
 ; leftovers from red
-SAFARI_BALL    EQU  8 ; MOON_STONE
-MOON_STONE_RED EQU 10 ; BURN_HEAL
-FULL_HEAL_RED  EQU 52 ; X_SPEED
-MAIL_MAX_LENGTH EQU $20
-
-; pockets
-ITEM     EQU 1
-KEY_ITEM EQU 2
-BALL     EQU 3
-TM_HM    EQU 4
-
-; item actions
-CANT_SELECT EQU 1 << 6
-CANT_TOSS   EQU 1 << 7
-
-
-; held item effects
-	const_def
-
-	const HELD_NONE
-	const HELD_BERRY
-	const HELD_LEFTOVERS
-	const HELD_RESTORE_PP
-	const HELD_CLEANSE_TAG
-
-const_value SET 10
-	const HELD_HEAL_POISON
-	const HELD_HEAL_FREEZE
-	const HELD_HEAL_BURN
-	const HELD_HEAL_SLEEP
-	const HELD_HEAL_PARALYZE
-	const HELD_HEAL_STATUS
-	const HELD_HEAL_CONFUSION
-
-const_value SET 20
-	const HELD_PREVENT_POISON
-	const HELD_PREVENT_BURN
-	const HELD_PREVENT_FREEZE
-	const HELD_PREVENT_SLEEP
-	const HELD_PREVENT_PARALYZE
-	const HELD_PREVENT_CONFUSE
-
-const_value SET 30
-	const HELD_ATTACK_UP
-	const HELD_DEFENSE_UP
-	const HELD_SPEED_UP
-	const HELD_SP_ATTACK_UP
-	const HELD_SP_DEFENSE_UP
-	const HELD_ACCURACY_UP
-	const HELD_EVASION_UP
-
-const_value SET 40
-	const HELD_METAL_POWDER
-
-const_value SET 50
-	const HELD_NORMAL_BOOST
-	const HELD_FIGHTING_BOOST
-	const HELD_FLYING_BOOST
-	const HELD_POISON_BOOST
-	const HELD_GROUND_BOOST
-	const HELD_ROCK_BOOST
-	const HELD_BUG_BOOST
-	const HELD_GHOST_BOOST
-	const HELD_FIRE_BOOST
-	const HELD_WATER_BOOST
-	const HELD_GRASS_BOOST
-	const HELD_ELECTRIC_BOOST
-	const HELD_PSYCHIC_BOOST
-	const HELD_ICE_BOOST
-	const HELD_DRAGON_BOOST
-	const HELD_DARK_BOOST
-	const HELD_STEEL_BOOST
-
-const_value SET 70
-	const HELD_CATCH_CHANCE
-	const HELD_ESCAPE
-	const HELD_CRITICAL_UP
-	const HELD_QUICK_CLAW
-	const HELD_TRADE_EVOLVE
-	const HELD_AMULET_COIN
-	const HELD_BRIGHTPOWDER
-	const HELD_FOCUS_BAND
-
-	const_def
-	const ITEMATTR_PRICE
-	const ITEMATTR_PRICE_HI
-	const ITEMATTR_EFFECT
-	const ITEMATTR_PARAM
-	const ITEMATTR_PERMISSIONS
-	const ITEMATTR_POCKET
-	const ITEMATTR_HELP
-NUM_ITEMATTRS EQU const_value
-
-ITEMMENU_NOUSE              EQU 0
-ITEMMENU_CURRENT            EQU 4
-ITEMMENU_PARTY              EQU 5
-ITEMMENU_CLOSE              EQU 6
-
-	const_def
-	const MARTTYPE_STANDARD
-	const MARTTYPE_BITTER
-	const MARTTYPE_BARGAIN
-	const MARTTYPE_PHARMACY
-	const MARTTYPE_ROOFTOP
-
-	const_def
-	const MART_CHERRYGROVE
-	const MART_CHERRYGROVE_DEX
-	const MART_VIOLET
-	const MART_AZALEA
-	const MART_CIANWOOD
-	const MART_GOLDENROD_2F_1
-	const MART_GOLDENROD_2F_2
-	const MART_GOLDENROD_3F
-	const MART_GOLDENROD_4F
-	const MART_GOLDENROD_5F_1
-	const MART_GOLDENROD_5F_2
-	const MART_GOLDENROD_5F_3
-	const MART_GOLDENROD_5F_4
-	const MART_OLIVINE
-	const MART_ECRUTEAK
-	const MART_MAHOGANY_1
-	const MART_MAHOGANY_2
-	const MART_BLACKTHORN
-	const MART_VIRIDIAN
-	const MART_PEWTER
-	const MART_CERULEAN
-	const MART_LAVENDER
-	const MART_VERMILION
-	const MART_CELADON_2F_1
-	const MART_CELADON_2F_2
-	const MART_CELADON_3F
-	const MART_CELADON_4F
-	const MART_CELADON_5F_1
-	const MART_CELADON_5F_2
-	const MART_FUCHSIA
-	const MART_SAFFRON
-	const MART_MT_MOON
-	const MART_INDIGO_PLATEAU
-	const MART_UNDERGROUND
-
-; PartyMenuActionText
-	const_def
-	const PARTYMENUACTION_CHOOSE_POKEMON
-	const PARTYMENUACTION_HEALING_ITEM
-	const PARTYMENUACTION_SWITCH
-	const PARTYMENUACTION_TEACH_TMHM
-	const PARTYMENUACTION_MOVE
-	const PARTYMENUACTION_EVO_STONE
-	const PARTYMENUACTION_GIVE_MON
-	const PARTYMENUACTION_GIVE_ITEM
-
-const_value set $f0
-	const PARTYMENUTEXT_HEAL_PSN
-	const PARTYMENUTEXT_HEAL_BRN
-	const PARTYMENUTEXT_HEAL_FRZ
-	const PARTYMENUTEXT_HEAL_SLP
-	const PARTYMENUTEXT_HEAL_PAR
-	const PARTYMENUTEXT_HEAL_HP
-	const PARTYMENUTEXT_HEAL_ALL
-	const PARTYMENUTEXT_REVIVE
-	const PARTYMENUTEXT_LEVEL_UP
-	const PARTYMENUTEXT_HEAL_CONFUSION
+SAFARI_BALL    EQU $08 ; MOON_STONE
+MOON_STONE_RED EQU $0A ; BURN_HEAL
+FULL_HEAL_RED  EQU $34 ; X_SPEED

@@ -2,16 +2,16 @@ const_value set 2
 	const ROUTE42ECRUTEAKGATE_OFFICER
 
 Route42EcruteakGate_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-OfficerScript_0x19a4b5:
-	jumptextfaceplayer UnknownText_0x19a4b8
+Route42EcruteakGateOfficerScript:
+	jumptextfaceplayer Route42EcruteakGateOfficerText
 
-UnknownText_0x19a4b8:
+Route42EcruteakGateOfficerText:
 	text "MT.MORTAR is like"
 	line "a maze inside."
 
@@ -25,17 +25,17 @@ Route42EcruteakGate_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $4, $0, 1, ECRUTEAK_CITY
-	warp_def $5, $0, 2, ECRUTEAK_CITY
-	warp_def $4, $9, 1, ROUTE_42
-	warp_def $5, $9, 2, ROUTE_42
+	warp_def 0, 4, 1, ECRUTEAK_CITY
+	warp_def 0, 5, 2, ECRUTEAK_CITY
+	warp_def 9, 4, 1, ROUTE_42
+	warp_def 9, 5, 2, ROUTE_42
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_OFFICER, 2, 5, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, OfficerScript_0x19a4b5, -1
+	object_event 5, 2, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, Route42EcruteakGateOfficerScript, -1

@@ -3,16 +3,14 @@ const_value set 2
 	const ROUTE28FAMOUSSPEECHHOUSE_FEAROW
 
 Route28FamousSpeechHouse_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 1
-
-	; triggers
-	dw .Trigger, 0
+	scene_script .DummyScene
 
 .MapCallbacks:
 	db 0
 
-.Trigger:
+.DummyScene:
 	end
 
 Celebrity:
@@ -78,18 +76,18 @@ Route28FamousSpeechHouse_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $2, 1, ROUTE_28
-	warp_def $7, $3, 1, ROUTE_28
+	warp_def 2, 7, 1, ROUTE_28
+	warp_def 3, 7, 1, ROUTE_28
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 1, 0, SIGNPOST_READ, CelebrityHouseBookshelf
-	signpost 1, 1, SIGNPOST_READ, CelebrityHouseBookshelf
+	bg_event 0, 1, BGEVENT_READ, CelebrityHouseBookshelf
+	bg_event 1, 1, BGEVENT_READ, CelebrityHouseBookshelf
 
-.PersonEvents:
+.ObjectEvents:
 	db 2
-	person_event SPRITE_COOLTRAINER_F, 3, 2, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, Celebrity, -1
-	person_event SPRITE_MOLTRES, 5, 6, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_SCRIPT, 0, CelebritysFearow, -1
+	object_event 2, 3, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, Celebrity, -1
+	object_event 6, 5, SPRITE_MOLTRES, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_SCRIPT, 0, CelebritysFearow, -1

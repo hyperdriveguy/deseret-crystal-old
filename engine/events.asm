@@ -72,14 +72,14 @@ StartMap: ; 96724
 	ld hl, MapStatus
 	ld bc, wMapStatusEnd - MapStatus
 	call ByteFill
-	callba InitCallReceiveDelay
+	farcall InitCallReceiveDelay
 	call ClearJoypad
 EnterMap: ; 9673e
 	xor a
 	ld [wXYComparePointer], a
 	ld [wXYComparePointer + 1], a
 	call SetUpFiveStepWildEncounterCooldown
-	callba RunMapSetupScript
+	farcall RunMapSetupScript
 	call DisableEvents
 
 	ld a, [hMapEntryMethod]
@@ -105,7 +105,7 @@ EnterMap: ; 9673e
 HandleMap: ; 96773
 	call ResetOverworldDelay
 	call HandleMapTimeAndJoypad
-	callba HandleCmdQueue ; no need to farcall
+	farcall HandleCmdQueue ; no need to farcall
 	call MapEvents
 
 ; Not immediately entering a connected map will cause problems.
@@ -134,7 +134,7 @@ MapEvents: ; 96795
 .events ; 967a1
 	call PlayerEvents
 	call DisableEvents
-	callba ScriptEvents
+	farcall ScriptEvents
 	ret
 ; 967ae
 
@@ -173,16 +173,16 @@ HandleMapTimeAndJoypad: ; 967c1
 ; 967d1
 
 HandleMapObjects: ; 967d1
-	callba HandleNPCStep ; engine/map_objects.asm
-	callba _HandlePlayerStep
+	farcall HandleNPCStep ; engine/map_objects.asm
+	farcall _HandlePlayerStep
 	call _CheckObjectEnteringVisibleRange
 	ret
 ; 967e1
 
 HandleMapBackground: ; 967e1
-	callba _UpdateSprites
-	callba ScrollScreen
-	callba PlaceMapNameSign
+	farcall _UpdateSprites
+	farcall ScrollScreen
+	farcall PlaceMapNameSign
 	ret
 ; 967f4
 
@@ -210,7 +210,7 @@ _CheckObjectEnteringVisibleRange: ; 96812
 	ld hl, wPlayerStepFlags
 	bit 6, [hl]
 	ret z
-	callba CheckObjectEnteringVisibleRange
+	farcall CheckObjectEnteringVisibleRange
 	ret
 ; 9681f
 
@@ -230,7 +230,7 @@ PlayerEvents: ; 9681f
 	call RunMemScript
 	jr c, .ok
 
-	call DoMapTrigger
+	call RunSceneScript
 	jr c, .ok
 
 	call CheckTimeEvents
@@ -244,7 +244,7 @@ PlayerEvents: ; 9681f
 
 .ok
 	push af
-	callba EnableScriptMode
+	farcall EnableScriptMode
 	pop af
 
 	ld [ScriptRunning], a
@@ -279,12 +279,12 @@ CheckTrainerBattle3: ; 96867
 ; 96874
 
 CheckTileEvent: ; 96874
-; Check for warps, tile triggers or wild battles.
+; Check for warps, coord events, or wild battles.
 
 	call CheckWarpConnxnScriptFlag
 	jr z, .connections_disabled
 
-	callba CheckMovingOffEdgeOfMap
+	farcall CheckMovingOffEdgeOfMap
 	jr c, .map_connection
 
 	call CheckWarpTile
@@ -294,7 +294,7 @@ CheckTileEvent: ; 96874
 	call CheckCoordEventScriptFlag
 	jr z, .coord_events_disabled
 
-	call CheckCurrentMapXYTriggers
+	call CheckCurrentMapCoordEvents
 	jr c, .coord_event
 
 .coord_events_disabled
@@ -361,19 +361,19 @@ SetUpFiveStepWildEncounterCooldown: ; 968d1
 	ret
 ; 968d7
 
-DoMapTrigger: ; 968ec
-	ld a, [wCurrMapTriggerCount]
+RunSceneScript: ; 968ec
+	ld a, [wCurrMapSceneScriptCount]
 	and a
 	jr z, .nope
 
 	ld c, a
-	call CheckTriggers
+	call CheckScenes
 	cp c
 	jr nc, .nope
 
 	ld e, a
 	ld d, 0
-	ld hl, wCurrMapTriggerHeaderPointer
+	ld hl, wCurrMapSceneScriptHeaderPointer
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
@@ -389,8 +389,8 @@ endr
 	ld hl, ScriptFlags
 	res 3, [hl]
 
-	callba EnableScriptMode
-	callba ScriptEvents
+	farcall EnableScriptMode
+	farcall ScriptEvents
 
 	ld hl, ScriptFlags
 	bit 3, [hl]
@@ -415,19 +415,19 @@ CheckTimeEvents: ; 9693a
 	and a
 	jr nz, .nothing
 
-	ld hl, StatusFlags2
+	ld hl, wStatusFlags2
 	bit 2, [hl] ; bug contest
 	jr z, .do_daily
 
-	callba CheckBugContestTimer
+	farcall CheckBugContestTimer
 	jr c, .end_bug_contest
 	xor a
 	ret
 
 .do_daily
-	callba CheckDailyResetTimer
-	callba CheckPokerusTick
-	callba CheckPhoneCall
+	farcall CheckDailyResetTimer
+	farcall CheckPokerusTick
+	farcall CheckPhoneCall
 	ret c
 
 .nothing
@@ -450,7 +450,7 @@ OWPlayerInput: ; 96974
 	jr nz, .NoAction
 
 ; Can't perform button actions while sliding on ice.
-	callba CheckStandingOnIce
+	farcall CheckStandingOnIce
 	jr c, .NoAction
 
 	call CheckAPressOW
@@ -465,7 +465,7 @@ OWPlayerInput: ; 96974
 
 .Action:
 	push af
-	callba StopPlayerForEvent
+	farcall StopPlayerForEvent
 	pop af
 	scf
 	ret
@@ -477,9 +477,9 @@ CheckAPressOW: ; 96999
 	ret z
 	call TryObjectEvent
 	ret c
-	call TryReadSign
+	call TryBGEvent
 	ret c
-	call CheckFacingTileEvent
+	call TryTileCollisionEvent
 	ret c
 	xor a
 	ret
@@ -494,7 +494,7 @@ PlayTalkObject: ; 969ac
 ; 969b5
 
 TryObjectEvent: ; 969b5
-	callba CheckFacingObject
+	farcall CheckFacingObject
 	jr c, .IsObject
 	xor a
 	ret
@@ -535,9 +535,9 @@ TryObjectEvent: ; 969b5
 	ret
 
 .pointers
-	dbw PERSONTYPE_SCRIPT, .script
-	dbw PERSONTYPE_ITEMBALL, .itemball
-	dbw PERSONTYPE_TRAINER, .trainer
+	dbw OBJECTTYPE_SCRIPT, .script
+	dbw OBJECTTYPE_ITEMBALL, .itemball
+	dbw OBJECTTYPE_TRAINER, .trainer
 	db -1
 ; 96a04
 
@@ -574,19 +574,19 @@ TryObjectEvent: ; 969b5
 	ret
 ; 96a30
 
-TryReadSign: ; 96a38
-	call CheckFacingSign
-	jr c, .IsSign
+TryBGEvent: ; 96a38
+	call CheckFacingBGEvent
+	jr c, .is_bg_event
 	xor a
 	ret
 
-.IsSign:
+.is_bg_event:
 	ld a, [EngineBuffer3]
-	ld hl, .signs
+	ld hl, .bg_events
 	rst JumpTable
 	ret
 
-.signs
+.bg_events
 	dw .read
 	dw .up
 	dw .down
@@ -629,7 +629,7 @@ TryReadSign: ; 96a38
 	ret
 
 .itemifset
-	call CheckSignFlag
+	call CheckBGEventFlag
 	jp nz, .dontread
 	call PlayTalkObject
 	call GetMapScriptHeaderBank
@@ -643,7 +643,7 @@ TryReadSign: ; 96a38
 	ret
 
 .copy
-	call CheckSignFlag
+	call CheckBGEventFlag
 	jr nz, .dontread
 	call GetMapScriptHeaderBank
 	ld de, EngineBuffer1
@@ -652,12 +652,12 @@ TryReadSign: ; 96a38
 	jr .dontread
 
 .ifset
-	call CheckSignFlag
+	call CheckBGEventFlag
 	jr z, .dontread
 	jr .thenread
 
 .ifnotset
-	call CheckSignFlag
+	call CheckBGEventFlag
 	jr nz, .dontread
 
 .thenread
@@ -678,7 +678,7 @@ TryReadSign: ; 96a38
 	ret
 ; 96ad8
 
-CheckSignFlag: ; 96ad8
+CheckBGEventFlag: ; 96ad8
 	ld hl, EngineBuffer4
 	ld a, [hli]
 	ld h, [hl]
@@ -697,7 +697,7 @@ CheckSignFlag: ; 96ad8
 ; 96af0
 
 PlayerMovement: ; 96af0
-	callba DoPlayerMovement
+	farcall DoPlayerMovement
 	ld a, c
 	ld hl, .pointers
 	rst JumpTable
@@ -826,7 +826,7 @@ CountStep: ; 96b79
 	jr nz, .done
 
 	; If there is a special phone call, don't count the step.
-	callba CheckSpecialPhoneCall
+	farcall CheckSpecialPhoneCall
 	jr c, .doscript
 
 	; If Repel wore off, don't count the step.
@@ -841,7 +841,7 @@ CountStep: ; 96b79
 	; Every 256 steps, increase the happiness of all your Pokemon.
 	jr nz, .skip_happiness
 
-	callba StepHappiness
+	farcall StepHappiness
 
 .skip_happiness
 	; Every 256 steps, offset from the happiness incrementor by 128 steps,
@@ -851,12 +851,12 @@ CountStep: ; 96b79
 	cp $80
 	jr nz, .skip_egg
 
-	callba DoEggStep
+	farcall DoEggStep
 	jr nz, .hatch
 
 .skip_egg
 	; Increase the EXP of (both) DayCare Pokemon by 1.
-	callba DaycareStep
+	farcall DayCareStep
 
 	; Every four steps, deal damage to all Poisoned Pokemon
 	ld hl, PoisonStepCount
@@ -865,11 +865,11 @@ CountStep: ; 96b79
 	jr c, .skip_poison
 	ld [hl], 0
 
-	callba DoPoisonStep
+	farcall DoPoisonStep
 	jr c, .doscript
 
 .skip_poison
-	callba DoBikeStep
+	farcall DoBikeStep
 
 .done
 	xor a

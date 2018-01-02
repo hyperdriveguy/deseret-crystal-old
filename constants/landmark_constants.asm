@@ -1,6 +1,7 @@
-
+; Landmarks indexes (see data/maps/landmarks.asm)
 	const_def
 
+; Johto landmarks
 	const SPECIAL_MAP       ; 00
 	const NEW_BARK_TOWN     ; 01
 	const ROUTE_29          ; 02
@@ -50,7 +51,6 @@
 	const SILVER_CAVE       ; 2e
 
 KANTO_LANDMARK EQU const_value
-
 	const PALLET_TOWN       ; 2f
 	const ROUTE_1           ; 30
 	const VIRIDIAN_CITY     ; 31
@@ -63,7 +63,7 @@ KANTO_LANDMARK EQU const_value
 	const ROUTE_24          ; 38
 	const ROUTE_25          ; 39
 	const ROUTE_5           ; 3a
-	const UNDERGROUND       ; 3b
+	const UNDERGROUND_PATH  ; 3b
 	const ROUTE_6           ; 3c
 	const VERMILION_CITY    ; 3d
 	const DIGLETTS_CAVE     ; 3e

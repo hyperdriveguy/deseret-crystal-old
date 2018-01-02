@@ -124,28 +124,28 @@ _CheckItem:: ; d244
 
 DoesHLEqualNumItems: ; d27b
 	ld a, l
-	cp NumItems % $100
+	cp LOW(NumItems)
 	ret nz
 	ld a, h
-	cp NumItems / $100
+	cp HIGH(NumItems)
 	ret
 
 GetPocketCapacity: ; d283
 	ld c, MAX_ITEMS
 	ld a, e
-	cp NumItems % $100
+	cp LOW(NumItems)
 	jr nz, .not_bag
 	ld a, d
-	cp NumItems / $100
+	cp HIGH(NumItems)
 	ret z
 
 .not_bag
 	ld c, MAX_PC_ITEMS
 	ld a, e
-	cp PCItems % $100
+	cp LOW(PCItems)
 	jr nz, .not_pc
 	ld a, d
-	cp PCItems / $100
+	cp HIGH(PCItems)
 	ret z
 
 .not_pc
@@ -331,7 +331,7 @@ ReceiveKeyItem: ; d35a
 	ret
 
 TossKeyItem: ; d374
-	ld a, [wd107]
+	ld a, [CurItemQuantity]
 	ld e, a
 	ld d, 0
 	ld hl, NumKeyItems
@@ -455,15 +455,12 @@ CheckTMHM: ; d3fb
 
 GetTMHMNumber:: ; d407
 ; Return the number of a TM/HM by item id c.
-
 	ld a, c
-
 ; Skip any dummy items.
 	cp ITEM_C3 ; TM04-05
 	jr c, .done
 	cp ITEM_DC ; TM28-29
 	jr c, .skip
-
 	dec a
 .skip
 	dec a
@@ -475,15 +472,12 @@ GetTMHMNumber:: ; d407
 
 GetNumberedTMHM: ; d417
 ; Return the item id of a TM/HM by number c.
-
 	ld a, c
-
 ; Skip any gaps.
 	cp ITEM_C3 - (TM01 - 1)
 	jr c, .done
 	cp ITEM_DC - (TM01 - 1) - 1
 	jr c, .skip_one
-
 .skip_two
 	inc a
 .skip_one
@@ -554,7 +548,7 @@ GetItemAttr: ; d460
 	ld a, [CurItem]
 	dec a
 	ld c, a
-	ld a, NUM_ITEMATTRS
+	ld a, ITEMATTR_STRUCT_LENGTH
 	call AddNTimes
 	ld a, BANK(ItemAttributes)
 	call GetFarByte

@@ -7,52 +7,52 @@ const_value set 2
 	const ROUTE12_POKE_BALL2
 
 Route12_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
 TrainerFisherKyle:
-	trainer EVENT_BEAT_FISHER_KYLE, FISHER, KYLE, FisherKyleSeenText, FisherKyleBeatenText, 0, FisherKyleScript
+	trainer EVENT_BEAT_FISHER_KYLE, FISHER, KYLE, FisherKyleSeenText, FisherKyleBeatenText, 0, .Script
 
-FisherKyleScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a7238
+	writetext FisherKyleAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerFisherMartin:
-	trainer EVENT_BEAT_FISHER_MARTIN, FISHER, MARTIN, FisherMartinSeenText, FisherMartinBeatenText, 0, FisherMartinScript
+	trainer EVENT_BEAT_FISHER_MARTIN, FISHER, MARTIN, FisherMartinSeenText, FisherMartinBeatenText, 0, .Script
 
-FisherMartinScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a704c
+	writetext FisherMartinAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerFisherStephen:
-	trainer EVENT_BEAT_FISHER_STEPHEN, FISHER, STEPHEN, FisherStephenSeenText, FisherStephenBeatenText, 0, FisherStephenScript
+	trainer EVENT_BEAT_FISHER_STEPHEN, FISHER, STEPHEN, FisherStephenSeenText, FisherStephenBeatenText, 0, .Script
 
-FisherStephenScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a70d4
+	writetext FisherStephenAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerFisherBarney:
-	trainer EVENT_BEAT_FISHER_BARNEY, FISHER, BARNEY, FisherBarneySeenText, FisherBarneyBeatenText, 0, FisherBarneyScript
+	trainer EVENT_BEAT_FISHER_BARNEY, FISHER, BARNEY, FisherBarneySeenText, FisherBarneyBeatenText, 0, .Script
 
-FisherBarneyScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a716d
+	writetext FisherBarneyAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -83,7 +83,7 @@ FisherMartinBeatenText:
 	text "Gwaaah!"
 	done
 
-UnknownText_0x1a704c:
+FisherMartinAfterBattleText:
 	text "I'm too impatient"
 	line "for fishing…"
 	done
@@ -100,7 +100,7 @@ FisherStephenBeatenText:
 	line "distracted me!"
 	done
 
-UnknownText_0x1a70d4:
+FisherStephenAfterBattleText:
 	text "Have you checked"
 	line "out KANTO's radio"
 
@@ -119,7 +119,7 @@ FisherBarneyBeatenText:
 	line "coming up next!"
 	done
 
-UnknownText_0x1a716d:
+FisherBarneyAfterBattleText:
 	text "I think electric-"
 	line "ity is the most"
 
@@ -144,7 +144,7 @@ FisherKyleBeatenText:
 	text "You do remember?"
 	done
 
-UnknownText_0x1a7238:
+FisherKyleAfterBattleText:
 	text "The tug you feel"
 	line "on the ROD when"
 
@@ -173,22 +173,22 @@ Route12_MapEventHeader:
 
 .Warps:
 	db 1
-	warp_def $21, $b, 1, ROUTE_12_SUPER_ROD_HOUSE
+	warp_def 11, 33, 1, ROUTE_12_SUPER_ROD_HOUSE
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 3
-	signpost 27, 11, SIGNPOST_READ, Route12Sign
-	signpost 9, 13, SIGNPOST_READ, FishingSpotSign
-	signpost 13, 14, SIGNPOST_ITEM, Route12HiddenElixer
+	bg_event 11, 27, BGEVENT_READ, Route12Sign
+	bg_event 13, 9, BGEVENT_READ, FishingSpotSign
+	bg_event 14, 13, BGEVENT_ITEM, Route12HiddenElixer
 
-.PersonEvents:
+.ObjectEvents:
 	db 6
-	person_event SPRITE_FISHER, 13, 5, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 1, TrainerFisherMartin, -1
-	person_event SPRITE_FISHER, 23, 14, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 1, TrainerFisherStephen, -1
-	person_event SPRITE_FISHER, 38, 10, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 5, TrainerFisherBarney, -1
-	person_event SPRITE_FISHER, 7, 6, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 3, TrainerFisherKyle, -1
-	person_event SPRITE_POKE_BALL, 43, 5, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, Route12Calcium, EVENT_ROUTE_12_CALCIUM
-	person_event SPRITE_POKE_BALL, 51, 5, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, Route12Nugget, EVENT_ROUTE_12_NUGGET
+	object_event 5, 13, SPRITE_FISHER, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 1, TrainerFisherMartin, -1
+	object_event 14, 23, SPRITE_FISHER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 1, TrainerFisherStephen, -1
+	object_event 10, 38, SPRITE_FISHER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 5, TrainerFisherBarney, -1
+	object_event 6, 7, SPRITE_FISHER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 3, TrainerFisherKyle, -1
+	object_event 5, 43, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, Route12Calcium, EVENT_ROUTE_12_CALCIUM
+	object_event 5, 51, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, Route12Nugget, EVENT_ROUTE_12_NUGGET

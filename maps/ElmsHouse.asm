@@ -3,7 +3,7 @@ const_value set 2
 	const ELMSHOUSE_ELMS_SON
 
 ElmsHouse_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -75,19 +75,19 @@ ElmsHouse_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $2, 4, NEW_BARK_TOWN
-	warp_def $7, $3, 4, NEW_BARK_TOWN
+	warp_def 2, 7, 4, NEW_BARK_TOWN
+	warp_def 3, 7, 4, NEW_BARK_TOWN
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 3
-	signpost 1, 0, SIGNPOST_READ, ElmsHousePC
-	signpost 1, 6, SIGNPOST_READ, ElmsHouseBookshelf
-	signpost 1, 7, SIGNPOST_READ, ElmsHouseBookshelf
+	bg_event 0, 1, BGEVENT_READ, ElmsHousePC
+	bg_event 6, 1, BGEVENT_READ, ElmsHouseBookshelf
+	bg_event 7, 1, BGEVENT_READ, ElmsHouseBookshelf
 
-.PersonEvents:
+.ObjectEvents:
 	db 2
-	person_event SPRITE_TEACHER, 5, 1, SPRITEMOVEDATA_WALK_UP_DOWN, 1, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, ElmsWife, -1
-	person_event SPRITE_BUG_CATCHER, 4, 5, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ElmsSon, -1
+	object_event 1, 5, SPRITE_TEACHER, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, ElmsWife, -1
+	object_event 5, 4, SPRITE_BUG_CATCHER, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ElmsSon, -1

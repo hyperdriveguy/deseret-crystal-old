@@ -5,7 +5,7 @@ const_value set 2
 	const CELADONMANSION1F_GROWLITHE2
 
 CeladonMansion1F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -80,24 +80,24 @@ CeladonMansion1F_MapEventHeader:
 
 .Warps:
 	db 5
-	warp_def $9, $6, 2, CELADON_CITY
-	warp_def $9, $7, 2, CELADON_CITY
-	warp_def $0, $3, 3, CELADON_CITY
-	warp_def $0, $0, 1, CELADON_MANSION_2F
-	warp_def $0, $7, 4, CELADON_MANSION_2F
+	warp_def 6, 9, 2, CELADON_CITY
+	warp_def 7, 9, 2, CELADON_CITY
+	warp_def 3, 0, 3, CELADON_CITY
+	warp_def 0, 0, 1, CELADON_MANSION_2F
+	warp_def 7, 0, 4, CELADON_MANSION_2F
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 3
-	signpost 8, 5, SIGNPOST_UP, CeladonMansionManagersSuiteSign
-	signpost 3, 0, SIGNPOST_READ, CeladonMansion1fBookshelf
-	signpost 3, 2, SIGNPOST_READ, CeladonMansion1fBookshelf
+	bg_event 5, 8, BGEVENT_UP, CeladonMansionManagersSuiteSign
+	bg_event 0, 3, BGEVENT_READ, CeladonMansion1fBookshelf
+	bg_event 2, 3, BGEVENT_READ, CeladonMansion1fBookshelf
 
-.PersonEvents:
+.ObjectEvents:
 	db 4
-	person_event SPRITE_GRANNY, 5, 1, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, CeladonMansionManager, -1
-	person_event SPRITE_GROWLITHE, 6, 2, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, CeladonMansion1FMeowth, -1
-	person_event SPRITE_CLEFAIRY, 4, 3, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, CeladonMansion1FClefairy, -1
-	person_event SPRITE_GROWLITHE, 4, 4, SPRITEMOVEDATA_POKEMON, 0, 2, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, CeladonMansion1FNidoranF, -1
+	object_event 1, 5, SPRITE_GRANNY, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, CeladonMansionManager, -1
+	object_event 2, 6, SPRITE_GROWLITHE, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, CeladonMansion1FMeowth, -1
+	object_event 3, 4, SPRITE_CLEFAIRY, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, CeladonMansion1FClefairy, -1
+	object_event 4, 4, SPRITE_GROWLITHE, SPRITEMOVEDATA_POKEMON, 2, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, CeladonMansion1FNidoranF, -1

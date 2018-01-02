@@ -6,20 +6,18 @@ const_value set 2
 	const KRISSHOUSE1F_POKEFAN_F
 
 KrissHouse1F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 2
-
-	; triggers
-	dw UnknownScript_0x7a4d6, 0
-	dw UnknownScript_0x7a4d7, 0
+	scene_script .DummyScene0
+	scene_script .DummyScene1
 
 .MapCallbacks:
 	db 0
 
-UnknownScript_0x7a4d6:
+.DummyScene0:
 	end
 
-UnknownScript_0x7a4d7:
+.DummyScene1:
 	end
 
 UnknownScript_0x7a4d8:
@@ -45,7 +43,7 @@ UnknownScript_0x7a4f6:
 	setflag ENGINE_POKEGEAR
 	setflag ENGINE_PHONE_CARD
 	addcellnum PHONE_MOM
-	dotrigger $1
+	setscene $1
 	setevent EVENT_KRISS_HOUSE_MOM_1
 	clearevent EVENT_KRISS_HOUSE_MOM_2
 	writetext UnknownText_0x7a6bd
@@ -117,7 +115,7 @@ UnknownScript_0x7a57e:
 MomScript_0x7a582:
 	faceplayer
 	setevent EVENT_RECEIVED_BALLS_FROM_KURT
-	checktriggers
+	checkscene
 	iffalse UnknownScript_0x7a572
 	opentext
 	checkevent EVENT_FIRST_TIME_BANKING_WITH_MOM
@@ -393,26 +391,26 @@ KrissHouse1F_MapEventHeader:
 
 .Warps:
 	db 3
-	warp_def $7, $6, 2, NEW_BARK_TOWN
-	warp_def $7, $7, 2, NEW_BARK_TOWN
-	warp_def $0, $9, 1, KRISS_HOUSE_2F
+	warp_def 6, 7, 2, NEW_BARK_TOWN
+	warp_def 7, 7, 2, NEW_BARK_TOWN
+	warp_def 9, 0, 1, KRISS_HOUSE_2F
 
-.XYTriggers:
+.CoordEvents:
 	db 2
-	xy_trigger 0, $4, $8, $0, UnknownScript_0x7a4d8, $0, $0
-	xy_trigger 0, $4, $9, $0, UnknownScript_0x7a4db, $0, $0
+	coord_event 8, 4, 0, UnknownScript_0x7a4d8
+	coord_event 9, 4, 0, UnknownScript_0x7a4db
 
-.Signposts:
+.BGEvents:
 	db 4
-	signpost 1, 0, SIGNPOST_READ, StoveScript
-	signpost 1, 1, SIGNPOST_READ, SinkScript
-	signpost 1, 2, SIGNPOST_READ, FridgeScript
-	signpost 1, 4, SIGNPOST_READ, TVScript
+	bg_event 0, 1, BGEVENT_READ, StoveScript
+	bg_event 1, 1, BGEVENT_READ, SinkScript
+	bg_event 2, 1, BGEVENT_READ, FridgeScript
+	bg_event 4, 1, BGEVENT_READ, TVScript
 
-.PersonEvents:
+.ObjectEvents:
 	db 5
-	person_event SPRITE_MOM, 4, 7, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, MomScript_0x7a582, EVENT_KRISS_HOUSE_MOM_1
-	person_event SPRITE_MOM, 2, 2, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, 1, 0, PERSONTYPE_SCRIPT, 0, MomScript_0x7a582, EVENT_KRISS_HOUSE_MOM_2
-	person_event SPRITE_MOM, 4, 7, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, 2, 0, PERSONTYPE_SCRIPT, 0, MomScript_0x7a582, EVENT_KRISS_HOUSE_MOM_2
-	person_event SPRITE_MOM, 2, 0, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, 4, 0, PERSONTYPE_SCRIPT, 0, MomScript_0x7a582, EVENT_KRISS_HOUSE_MOM_2
-	person_event SPRITE_POKEFAN_F, 4, 4, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, NeighborScript, EVENT_KRISS_HOUSE_1F_NEIGHBOR
+	object_event 7, 4, SPRITE_MOM, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, MomScript_0x7a582, EVENT_KRISS_HOUSE_MOM_1
+	object_event 2, 2, SPRITE_MOM, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, MORN, 0, OBJECTTYPE_SCRIPT, 0, MomScript_0x7a582, EVENT_KRISS_HOUSE_MOM_2
+	object_event 7, 4, SPRITE_MOM, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, DAY, 0, OBJECTTYPE_SCRIPT, 0, MomScript_0x7a582, EVENT_KRISS_HOUSE_MOM_2
+	object_event 0, 2, SPRITE_MOM, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, NITE, 0, OBJECTTYPE_SCRIPT, 0, MomScript_0x7a582, EVENT_KRISS_HOUSE_MOM_2
+	object_event 4, 4, SPRITE_POKEFAN_F, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, NeighborScript, EVENT_KRISS_HOUSE_1F_NEIGHBOR

@@ -2,7 +2,7 @@ const_value set 2
 	const ROUTE26HEALSPEECHHOUSE_TEACHER
 
 Route26HealSpeechHouse_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -53,17 +53,17 @@ Route26HealSpeechHouse_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $2, 2, ROUTE_26
-	warp_def $7, $3, 2, ROUTE_26
+	warp_def 2, 7, 2, ROUTE_26
+	warp_def 3, 7, 2, ROUTE_26
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 1, 0, SIGNPOST_READ, Route26HealHouseBookshelf
-	signpost 1, 1, SIGNPOST_READ, Route26HealHouseBookshelf
+	bg_event 0, 1, BGEVENT_READ, Route26HealHouseBookshelf
+	bg_event 1, 1, BGEVENT_READ, Route26HealHouseBookshelf
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_TEACHER, 3, 2, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, TeacherScript_0x7b125, -1
+	object_event 2, 3, SPRITE_TEACHER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, TeacherScript_0x7b125, -1

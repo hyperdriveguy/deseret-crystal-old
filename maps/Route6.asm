@@ -4,41 +4,41 @@ const_value set 2
 	const ROUTE6_POKEFAN_M3
 
 Route6_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
 TrainerPokefanmRex:
-	trainer EVENT_BEAT_POKEFANM_REX, POKEFANM, REX, PokefanmRexSeenText, PokefanmRexBeatenText, 0, PokefanmRexScript
+	trainer EVENT_BEAT_POKEFANM_REX, POKEFANM, REX, PokefanmRexSeenText, PokefanmRexBeatenText, 0, .Script
 
-PokefanmRexScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ad9ff
+	writetext PokefanmRexAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerPokefanmAllan:
-	trainer EVENT_BEAT_POKEFANM_ALLAN, POKEFANM, ALLAN, PokefanmAllanSeenText, PokefanmAllanBeatenText, 0, PokefanmAllanScript
+	trainer EVENT_BEAT_POKEFANM_ALLAN, POKEFANM, ALLAN, PokefanmAllanSeenText, PokefanmAllanBeatenText, 0, .Script
 
-PokefanmAllanScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ada88
+	writetext PokefanmAllanAfterBattleText
 	waitbutton
 	closetext
 	end
 
-PokefanMScript_0x1ad951:
-	jumptextfaceplayer UnknownText_0x1ad957
+Route6PokefanMScript:
+	jumptextfaceplayer Route6PokefanMText
 
 Route6UndergroundPathSign:
 	jumptext Route6UndergroundPathSignText
 
-UnknownText_0x1ad957:
+Route6PokefanMText:
 	text "The road is closed"
 	line "until the problem"
 
@@ -63,7 +63,7 @@ PokefanmRexBeatenText:
 	text "My PHANPY!"
 	done
 
-UnknownText_0x1ad9ff:
+PokefanmRexAfterBattleText:
 	text "Look how adorable"
 	line "my PHANPY acts!"
 
@@ -82,7 +82,7 @@ PokefanmAllanBeatenText:
 	text "My TEDDIURSA!"
 	done
 
-UnknownText_0x1ada88:
+PokefanmAllanAfterBattleText:
 	text "Look how adorable"
 	line "my TEDDIURSA acts!"
 
@@ -97,18 +97,18 @@ Route6_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $3, $11, 1, ROUTE_6_UNDERGROUND_ENTRANCE
-	warp_def $1, $6, 3, ROUTE_6_SAFFRON_GATE
+	warp_def 17, 3, 1, ROUTE_6_UNDERGROUND_PATH_ENTRANCE
+	warp_def 6, 1, 3, ROUTE_6_SAFFRON_GATE
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 1
-	signpost 5, 19, SIGNPOST_READ, Route6UndergroundPathSign
+	bg_event 19, 5, BGEVENT_READ, Route6UndergroundPathSign
 
-.PersonEvents:
+.ObjectEvents:
 	db 3
-	person_event SPRITE_POKEFAN_M, 4, 17, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_SCRIPT, 2, PokefanMScript_0x1ad951, EVENT_ROUTE_5_6_POKEFAN_M_BLOCKS_UNDERGROUND_PATH
-	person_event SPRITE_POKEFAN_M, 12, 9, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 0, TrainerPokefanmRex, -1
-	person_event SPRITE_POKEFAN_M, 12, 10, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 0, TrainerPokefanmAllan, -1
+	object_event 17, 4, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_SCRIPT, 2, Route6PokefanMScript, EVENT_ROUTE_5_6_POKEFAN_M_BLOCKS_UNDERGROUND_PATH
+	object_event 9, 12, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 0, TrainerPokefanmRex, -1
+	object_event 10, 12, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 0, TrainerPokefanmAllan, -1

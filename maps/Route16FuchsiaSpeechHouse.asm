@@ -2,19 +2,19 @@ const_value set 2
 	const ROUTE16FUCHSIASPEECHHOUSE_SUPER_NERD
 
 Route16FuchsiaSpeechHouse_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-SuperNerdScript_0x73373:
-	jumptextfaceplayer UnknownText_0x73379
+Route16FuchsiaSpeechHouseSuperNerdScript:
+	jumptextfaceplayer Route16FuchsiaSpeechHouseSuperNerdText
 
 Route16FuchsiaSpeechHouseBookshelf:
 	jumpstd picturebookshelf
 
-UnknownText_0x73379:
+Route16FuchsiaSpeechHouseSuperNerdText:
 	text "If you cruise down"
 	line "CYCLING ROAD, you"
 
@@ -28,17 +28,17 @@ Route16FuchsiaSpeechHouse_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $2, 1, ROUTE_16
-	warp_def $7, $3, 1, ROUTE_16
+	warp_def 2, 7, 1, ROUTE_16
+	warp_def 3, 7, 1, ROUTE_16
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 1, 0, SIGNPOST_READ, Route16FuchsiaSpeechHouseBookshelf
-	signpost 1, 1, SIGNPOST_READ, Route16FuchsiaSpeechHouseBookshelf
+	bg_event 0, 1, BGEVENT_READ, Route16FuchsiaSpeechHouseBookshelf
+	bg_event 1, 1, BGEVENT_READ, Route16FuchsiaSpeechHouseBookshelf
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_SUPER_NERD, 3, 2, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, SuperNerdScript_0x73373, -1
+	object_event 2, 3, SPRITE_SUPER_NERD, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, Route16FuchsiaSpeechHouseSuperNerdScript, -1

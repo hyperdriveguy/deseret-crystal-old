@@ -6,7 +6,7 @@ _MainMenu: ; 5ae8
 	ld a, e
 	ld [wMapMusic], a
 	call PlayMusic
-	callba MainMenu
+	farcall MainMenu
 	jp StartTitleScreen
 ; 5b04
 
@@ -52,13 +52,13 @@ NewGame_ClearTileMapEtc: ; 5b44
 
 MysteryGift: ; 5b54
 	call UpdateTime
-	callba DoMysteryGiftIfDayHasPassed
-	callba DoMysteryGift
+	farcall DoMysteryGiftIfDayHasPassed
+	farcall DoMysteryGift
 	ret
 ; 5b64
 
 OptionsMenu: ; 5b64
-	callba _OptionsMenu
+	farcall _OptionsMenu
 	ret
 ; 5b6b
 
@@ -95,8 +95,8 @@ _ResetWRAM: ; 5bae
 	xor a
 	call ByteFill
 
-	ld hl, wd000
-	ld bc, wGameData - wd000
+	ld hl, WRAM1_Begin
+	ld bc, wGameData - WRAM1_Begin
 	xor a
 	call ByteFill
 
@@ -177,38 +177,36 @@ _ResetWRAM: ; 5bae
 	xor a
 	ld [MonType], a
 
-	ld [JohtoBadges], a
-	ld [KantoBadges], a
+	ld [wJohtoBadges], a
+	ld [wKantoBadges], a
 
 	ld [Coins], a
 	ld [Coins + 1], a
 
-START_MONEY EQU 3000
-
-IF START_MONEY / $10000
-	ld a, START_MONEY / $10000
-ENDC
+if START_MONEY >= $10000
+	ld a, HIGH(START_MONEY >> 8)
+endc
 	ld [Money], a
-	ld a, START_MONEY / $100 % $100
+	ld a, HIGH(START_MONEY) ; mid
 	ld [Money + 1], a
-	ld a, START_MONEY % $100
+	ld a, LOW(START_MONEY)
 	ld [Money + 2], a
 
 	xor a
 	ld [wWhichMomItem], a
 
 	ld hl, MomItemTriggerBalance
-	ld [hl], 2300 / $10000
+	ld [hl], HIGH(MOM_MONEY >> 8)
 	inc hl
-	ld [hl], 2300 / $100 % $100
+	ld [hl], HIGH(MOM_MONEY) ; mid
 	inc hl
-	ld [hl], 2300 % $100
+	ld [hl], LOW(MOM_MONEY)
 
 	call InitializeNPCNames
 
-	callba InitDecorations
+	farcall InitDecorations
 
-	callba DeletePartyMonMail
+	farcall DeletePartyMonMail
 
 	call ResetGameTime
 	ret
@@ -300,8 +298,8 @@ InitializeNPCNames: ; 5ce9
 
 InitializeWorld: ; 5d23
 	call ShrinkPlayer
-	callba SpawnPlayer
-	callba _InitializeStartDay
+	farcall SpawnPlayer
+	farcall _InitializeStartDay
 	ret
 ; 5d33
 
@@ -333,9 +331,9 @@ LoadOrRegenerateLuckyIDNumber: ; 5d33
 ; 5d65
 
 Continue: ; 5d65
-	callba TryLoadSaveFile
+	farcall TryLoadSaveFile
 	jr c, .FailToLoad
-	callba _LoadData
+	farcall _LoadData
 	call LoadStandardMenuDataHeader
 	call DisplaySaveInfoOnContinue
 	ld a, $1
@@ -356,18 +354,18 @@ Continue: ; 5d65
 .Check2Pass:
 	ld a, $8
 	ld [MusicFade], a
-	ld a, MUSIC_NONE % $100
-	ld [MusicFadeIDLo], a
-	ld a, MUSIC_NONE / $100
-	ld [MusicFadeIDHi], a
+	ld a, LOW(MUSIC_NONE)
+	ld [MusicFadeID], a
+	ld a, HIGH(MUSIC_NONE)
+	ld [MusicFadeID + 1], a
 	call ClearBGPalettes
 	call CloseWindow
 	call ClearTileMap
 	ld c, 20
 	call DelayFrames
-	callba JumpRoamMons
-	callba MysteryGift_CopyReceivedDecosToPC ; Mystery Gift
-	callba Function140ae ; time-related
+	farcall JumpRoamMons
+	farcall MysteryGift_CopyReceivedDecosToPC ; Mystery Gift
+	farcall Function140ae ; time-related
 	ld a, [wSpawnAfterChampion]
 	cp SPAWN_LANCE
 	jr z, .SpawnAfterE4
@@ -418,7 +416,7 @@ Continue_CheckRTC_RestartClock: ; 5e48
 	call CheckRTCStatus
 	and %10000000 ; Day count exceeded 16383
 	jr z, .pass
-	callba RestartClock
+	farcall RestartClock
 	ld a, c
 	and a
 	jr z, .pass
@@ -435,12 +433,12 @@ FinishContinueFunction: ; 5e5d
 	xor a
 	ld [wDontPlayMapMusicOnReload], a
 	ld [wLinkMode], a
-	ld hl, GameTimerPause
+	ld hl, wGameTimerPause
 	set 0, [hl]
 	res 7, [hl]
 	ld hl, wEnteredMapFromContinue
 	set 1, [hl]
-	callba OverworldLoop
+	farcall OverworldLoop
 	ld a, [wSpawnAfterChampion]
 	cp SPAWN_RED
 	jr z, .AfterRed
@@ -492,7 +490,7 @@ Continue_LoadMenuHeader: ; 5ebf
 	xor a
 	ld [hBGMapMode], a
 	ld hl, .MenuDataHeader_Dex
-	ld a, [StatusFlags]
+	ld a, [wStatusFlags]
 	bit 0, a ; pokedex
 	jr nz, .pokedex_header
 	ld hl, .MenuDataHeader_NoDex
@@ -583,7 +581,7 @@ Continue_UnknownGameTime: ; 5f48
 
 Continue_DisplayBadgeCount: ; 5f58
 	push hl
-	ld hl, JohtoBadges
+	ld hl, wJohtoBadges
 	ld b, 2
 	call CountSetBits
 	pop hl
@@ -593,16 +591,16 @@ Continue_DisplayBadgeCount: ; 5f58
 ; 5f6b
 
 Continue_DisplayPokedexNumCaught: ; 5f6b
-	ld a, [StatusFlags]
+	ld a, [wStatusFlags]
 	bit 0, a ; Pokedex
 	ret z
 	push hl
 	ld hl, PokedexCaught
-IF NUM_POKEMON % 8
+if NUM_POKEMON % 8
 	ld b, NUM_POKEMON / 8 + 1
-ELSE
+else
 	ld b, NUM_POKEMON / 8
-ENDC
+endc
 	call CountSetBits
 	pop hl
 	ld de, wd265
@@ -623,7 +621,7 @@ Continue_DisplayGameTime: ; 5f84
 
 
 OakSpeech: ; 0x5f99
-	callba InitClock
+	farcall InitClock
 	call RotateFourPalettesLeft
 	call ClearTileMap
 
@@ -687,7 +685,7 @@ OakSpeech: ; 0x5f99
 
 	xor a
 	ld [CurPartySpecies], a
-	callba DrawIntroPlayerPic
+	farcall DrawIntroPlayerPic
 
 	ld b, SCGB_TRAINER_OR_MON_FRONTPIC_PALS
 	call GetSGBLayout
@@ -734,20 +732,20 @@ OakText7: ; 0x606f
 	db "@"
 
 NamePlayer: ; 0x6074
-	callba MovePlayerPicRight
-	callba ShowPlayerNamingChoices
+	farcall MovePlayerPicRight
+	farcall ShowPlayerNamingChoices
 	ld a, [wMenuCursorY]
 	dec a
 	jr z, .NewName
 	call StorePlayerName
-	callba ApplyMonOrTrainerPals
-	callba MovePlayerPicLeft
+	farcall ApplyMonOrTrainerPals
+	farcall MovePlayerPicLeft
 	ret
 
 .NewName:
 	ld b, 1
 	ld de, PlayerName
-	callba NamingScreen
+	farcall NamingScreen
 
 	call RotateThreePalettesRight
 	call ClearTileMap
@@ -757,7 +755,7 @@ NamePlayer: ; 0x6074
 
 	xor a
 	ld [CurPartySpecies], a
-	callba DrawIntroPlayerPic
+	farcall DrawIntroPlayerPic
 
 	ld b, SCGB_TRAINER_OR_MON_FRONTPIC_PALS
 	call GetSGBLayout
@@ -765,7 +763,7 @@ NamePlayer: ; 0x6074
 
 	ld hl, PlayerName
 	ld de, .Chris
-	ld a, [PlayerGender]
+	ld a, [wPlayerGender]
 	bit 0, a
 	jr z, .Male
 	ld de, .Kris
@@ -799,9 +797,9 @@ ShrinkPlayer: ; 610f
 	ld [MusicFade], a
 	ld de, MUSIC_NONE
 	ld a, e
-	ld [MusicFadeIDLo], a
+	ld [MusicFadeID], a
 	ld a, d
-	ld [MusicFadeIDHi], a
+	ld [MusicFadeID + 1], a
 
 	ld de, SFX_ESCAPE_ROPE
 	call PlaySFX
@@ -884,8 +882,8 @@ Intro_WipeInFrontpic: ; 6182
 ; 619c
 
 Intro_PrepTrainerPic: ; 619c
-	ld de, VTiles2
-	callba GetTrainerPic
+	ld de, vTiles2
+	farcall GetTrainerPic
 	xor a
 	ld [hGraphicStartTile], a
 	hlcoord 6, 4
@@ -895,7 +893,7 @@ Intro_PrepTrainerPic: ; 619c
 ; 61b4
 
 ShrinkFrame: ; 61b4
-	ld de, VTiles2
+	ld de, vTiles2
 	ld c, $31
 	predef DecompressPredef
 	xor a
@@ -908,9 +906,9 @@ ShrinkFrame: ; 61b4
 
 Intro_PlacePlayerSprite: ; 61cd
 
-	callba GetPlayerIcon
+	farcall GetPlayerIcon
 	ld c, $c
-	ld hl, VTiles0
+	ld hl, vTiles0
 	call Request2bpp
 
 	ld hl, Sprites
@@ -931,7 +929,7 @@ Intro_PlacePlayerSprite: ; 61cd
 	ld [hli], a
 
 	ld b, 0
-	ld a, [PlayerGender]
+	ld a, [wPlayerGender]
 	bit 0, a
 	jr z, .male
 	ld b, 1
@@ -954,9 +952,9 @@ Intro_PlacePlayerSprite: ; 61cd
 
 
 CrystalIntroSequence: ; 620b
-	callab Copyright_GFPresents
+	callfar Copyright_GFPresents
 	jr c, StartTitleScreen
-	callba CrystalIntro
+	farcall CrystalIntro
 
 StartTitleScreen: ; 6219
 	ld a, [rSVBK]
@@ -991,7 +989,7 @@ StartTitleScreen: ; 6219
 	ld b, SCGB_DIPLOMA
 	call GetSGBLayout
 	call UpdateTimePals
-	ld a, [wcf64]
+	ld a, [wIntroSceneFrameCounter]
 	cp $5
 	jr c, .ok
 	xor a
@@ -1017,7 +1015,7 @@ StartTitleScreen: ; 6219
 
 
 .TitleScreen: ; 6274
-	callba _TitleScreen
+	farcall _TitleScreen
 	ret
 ; 627b
 
@@ -1026,7 +1024,7 @@ RunTitleScreen: ; 627b
 	bit 7, a
 	jr nz, .done_title
 	call TitleScreenScene
-	callba SuicuneFrameIterator
+	farcall SuicuneFrameIterator
 	call DelayFrame
 	and a
 	ret
@@ -1086,7 +1084,7 @@ TitleScreenEntrance: ; 62bc
 	dec b
 	jr nz, .loop
 
-	callba AnimateTitleCrystal
+	farcall AnimateTitleCrystal
 	ret
 
 .done
@@ -1113,7 +1111,7 @@ TitleScreenTimer: ; 62f6
 	inc [hl]
 
 ; Start a timer
-	ld hl, wcf65
+	ld hl, wTitleScreenTimer
 	ld de, 73 * 60 + 36
 	ld [hl], e
 	inc hl
@@ -1124,7 +1122,7 @@ TitleScreenTimer: ; 62f6
 TitleScreenMain: ; 6304
 
 ; Run the timer down.
-	ld hl, wcf65
+	ld hl, wTitleScreenTimer
 	ld e, [hl]
 	inc hl
 	ld d, [hl]
@@ -1190,7 +1188,7 @@ TitleScreenMain: ; 6304
 	ld a, 1
 
 .done
-	ld [wcf64], a
+	ld [wIntroSceneFrameCounter], a
 
 ; Return to the intro sequence.
 	ld hl, wJumptableIndex
@@ -1204,18 +1202,18 @@ TitleScreenMain: ; 6304
 
 ; Fade out the title screen music
 	xor a
-	ld [MusicFadeIDLo], a
-	ld [MusicFadeIDHi], a
+	ld [MusicFadeID], a
+	ld [MusicFadeID + 1], a
 	ld hl, MusicFade
 	ld [hl], 8 ; 1 second
 
-	ld hl, wcf65
+	ld hl, wTitleScreenTimer
 	inc [hl]
 	ret
 
 .clock_reset
 	ld a, 4
-	ld [wcf64], a
+	ld [wIntroSceneFrameCounter], a
 
 ; Return to the intro sequence.
 	ld hl, wJumptableIndex
@@ -1227,7 +1225,7 @@ TitleScreenEnd: ; 6375
 
 ; Wait until the music is done fading.
 
-	ld hl, wcf65
+	ld hl, wTitleScreenTimer
 	inc [hl]
 
 	ld a, [MusicFade]
@@ -1235,7 +1233,7 @@ TitleScreenEnd: ; 6375
 	ret nz
 
 	ld a, 2
-	ld [wcf64], a
+	ld [wIntroSceneFrameCounter], a
 
 ; Back to the intro.
 	ld hl, wJumptableIndex
@@ -1244,12 +1242,12 @@ TitleScreenEnd: ; 6375
 ; 6389
 
 DeleteSaveData: ; 6389
-	callba _DeleteSaveData
+	farcall _DeleteSaveData
 	jp Init
 ; 6392
 
 ResetClock: ; 6392
-	callba _ResetClock
+	farcall _ResetClock
 	jp Init
 ; 639b
 
@@ -1257,7 +1255,7 @@ Copyright: ; 63e2
 	call ClearTileMap
 	call LoadFontsExtra
 	ld de, CopyrightGFX
-	ld hl, VTiles2 tile $60
+	ld hl, vTiles2 tile $60
 	lb bc, BANK(CopyrightGFX), $1d
 	call Request2bpp
 	hlcoord 2, 7
@@ -1282,13 +1280,13 @@ CopyrightString: ; 63fd
 ; 642e
 
 GameInit:: ; 642e
-	callba TryLoadSaveData
+	farcall TryLoadSaveData
 	call ClearWindowData
 	call ClearBGPalettes
 	call ClearTileMap
-	ld a, VBGMap0 / $100
+	ld a, HIGH(vBGMap0)
 	ld [hBGMapAddress + 1], a
-	xor a
+	xor a ; LOW(vBGMap0)
 	ld [hBGMapAddress], a
 	ld [hJoyDown], a
 	ld [hSCX], a

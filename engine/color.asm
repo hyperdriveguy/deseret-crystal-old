@@ -1,5 +1,3 @@
-PALPACKET_LENGTH EQU $10
-
 SHINY_ATK_BIT EQU 5
 SHINY_DEF_VAL EQU 10
 SHINY_SPD_VAL EQU 10
@@ -81,18 +79,18 @@ ApplyHPBarPals:
 	ret
 
 .Enemy:
-	ld de, BGPals + 2 palettes + 2
+	ld de, BGPals palette PAL_BATTLE_BG_ENEMY_HP + 2
 	jr .okay
 
 .Player:
-	ld de, BGPals + 3 palettes + 2
+	ld de, BGPals palette PAL_BATTLE_BG_PLAYER_HP + 2
 
 .okay
 	ld l, c
 	ld h, $0
 	add hl, hl
 	add hl, hl
-	ld bc, Palettes_a8be
+	ld bc, HPBarPals
 	add hl, bc
 	ld bc, 4
 	ld a, $5
@@ -131,11 +129,11 @@ LoadStatsScreenPals:
 	ld a, $5
 	ld [rSVBK], a
 	ld a, [hli]
-	ld [UnknBGPals], a
-	ld [UnknBGPals + 8 * 2], a
+	ld [UnknBGPals palette 0], a
+	ld [UnknBGPals palette 2], a
 	ld a, [hl]
-	ld [UnknBGPals + 1], a
-	ld [UnknBGPals + 8 * 2 + 1], a
+	ld [UnknBGPals palette 0 + 1], a
+	ld [UnknBGPals palette 2 + 1], a
 	pop af
 	ld [rSVBK], a
 	call ApplyPals
@@ -160,57 +158,9 @@ LoadMailPalettes:
 	ret
 
 .MailPals:
-	RGB 20, 31, 11
-	RGB 31, 19, 00
-	RGB 31, 10, 09
-	RGB 00, 00, 00
+INCLUDE "data/palettes/mail.pal"
 
-	RGB 15, 20, 31
-	RGB 30, 26, 00
-	RGB 31, 12, 00
-	RGB 00, 00, 00
-
-	RGB 24, 17, 31
-	RGB 30, 26, 00
-	RGB 08, 11, 31
-	RGB 00, 00, 00
-
-	RGB 31, 25, 17
-	RGB 31, 18, 04
-	RGB 28, 12, 05
-	RGB 00, 00, 00
-
-	RGB 19, 26, 31
-	RGB 31, 05, 08
-	RGB 31, 09, 31
-	RGB 00, 00, 00
-
-	RGB 31, 19, 28
-	RGB 31, 21, 00
-	RGB 12, 22, 00
-	RGB 00, 00, 00
-
-	RGB 19, 17, 23
-	RGB 30, 26, 00
-	RGB 31, 12, 00
-	RGB 00, 00, 00
-
-	RGB 07, 26, 31
-	RGB 26, 26, 27
-	RGB 31, 11, 11
-	RGB 00, 00, 00
-
-	RGB 21, 31, 21
-	RGB 30, 26, 00
-	RGB 31, 12, 00
-	RGB 00, 00, 00
-
-	RGB 07, 26, 31
-	RGB 31, 31, 00
-	RGB 00, 21, 00
-	RGB 00, 00, 00
-
-INCLUDE "predef/cgb.asm"
+INCLUDE "engine/cgb_layouts.asm"
 
 CopyFourPalettes:
 	ld de, UnknBGPals
@@ -236,7 +186,7 @@ GetPredefPal:
 	add hl, hl
 	add hl, hl
 	add hl, hl
-	ld bc, Palettes_9df6
+	ld bc, PredefPals
 	add hl, bc
 	ret
 
@@ -262,10 +212,10 @@ LoadPalette_White_Col1_Col2_Black:
 	ld a, $5
 	ld [rSVBK], a
 
-	ld a, $7fff % $100
+	ld a, LOW(palred 31 + palgreen 31 + palblue 31)
 	ld [de], a
 	inc de
-	ld a, $7fff / $100
+	ld a, HIGH(palred 31 + palgreen 31 + palblue 31)
 	ld [de], a
 	inc de
 
@@ -315,7 +265,7 @@ ResetBGPals:
 	ld [rSVBK], a
 
 	ld hl, UnknBGPals
-	ld c, 8
+	ld c, 1 palettes
 .loop
 	ld a, $ff
 	ld [hli], a
@@ -396,7 +346,8 @@ ApplyAttrMap:
 	ld [rVBK], a
 	ret
 
-CGB_ApplyPartyMenuHPPals: ; 96f3 CGB layout $fc
+; CGB layout for SCGB_PARTY_MENU_HP_PALS
+CGB_ApplyPartyMenuHPPals: ; 96f3
 	ld hl, wHPPals
 	ld a, [wSGBPals]
 	ld e, a
@@ -423,7 +374,7 @@ CGB_ApplyPartyMenuHPPals: ; 96f3 CGB layout $fc
 	ret
 
 InitPartyMenuOBPals:
-	ld hl, Palettes_b681
+	ld hl, PartyMenuOBPals
 	ld de, UnknOBPals
 	ld bc, 2 palettes
 	ld a, $5
@@ -432,7 +383,7 @@ InitPartyMenuOBPals:
 
 GetBattlemonBackpicPalettePointer:
 	push de
-	callba GetPartyMonDVs
+	farcall GetPartyMonDVs
 	ld c, l
 	ld b, h
 	ld a, [TempBattleMonSpecies]
@@ -442,7 +393,7 @@ GetBattlemonBackpicPalettePointer:
 
 GetEnemyFrontpicPalettePointer:
 	push de
-	callba GetEnemyMonDVs
+	farcall GetEnemyMonDVs
 	ld c, l
 	ld b, h
 	ld a, [TempEnemyMonSpecies]
@@ -456,7 +407,7 @@ GetPlayerOrMonPalettePointer:
 	ld a, [wPlayerSpriteSetupFlags]
 	bit 2, a ; transformed to male
 	jr nz, .male
-	ld a, [PlayerGender]
+	ld a, [wPlayerGender]
 	and a
 	jr z, .male
 	ld hl, KrisPalette
@@ -484,36 +435,8 @@ GetMonPalettePointer_:
 	call GetMonPalettePointer
 	ret
 
-Palettes_979c:
-	RGB 31, 31, 31
-	RGB 25, 25, 25
-	RGB 13, 13, 13
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 31, 07
-	RGB 31, 16, 01
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 19, 24
-	RGB 30, 10, 06
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 12, 25, 01
-	RGB 05, 14, 00
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 08, 12, 31
-	RGB 01, 04, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 24, 18, 07
-	RGB 20, 15, 03
-	RGB 00, 00, 00
+BattleObjectPals:
+INCLUDE "data/palettes/battle_objects.pal"
 
 GetMonPalettePointer:
 	ld l, a
@@ -541,7 +464,7 @@ endr
 InitCGBPals::
 	ld a, $1
 	ld [rVBK], a
-	ld hl, VTiles0
+	ld hl, vTiles0
 	ld bc, $200 tiles
 	xor a
 	call ByteFill
@@ -551,9 +474,9 @@ InitCGBPals::
 	ld [rBGPI], a
 	ld c, 4 * 8
 .bgpals_loop
-	ld a, $7fff % $100
+	ld a, LOW(palred 31 + palgreen 31 + palblue 31)
 	ld [rBGPD], a
-	ld a, $7fff / $100
+	ld a, HIGH(palred 31 + palgreen 31 + palblue 31)
 	ld [rBGPD], a
 	dec c
 	jr nz, .bgpals_loop
@@ -561,9 +484,9 @@ InitCGBPals::
 	ld [rOBPI], a
 	ld c, 4 * 8
 .obpals_loop
-	ld a, $7fff % $100
+	ld a, LOW(palred 31 + palgreen 31 + palblue 31)
 	ld [rOBPD], a
-	ld a, $7fff / $100
+	ld a, HIGH(palred 31 + palgreen 31 + palblue 31)
 	ld [rOBPD], a
 	dec c
 	jr nz, .obpals_loop
@@ -582,444 +505,39 @@ InitCGBPals::
 .LoadWhitePals:
 	ld c, 4 * 16
 .loop
-	ld a, $7fff % $100
+	ld a, LOW(palred 31 + palgreen 31 + palblue 31)
 	ld [hli], a
-	ld a, $7fff / $100
+	ld a, HIGH(palred 31 + palgreen 31 + palblue 31)
 	ld [hli], a
 	dec c
 	jr nz, .loop
 	ret
 
-PalPacket_9bc6:	db $51, $4c, $00, $4c, $00, $4c, $00, $4c, $00, $00, $00, $00, $00, $00, $00, $00
-PalPacket_9c56:	db $51, $2e, $00, $2f, $00, $30, $00, $31, $00, $00, $00, $00, $00, $00, $00, $00
-PalPacket_9c66:	db $51, $1a, $00, $1a, $00, $1a, $00, $1a, $00, $00, $00, $00, $00, $00, $00, $00
-PalPacket_9cb6:	db $51, $1b, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-PalPacket_9cc6:	db $51, $1c, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+INCLUDE "data/palettes/pal_packets.asm"
 
-Palettes_9df6:
-	RGB 31, 31, 31
-	RGB 22, 25, 19
-	RGB 16, 21, 30
-	RGB 00, 00, 00
+PredefPals:
+INCLUDE "data/palettes/predef.pal"
 
-	RGB 31, 31, 31
-	RGB 27, 28, 31
-	RGB 15, 20, 31
-	RGB 00, 00, 00
+HPBarPals:
+INCLUDE "data/palettes/hp_bar.pal"
 
-	RGB 31, 31, 31
-	RGB 24, 28, 19
-	RGB 15, 20, 31
-	RGB 00, 00, 00
+ExpBarPalette:
+INCLUDE "data/palettes/exp_bar.pal"
 
-	RGB 31, 31, 31
-	RGB 24, 24, 24
-	RGB 15, 20, 31
-	RGB 00, 00, 00
+INCLUDE "data/pokemon/palettes.asm"
 
-	RGB 31, 31, 31
-	RGB 21, 23, 31
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 24, 21, 27
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 24, 16
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 25, 30, 26
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 25, 31
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 20, 19
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 26, 19
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 27, 28, 27
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 24, 30, 23
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 29, 24, 29
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 26, 23, 29
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 25, 23, 20
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 29, 26, 18
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 21, 18
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 26, 25, 31
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 22, 21, 31
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 22, 25, 21
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 21, 21, 22
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 20, 20
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 26, 26, 26
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 21, 14, 09
-	RGB 15, 20, 20
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 12, 28, 22
-	RGB 15, 20, 20
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 07, 07, 07
-	RGB 02, 03, 03
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 30, 22, 17
-	RGB 16, 14, 19
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 18, 20, 27
-	RGB 11, 15, 23
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 20, 10
-	RGB 26, 10, 06
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 21, 25, 29
-	RGB 14, 19, 25
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 27, 22, 24
-	RGB 21, 15, 23
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 28, 20, 15
-	RGB 21, 14, 09
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 20, 26, 16
-	RGB 09, 20, 11
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 30, 22, 24
-	RGB 28, 15, 21
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 28, 14
-	RGB 26, 20, 00
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 26, 21, 22
-	RGB 15, 15, 18
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 23, 19, 13
-	RGB 14, 12, 17
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 16, 18, 21
-	RGB 10, 12, 18
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 22, 15, 16
-	RGB 17, 02, 05
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 15, 20, 20
-	RGB 05, 16, 16
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 23, 15, 19
-	RGB 14, 04, 12
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 20, 17, 18
-	RGB 18, 13, 11
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 23, 21, 16
-	RGB 12, 12, 10
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 21, 25, 29
-	RGB 30, 22, 24
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 26, 23, 16
-	RGB 29, 14, 09
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 18, 18, 18
-	RGB 10, 10, 10
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 30, 26, 15
-	RGB 00, 23, 00
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 30, 26, 15
-	RGB 31, 23, 00
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 30, 26, 15
-	RGB 31, 00, 00
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 29, 26, 19
-	RGB 27, 20, 14
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 24, 20, 10
-	RGB 21, 00, 04
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 20, 10
-	RGB 21, 00, 04
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 30, 26, 16
-	RGB 16, 12, 09
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 15, 28, 26
-	RGB 12, 22, 26
-	RGB 03, 16, 14
-
-	RGB 31, 31, 31
-	RGB 15, 28, 26
-	RGB 23, 24, 24
-	RGB 00, 00, 00
-
-	RGB 31, 31, 24
-	RGB 07, 27, 19
-	RGB 26, 20, 10
-	RGB 19, 12, 08
-
-	RGB 31, 31, 31
-	RGB 31, 28, 14
-	RGB 31, 13, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 16, 18, 21
-	RGB 10, 12, 18
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 23, 21, 16
-	RGB 12, 12, 10
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 14, 00
-	RGB 07, 11, 15
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 26, 21, 22
-	RGB 26, 10, 06
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 30, 27, 04
-	RGB 24, 20, 11
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 13, 25
-	RGB 24, 20, 11
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 16, 19, 29
-	RGB 24, 20, 11
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 30, 22, 24
-	RGB 18, 18, 18
-	RGB 16, 10, 07
-
-	RGB 31, 31, 31
-	RGB 21, 25, 29
-	RGB 18, 18, 18
-	RGB 16, 10, 07
-
-	RGB 31, 31, 31
-	RGB 20, 26, 16
-	RGB 18, 18, 18
-	RGB 16, 10, 07
-
-	RGB 31, 31, 31
-	RGB 31, 28, 14
-	RGB 18, 18, 18
-	RGB 16, 10, 07
-
-	RGB 31, 31, 31
-	RGB 18, 18, 18
-	RGB 26, 10, 06
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 30, 22, 24
-	RGB 28, 15, 21
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 26, 20, 00
-	RGB 16, 19, 29
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 16, 02, 30
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 16, 13, 04
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 28, 04, 02
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 18, 23, 31
-	RGB 15, 20, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 24, 20, 11
-	RGB 18, 13, 11
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 31, 31
-	RGB 25, 30, 00
-	RGB 25, 30, 00
-
-	RGB 00, 00, 00
-	RGB 08, 11, 11
-	RGB 21, 21, 21
-	RGB 31, 31, 31
-
-Palettes_a8be:
-	RGB 30, 26, 15
-	RGB 00, 23, 00
-
-	RGB 30, 26, 15
-	RGB 31, 21, 00
-
-	RGB 30, 26, 15
-	RGB 31, 00, 00
-
-Palettes_a8ca:
-	RGB 30, 26, 15
-	RGB 04, 17, 31
-
-INCLUDE "gfx/pics/palette_pointers.asm"
-
-INCLUDE "gfx/trainers/palette_pointers.asm"
+INCLUDE "data/trainers/palettes.asm"
 
 LoadMapPals:
-	callba LoadSpecialMapPalette
+	farcall LoadSpecialMapPalette
 	jr c, .got_pals
 
 	; Which palette group is based on whether we're outside or inside
-	ld a, [wPermission]
+	ld a, [wEnvironment]
 	and 7
 	ld e, a
 	ld d, 0
-	ld hl, .TilesetColorsPointers
+	ld hl, EnvironmentColorsPointers
 	add hl, de
 	add hl, de
 	ld a, [hli]
@@ -1079,10 +597,10 @@ LoadMapPals:
 	call AddNTimes
 	ld de, UnknOBPals
 	ld bc, 8 palettes
-	ld a, $5 ; BANK(UnknOBPals)
+	ld a, BANK(UnknOBPals)
 	call FarCopyWRAM
 
-	ld a, [wPermission]
+	ld a, [wEnvironment]
 	cp TOWN
 	jr z, .outside
 	cp ROUTE
@@ -1098,52 +616,19 @@ LoadMapPals:
 	add hl, de
 	ld a, [TimeOfDayPal]
 	and 3
-	cp NITE
+	cp NITE_F
 	jr c, .morn_day
 rept 4
 	inc hl
 endr
 .morn_day
-	ld de, UnknBGPals + 6 palettes + 2
+	ld de, UnknBGPals palette PAL_BG_ROOF + 2
 	ld bc, 4
 	ld a, $5
 	call FarCopyWRAM
 	ret
 
-.TilesetColorsPointers:
-	dw .OutdoorColors ; unused
-	dw .OutdoorColors ; TOWN
-	dw .OutdoorColors ; ROUTE
-	dw .IndoorColors ; INDOOR
-	dw .DungeonColors ; CAVE
-	dw .Perm5Colors ; PERM_5
-	dw .IndoorColors ; GATE
-	dw .DungeonColors ; DUNGEON
-
-; Valid indices: $00 - $29
-.OutdoorColors:
-	db $00, $01, $02, $28, $04, $05, $06, $07 ; morn
-	db $08, $09, $0a, $28, $0c, $0d, $0e, $0f ; day
-	db $10, $11, $12, $29, $14, $15, $16, $17 ; nite
-	db $18, $19, $1a, $1b, $1c, $1d, $1e, $1f ; dark
-
-.IndoorColors:
-	db $20, $21, $22, $23, $24, $25, $26, $07 ; morn
-	db $20, $21, $22, $23, $24, $25, $26, $07 ; day
-	db $10, $11, $12, $13, $14, $15, $16, $07 ; nite
-	db $18, $19, $1a, $1b, $1c, $1d, $1e, $07 ; dark
-
-.DungeonColors:
-	db $00, $01, $02, $03, $04, $05, $06, $07 ; morn
-	db $08, $09, $0a, $0b, $0c, $0d, $0e, $0f ; day
-	db $10, $11, $12, $13, $14, $15, $16, $17 ; nite
-	db $18, $19, $1a, $1b, $1c, $1d, $1e, $1f ; dark
-
-.Perm5Colors:
-	db $00, $01, $02, $03, $04, $05, $06, $07 ; morn
-	db $08, $09, $0a, $0b, $0c, $0d, $0e, $0f ; day
-	db $10, $11, $12, $13, $14, $15, $16, $17 ; nite
-	db $18, $19, $1a, $1b, $1c, $1d, $1e, $1f ; dark
+INCLUDE "data/maps/environment_colors.asm"
 
 Palette_b311: ; b311 not mobile
 	RGB 31, 31, 31
@@ -1152,266 +637,25 @@ Palette_b311: ; b311 not mobile
 	RGB 00, 00, 00
 
 TilesetBGPalette:
-INCLUDE "tilesets/bg.pal"
+INCLUDE "data/palettes/overworld/tileset_bg.pal"
 
 MapObjectPals::
-INCLUDE "tilesets/ob.pal"
+INCLUDE "data/palettes/overworld/map_objects.pal"
 
 RoofPals:
-INCLUDE "tilesets/roof.pal"
+INCLUDE "data/palettes/overworld/roofs.pal"
 
 DiplomaPalettes:
-	RGB 27, 31, 27
-	RGB 21, 21, 21
-	RGB 13, 13, 13
-	RGB 00, 00, 00
+INCLUDE "data/palettes/diploma.pal"
 
-	RGB 27, 31, 27
-	RGB 31, 07, 06
-	RGB 20, 02, 03
-	RGB 00, 00, 00
-
-	RGB 27, 31, 27
-	RGB 10, 31, 09
-	RGB 04, 14, 01
-	RGB 00, 00, 00
-
-	RGB 27, 31, 27
-	RGB 08, 12, 31
-	RGB 01, 04, 31
-	RGB 00, 00, 00
-
-	RGB 27, 31, 27
-	RGB 31, 31, 07
-	RGB 31, 16, 01
-	RGB 00, 00, 00
-
-	RGB 27, 31, 27
-	RGB 22, 16, 08
-	RGB 13, 07, 01
-	RGB 00, 00, 00
-
-	RGB 27, 31, 27
-	RGB 15, 31, 31
-	RGB 05, 17, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 11, 11, 19
-	RGB 07, 07, 12
-	RGB 00, 00, 00
-
-Palettes_b681:
-	RGB 27, 31, 27
-	RGB 31, 19, 10
-	RGB 31, 07, 04
-	RGB 00, 00, 00
-
-	RGB 27, 31, 27
-	RGB 31, 19, 10
-	RGB 10, 14, 20
-	RGB 00, 00, 00
-
-	RGB 27, 31, 27
-	RGB 31, 19, 10
-	RGB 31, 07, 04
-	RGB 00, 00, 00
-
-	RGB 27, 31, 27
-	RGB 31, 19, 10
-	RGB 31, 07, 04
-	RGB 00, 00, 00
-
-	RGB 27, 31, 27
-	RGB 31, 19, 10
-	RGB 31, 07, 04
-	RGB 00, 00, 00
-
-	RGB 27, 31, 27
-	RGB 31, 19, 10
-	RGB 31, 07, 04
-	RGB 00, 00, 00
-
-	RGB 27, 31, 27
-	RGB 31, 19, 10
-	RGB 31, 07, 04
-	RGB 00, 00, 00
-
-	RGB 27, 31, 27
-	RGB 31, 19, 10
-	RGB 31, 07, 04
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 21, 21, 21
-	RGB 13, 13, 13
-	RGB 07, 07, 07
-
-	RGB 31, 31, 31
-	RGB 31, 31, 07
-	RGB 31, 16, 01
-	RGB 07, 07, 07
-
-	RGB 31, 31, 31
-	RGB 31, 19, 24
-	RGB 30, 10, 06
-	RGB 07, 07, 07
-
-	RGB 31, 31, 31
-	RGB 12, 25, 01
-	RGB 05, 14, 00
-	RGB 07, 07, 07
-
-	RGB 31, 31, 31
-	RGB 08, 12, 31
-	RGB 01, 04, 31
-	RGB 07, 07, 07
-
-	RGB 31, 31, 31
-	RGB 24, 18, 07
-	RGB 20, 15, 03
-	RGB 07, 07, 07
+PartyMenuOBPals:
+INCLUDE "data/palettes/party_menu.pal"
 
 MalePokegearPals:
-	RGB 28, 31, 20
-	RGB 21, 21, 21
-	RGB 13, 13, 13
-	RGB 00, 00, 00
-
-	RGB 28, 31, 20
-	RGB 00, 31, 00
-	RGB 00, 00, 31
-	RGB 00, 00, 00
-
-	RGB 28, 31, 20
-	RGB 00, 31, 00
-	RGB 15, 07, 00
-	RGB 00, 00, 00
-
-	RGB 28, 31, 20
-	RGB 31, 15, 00
-	RGB 15, 07, 00
-	RGB 00, 00, 00
-
-	RGB 28, 31, 20
-	RGB 00, 31, 00
-	RGB 00, 00, 31
-	RGB 31, 00, 00
-
-	RGB 28, 31, 20
-	RGB 00, 31, 00
-	RGB 15, 07, 00
-	RGB 31, 00, 00
+INCLUDE "data/palettes/pokegear.pal"
 
 FemalePokegearPals:
-	RGB 28, 31, 20
-	RGB 21, 21, 21
-	RGB 13, 13, 13
-	RGB 00, 00, 00
+INCLUDE "data/palettes/pokegear_f.pal"
 
-	RGB 28, 31, 20
-	RGB 00, 31, 00
-	RGB 00, 00, 31
-	RGB 00, 00, 00
-
-	RGB 28, 31, 20
-	RGB 00, 31, 00
-	RGB 15, 07, 00
-	RGB 00, 00, 00
-
-	RGB 28, 31, 20
-	RGB 10, 18, 31
-	RGB 13, 06, 31
-	RGB 00, 00, 00
-
-	RGB 28, 31, 20
-	RGB 00, 31, 00
-	RGB 00, 00, 31
-	RGB 31, 00, 00
-
-	RGB 28, 31, 20
-	RGB 00, 31, 00
-	RGB 15, 07, 00
-	RGB 31, 00, 00
-
-Palettes_b7a9:
-	RGB 31, 31, 31
-	RGB 24, 25, 28
-	RGB 24, 24, 09
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 30, 10, 06
-	RGB 24, 24, 09
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 15, 31, 00
-	RGB 24, 24, 09
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 15, 31
-	RGB 24, 24, 09
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 15, 21, 31
-	RGB 24, 24, 09
-	RGB 00, 00, 00
-
-	RGB 31, 31, 11
-	RGB 31, 31, 06
-	RGB 24, 24, 09
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 16, 19, 29
-	RGB 25, 22, 00
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 21, 21, 21
-	RGB 13, 13, 13
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 30, 10, 06
-	RGB 31, 00, 00
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 12, 25, 01
-	RGB 05, 14, 00
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 12, 25, 01
-	RGB 30, 10, 06
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 31, 06
-	RGB 20, 15, 03
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 31, 06
-	RGB 15, 21, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 31, 06
-	RGB 20, 15, 03
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 24, 21
-	RGB 31, 13, 31
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 31, 31
-	RGB 00, 00, 00
-	RGB 00, 00, 00
-
+SlotMachinePals:
+INCLUDE "data/palettes/slot_machine.pal"

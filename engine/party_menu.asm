@@ -13,7 +13,7 @@ SelectMonFromParty: ; 50000
 ; 5001d
 
 
-SelectTradeOrDaycareMon: ; 5001d
+SelectTradeOrDayCareMon: ; 5001d
 	ld a, b
 	ld [PartyMenuActionText], a
 	call DisableSpriteUpdates
@@ -40,8 +40,8 @@ InitPartyMenuLayout: ; 5003f
 
 LoadPartyMenuGFX: ; 5004f
 	call LoadFontsBattleExtra
-	callab InitPartyMenuPalettes ; engine/color.asm
-	callab ClearSpriteAnims2
+	callfar InitPartyMenuPalettes ; engine/color.asm
+	callfar ClearSpriteAnims2
 	ret
 ; 5005f
 
@@ -503,10 +503,10 @@ PlacePartyMonGender: ; 502b1
 
 
 PartyMenuCheckEgg: ; 50389
-	ld a, PartySpecies % $100
+	ld a, LOW(PartySpecies)
 	add b
 	ld e, a
-	ld a, PartySpecies / $100
+	ld a, HIGH(PartySpecies)
 	adc 0
 	ld d, a
 	ld a, [de]
@@ -575,7 +575,7 @@ InitPartyMenuGFX: ; 503e0
 	pop bc
 	dec c
 	jr nz, .loop
-	callab PlaySpriteAnimations
+	callfar PlaySpriteAnimations
 	ret
 ; 50405
 

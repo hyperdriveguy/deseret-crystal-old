@@ -4,7 +4,7 @@ const_value set 2
 	const PEWTERGYM_GYM_GUY
 
 PewterGym_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -41,12 +41,12 @@ BrockScript_0x1a2864:
 	end
 
 TrainerCamperJerry:
-	trainer EVENT_BEAT_CAMPER_JERRY, CAMPER, JERRY, CamperJerrySeenText, CamperJerryBeatenText, 0, CamperJerryScript
+	trainer EVENT_BEAT_CAMPER_JERRY, CAMPER, JERRY, CamperJerrySeenText, CamperJerryBeatenText, 0, .Script
 
-CamperJerryScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a2c0f
+	writetext CamperJerryAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -166,7 +166,7 @@ CamperJerryBeatenText:
 	line "these battles…"
 	done
 
-UnknownText_0x1a2c0f:
+CamperJerryAfterBattleText:
 	text "Hey, you! Trainer"
 	line "from JOHTO! BROCK"
 
@@ -214,19 +214,19 @@ PewterGym_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $d, $4, 2, PEWTER_CITY
-	warp_def $d, $5, 2, PEWTER_CITY
+	warp_def 4, 13, 2, PEWTER_CITY
+	warp_def 5, 13, 2, PEWTER_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 11, 2, SIGNPOST_READ, PewterGymStatue
-	signpost 11, 7, SIGNPOST_READ, PewterGymStatue
+	bg_event 2, 11, BGEVENT_READ, PewterGymStatue
+	bg_event 7, 11, BGEVENT_READ, PewterGymStatue
 
-.PersonEvents:
+.ObjectEvents:
 	db 3
-	person_event SPRITE_BROCK, 1, 5, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_SCRIPT, 0, BrockScript_0x1a2864, -1
-	person_event SPRITE_YOUNGSTER, 5, 2, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 3, TrainerCamperJerry, -1
-	person_event SPRITE_GYM_GUY, 11, 6, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 1, PewterGymGuyScript, -1
+	object_event 5, 1, SPRITE_BROCK, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_SCRIPT, 0, BrockScript_0x1a2864, -1
+	object_event 2, 5, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 3, TrainerCamperJerry, -1
+	object_event 6, 11, SPRITE_GYM_GUY, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 1, PewterGymGuyScript, -1

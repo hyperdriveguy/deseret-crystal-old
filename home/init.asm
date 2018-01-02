@@ -69,8 +69,8 @@ Init:: ; 17d
 	ld [rLCDC], a
 
 ; Clear WRAM bank 0
-	ld hl, wc000
-	ld bc, wd000 - wc000
+	ld hl, WRAM0_Begin
+	ld bc, WRAM0_End - WRAM0_Begin
 .ByteFill:
 	ld [hl], 0
 	inc hl
@@ -87,8 +87,8 @@ Init:: ; 17d
 	ld a, [hFFEA]
 	push af
 	xor a
-	ld hl, HRAM_START
-	ld bc, HRAM_END - HRAM_START
+	ld hl, HRAM_Begin
+	ld bc, HRAM_End - HRAM_Begin
 	call ByteFill
 	pop af
 	ld [hFFEA], a
@@ -139,14 +139,14 @@ Init:: ; 17d
 	ld a, -1
 	ld [hLinkPlayerNumber], a
 
-	callba InitCGBPals
+	farcall InitCGBPals
 
-	ld a, VBGMap1 / $100
+	ld a, HIGH(vBGMap1)
 	ld [hBGMapAddress + 1], a
-	xor a ; VBGMap1 % $100
+	xor a ; LOW(vBGMap1)
 	ld [hBGMapAddress], a
 
-	callba StartClock
+	farcall StartClock
 
 	xor a
 	ld [MBC3LatchClock], a
@@ -183,7 +183,7 @@ ClearVRAM:: ; 245
 	xor a
 	ld [rVBK], a
 .clear
-	ld hl, VTiles0
+	ld hl, vTiles0
 	ld bc, $2000
 	xor a
 	call ByteFill
@@ -199,8 +199,8 @@ ClearWRAM:: ; 25a
 	push af
 	ld [rSVBK], a
 	xor a
-	ld hl, $d000
-	ld bc, $1000
+	ld hl, WRAM1_Begin
+	ld bc, WRAM1_End - WRAM1_Begin
 	call ByteFill
 	pop af
 	inc a

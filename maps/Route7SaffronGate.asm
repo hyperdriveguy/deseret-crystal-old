@@ -2,7 +2,7 @@ const_value set 2
 	const ROUTE7SAFFRONGATE_OFFICER
 
 Route7SaffronGate_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -51,17 +51,17 @@ Route7SaffronGate_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $4, $0, 1, ROUTE_7
-	warp_def $5, $0, 2, ROUTE_7
-	warp_def $4, $9, 10, SAFFRON_CITY
-	warp_def $5, $9, 11, SAFFRON_CITY
+	warp_def 0, 4, 1, ROUTE_7
+	warp_def 0, 5, 2, ROUTE_7
+	warp_def 9, 4, 10, SAFFRON_CITY
+	warp_def 9, 5, 11, SAFFRON_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_OFFICER, 2, 5, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, OfficerScript_0x73518, -1
+	object_event 5, 2, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, OfficerScript_0x73518, -1

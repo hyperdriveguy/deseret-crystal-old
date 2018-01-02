@@ -3,19 +3,19 @@ const_value set 2
 	const OLIVINELIGHTHOUSE1F_POKEFAN_F
 
 OlivineLighthouse1F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-SailorScript_0x5ae67:
-	jumptextfaceplayer UnknownText_0x5ae6d
+OlivineLighthouse1FSailorScript:
+	jumptextfaceplayer OlivineLighthouse1FSailorText
 
-PokefanFScript_0x5ae6a:
-	jumptextfaceplayer UnknownText_0x5aec2
+OlivineLighthouse1FPokefanFScript:
+	jumptextfaceplayer OlivineLighthouse1FPokefanFText
 
-UnknownText_0x5ae6d:
+OlivineLighthouse1FSailorText:
 	text "People train at"
 	line "this LIGHTHOUSE."
 
@@ -24,7 +24,7 @@ UnknownText_0x5ae6d:
 	cont "all the trainers."
 	done
 
-UnknownText_0x5aec2:
+OlivineLighthouse1FPokefanFText:
 	text "In the past, #-"
 	line "MON used to light"
 
@@ -42,19 +42,19 @@ OlivineLighthouse1F_MapEventHeader:
 
 .Warps:
 	db 5
-	warp_def $11, $a, 8, OLIVINE_CITY
-	warp_def $11, $b, 8, OLIVINE_CITY
-	warp_def $b, $3, 1, OLIVINE_LIGHTHOUSE_2F
-	warp_def $d, $10, 3, OLIVINE_LIGHTHOUSE_2F
-	warp_def $d, $11, 4, OLIVINE_LIGHTHOUSE_2F
+	warp_def 10, 17, 8, OLIVINE_CITY
+	warp_def 11, 17, 8, OLIVINE_CITY
+	warp_def 3, 11, 1, OLIVINE_LIGHTHOUSE_2F
+	warp_def 16, 13, 3, OLIVINE_LIGHTHOUSE_2F
+	warp_def 17, 13, 4, OLIVINE_LIGHTHOUSE_2F
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 2
-	person_event SPRITE_SAILOR, 2, 8, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, SailorScript_0x5ae67, -1
-	person_event SPRITE_POKEFAN_F, 9, 16, SPRITEMOVEDATA_WALK_UP_DOWN, 2, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, PokefanFScript_0x5ae6a, -1
+	object_event 8, 2, SPRITE_SAILOR, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, OlivineLighthouse1FSailorScript, -1
+	object_event 16, 9, SPRITE_POKEFAN_F, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 2, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, OlivineLighthouse1FPokefanFScript, -1

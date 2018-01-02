@@ -10,63 +10,63 @@ const_value set 2
 	const UNIONCAVE1F_POKE_BALL4
 
 UnionCave1F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
 TrainerPokemaniacLarry:
-	trainer EVENT_BEAT_POKEMANIAC_LARRY, POKEMANIAC, LARRY, PokemaniacLarrySeenText, PokemaniacLarryBeatenText, 0, PokemaniacLarryScript
+	trainer EVENT_BEAT_POKEMANIAC_LARRY, POKEMANIAC, LARRY, PokemaniacLarrySeenText, PokemaniacLarryBeatenText, 0, .Script
 
-PokemaniacLarryScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x59d31
+	writetext PokemaniacLarryAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerHikerRussell:
-	trainer EVENT_BEAT_HIKER_RUSSELL, HIKER, RUSSELL, HikerRussellSeenText, HikerRussellBeatenText, 0, HikerRussellScript
+	trainer EVENT_BEAT_HIKER_RUSSELL, HIKER, RUSSELL, HikerRussellSeenText, HikerRussellBeatenText, 0, .Script
 
-HikerRussellScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x59c6c
+	writetext HikerRussellAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerHikerDaniel:
-	trainer EVENT_BEAT_HIKER_DANIEL, HIKER, DANIEL, HikerDanielSeenText, HikerDanielBeatenText, 0, HikerDanielScript
+	trainer EVENT_BEAT_HIKER_DANIEL, HIKER, DANIEL, HikerDanielSeenText, HikerDanielBeatenText, 0, .Script
 
-HikerDanielScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x59dc9
+	writetext HikerDanielAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerFirebreatherBill:
-	trainer EVENT_BEAT_FIREBREATHER_BILL, FIREBREATHER, BILL, FirebreatherBillSeenText, FirebreatherBillBeatenText, 0, FirebreatherBillScript
+	trainer EVENT_BEAT_FIREBREATHER_BILL, FIREBREATHER, BILL, FirebreatherBillSeenText, FirebreatherBillBeatenText, 0, .Script
 
-FirebreatherBillScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x59e6f
+	writetext FirebreatherBillAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerFirebreatherRay:
-	trainer EVENT_BEAT_FIREBREATHER_RAY, FIREBREATHER, RAY, FirebreatherRaySeenText, FirebreatherRayBeatenText, 0, FirebreatherRayScript
+	trainer EVENT_BEAT_FIREBREATHER_RAY, FIREBREATHER, RAY, FirebreatherRaySeenText, FirebreatherRayBeatenText, 0, .Script
 
-FirebreatherRayScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x59efc
+	writetext FirebreatherRayAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -96,7 +96,7 @@ HikerRussellBeatenText:
 	text "Oh, oh, oh!"
 	done
 
-UnknownText_0x59c6c:
+HikerRussellAfterBattleText:
 	text "All right, then!"
 	line "I've decided."
 
@@ -122,7 +122,7 @@ PokemaniacLarryBeatenText:
 	line "MON…"
 	done
 
-UnknownText_0x59d31:
+PokemaniacLarryAfterBattleText:
 	text "Every Friday, you"
 	line "can hear #MON"
 
@@ -143,7 +143,7 @@ HikerDanielBeatenText:
 	line "big time!"
 	done
 
-UnknownText_0x59dc9:
+HikerDanielAfterBattleText:
 	text "I was conned into"
 	line "buying a SLOWPOKE-"
 	cont "TAIL."
@@ -165,7 +165,7 @@ FirebreatherBillBeatenText:
 	text "I flamed out!"
 	done
 
-UnknownText_0x59e6f:
+FirebreatherBillAfterBattleText:
 	text "On weekends, you"
 	line "can hear strange"
 
@@ -186,7 +186,7 @@ FirebreatherRayBeatenText:
 	text "FLASH!"
 	done
 
-UnknownText_0x59efc:
+FirebreatherRayAfterBattleText:
 	text "It's my #MON's"
 	line "fire that lights"
 	cont "up this cave."
@@ -198,25 +198,25 @@ UnionCave1F_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $13, $5, 3, UNION_CAVE_B1F
-	warp_def $21, $3, 4, UNION_CAVE_B1F
-	warp_def $1f, $11, 1, ROUTE_33
-	warp_def $3, $11, 4, ROUTE_32
+	warp_def 5, 19, 3, UNION_CAVE_B1F
+	warp_def 3, 33, 4, UNION_CAVE_B1F
+	warp_def 17, 31, 1, ROUTE_33
+	warp_def 17, 3, 4, ROUTE_32
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 9
-	person_event SPRITE_POKEFAN_M, 6, 3, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 2, TrainerHikerDaniel, -1
-	person_event SPRITE_SUPER_NERD, 21, 4, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 3, TrainerPokemaniacLarry, -1
-	person_event SPRITE_POKEFAN_M, 8, 11, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 1, TrainerHikerRussell, -1
-	person_event SPRITE_FISHER, 27, 15, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 4, TrainerFirebreatherRay, -1
-	person_event SPRITE_FISHER, 19, 14, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 4, TrainerFirebreatherBill, -1
-	person_event SPRITE_POKE_BALL, 21, 17, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, UnionCave1FGreatBall, EVENT_UNION_CAVE_1F_GREAT_BALL
-	person_event SPRITE_POKE_BALL, 2, 4, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, UnionCave1FXAttack, EVENT_UNION_CAVE_1F_X_ATTACK
-	person_event SPRITE_POKE_BALL, 17, 4, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, UnionCave1FPotion, EVENT_UNION_CAVE_1F_POTION
-	person_event SPRITE_POKE_BALL, 33, 12, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, UnionCave1FAwakening, EVENT_UNION_CAVE_1F_AWAKENING
+	object_event 3, 6, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 2, TrainerHikerDaniel, -1
+	object_event 4, 21, SPRITE_SUPER_NERD, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerPokemaniacLarry, -1
+	object_event 11, 8, SPRITE_POKEFAN_M, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 1, TrainerHikerRussell, -1
+	object_event 15, 27, SPRITE_FISHER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 4, TrainerFirebreatherRay, -1
+	object_event 14, 19, SPRITE_FISHER, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 4, TrainerFirebreatherBill, -1
+	object_event 17, 21, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, UnionCave1FGreatBall, EVENT_UNION_CAVE_1F_GREAT_BALL
+	object_event 4, 2, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, UnionCave1FXAttack, EVENT_UNION_CAVE_1F_X_ATTACK
+	object_event 4, 17, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, UnionCave1FPotion, EVENT_UNION_CAVE_1F_POTION
+	object_event 12, 33, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, UnionCave1FAwakening, EVENT_UNION_CAVE_1F_AWAKENING

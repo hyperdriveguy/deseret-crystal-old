@@ -16,20 +16,20 @@ _CardFlip: ; e00ee (38:40ee)
 	call LoadFontsExtra
 
 	ld hl, CardFlipLZ01
-	ld de, VTiles2 tile $00
+	ld de, vTiles2 tile $00
 	call Decompress
 	ld hl, CardFlipLZ02
-	ld de, VTiles2 tile $3e
+	ld de, vTiles2 tile $3e
 	call Decompress
 	ld hl, CardFlipLZ03
-	ld de, VTiles0 tile $00
+	ld de, vTiles0 tile $00
 	call Decompress
 	ld hl, CardFlipOffButtonGFX
-	ld de, VTiles1 tile $6f
+	ld de, vTiles1 tile $6f
 	ld bc, 1 tiles
 	call CopyBytes
 	ld hl, CardFlipOnButtonGFX
-	ld de, VTiles1 tile $75
+	ld de, vTiles1 tile $75
 	ld bc, 1 tiles
 	call CopyBytes
 
@@ -494,12 +494,12 @@ CardFlip_DisplayCardFaceUp: ; e03ec
 
 .Deck: ; e0459
 	; level, pic anchor (3x3)
-	db "1",$4e, "1",$57, "1",$69, "1",$60
-	db "2",$4e, "2",$57, "2",$69, "2",$60
-	db "3",$4e, "3",$57, "3",$69, "3",$60
-	db "4",$4e, "4",$57, "4",$69, "4",$60
-	db "5",$4e, "5",$57, "5",$69, "5",$60
-	db "6",$4e, "6",$57, "6",$69, "6",$60
+	db "1", $4e, "1", $57, "1", $69, "1", $60
+	db "2", $4e, "2", $57, "2", $69, "2", $60
+	db "3", $4e, "3", $57, "3", $69, "3", $60
+	db "4", $4e, "4", $57, "4", $69, "4", $60
+	db "5", $4e, "5", $57, "5", $69, "5", $60
+	db "6", $4e, "6", $57, "6", $69, "6", $60
 ; e0489
 
 CardFlip_UpdateCoinBalanceDisplay: ; e0489
@@ -614,11 +614,11 @@ CardFlip_CopyOAM: ; e0509
 ; e0521
 
 CardFlip_ShiftDigitsLeftTwoPixels: ; e0521 (38:4521)
-	ld de, VTiles1 tile ("0" & $7f)
-	ld hl, VTiles1 tile ("0" & $7f) + 2
+	ld de, vTiles1 tile ("0" & $7f)
+	ld hl, vTiles1 tile ("0" & $7f) + 2
 	ld bc, 10 tiles - 2
 	call CopyBytes
-	ld hl, VTiles1 tile $7f + 1 tiles - 2
+	ld hl, vTiles1 tile $7f + 1 tiles - 2
 	xor a
 	ld [hli], a
 	ld [hl], a
@@ -639,10 +639,10 @@ CardFlip_BlankDiscardedCardSlot: ; e0534
 	ld a, e
 	and $1c ; get level
 	srl a
-	add .Jumptable % $100
+	add LOW(.Jumptable)
 	ld l, a
 	ld a, 0
-	adc .Jumptable / $100
+	adc HIGH(.Jumptable)
 	ld h, a
 	ld a, [hli]
 	ld h, [hl]
@@ -1180,14 +1180,14 @@ CardFlip_CheckWinCondition: ; e0637
 
 .IsCoinCaseFull: ; e0833
 	ld a, [Coins]
-	cp 9999 / $100
+	cp HIGH(MAX_COINS)
 	jr c, .less
 	jr z, .check_low
 	jr .more
 
 .check_low
 	ld a, [Coins + 1]
-	cp 9999 % $100
+	cp LOW(MAX_COINS)
 	jr c, .less
 
 .more
@@ -1400,8 +1400,7 @@ else
 	dbpixel \1, \2
 	dw \3
 endc
-endm
-
+ENDM
 
 	cardflip_cursor 11,  2,       .Impossible
 	cardflip_cursor 12,  2,       .Impossible
@@ -1648,78 +1647,24 @@ CardFlip_InitAttrPals: ; e0c37 (38:4c37)
 ; e0c93 (38:4c93)
 
 .palettes ; e0c93
-	RGB 31, 31, 31
-	RGB 17, 07, 31
-	RGB 06, 19, 08
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 29, 25, 00
-	RGB 06, 19, 08
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 13, 30
-	RGB 06, 19, 08
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 08, 17, 30
-	RGB 06, 19, 08
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 08, 31, 08
-	RGB 06, 19, 08
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 17, 07, 31
-	RGB 06, 19, 08
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 17, 07, 31
-	RGB 06, 19, 08
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 17, 07, 31
-	RGB 06, 19, 08
-	RGB 00, 00, 00
-
-	RGB 31, 31, 31
-	RGB 31, 31, 31
-	RGB 31, 00, 00
-	RGB 31, 00, 00
+INCLUDE "data/palettes/card_flip.pal"
 ; e0cdb
 
 CardFlipLZ03: ; e0cdb
-INCBIN "gfx/unknown/0e0cdb.2bpp.lz"
+INCBIN "gfx/card_flip/card_flip_3.2bpp.lz"
 
 CardFlipOffButtonGFX: ; e0cf6
-INCBIN "gfx/unknown/0e0cf6.2bpp"
+INCBIN "gfx/card_flip/off.2bpp"
 
 CardFlipOnButtonGFX: ; e0d06
-INCBIN "gfx/unknown/0e0d06.2bpp"
+INCBIN "gfx/card_flip/on.2bpp"
 
 CardFlipLZ01: ; e0d16
-INCBIN "gfx/unknown/0e0d16.2bpp.lz"
+INCBIN "gfx/card_flip/card_flip_1.2bpp.lz"
 
 CardFlipLZ02: ; e0ea8
-INCBIN "gfx/unknown/0e0ea8.2bpp.lz"
+INCBIN "gfx/card_flip/card_flip_2.2bpp.lz"
 
 CardFlipTilemap: ; e110c
-	db $ef, $15, $27, $2a, $2a, $06, $27, $2a, $2a, $06, $27
-	db $ef, $07, $27, $3e, $3f, $42, $43, $46, $47, $4a, $4b
-	db $ef, $17, $26, $40, $41, $44, $45, $48, $49, $4c, $4d
-	db $ef, $25, $04, $00, $01, $00, $01, $00, $01, $00, $01
-	db $ef, $05, $14, $10, $11, $10, $11, $10, $11, $10, $11
-	db $ef, $16, $24, $20, $21, $20, $21, $20, $21, $20, $21
-	db $ef, $25, $04, $00, $02, $00, $02, $00, $02, $00, $02
-	db $ef, $05, $14, $10, $12, $10, $12, $10, $12, $10, $12
-	db $ef, $16, $24, $20, $22, $20, $22, $20, $22, $20, $22
-	db $ef, $25, $04, $00, $03, $00, $03, $00, $03, $00, $03
-	db $ef, $05, $14, $10, $13, $10, $13, $10, $13, $10, $13
-	db $ef, $16, $24, $20, $23, $20, $23, $20, $23, $20, $23
+INCBIN "gfx/card_flip/card_flip.tilemap"
 ; e1190

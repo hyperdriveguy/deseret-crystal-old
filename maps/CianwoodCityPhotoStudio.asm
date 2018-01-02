@@ -2,7 +2,7 @@ const_value set 2
 	const CIANWOODCITYPHOTOSTUDIO_FISHING_GURU
 
 CianwoodCityPhotoStudio_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -54,15 +54,15 @@ CianwoodCityPhotoStudio_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $2, 5, CIANWOOD_CITY
-	warp_def $7, $3, 5, CIANWOOD_CITY
+	warp_def 2, 7, 5, CIANWOOD_CITY
+	warp_def 3, 7, 5, CIANWOOD_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 1
-	person_event SPRITE_FISHING_GURU, 3, 2, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, FishingGuruScript_0x9e0e0, -1
+	object_event 2, 3, SPRITE_FISHING_GURU, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, FishingGuruScript_0x9e0e0, -1

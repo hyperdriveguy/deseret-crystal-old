@@ -2,7 +2,7 @@ SendMailToPC: ; 4456e
 	ld a, MON_ITEM
 	call GetPartyParamLocation
 	ld d, [hl]
-	callba ItemIsMail
+	farcall ItemIsMail
 	jr nc, .full
 	call GetMailboxCount
 	cp MAILBOX_CAPACITY
@@ -80,7 +80,7 @@ ReadMailMessage: ; 445f4
 	call AddNTimes
 	ld d, h
 	ld e, l
-	callba ReadAnyMail
+	farcall ReadAnyMail
 	ret
 
 MoveMailFromPCToParty: ; 44607
@@ -127,7 +127,7 @@ GetMailboxCount: ; 44648
 CheckPokeItem:: ; 44654
 	push bc
 	push de
-	callba SelectMonFromParty
+	farcall SelectMonFromParty
 	ld a, $2
 	jr c, .pop_return
 
@@ -136,7 +136,7 @@ CheckPokeItem:: ; 44654
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call AddNTimes
 	ld d, [hl]
-	callba ItemIsMail
+	farcall ItemIsMail
 	ld a, $3
 	jr nc, .pop_return
 
@@ -172,12 +172,12 @@ CheckPokeItem:: ; 44654
 	jr nz, .loop
 
 .done
-	callba CheckCurPartyMonFainted
+	farcall CheckCurPartyMonFainted
 	ld a, $4
 	jr c, .close_sram_return
 	xor a
 	ld [wPokemonWithdrawDepositParameter], a
-	callba RemoveMonFromPartyOrBox
+	farcall RemoveMonFromPartyOrBox
 	ld a, $1
 
 .close_sram_return
@@ -296,7 +296,7 @@ IsAnyMonHoldingMail: ; 44781
 	ld d, [hl]
 	push hl
 	push de
-	callba ItemIsMail
+	farcall ItemIsMail
 	pop de
 	pop hl
 	ret c
@@ -383,7 +383,7 @@ MailboxPC_PrintMailAuthor: ; 0x447fb
 
 MailboxPC: ; 0x44806
 	xor a
-	ld [OBPals + 8 * 6], a
+	ld [wCurMessageScrollPosition], a
 	ld a, 1
 	ld [wCurMessageIndex], a
 .loop
@@ -397,11 +397,11 @@ MailboxPC: ; 0x44806
 
 	ld a, [wCurMessageIndex]
 	ld [wMenuCursorBuffer], a
-	ld a, [OBPals + 8 * 6]
+	ld a, [wCurMessageScrollPosition]
 	ld [wMenuScrollPosition], a
 	call ScrollingMenu
 	ld a, [wMenuScrollPosition]
-	ld [OBPals + 8 * 6], a
+	ld [wCurMessageScrollPosition], a
 	ld a, [wMenuCursorY]
 	ld [wCurMessageIndex], a
 
@@ -503,15 +503,15 @@ MailboxPC: ; 0x44806
 	ld [PartyMenuActionText], a
 	call ClearBGPalettes
 .try_again
-	callba LoadPartyMenuGFX
-	callba InitPartyMenuWithCancel
-	callba InitPartyMenuGFX
-	callba WritePartyMenuTilemap
-	callba PrintPartyMenuText
+	farcall LoadPartyMenuGFX
+	farcall InitPartyMenuWithCancel
+	farcall InitPartyMenuGFX
+	farcall WritePartyMenuTilemap
+	farcall PrintPartyMenuText
 	call WaitBGMap
 	call SetPalettes
 	call DelayFrame
-	callba PartyMenuSelect
+	farcall PartyMenuSelect
 	jr c, .exit2
 	ld a, [CurPartySpecies]
 	cp EGG

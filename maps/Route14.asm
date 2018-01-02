@@ -5,7 +5,7 @@ const_value set 2
 	const ROUTE14_KIM
 
 Route14_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
@@ -14,40 +14,40 @@ Route14_MapScriptHeader:
 Kim:
 	faceplayer
 	opentext
-	trade $5
+	trade NPCTRADE_KIM
 	waitbutton
 	closetext
 	end
 
 TrainerPokefanmCarter:
-	trainer EVENT_BEAT_POKEFANM_CARTER, POKEFANM, CARTER, PokefanmCarterSeenText, PokefanmCarterBeatenText, 0, PokefanmCarterScript
+	trainer EVENT_BEAT_POKEFANM_CARTER, POKEFANM, CARTER, PokefanmCarterSeenText, PokefanmCarterBeatenText, 0, .Script
 
-PokefanmCarterScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ad508
+	writetext PokefanmCarterAfterBattleText
 	waitbutton
 	closetext
 	end
 
-TrainerBird_keeperRoy:
-	trainer EVENT_BEAT_BIRD_KEEPER_ROY, BIRD_KEEPER, ROY, Bird_keeperRoySeenText, Bird_keeperRoyBeatenText, 0, Bird_keeperRoyScript
+TrainerBirdKeeperRoy:
+	trainer EVENT_BEAT_BIRD_KEEPER_ROY, BIRD_KEEPER, ROY, BirdKeeperRoySeenText, BirdKeeperRoyBeatenText, 0, .Script
 
-Bird_keeperRoyScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ad5a4
+	writetext BirdKeeperRoyAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerPokefanmTrevor:
-	trainer EVENT_BEAT_POKEFANM_TREVOR, POKEFANM, TREVOR, PokefanmTrevorSeenText, PokefanmTrevorBeatenText, 0, PokefanmTrevorScript
+	trainer EVENT_BEAT_POKEFANM_TREVOR, POKEFANM, TREVOR, PokefanmTrevorSeenText, PokefanmTrevorBeatenText, 0, .Script
 
-PokefanmTrevorScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ad660
+	writetext PokefanmTrevorAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -64,7 +64,7 @@ PokefanmCarterBeatenText:
 	text "Awaaah!"
 	done
 
-UnknownText_0x1ad508:
+PokefanmCarterAfterBattleText:
 	text "SQUIRTLE, CHARMAN-"
 	line "DER and BULBASAUR…"
 
@@ -72,18 +72,18 @@ UnknownText_0x1ad508:
 	line "well-balanced mix."
 	done
 
-Bird_keeperRoySeenText:
+BirdKeeperRoySeenText:
 	text "My dream is to fly"
 	line "with my beloved"
 	cont "bird #MON."
 	done
 
-Bird_keeperRoyBeatenText:
+BirdKeeperRoyBeatenText:
 	text "I can dream, but I"
 	line "can't ever fly…"
 	done
 
-UnknownText_0x1ad5a4:
+BirdKeeperRoyAfterBattleText:
 	text "You have #MON"
 	line "that know the HM"
 
@@ -107,7 +107,7 @@ PokefanmTrevorBeatenText:
 	line "this PSYDUCK?"
 	done
 
-UnknownText_0x1ad660:
+PokefanmTrevorAfterBattleText:
 	text "If only there were"
 	line "an easy way to"
 
@@ -122,15 +122,15 @@ Route14_MapEventHeader:
 .Warps:
 	db 0
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 4
-	person_event SPRITE_POKEFAN_M, 15, 11, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerPokefanmCarter, -1
-	person_event SPRITE_YOUNGSTER, 27, 11, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 3, TrainerBird_keeperRoy, -1
-	person_event SPRITE_POKEFAN_M, 11, 6, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerPokefanmTrevor, -1
-	person_event SPRITE_TEACHER, 5, 7, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 0, 1, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 4, Kim, -1
+	object_event 11, 15, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerPokefanmCarter, -1
+	object_event 11, 27, SPRITE_YOUNGSTER, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerBirdKeeperRoy, -1
+	object_event 6, 11, SPRITE_POKEFAN_M, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerPokefanmTrevor, -1
+	object_event 7, 5, SPRITE_TEACHER, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 4, Kim, -1

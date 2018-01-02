@@ -1,0 +1,11 @@
+; link types
+	const_def
+	const LINK_NULL        ; 0
+	const LINK_TIMECAPSULE ; 1
+	const LINK_TRADECENTER ; 2
+	const LINK_COLOSSEUM   ; 3
+
+
+SERIAL_TIMECAPSULE EQU $60
+SERIAL_TRADECENTER EQU $70
+SERIAL_BATTLE      EQU $80

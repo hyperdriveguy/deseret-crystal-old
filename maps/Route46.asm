@@ -7,27 +7,27 @@ const_value set 2
 	const ROUTE46_POKE_BALL
 
 Route46_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
 TrainerCamperTed:
-	trainer EVENT_BEAT_CAMPER_TED, CAMPER, TED, CamperTedSeenText, CamperTedBeatenText, 0, CamperTedScript
+	trainer EVENT_BEAT_CAMPER_TED, CAMPER, TED, CamperTedSeenText, CamperTedBeatenText, 0, .Script
 
-CamperTedScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a9851
+	writetext CamperTedAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerPicnickerErin1:
-	trainer EVENT_BEAT_PICNICKER_ERIN, PICNICKER, ERIN1, PicnickerErin1SeenText, PicnickerErin1BeatenText, 0, PicnickerErin1Script
+	trainer EVENT_BEAT_PICNICKER_ERIN, PICNICKER, ERIN1, PicnickerErin1SeenText, PicnickerErin1BeatenText, 0, .Script
 
-PicnickerErin1Script:
+.Script:
 	writecode VAR_CALLERID, PHONE_PICNICKER_ERIN
 	end_if_just_battled
 	opentext
@@ -148,12 +148,12 @@ UnknownScript_0x1a9772:
 	end
 
 TrainerHikerBailey:
-	trainer EVENT_BEAT_HIKER_BAILEY, HIKER, BAILEY, HikerBaileySeenText, HikerBaileyBeatenText, 0, HikerBaileyScript
+	trainer EVENT_BEAT_HIKER_BAILEY, HIKER, BAILEY, HikerBaileySeenText, HikerBaileyBeatenText, 0, .Script
 
-HikerBaileyScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1a97e8
+	writetext HikerBaileyAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -181,7 +181,7 @@ HikerBaileyBeatenText:
 	line "me your power!"
 	done
 
-UnknownText_0x1a97e8:
+HikerBaileyAfterBattleText:
 	text "It's over. I don't"
 	line "mind. We HIKERS"
 	cont "are like that."
@@ -199,7 +199,7 @@ CamperTedBeatenText:
 	text "Wha…?"
 	done
 
-UnknownText_0x1a9851:
+CamperTedAfterBattleText:
 	text "I did my best but"
 	line "came up short."
 
@@ -256,22 +256,22 @@ Route46_MapEventHeader:
 
 .Warps:
 	db 3
-	warp_def $21, $7, 1, ROUTE_29_46_GATE
-	warp_def $21, $8, 2, ROUTE_29_46_GATE
-	warp_def $5, $e, 3, DARK_CAVE_VIOLET_ENTRANCE
+	warp_def 7, 33, 1, ROUTE_29_46_GATE
+	warp_def 8, 33, 2, ROUTE_29_46_GATE
+	warp_def 14, 5, 3, DARK_CAVE_VIOLET_ENTRANCE
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 1
-	signpost 27, 9, SIGNPOST_READ, Route46Sign
+	bg_event 9, 27, BGEVENT_READ, Route46Sign
 
-.PersonEvents:
+.ObjectEvents:
 	db 6
-	person_event SPRITE_POKEFAN_M, 19, 12, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 2, TrainerHikerBailey, -1
-	person_event SPRITE_YOUNGSTER, 14, 4, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 2, TrainerCamperTed, -1
-	person_event SPRITE_LASS, 13, 2, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 2, TrainerPicnickerErin1, -1
-	person_event SPRITE_FRUIT_TREE, 5, 7, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, FruitTreeScript_0x1a978f, -1
-	person_event SPRITE_FRUIT_TREE, 6, 8, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, FruitTreeScript_0x1a9791, -1
-	person_event SPRITE_POKE_BALL, 15, 1, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, Route46XSpeed, EVENT_ROUTE_46_X_SPEED
+	object_event 12, 19, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 2, TrainerHikerBailey, -1
+	object_event 4, 14, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 2, TrainerCamperTed, -1
+	object_event 2, 13, SPRITE_LASS, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 2, TrainerPicnickerErin1, -1
+	object_event 7, 5, SPRITE_FRUIT_TREE, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, FruitTreeScript_0x1a978f, -1
+	object_event 8, 6, SPRITE_FRUIT_TREE, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, FruitTreeScript_0x1a9791, -1
+	object_event 1, 15, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, Route46XSpeed, EVENT_ROUTE_46_X_SPEED

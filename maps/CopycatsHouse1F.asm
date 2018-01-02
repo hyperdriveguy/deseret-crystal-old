@@ -4,14 +4,14 @@ const_value set 2
 	const COPYCATSHOUSE1F_CLEFAIRY
 
 CopycatsHouse1F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-PokefanMScript_0x18ad13:
-	jumptextfaceplayer UnknownText_0x18ad34
+CopycatsHouse1FPokefanMScript:
+	jumptextfaceplayer CopycatsHouse1FPokefanMText
 
 PokefanFScript_0x18ad16:
 	faceplayer
@@ -37,7 +37,7 @@ ClefairyScript_0x18ad2a:
 	closetext
 	end
 
-UnknownText_0x18ad34:
+CopycatsHouse1FPokefanMText:
 	text "My daughter likes"
 	line "to mimic people."
 
@@ -78,18 +78,18 @@ CopycatsHouse1F_MapEventHeader:
 
 .Warps:
 	db 3
-	warp_def $7, $2, 8, SAFFRON_CITY
-	warp_def $7, $3, 8, SAFFRON_CITY
-	warp_def $0, $2, 1, COPYCATS_HOUSE_2F
+	warp_def 2, 7, 8, SAFFRON_CITY
+	warp_def 3, 7, 8, SAFFRON_CITY
+	warp_def 2, 0, 1, COPYCATS_HOUSE_2F
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 3
-	person_event SPRITE_POKEFAN_M, 3, 2, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, PokefanMScript_0x18ad13, -1
-	person_event SPRITE_POKEFAN_F, 4, 5, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, PokefanFScript_0x18ad16, -1
-	person_event SPRITE_CLEFAIRY, 6, 6, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ClefairyScript_0x18ad2a, -1
+	object_event 2, 3, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, CopycatsHouse1FPokefanMScript, -1
+	object_event 5, 4, SPRITE_POKEFAN_F, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, PokefanFScript_0x18ad16, -1
+	object_event 6, 6, SPRITE_CLEFAIRY, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ClefairyScript_0x18ad2a, -1

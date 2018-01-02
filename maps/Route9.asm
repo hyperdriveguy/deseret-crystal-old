@@ -7,74 +7,74 @@ const_value set 2
 	const ROUTE9_POKEFAN_M2
 
 Route9_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
 TrainerCamperDean:
-	trainer EVENT_BEAT_CAMPER_DEAN, CAMPER, DEAN, CamperDeanSeenText, CamperDeanBeatenText, 0, CamperDeanScript
+	trainer EVENT_BEAT_CAMPER_DEAN, CAMPER, DEAN, CamperDeanSeenText, CamperDeanBeatenText, 0, .Script
 
-CamperDeanScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1aafd9
+	writetext CamperDeanAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerPicnickerHeidi:
-	trainer EVENT_BEAT_PICNICKER_HEIDI, PICNICKER, HEIDI, PicnickerHeidiSeenText, PicnickerHeidiBeatenText, 0, PicnickerHeidiScript
+	trainer EVENT_BEAT_PICNICKER_HEIDI, PICNICKER, HEIDI, PicnickerHeidiSeenText, PicnickerHeidiBeatenText, 0, .Script
 
-PicnickerHeidiScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ab07c
+	writetext PicnickerHeidiAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerCamperSid:
-	trainer EVENT_BEAT_CAMPER_SID, CAMPER, SID, CamperSidSeenText, CamperSidBeatenText, 0, CamperSidScript
+	trainer EVENT_BEAT_CAMPER_SID, CAMPER, SID, CamperSidSeenText, CamperSidBeatenText, 0, .Script
 
-CamperSidScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ab0f6
+	writetext CamperSidAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerPicnickerEdna:
-	trainer EVENT_BEAT_PICNICKER_EDNA, PICNICKER, EDNA, PicnickerEdnaSeenText, PicnickerEdnaBeatenText, 0, PicnickerEdnaScript
+	trainer EVENT_BEAT_PICNICKER_EDNA, PICNICKER, EDNA, PicnickerEdnaSeenText, PicnickerEdnaBeatenText, 0, .Script
 
-PicnickerEdnaScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ab15f
+	writetext PicnickerEdnaAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerHikerTim:
-	trainer EVENT_BEAT_HIKER_TIM, HIKER, TIM, HikerTimSeenText, HikerTimBeatenText, 0, HikerTimScript
+	trainer EVENT_BEAT_HIKER_TIM, HIKER, TIM, HikerTimSeenText, HikerTimBeatenText, 0, .Script
 
-HikerTimScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ab210
+	writetext HikerTimAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerHikerSidney:
-	trainer EVENT_BEAT_HIKER_SIDNEY, HIKER, SIDNEY, HikerSidneySeenText, HikerSidneyBeatenText, 0, HikerSidneyScript
+	trainer EVENT_BEAT_HIKER_SIDNEY, HIKER, SIDNEY, HikerSidneySeenText, HikerSidneyBeatenText, 0, .Script
 
-HikerSidneyScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ab278
+	writetext HikerSidneyAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -95,7 +95,7 @@ CamperDeanBeatenText:
 	text "Whoa! Danger, man."
 	done
 
-UnknownText_0x1aafd9:
+CamperDeanAfterBattleText:
 	text "My #MON were"
 	line "hurt before even"
 
@@ -119,7 +119,7 @@ PicnickerHeidiBeatenText:
 	text "Ohhhh!"
 	done
 
-UnknownText_0x1ab07c:
+PicnickerHeidiAfterBattleText:
 	text "We bake lots of"
 	line "goodies and share"
 
@@ -137,7 +137,7 @@ CamperSidBeatenText:
 	line "ing out…"
 	done
 
-UnknownText_0x1ab0f6:
+CamperSidAfterBattleText:
 	text "Sorry. You weren't"
 	line "littering. It was"
 	cont "my mistake."
@@ -153,7 +153,7 @@ PicnickerEdnaBeatenText:
 	text "Ohh… I lost…"
 	done
 
-UnknownText_0x1ab15f:
+PicnickerEdnaAfterBattleText:
 	text "Conserving energy"
 	line "is important, but"
 
@@ -175,7 +175,7 @@ HikerTimBeatenText:
 	line "singing…"
 	done
 
-UnknownText_0x1ab210:
+HikerTimAfterBattleText:
 	text "Battles are about"
 	line "concentration."
 	done
@@ -193,7 +193,7 @@ HikerSidneyBeatenText:
 	line "I lost that…"
 	done
 
-UnknownText_0x1ab278:
+HikerSidneyAfterBattleText:
 	text "The POWER PLANT is"
 	line "across a small"
 	cont "river."
@@ -212,21 +212,21 @@ Route9_MapEventHeader:
 
 .Warps:
 	db 1
-	warp_def $f, $30, 1, ROCK_TUNNEL_1F
+	warp_def 48, 15, 1, ROCK_TUNNEL_1F
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 7, 15, SIGNPOST_READ, Route9Sign
-	signpost 15, 41, SIGNPOST_ITEM, Route9HiddenEther
+	bg_event 15, 7, BGEVENT_READ, Route9Sign
+	bg_event 41, 15, BGEVENT_ITEM, Route9HiddenEther
 
-.PersonEvents:
+.ObjectEvents:
 	db 6
-	person_event SPRITE_YOUNGSTER, 11, 23, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 3, TrainerCamperDean, -1
-	person_event SPRITE_LASS, 8, 39, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 3, TrainerPicnickerHeidi, -1
-	person_event SPRITE_YOUNGSTER, 4, 11, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 5, TrainerCamperSid, -1
-	person_event SPRITE_LASS, 15, 12, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 1, TrainerPicnickerEdna, -1
-	person_event SPRITE_POKEFAN_M, 3, 28, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 2, TrainerHikerTim, -1
-	person_event SPRITE_POKEFAN_M, 15, 36, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_TRAINER, 4, TrainerHikerSidney, -1
+	object_event 23, 11, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 3, TrainerCamperDean, -1
+	object_event 39, 8, SPRITE_LASS, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 3, TrainerPicnickerHeidi, -1
+	object_event 11, 4, SPRITE_YOUNGSTER, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 5, TrainerCamperSid, -1
+	object_event 12, 15, SPRITE_LASS, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 1, TrainerPicnickerEdna, -1
+	object_event 28, 3, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 2, TrainerHikerTim, -1
+	object_event 36, 15, SPRITE_POKEFAN_M, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_TRAINER, 4, TrainerHikerSidney, -1

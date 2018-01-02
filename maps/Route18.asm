@@ -3,30 +3,30 @@ const_value set 2
 	const ROUTE18_YOUNGSTER2
 
 Route18_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-TrainerBird_keeperBoris:
-	trainer EVENT_BEAT_BIRD_KEEPER_BORIS, BIRD_KEEPER, BORIS, Bird_keeperBorisSeenText, Bird_keeperBorisBeatenText, 0, Bird_keeperBorisScript
+TrainerBirdKeeperBoris:
+	trainer EVENT_BEAT_BIRD_KEEPER_BORIS, BIRD_KEEPER, BORIS, BirdKeeperBorisSeenText, BirdKeeperBorisBeatenText, 0, .Script
 
-Bird_keeperBorisScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1acfa5
+	writetext BirdKeeperBorisAfterBattleText
 	waitbutton
 	closetext
 	end
 
-TrainerBird_keeperBob:
-	trainer EVENT_BEAT_BIRD_KEEPER_BOB, BIRD_KEEPER, BOB, Bird_keeperBobSeenText, Bird_keeperBobBeatenText, 0, Bird_keeperBobScript
+TrainerBirdKeeperBob:
+	trainer EVENT_BEAT_BIRD_KEEPER_BOB, BIRD_KEEPER, BOB, BirdKeeperBobSeenText, BirdKeeperBobBeatenText, 0, .Script
 
-Bird_keeperBobScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1ad00d
+	writetext BirdKeeperBobAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -34,7 +34,7 @@ Bird_keeperBobScript:
 Route18Sign:
 	jumptext Route18SignText
 
-Bird_keeperBorisSeenText:
+BirdKeeperBorisSeenText:
 	text "If you're looking"
 	line "for #MON, you"
 
@@ -42,27 +42,27 @@ Bird_keeperBorisSeenText:
 	line "the tall grass."
 	done
 
-Bird_keeperBorisBeatenText:
+BirdKeeperBorisBeatenText:
 	text "Ayieee!"
 	done
 
-UnknownText_0x1acfa5:
+BirdKeeperBorisAfterBattleText:
 	text "Since you're so"
 	line "strong, it must be"
 	cont "fun to battle."
 	done
 
-Bird_keeperBobSeenText:
+BirdKeeperBobSeenText:
 	text "CYCLING ROAD is a"
 	line "quick shortcut to"
 	cont "CELADON."
 	done
 
-Bird_keeperBobBeatenText:
+BirdKeeperBobBeatenText:
 	text "…Whew!"
 	done
 
-UnknownText_0x1ad00d:
+BirdKeeperBobAfterBattleText:
 	text "If you don't have"
 	line "a BICYCLE, you're"
 
@@ -83,17 +83,17 @@ Route18_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $6, $2, 3, ROUTE_17_18_GATE
-	warp_def $7, $2, 4, ROUTE_17_18_GATE
+	warp_def 2, 6, 3, ROUTE_17_18_GATE
+	warp_def 2, 7, 4, ROUTE_17_18_GATE
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 1
-	signpost 5, 9, SIGNPOST_READ, Route18Sign
+	bg_event 9, 5, BGEVENT_READ, Route18Sign
 
-.PersonEvents:
+.ObjectEvents:
 	db 2
-	person_event SPRITE_YOUNGSTER, 12, 9, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 3, TrainerBird_keeperBoris, -1
-	person_event SPRITE_YOUNGSTER, 6, 13, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 3, TrainerBird_keeperBob, -1
+	object_event 9, 12, SPRITE_YOUNGSTER, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerBirdKeeperBoris, -1
+	object_event 13, 6, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerBirdKeeperBob, -1

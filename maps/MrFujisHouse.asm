@@ -6,17 +6,17 @@ const_value set 2
 	const MRFUJISHOUSE_PIDGEY
 
 MrFujisHouse_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-SuperNerdScript_0x7e8ca:
-	jumptextfaceplayer UnknownText_0x7e8f1
+MrFujisHouseSuperNerdScript:
+	jumptextfaceplayer MrFujisHouseSuperNerdText
 
-LassScript_0x7e8cd:
-	jumptextfaceplayer UnknownText_0x7e940
+MrFujisHouseLassScript:
+	jumptextfaceplayer MrFujisHouseLassText
 
 MrFujisPsyduck:
 	opentext
@@ -45,7 +45,7 @@ MrFujisPidgey:
 MrFujisHouseBookshelf:
 	jumpstd difficultbookshelf
 
-UnknownText_0x7e8f1:
+MrFujisHouseSuperNerdText:
 	text "MR.FUJI does live"
 	line "here, but he's not"
 
@@ -55,7 +55,7 @@ UnknownText_0x7e8f1:
 	line "the SOUL HOUSE."
 	done
 
-UnknownText_0x7e940:
+MrFujisHouseLassText:
 	text "Some cold-hearted"
 	line "people stop caring"
 	cont "for their #MON."
@@ -85,21 +85,21 @@ MrFujisHouse_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $2, 2, LAVENDER_TOWN
-	warp_def $7, $3, 2, LAVENDER_TOWN
+	warp_def 2, 7, 2, LAVENDER_TOWN
+	warp_def 3, 7, 2, LAVENDER_TOWN
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 1, 0, SIGNPOST_READ, MrFujisHouseBookshelf
-	signpost 1, 1, SIGNPOST_READ, MrFujisHouseBookshelf
+	bg_event 0, 1, BGEVENT_READ, MrFujisHouseBookshelf
+	bg_event 1, 1, BGEVENT_READ, MrFujisHouseBookshelf
 
-.PersonEvents:
+.ObjectEvents:
 	db 5
-	person_event SPRITE_SUPER_NERD, 1, 4, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, SuperNerdScript_0x7e8ca, -1
-	person_event SPRITE_LASS, 4, 3, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, 0, PERSONTYPE_SCRIPT, 0, LassScript_0x7e8cd, -1
-	person_event SPRITE_RHYDON, 4, 7, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, MrFujisPsyduck, -1
-	person_event SPRITE_GROWLITHE, 5, 5, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, MrFujisNidorino, -1
-	person_event SPRITE_MOLTRES, 3, 1, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_SCRIPT, 0, MrFujisPidgey, -1
+	object_event 4, 1, SPRITE_SUPER_NERD, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, MrFujisHouseSuperNerdScript, -1
+	object_event 3, 4, SPRITE_LASS, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, MrFujisHouseLassScript, -1
+	object_event 7, 4, SPRITE_RHYDON, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, MrFujisPsyduck, -1
+	object_event 5, 5, SPRITE_GROWLITHE, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, MrFujisNidorino, -1
+	object_event 1, 3, SPRITE_MOLTRES, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_SCRIPT, 0, MrFujisPidgey, -1

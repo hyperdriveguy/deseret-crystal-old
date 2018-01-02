@@ -6,20 +6,20 @@ const_value set 2
 	const LAVRADIOTOWER1F_SUPER_NERD2
 
 LavRadioTower1F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-ReceptionistScript_0x7ee63:
-	jumptextfaceplayer UnknownText_0x7eebf
+LavRadioTower1FReceptionistScript:
+	jumptextfaceplayer LavRadioTower1FReceptionistText
 
-OfficerScript_0x7ee66:
-	jumptextfaceplayer UnknownText_0x7eefa
+LavRadioTower1FOfficerScript:
+	jumptextfaceplayer LavRadioTower1FOfficerText
 
-SuperNerdScript_0x7ee69:
-	jumptextfaceplayer UnknownText_0x7ef90
+LavRadioTower1FSuperNerdScript:
+	jumptextfaceplayer LavRadioTower1FSuperNerdText
 
 GentlemanScript_0x7ee6c:
 	faceplayer
@@ -74,7 +74,7 @@ MapLavRadioTower1FSignpost0Script:
 MapLavRadioTower1FSignpost1Script:
 	jumptext UnknownText_0x7f32d
 
-UnknownText_0x7eebf:
+LavRadioTower1FReceptionistText:
 	text "Welcome!"
 	line "Feel free to look"
 
@@ -82,7 +82,7 @@ UnknownText_0x7eebf:
 	line "this floor."
 	done
 
-UnknownText_0x7eefa:
+LavRadioTower1FOfficerText:
 	text "Sorry, but you can"
 	line "only tour the"
 	cont "ground floor."
@@ -97,7 +97,7 @@ UnknownText_0x7eefa:
 	line "up our security."
 	done
 
-UnknownText_0x7ef90:
+LavRadioTower1FSuperNerdText:
 	text "Many people are"
 	line "hard at work here"
 
@@ -215,21 +215,21 @@ LavRadioTower1F_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $2, 7, LAVENDER_TOWN
-	warp_def $7, $3, 7, LAVENDER_TOWN
+	warp_def 2, 7, 7, LAVENDER_TOWN
+	warp_def 3, 7, 7, LAVENDER_TOWN
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 2
-	signpost 0, 11, SIGNPOST_READ, MapLavRadioTower1FSignpost0Script
-	signpost 0, 5, SIGNPOST_READ, MapLavRadioTower1FSignpost1Script
+	bg_event 11, 0, BGEVENT_READ, MapLavRadioTower1FSignpost0Script
+	bg_event 5, 0, BGEVENT_READ, MapLavRadioTower1FSignpost1Script
 
-.PersonEvents:
+.ObjectEvents:
 	db 5
-	person_event SPRITE_RECEPTIONIST, 6, 6, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, ReceptionistScript_0x7ee63, -1
-	person_event SPRITE_OFFICER, 1, 15, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, OfficerScript_0x7ee66, -1
-	person_event SPRITE_SUPER_NERD, 3, 1, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, SuperNerdScript_0x7ee69, -1
-	person_event SPRITE_GENTLEMAN, 1, 9, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, GentlemanScript_0x7ee6c, -1
-	person_event SPRITE_SUPER_NERD, 6, 14, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, SuperNerdScript_0x7eea2, -1
+	object_event 6, 6, SPRITE_RECEPTIONIST, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, LavRadioTower1FReceptionistScript, -1
+	object_event 15, 1, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, LavRadioTower1FOfficerScript, -1
+	object_event 1, 3, SPRITE_SUPER_NERD, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, LavRadioTower1FSuperNerdScript, -1
+	object_event 9, 1, SPRITE_GENTLEMAN, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GentlemanScript_0x7ee6c, -1
+	object_event 14, 6, SPRITE_SUPER_NERD, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, SuperNerdScript_0x7eea2, -1

@@ -4,30 +4,30 @@ const_value set 2
 	const SPROUTTOWER2F_POKE_BALL
 
 SproutTower2F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
 TrainerSageNico:
-	trainer EVENT_BEAT_SAGE_NICO, SAGE, NICO, SageNicoSeenText, SageNicoBeatenText, 0, SageNicoScript
+	trainer EVENT_BEAT_SAGE_NICO, SAGE, NICO, SageNicoSeenText, SageNicoBeatenText, 0, .Script
 
-SageNicoScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1847ff
+	writetext SageNicoAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSageEdmond:
-	trainer EVENT_BEAT_SAGE_EDMOND, SAGE, EDMOND, SageEdmondSeenText, SageEdmondBeatenText, 0, SageEdmondScript
+	trainer EVENT_BEAT_SAGE_EDMOND, SAGE, EDMOND, SageEdmondSeenText, SageEdmondBeatenText, 0, .Script
 
-SageEdmondScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x18486f
+	writetext SageEdmondAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -49,7 +49,7 @@ SageNicoBeatenText:
 	line "I'm too weak."
 	done
 
-UnknownText_0x1847ff:
+SageNicoAfterBattleText:
 	text "The flexible pil-"
 	line "lar protects the"
 
@@ -66,7 +66,7 @@ SageEdmondBeatenText:
 	text "Oh, I'm weak!"
 	done
 
-UnknownText_0x18486f:
+SageEdmondAfterBattleText:
 	text "I tried to copy"
 	line "BELLSPROUT's"
 
@@ -90,20 +90,20 @@ SproutTower2F_MapEventHeader:
 
 .Warps:
 	db 4
-	warp_def $4, $6, 3, SPROUT_TOWER_1F
-	warp_def $6, $2, 4, SPROUT_TOWER_1F
-	warp_def $3, $11, 5, SPROUT_TOWER_1F
-	warp_def $e, $a, 1, SPROUT_TOWER_3F
+	warp_def 6, 4, 3, SPROUT_TOWER_1F
+	warp_def 2, 6, 4, SPROUT_TOWER_1F
+	warp_def 17, 3, 5, SPROUT_TOWER_1F
+	warp_def 10, 14, 1, SPROUT_TOWER_3F
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 1
-	signpost 15, 12, SIGNPOST_READ, MapSproutTower2FSignpost0Script
+	bg_event 12, 15, BGEVENT_READ, MapSproutTower2FSignpost0Script
 
-.PersonEvents:
+.ObjectEvents:
 	db 3
-	person_event SPRITE_SAGE, 3, 12, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 4, TrainerSageNico, -1
-	person_event SPRITE_SAGE, 14, 9, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 5, TrainerSageEdmond, -1
-	person_event SPRITE_POKE_BALL, 1, 3, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, PERSONTYPE_ITEMBALL, 0, SproutTower2FXAccuracy, EVENT_SPROUT_TOWER2F_X_ACCURACY
+	object_event 12, 3, SPRITE_SAGE, SPRITEMOVEDATA_SPINRANDOM_FAST, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 4, TrainerSageNico, -1
+	object_event 9, 14, SPRITE_SAGE, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 5, TrainerSageEdmond, -1
+	object_event 3, 1, SPRITE_POKE_BALL, SPRITEMOVEDATA_ITEM_TREE, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, SproutTower2FXAccuracy, EVENT_SPROUT_TOWER2F_X_ACCURACY

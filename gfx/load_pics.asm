@@ -48,7 +48,7 @@ GetUnownLetter: ; 51040
 	ld [UnownLetter], a
 	ret
 
-GetFrontpic: ; 51077
+GetMonFrontpic: ; 51077
 	ld a, [CurPartySpecies]
 	ld [CurSpecies], a
 	call IsAPokemon
@@ -60,7 +60,7 @@ GetFrontpic: ; 51077
 	ld [rSVBK], a
 	ret
 
-FrontpicPredef: ; 5108b
+GetAnimatedFrontpicPredef: ; 5108b
 	ld a, [CurPartySpecies]
 	ld [CurSpecies], a
 	call IsAPokemon
@@ -83,14 +83,14 @@ _GetFrontpic: ; 510a5
 	ld b, a
 	push bc
 	call GetFrontpicPointer
-	ld a, BANK(wDecompressScratch)
+	ld a, BANK(wDecompressEnemyFrontpic)
 	ld [rSVBK], a
 	ld a, b
-	ld de, wDecompressScratch + $800
+	ld de, wDecompressEnemyFrontpic
 	call FarDecompress
 	pop bc
 	ld hl, wDecompressScratch
-	ld de, wDecompressScratch + $800
+	ld de, wDecompressEnemyFrontpic
 	call PadFrontpic
 	pop hl
 	push hl
@@ -103,13 +103,13 @@ _GetFrontpic: ; 510a5
 	ret
 
 GetFrontpicPointer: ; 510d7
-GLOBAL PicPointers, UnownPicPointers
+GLOBAL PokemonPicPointers, UnownPicPointers
 
 	ld a, [CurPartySpecies]
 	cp UNOWN
 	jr z, .unown
 	ld a, [CurPartySpecies]
-	ld d, BANK(PicPointers)
+	ld d, BANK(PokemonPicPointers)
 	jr .ok
 
 .unown
@@ -117,7 +117,7 @@ GLOBAL PicPointers, UnownPicPointers
 	ld d, BANK(UnownPicPointers)
 
 .ok
-	ld hl, PicPointers ; UnownPicPointers
+	ld hl, PokemonPicPointers ; UnownPicPointers
 	dec a
 	ld bc, 6
 	call AddNTimes
@@ -132,7 +132,7 @@ GLOBAL PicPointers, UnownPicPointers
 	ret
 
 GetAnimatedFrontpic: ; 51103
-	ld a, BANK(VTiles3)
+	ld a, BANK(vTiles3)
 	ld [rVBK], a
 	push hl
 	ld de, wDecompressScratch
@@ -149,15 +149,15 @@ GetAnimatedFrontpic: ; 51103
 	call GetFarWRAMByte
 	pop hl
 	and $f
-	ld de, w6_d800 + 5 * 5 tiles
+	ld de, wDecompressEnemyFrontpic + 5 * 5 tiles
 	ld c, 5 * 5
 	cp 5
 	jr z, .got_dims
-	ld de, w6_d800 + 6 * 6 tiles
+	ld de, wDecompressEnemyFrontpic + 6 * 6 tiles
 	ld c, 6 * 6
 	cp 6
 	jr z, .got_dims
-	ld de, w6_d800 + 7 * 7 tiles
+	ld de, wDecompressEnemyFrontpic + 7 * 7 tiles
 	ld c, 7 * 7
 .got_dims
 
@@ -195,7 +195,7 @@ LoadFrontpicTiles: ; 5114f
 	jr nz, .loop
 	ret
 
-GetBackpic: ; 5116c
+GetMonBackpic: ; 5116c
 	ld a, [CurPartySpecies]
 	call IsAPokemon
 	ret c
@@ -212,10 +212,10 @@ GetBackpic: ; 5116c
 
 	; These are assumed to be at the same
 	; address in their respective banks.
-	GLOBAL PicPointers,  UnownPicPointers
-	ld hl, PicPointers ; UnownPicPointers
+	GLOBAL PokemonPicPointers,  UnownPicPointers
+	ld hl, PokemonPicPointers ; UnownPicPointers
 	ld a, b
-	ld d, BANK(PicPointers)
+	ld d, BANK(PokemonPicPointers)
 	cp UNOWN
 	jr nz, .ok
 	ld a, c

@@ -7,24 +7,22 @@ const_value set 2
 	const CERULEANGYM_GYM_GUY
 
 CeruleanGym_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 2
-
-	; triggers
-	dw UnknownScript_0x1883d9, 0
-	dw UnknownScript_0x1883da, 0
+	scene_script .DummyScene0
+	scene_script .GruntRunsOut
 
 .MapCallbacks:
 	db 0
 
-UnknownScript_0x1883d9:
+.DummyScene0:
 	end
 
-UnknownScript_0x1883da:
-	priorityjump UnknownScript_0x1883de
+.GruntRunsOut:
+	priorityjump .GruntRunsOutScript
 	end
 
-UnknownScript_0x1883de:
+.GruntRunsOutScript:
 	applymovement CERULEANGYM_ROCKET, MovementData_0x1884e3
 	playsound SFX_TACKLE
 	applymovement CERULEANGYM_ROCKET, MovementData_0x1884eb
@@ -50,9 +48,9 @@ UnknownScript_0x1883de:
 	setevent EVENT_MET_ROCKET_GRUNT_AT_CERULEAN_GYM
 	clearevent EVENT_ROUTE_24_ROCKET
 	clearevent EVENT_ROUTE_25_MISTY_BOYFRIEND
-	dotrigger $0
-	domaptrigger ROUTE_25, $1
-	domaptrigger POWER_PLANT, $0
+	setscene $0
+	setmapscene ROUTE_25, $1
+	setmapscene POWER_PLANT, $0
 	waitsfx
 	special RestartMapMusic
 	pause 15
@@ -88,34 +86,34 @@ MistyScript_0x188432:
 	end
 
 TrainerSwimmerfDiana:
-	trainer EVENT_BEAT_SWIMMERF_DIANA, SWIMMERF, DIANA, SwimmerfDianaSeenText, SwimmerfDianaBeatenText, 0, SwimmerfDianaScript
+	trainer EVENT_BEAT_SWIMMERF_DIANA, SWIMMERF, DIANA, SwimmerfDianaSeenText, SwimmerfDianaBeatenText, 0, .Script
 
-SwimmerfDianaScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x188856
+	writetext SwimmerfDianaAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSwimmerfBriana:
-	trainer EVENT_BEAT_SWIMMERF_BRIANA, SWIMMERF, BRIANA, SwimmerfBrianaSeenText, SwimmerfBrianaBeatenText, 0, SwimmerfBrianaScript
+	trainer EVENT_BEAT_SWIMMERF_BRIANA, SWIMMERF, BRIANA, SwimmerfBrianaSeenText, SwimmerfBrianaBeatenText, 0, .Script
 
-SwimmerfBrianaScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x1888c0
+	writetext SwimmerfBrianaAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSwimmermParker:
-	trainer EVENT_BEAT_SWIMMERM_PARKER, SWIMMERM, PARKER, SwimmermParkerSeenText, SwimmermParkerBeatenText, 0, SwimmermParkerScript
+	trainer EVENT_BEAT_SWIMMERM_PARKER, SWIMMERM, PARKER, SwimmermParkerSeenText, SwimmermParkerBeatenText, 0, .Script
 
-SwimmermParkerScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x188943
+	writetext SwimmermParkerAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -299,7 +297,7 @@ SwimmerfDianaBeatenText:
 	line "the winner!"
 	done
 
-UnknownText_0x188856:
+SwimmerfDianaAfterBattleText:
 	text "I'll be swimming"
 	line "quietly."
 	done
@@ -315,7 +313,7 @@ SwimmerfBrianaBeatenText:
 	line "disposed of me…"
 	done
 
-UnknownText_0x1888c0:
+SwimmerfBrianaAfterBattleText:
 	text "Don't be too smug"
 	line "about beating me."
 
@@ -335,7 +333,7 @@ SwimmermParkerBeatenText:
 	text "This can't be…"
 	done
 
-UnknownText_0x188943:
+SwimmermParkerAfterBattleText:
 	text "MISTY has gotten"
 	line "much better in the"
 	cont "past few years."
@@ -371,23 +369,23 @@ CeruleanGym_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $f, $4, 5, CERULEAN_CITY
-	warp_def $f, $5, 5, CERULEAN_CITY
+	warp_def 4, 15, 5, CERULEAN_CITY
+	warp_def 5, 15, 5, CERULEAN_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 3
-	signpost 8, 3, SIGNPOST_ITEM, CeruleanGymHiddenMachinePart
-	signpost 13, 2, SIGNPOST_READ, CeruleanGymStatue1
-	signpost 13, 6, SIGNPOST_READ, CeruleanGymStatue2
+	bg_event 3, 8, BGEVENT_ITEM, CeruleanGymHiddenMachinePart
+	bg_event 2, 13, BGEVENT_READ, CeruleanGymStatue1
+	bg_event 6, 13, BGEVENT_READ, CeruleanGymStatue2
 
-.PersonEvents:
+.ObjectEvents:
 	db 6
-	person_event SPRITE_ROCKET, 10, 4, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, PERSONTYPE_SCRIPT, 0, ObjectEvent, EVENT_CERULEAN_GYM_ROCKET
-	person_event SPRITE_MISTY, 3, 5, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_SCRIPT, 0, MistyScript_0x188432, EVENT_TRAINERS_IN_CERULEAN_GYM
-	person_event SPRITE_SWIMMER_GIRL, 6, 4, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 3, TrainerSwimmerfDiana, EVENT_TRAINERS_IN_CERULEAN_GYM
-	person_event SPRITE_SWIMMER_GIRL, 9, 1, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_TRAINER, 1, TrainerSwimmerfBriana, EVENT_TRAINERS_IN_CERULEAN_GYM
-	person_event SPRITE_SWIMMER_GUY, 9, 8, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_RED, PERSONTYPE_TRAINER, 3, TrainerSwimmermParker, EVENT_TRAINERS_IN_CERULEAN_GYM
-	person_event SPRITE_GYM_GUY, 13, 7, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, CeruleanGymGuyScript, EVENT_TRAINERS_IN_CERULEAN_GYM
+	object_event 4, 10, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_CERULEAN_GYM_ROCKET
+	object_event 5, 3, SPRITE_MISTY, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, MistyScript_0x188432, EVENT_TRAINERS_IN_CERULEAN_GYM
+	object_event 4, 6, SPRITE_SWIMMER_GIRL, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 3, TrainerSwimmerfDiana, EVENT_TRAINERS_IN_CERULEAN_GYM
+	object_event 1, 9, SPRITE_SWIMMER_GIRL, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 1, TrainerSwimmerfBriana, EVENT_TRAINERS_IN_CERULEAN_GYM
+	object_event 8, 9, SPRITE_SWIMMER_GUY, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_TRAINER, 3, TrainerSwimmermParker, EVENT_TRAINERS_IN_CERULEAN_GYM
+	object_event 7, 13, SPRITE_GYM_GUY, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, CeruleanGymGuyScript, EVENT_TRAINERS_IN_CERULEAN_GYM

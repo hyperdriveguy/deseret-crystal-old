@@ -4,17 +4,17 @@ const_value set 2
 	const CERULEANPOLICESTATION_DIGLETT
 
 CeruleanPoliceStation_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
-FishingGuruScript_0x18804a:
-	jumptextfaceplayer UnknownText_0x18805a
+CeruleanPoliceStationFishingGuruScript:
+	jumptextfaceplayer CeruleanPoliceStationFishingGuruText
 
-PokefanFScript_0x18804d:
-	jumptextfaceplayer UnknownText_0x1880c3
+CeruleanPoliceStationPokefanFScript:
+	jumptextfaceplayer CeruleanPoliceStationPokefanFText
 
 CeruleanDiglett:
 	opentext
@@ -24,7 +24,7 @@ CeruleanDiglett:
 	closetext
 	end
 
-UnknownText_0x18805a:
+CeruleanPoliceStationFishingGuruText:
 	text "I heard that some"
 	line "shady character is"
 	cont "skulking about."
@@ -34,7 +34,7 @@ UnknownText_0x18805a:
 	cont "to be a thief."
 	done
 
-UnknownText_0x1880c3:
+CeruleanPoliceStationPokefanFText:
 	text "We were held up by"
 	line "robbers before."
 	done
@@ -49,17 +49,17 @@ CeruleanPoliceStation_MapEventHeader:
 
 .Warps:
 	db 2
-	warp_def $7, $2, 2, CERULEAN_CITY
-	warp_def $7, $3, 2, CERULEAN_CITY
+	warp_def 2, 7, 2, CERULEAN_CITY
+	warp_def 3, 7, 2, CERULEAN_CITY
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 3
-	person_event SPRITE_FISHING_GURU, 1, 5, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, (1 << 3) | PAL_OW_GREEN, PERSONTYPE_SCRIPT, 0, FishingGuruScript_0x18804a, -1
-	person_event SPRITE_POKEFAN_F, 4, 5, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_SCRIPT, 0, PokefanFScript_0x18804d, -1
-	person_event SPRITE_DIGLETT, 5, 3, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, (1 << 3) | PAL_OW_BROWN, PERSONTYPE_SCRIPT, 0, CeruleanDiglett, -1
+	object_event 5, 1, SPRITE_FISHING_GURU, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, CeruleanPoliceStationFishingGuruScript, -1
+	object_event 5, 4, SPRITE_POKEFAN_F, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, CeruleanPoliceStationPokefanFScript, -1
+	object_event 3, 5, SPRITE_DIGLETT, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_SCRIPT, 0, CeruleanDiglett, -1

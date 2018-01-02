@@ -3,27 +3,27 @@ const_value set 2
 	const OLIVINELIGHTHOUSE2F_GENTLEMAN
 
 OlivineLighthouse2F_MapScriptHeader:
-.MapTriggers:
+.SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 0
 
 TrainerGentlemanAlfred:
-	trainer EVENT_BEAT_GENTLEMAN_ALFRED, GENTLEMAN, ALFRED, GentlemanAlfredSeenText, GentlemanAlfredBeatenText, 0, GentlemanAlfredScript
+	trainer EVENT_BEAT_GENTLEMAN_ALFRED, GENTLEMAN, ALFRED, GentlemanAlfredSeenText, GentlemanAlfredBeatenText, 0, .Script
 
-GentlemanAlfredScript:
+.Script:
 	end_if_just_battled
 	opentext
-	writetext UnknownText_0x5b13e
+	writetext GentlemanAlfredAfterBattleText
 	waitbutton
 	closetext
 	end
 
 TrainerSailorHuey1:
-	trainer EVENT_BEAT_SAILOR_HUEY, SAILOR, HUEY1, SailorHuey1SeenText, SailorHuey1BeatenText, 0, SailorHuey1Script
+	trainer EVENT_BEAT_SAILOR_HUEY, SAILOR, HUEY1, SailorHuey1SeenText, SailorHuey1BeatenText, 0, .Script
 
-SailorHuey1Script:
+.Script:
 	writecode VAR_CALLERID, PHONE_SAILOR_HUEY
 	end_if_just_battled
 	opentext
@@ -174,7 +174,7 @@ GentlemanAlfredBeatenText:
 	line "you're serious."
 	done
 
-UnknownText_0x5b13e:
+GentlemanAlfredAfterBattleText:
 	text "Up top is a #-"
 	line "MON that keeps the"
 	cont "LIGHTHOUSE lit."
@@ -201,20 +201,20 @@ OlivineLighthouse2F_MapEventHeader:
 
 .Warps:
 	db 6
-	warp_def $b, $3, 3, OLIVINE_LIGHTHOUSE_1F
-	warp_def $3, $5, 2, OLIVINE_LIGHTHOUSE_3F
-	warp_def $d, $10, 4, OLIVINE_LIGHTHOUSE_1F
-	warp_def $d, $11, 5, OLIVINE_LIGHTHOUSE_1F
-	warp_def $b, $10, 4, OLIVINE_LIGHTHOUSE_3F
-	warp_def $b, $11, 5, OLIVINE_LIGHTHOUSE_3F
+	warp_def 3, 11, 3, OLIVINE_LIGHTHOUSE_1F
+	warp_def 5, 3, 2, OLIVINE_LIGHTHOUSE_3F
+	warp_def 16, 13, 4, OLIVINE_LIGHTHOUSE_1F
+	warp_def 17, 13, 5, OLIVINE_LIGHTHOUSE_1F
+	warp_def 16, 11, 4, OLIVINE_LIGHTHOUSE_3F
+	warp_def 17, 11, 5, OLIVINE_LIGHTHOUSE_3F
 
-.XYTriggers:
+.CoordEvents:
 	db 0
 
-.Signposts:
+.BGEvents:
 	db 0
 
-.PersonEvents:
+.ObjectEvents:
 	db 2
-	person_event SPRITE_SAILOR, 3, 9, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 3, TrainerSailorHuey1, -1
-	person_event SPRITE_GENTLEMAN, 8, 17, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, (1 << 3) | PAL_OW_BLUE, PERSONTYPE_TRAINER, 3, TrainerGentlemanAlfred, -1
+	object_event 9, 3, SPRITE_SAILOR, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerSailorHuey1, -1
+	object_event 17, 8, SPRITE_GENTLEMAN, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerGentlemanAlfred, -1

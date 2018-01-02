@@ -18,18 +18,18 @@ ForceUpdateCGBPals:: ; c37
 
 	ld a, [rSVBK]
 	push af
-	ld a, 5 ; BANK(BGPals)
+	ld a, BANK(BGPals)
 	ld [rSVBK], a
 
-	ld hl, BGPals ; 5:d080
+	ld hl, BGPals
 
 ; copy 8 pals to bgpd
 	ld a, %10000000 ; auto increment, index 0
 	ld [rBGPI], a
-	ld c, rBGPD % $100
-	ld b, 4 ; NUM_PALS / 2
+	ld c, LOW(rBGPD)
+	ld b, 8 / 2
 .bgp
-rept 2 palettes
+rept (1 palettes) * 2
 	ld a, [hli]
 	ld [$ff00+c], a
 endr
@@ -37,15 +37,15 @@ endr
 	dec b
 	jr nz, .bgp
 
-; hl is now 5:d0c0 OBPals
+; hl is now OBPals
 
 ; copy 8 pals to obpd
 	ld a, %10000000 ; auto increment, index 0
 	ld [rOBPI], a
-	ld c, rOBPD % $100
-	ld b, 4 ; NUM_PALS / 2
+	ld c, LOW(rOBPD)
+	ld b, 8 / 2
 .obp
-rept 2 palettes
+rept (1 palettes) * 2
 	ld a, [hli]
 	ld [$ff00+c], a
 endr
@@ -79,7 +79,7 @@ DmgToCgbBGPals:: ; c9f
 	ld a, [rSVBK]
 	push af
 
-	ld a, 5 ; gfx
+	ld a, BANK(BGPals)
 	ld [rSVBK], a
 
 ; copy & reorder bg pal buffer
@@ -122,7 +122,7 @@ DmgToCgbObjPals:: ; ccb
 	ld a, [rSVBK]
 	push af
 
-	ld a, 5
+	ld a, BANK(OBPals)
 	ld [rSVBK], a
 
 ; copy & reorder obj pal buffer
@@ -157,11 +157,11 @@ DmgToCgbObjPal0:: ; cf8
 
 	ld a, [rSVBK]
 	push af
-	ld a, 5 ; gfx
+	ld a, BANK(OBPals)
 	ld [rSVBK], a
 
-	ld hl, OBPals
-	ld de, UnknOBPals
+	ld hl, OBPals palette 0
+	ld de, UnknOBPals palette 0
 	ld a, [rOBP0]
 	ld b, a
 	ld c, 1
@@ -190,11 +190,11 @@ DmgToCgbObjPal1:: ; d24
 
 	ld a, [rSVBK]
 	push af
-	ld a, 5 ; gfx
+	ld a, BANK(OBPals)
 	ld [rSVBK], a
 
-	ld hl, OBPals + 1 palettes
-	ld de, UnknOBPals + 1 palettes
+	ld hl, OBPals palette 1
+	ld de, UnknOBPals palette 1
 	ld a, [rOBP1]
 	ld b, a
 	ld c, 1
@@ -219,7 +219,7 @@ CopyPals:: ; d50
 ; copy c palettes in order b from de to hl
 
 	push bc
-	ld c, 4 ; NUM_PAL_COLORS
+	ld c, NUM_PAL_COLORS
 .loop
 	push de
 	push hl
@@ -253,7 +253,7 @@ CopyPals:: ; d50
 	jr nz, .loop
 
 ; de += 8 (next pal)
-	ld a, 1 palettes ; NUM_PAL_COLORS * 2 ; bytes per pal
+	ld a, NUM_PAL_COLORS * 2
 	add e
 	jr nc, .ok
 	inc d
@@ -272,8 +272,8 @@ ClearVBank1:: ; d79
 	ld a, 1
 	ld [rVBK], a
 
-	ld hl, VTiles0
-	ld bc, VRAM_End - VTiles0
+	ld hl, VRAM_Begin
+	ld bc, VRAM_End - VRAM_Begin
 	xor a
 	call ByteFill
 
@@ -291,10 +291,10 @@ ret_d90:: ; d90
 Special_ReloadSpritesNoPalettes:: ; d91
 	ld a, [rSVBK]
 	push af
-	ld a, 5 ; BANK(BGPals)
+	ld a, BANK(BGPals)
 	ld [rSVBK], a
 	ld hl, BGPals
-	ld bc, $40 + $10
+	ld bc, (8 palettes) + (2 palettes)
 	xor a
 	call ByteFill
 	pop af

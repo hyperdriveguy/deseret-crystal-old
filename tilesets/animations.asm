@@ -200,7 +200,6 @@ TilesetTrainStationAnim: ; 0xfc2e7
 TilesetOlivineGymAnim: ; 0xfc2e7
 TilesetLighthouseAnim: ; 0xfc2e7
 TilesetPlayersHouse2FAnim: ; 0xfc2e7
-TilesetPokeComCenterAnim: ; 0xfc2e7
 TilesetBattleTowerAnim: ; 0xfc2e7
 TilesetRuinsOfAlphAnim: ; 0xfc2e7
 TilesetRadioTowerAnim: ; 0xfc2e7

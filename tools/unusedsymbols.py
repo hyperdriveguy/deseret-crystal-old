@@ -37,7 +37,7 @@ def parse_object(file):
     for x in range(num_symbols):
         symbol = {}
 
-        symbol["name"] = read_string(file)   
+        symbol["name"] = read_string(file)
         symbol["type"] = unpack_file("<B", file)[0]
         if symbol["type"] != 1:
             # symbol["filename"] = read_string(file)
@@ -79,13 +79,22 @@ def parse_object(file):
 
 
 if len(argv) <= 1:
-    print("Usage: %s <objects.o...>" % argv[0], file=stderr)
+    print("Usage: %s [-D] <objects.o...>" % argv[0], file=stderr)
     exit(1)
+
+argi = 1
+
+just_dump = False
+if argv[argi] == "-D":
+    just_dump = True
+    argi += 1
+elif argv[argi] == "--":
+    argi += 1
 
 # globals = []
 referenced = {}
 
-for filename in argv[1:]:
+for filename in argv[argi:]:
     print(filename, file=stderr)
 
     file = open(filename, "rb")
@@ -94,6 +103,19 @@ for filename in argv[1:]:
     if id != b'RGB5':
         print("File %s is of an unknown format." % filename, file=stderr)
         exit(1)
+
+    if just_dump:
+        num_symbols = unpack_file("<I", file)[0]
+        skip_unpack_file("<I", file)
+        for x in range(num_symbols):
+            print(read_string(file))
+
+            type = unpack_file("<B", file)[0]
+            if type != 1:
+                skip_string(file)
+                skip_unpack_file("<III", file)
+
+        continue
 
     object = parse_object(file)
 
@@ -159,6 +181,8 @@ for filename in argv[1:]:
 
     print(file=stderr)
 
+if just_dump:
+    exit()
 
 # for symbol in referenced:
     # if symbol not in globals:

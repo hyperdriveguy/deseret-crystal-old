@@ -18,16 +18,12 @@ DoAnimFrame: ; 8d24b
 	dw .PartyMon
 	dw .PartyMonSwitch
 	dw .PartyMonSelected
-	dw .GSTitleTrail
 	dw .NamingScreenCursor
 	dw .GameFreakLogo
-	dw .GSIntroStar
-	dw .GSIntroSparkle
 	dw .SlotsGolem
 	dw .SlotsChansey
 	dw .SlotsChanseyEgg
 	dw .MailCursor
-	dw .ForUnusedCursor
 	dw .PokegearArrow
 	dw .TradePokeBall
 	dw .TradeTubeBulge
@@ -38,7 +34,6 @@ DoAnimFrame: ; 8d24b
 	dw .FlyFrom
 	dw .FlyLeaf
 	dw .FlyTo
-	dw .sprite_anim_seq_19
 	dw .IntroSuicune 
 	dw .IntroPichuWooper
 	dw .IntroUnown
@@ -126,91 +121,6 @@ DoAnimFrame: ; 8d24b
 	ld [hl], 8 * 3
 	ret
 
-.GSTitleTrail ; 8d302 (23:5302)
-	call .AnonymousJumptable
-	jp hl
-; 8d306 (23:5306)
-
-; Anonymous dw (see .AnonymousJumptable)
-	dw .four_zero
-	dw .four_one
-; 8d30a
-
-.four_zero ; 8d30a
-	call .IncrementJumptableIndex
-
-	ld hl, SPRITEANIMSTRUCT_INDEX
-	add hl, bc
-	ld a, [hl]
-
-	ld hl, SPRITEANIMSTRUCT_0D
-	add hl, bc
-	and $3
-	ld [hl], a
-	inc [hl]
-	swap a
-
-	ld hl, SPRITEANIMSTRUCT_0C
-	add hl, bc
-	ld [hl], a
-
-.four_one ; 8d321
-	ld hl, SPRITEANIMSTRUCT_XCOORD
-	add hl, bc
-	ld a, [hl]
-	cp $a4
-	jr nc, .asm_8d356
-
-	ld hl, SPRITEANIMSTRUCT_0D
-	add hl, bc
-	add $4
-
-	ld hl, SPRITEANIMSTRUCT_XCOORD
-	add hl, bc
-	ld [hl], a
-
-	ld hl, SPRITEANIMSTRUCT_YCOORD
-	add hl, bc
-	inc [hl]
-
-	ld hl, SPRITEANIMSTRUCT_0D
-	add hl, bc
-	ld a, [hl]
-	sla a
-	sla a
-	ld d, $2
-
-	ld hl, SPRITEANIMSTRUCT_0C
-	add hl, bc
-	ld a, [hl]
-	add $3
-	ld [hl], a
-	call .Sprites_Sine
-
-	ld hl, SPRITEANIMSTRUCT_YOFFSET
-	add hl, bc
-	ld [hl], a
-	ret
-
-.asm_8d356
-	call DeinitializeSprite
-	ret
-; 8d35a
-
-.sprite_anim_seq_19 ; 8d35a (23:535a)
-	ld hl, SPRITEANIMSTRUCT_0C
-	add hl, bc
-	ld a, [hl]
-	inc a
-	ld [hl], a
-	ld d, $2
-	call .Sprites_Sine
-
-	ld hl, SPRITEANIMSTRUCT_YOFFSET
-	add hl, bc
-	ld [hl], a
-	ret
-
 .NamingScreenCursor ; 8d36c (23:536c)
 	callfar NamingScreen_AnimateCursor
 	ret
@@ -221,133 +131,6 @@ DoAnimFrame: ; 8d24b
 
 .GameFreakLogo: ; 8d37a (23:537a)
 	callfar GameFreakLogoJumper
-	ret
-
-.GSIntroStar ; 8d381 (23:5381)
-	ld hl, SPRITEANIMSTRUCT_0C
-	add hl, bc
-	ld a, [hl]
-	and a
-	jr z, .asm_8d3ba
-	dec [hl]
-	dec [hl]
-	ld d, a
-	and $1f
-	jr nz, .asm_8d395
-
-	ld hl, SPRITEANIMSTRUCT_0D
-	add hl, bc
-	dec [hl]
-.asm_8d395
-	ld hl, SPRITEANIMSTRUCT_JUMPTABLE_INDEX
-	add hl, bc
-	ld a, [hl]
-	push af
-	push de
-	call .Sprites_Sine
-
-	ld hl, SPRITEANIMSTRUCT_YOFFSET
-	add hl, bc
-	ld [hl], a
-	pop de
-	pop af
-	call .Sprites_Cosine
-
-	ld hl, SPRITEANIMSTRUCT_XOFFSET
-	add hl, bc
-	ld [hl], a
-
-	ld hl, SPRITEANIMSTRUCT_0D
-	add hl, bc
-	ld a, [hl]
-
-	ld hl, SPRITEANIMSTRUCT_JUMPTABLE_INDEX
-	add hl, bc
-	add [hl]
-	ld [hl], a
-	ret
-
-.asm_8d3ba
-	ld a, $1
-	ld [wcf64], a
-	call DeinitializeSprite
-	ret
-
-.GSIntroSparkle ; 8d3c3 (23:53c3)
-	ld hl, SPRITEANIMSTRUCT_0C
-	add hl, bc
-	ld a, [hli]
-	or [hl]
-	jr z, .asm_8d41e
-
-	ld hl, SPRITEANIMSTRUCT_0F
-	add hl, bc
-	ld d, [hl]
-
-	ld hl, SPRITEANIMSTRUCT_JUMPTABLE_INDEX
-	add hl, bc
-	ld a, [hl]
-	push af
-	push de
-	call .Sprites_Sine
-
-	ld hl, SPRITEANIMSTRUCT_YOFFSET
-	add hl, bc
-	ld [hl], a
-	pop de
-	pop af
-	call .Sprites_Cosine
-
-	ld hl, SPRITEANIMSTRUCT_XOFFSET
-	add hl, bc
-	ld [hl], a
-
-	ld hl, SPRITEANIMSTRUCT_0C
-	add hl, bc
-	ld e, [hl]
-	inc hl
-	ld d, [hl]
-
-	ld hl, SPRITEANIMSTRUCT_0E
-	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-	add hl, de
-	ld e, l
-	ld d, h
-
-	ld hl, SPRITEANIMSTRUCT_0E
-	add hl, bc
-	ld [hl], e
-	inc hl
-	ld [hl], d
-
-	ld hl, SPRITEANIMSTRUCT_0C
-	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-	ld de, -$10
-	add hl, de
-	ld e, l
-	ld d, h
-
-	ld hl, SPRITEANIMSTRUCT_0C
-	add hl, bc
-	ld [hl], e
-	inc hl
-	ld [hl], d
-
-	ld hl, SPRITEANIMSTRUCT_JUMPTABLE_INDEX
-	add hl, bc
-	ld a, [hl]
-	xor $20
-	ld [hl], a
-	ret
-
-.asm_8d41e
-	call DeinitializeSprite
 	ret
 
 .SlotsGolem: ; 8d422 (23:5422)
@@ -396,10 +179,6 @@ DoAnimFrame: ; 8d24b
 	ld hl, SPRITEANIMSTRUCT_YOFFSET
 	add hl, bc
 	ld [hl], a
-	ret
-
-.ForUnusedCursor ; 8d46e (23:546e)
-	callfar ret_e00ed
 	ret
 
 .PokegearArrow ; 8d475 (23:5475)

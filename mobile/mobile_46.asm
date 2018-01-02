@@ -21,8 +21,7 @@ _BattleTowerRoomMenu: ; 118121
 	ld [rSVBK], a
 	ld a, [wc300]
 	ld [ScriptVar], a
-	call ReturnToMapFromSubmenu
-	ret
+	jp ReturnToMapFromSubmenu
 ; 118180
 
 BattleTowerRoomMenu_Jumptable: ; 11854d

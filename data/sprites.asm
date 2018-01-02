@@ -69,7 +69,6 @@ OverworldSprites: ; 14736
 	overworld_sprite ScientistSpriteGFX, 3, WALKING_SPRITE, PAL_OW_BLUE
 	overworld_sprite KimonoGirlSpriteGFX, 3, WALKING_SPRITE, PAL_OW_RED
 	overworld_sprite SageSpriteGFX, 3, WALKING_SPRITE, PAL_OW_BROWN
-	overworld_sprite UnusedGuySpriteGFX, 3, STANDING_SPRITE, PAL_OW_RED
 	overworld_sprite GentlemanSpriteGFX, 3, WALKING_SPRITE, PAL_OW_BLUE
 	overworld_sprite BlackBeltSpriteGFX, 3, WALKING_SPRITE, PAL_OW_BROWN
 	overworld_sprite ReceptionistSpriteGFX, 3, WALKING_SPRITE, PAL_OW_BLUE

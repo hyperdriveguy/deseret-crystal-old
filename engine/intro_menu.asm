@@ -67,7 +67,7 @@ NewGame: ; 5b6b
 	ld [wMonStatusFlags], a
 	call ResetWRAM
 	call NewGame_ClearTileMapEtc
-	callba InitGender
+	farcall InitGender
 	call OakSpeech
 	call InitializeWorld
 	ld a, 1

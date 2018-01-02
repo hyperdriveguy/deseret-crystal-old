@@ -7,12 +7,8 @@ SpriteAnimFrameData: ; 8d6e6
 	dw .Frameset_PartyMonFast
 	dw .Frameset_PartyMonWithMailFast
 	dw .Frameset_PartyMonWithItemFast
-	dw .Frameset_GSTitleTrail
 	dw .Frameset_TextEntryCursor
-	dw .Frameset_09
 	dw .Frameset_GameFreakLogo
-	dw .Frameset_GSIntroStar
-	dw .Frameset_GSIntroSparkle
 	dw .Frameset_SlotsGolem
 	dw .Frameset_SlotsChansey
 	dw .Frameset_SlotsChansey2
@@ -28,28 +24,13 @@ SpriteAnimFrameData: ; 8d6e6
 	dw .Frameset_EvolutionBallOfLight
 	dw .Frameset_RadioTuningKnob
 	dw .Frameset_MagnetTrainRed
-	dw .Frameset_1c
 	dw .Frameset_Leaf
 	dw .Frameset_CutTree
 	dw .Frameset_EggCrack
 	dw .Frameset_EggHatch
-	dw .Frameset_21
-	dw .Frameset_22
-	dw .Frameset_23
-	dw .Frameset_24
 	dw .Frameset_HeadbuttTree
-	dw .Frameset_27
-	dw .Frameset_28
-	dw .Frameset_29
-	dw .Frameset_2a
-	dw .Frameset_2b
-	dw .Frameset_2c
 	dw .Frameset_BlueWalk
 	dw .Frameset_MagnetTrainBlue
-	dw .Frameset_MobileTradeSentBall
-	dw .Frameset_MobileTradeOTBall
-	dw .Frameset_ForMobile22
-	dw .Frameset_ForMobile25
 	dw .Frameset_IntroSuicune
 	dw .Frameset_IntroSuicune2
 	dw .Frameset_IntroPichu
@@ -118,18 +99,8 @@ SpriteAnimFrameData: ; 8d6e6
 	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_BLUE_2,  8, OAM_X_FLIP
 	dorestart
 
-.Frameset_GSTitleTrail:
-	frame SPRITE_ANIM_OAMSET_GS_TITLE_TRAIL_1,  1
-	frame SPRITE_ANIM_OAMSET_GS_TITLE_TRAIL_2,  1
-	dorestart
-
 .Frameset_TextEntryCursor:
 	frame SPRITE_ANIM_OAMSET_TEXT_ENTRY_CURSOR,  1
-	dorepeat  1
-	dorestart
-
-.Frameset_09:
-	frame SPRITE_ANIM_OAMSET_FOR_FRAMESET_09,  1
 	dorepeat  1
 	dorestart
 
@@ -150,18 +121,6 @@ SpriteAnimFrameData: ; 8d6e6
 	frame SPRITE_ANIM_OAMSET_GAMEFREAK_LOGO_10, 10
 	frame SPRITE_ANIM_OAMSET_GAMEFREAK_LOGO_11,  7
 	endanim
-
-.Frameset_GSIntroStar:
-	frame SPRITE_ANIM_OAMSET_GS_INTRO_STAR,  3
-	frame SPRITE_ANIM_OAMSET_GS_INTRO_STAR,  3, OAM_Y_FLIP
-	dorestart
-
-.Frameset_GSIntroSparkle:
-	frame SPRITE_ANIM_OAMSET_GS_INTRO_SPARKLE_1,  2
-	frame SPRITE_ANIM_OAMSET_GS_INTRO_SPARKLE_2,  2
-	frame SPRITE_ANIM_OAMSET_GS_INTRO_SPARKLE_3,  2
-	frame SPRITE_ANIM_OAMSET_GS_INTRO_SPARKLE_2,  2
-	dorestart
 
 .Frameset_SlotsGolem:
 	frame SPRITE_ANIM_OAMSET_SLOTS_GOLEM_1,  7
@@ -241,10 +200,6 @@ SpriteAnimFrameData: ; 8d6e6
 	frame SPRITE_ANIM_OAMSET_MAGNET_TRAIN_RED_2,  8, OAM_X_FLIP
 	dorestart
 
-.Frameset_1c:
-	dorepeat 32
-	endanim
-
 .Frameset_Leaf:
 	frame SPRITE_ANIM_OAMSET_LEAF, 32
 	endanim
@@ -266,104 +221,12 @@ SpriteAnimFrameData: ; 8d6e6
 	frame SPRITE_ANIM_OAMSET_55, 32
 	endanim
 
-.Frameset_21:
-	frame SPRITE_ANIM_OAMSET_55, 32, OAM_X_FLIP
-	endanim
-
-.Frameset_22:
-	frame SPRITE_ANIM_OAMSET_55, 32, OAM_Y_FLIP
-	endanim
-
-.Frameset_23:
-	frame SPRITE_ANIM_OAMSET_55, 32, OAM_X_FLIP, OAM_Y_FLIP
-	endanim
-
-.Frameset_24:
-	frame SPRITE_ANIM_OAMSET_56, 10
-	frame SPRITE_ANIM_OAMSET_57,  9
-	frame SPRITE_ANIM_OAMSET_58, 10
-	frame SPRITE_ANIM_OAMSET_59, 10
-	frame SPRITE_ANIM_OAMSET_58,  9
-	frame SPRITE_ANIM_OAMSET_5A, 10
-	dorestart
-
 .Frameset_HeadbuttTree:
 	frame SPRITE_ANIM_OAMSET_TREE_1,           2
 	frame SPRITE_ANIM_OAMSET_HEADBUTT_TREE_2,  2
 	frame SPRITE_ANIM_OAMSET_TREE_1,           2
 	frame SPRITE_ANIM_OAMSET_HEADBUTT_TREE_2,  2, OAM_X_FLIP
 	dorestart
-
-.Frameset_27:
-	frame SPRITE_ANIM_OAMSET_5D,  2
-	endanim
-
-.Frameset_28:
-	frame SPRITE_ANIM_OAMSET_5E,  2
-	endanim
-
-.Frameset_29:
-	frame SPRITE_ANIM_OAMSET_5F,  2
-	endanim
-
-.Frameset_2a:
-	frame SPRITE_ANIM_OAMSET_60,  2
-	endanim
-
-.Frameset_2b:
-	frame SPRITE_ANIM_OAMSET_61,  2
-	endanim
-
-.Frameset_2c:
-	frame SPRITE_ANIM_OAMSET_62,  2
-	endanim
-
-.Frameset_MobileTradeSentBall:
-	frame SPRITE_ANIM_OAMSET_TRADE_POOF_1,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POOF_2,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POOF_3,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_1,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_2,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_1,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_2,  3, OAM_X_FLIP
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_1,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_2,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_1,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_2,  3, OAM_X_FLIP
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_1,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_2,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_1,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_2,  3, OAM_X_FLIP
-	endanim
-
-.Frameset_MobileTradeOTBall:
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_1,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_2,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_1,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_2,  3, OAM_X_FLIP
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_1,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_2,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_1,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_2,  3, OAM_X_FLIP
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_1,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_2,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_1,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_2,  3, OAM_X_FLIP
-	frame SPRITE_ANIM_OAMSET_TRADE_POOF_1,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POOF_2,  3
-	frame SPRITE_ANIM_OAMSET_TRADE_POOF_3,  3
-	delanim
-
-.Frameset_ForMobile22:
-	frame SPRITE_ANIM_OAMSET_FOR_MOBILE_22_1,  3
-	frame SPRITE_ANIM_OAMSET_FOR_MOBILE_22_2,  3
-	dorestart
-
-.Frameset_ForMobile25:
-	frame SPRITE_ANIM_OAMSET_FOR_MOBILE_25_1,  2
-	frame SPRITE_ANIM_OAMSET_FOR_MOBILE_25_2,  2
-	frame SPRITE_ANIM_OAMSET_FOR_MOBILE_25_3,  2
-	delanim
 
 .Frameset_IntroSuicune:
 	frame SPRITE_ANIM_OAMSET_INTRO_SUICUNE_1,  3

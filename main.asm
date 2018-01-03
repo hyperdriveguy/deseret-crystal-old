@@ -421,11 +421,6 @@ INCLUDE "gfx/pokemon/unown_frames.asm"
 SECTION "bank38", ROMX
 
 INCLUDE "engine/events/print_unown_2.asm"
-
-ret_e00ed: ; e00ed (38:40ed)
-; How many coins?
-	ret
-
 INCLUDE "engine/card_flip.asm"
 INCLUDE "engine/unown_puzzle.asm"
 INCLUDE "engine/billspc.asm"

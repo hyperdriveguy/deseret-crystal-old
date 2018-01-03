@@ -66,7 +66,6 @@ FishingGuruSpriteGFX::         INCBIN "gfx/sprites/fishing_guru.2bpp" ; c5340
 ScientistSpriteGFX::           INCBIN "gfx/sprites/scientist.2bpp" ; c54c0
 KimonoGirlSpriteGFX::          INCBIN "gfx/sprites/kimono_girl.2bpp" ; c5640
 SageSpriteGFX::                INCBIN "gfx/sprites/sage.2bpp" ; c57c0
-UnusedGuySpriteGFX::           INCBIN "gfx/sprites/unused_guy.2bpp" ; c5940
 GentlemanSpriteGFX::           INCBIN "gfx/sprites/gentleman.2bpp" ; c5ac0
 BlackBeltSpriteGFX::           INCBIN "gfx/sprites/black_belt.2bpp" ; c5c40
 ReceptionistSpriteGFX::        INCBIN "gfx/sprites/receptionist.2bpp" ; c5dc0

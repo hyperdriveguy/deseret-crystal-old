@@ -8,6 +8,7 @@ SpriteAnimFrameData: ; 8d6e6
 	dw .Frameset_PartyMonWithMailFast
 	dw .Frameset_PartyMonWithItemFast
 	dw .Frameset_TextEntryCursor
+	dw .Frameset_09
 	dw .Frameset_GameFreakLogo
 	dw .Frameset_SlotsGolem
 	dw .Frameset_SlotsChansey
@@ -101,6 +102,11 @@ SpriteAnimFrameData: ; 8d6e6
 
 .Frameset_TextEntryCursor:
 	frame SPRITE_ANIM_OAMSET_TEXT_ENTRY_CURSOR,  1
+	dorepeat  1
+	dorestart
+
+.Frameset_09:
+	frame SPRITE_ANIM_OAMSET_FOR_FRAMESET_09,  1
 	dorepeat  1
 	dorestart
 

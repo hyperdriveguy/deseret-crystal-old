@@ -4,6 +4,7 @@ SpriteAnimOAMData: ; 8d94d
 	dbw $00, .OAMData_RedWalk ; SPRITE_ANIM_OAMSET_RED_WALK_1
 	dbw $04, .OAMData_RedWalk ; SPRITE_ANIM_OAMSET_RED_WALK_2
 	dbw $00, .OAMData_TextEntryCursor ; SPRITE_ANIM_OAMSET_TEXT_ENTRY_CURSOR
+	dbw $00, .OAMData_ForFrameset09 ; SPRITE_ANIM_OAMSET_FOR_FRAMESET_09
 	dbw $00, .OAMData_SlotsGolem ; SPRITE_ANIM_OAMSET_SLOTS_GOLEM_1
 	dbw $08, .OAMData_SlotsGolem ; SPRITE_ANIM_OAMSET_SLOTS_GOLEM_2
 	dbw $10, .OAMData_SlotsChansey1 ; SPRITE_ANIM_OAMSET_SLOTS_CHANSEY_1
@@ -184,6 +185,19 @@ SpriteAnimOAMData: ; 8d94d
 	dsprite -1,  7,  0,  0, $00, 0 | X_FLIP
 	dsprite  0,  0, -1,  7, $00, 0 | Y_FLIP
 	dsprite  0,  0,  0,  0, $00, 0 | X_FLIP | Y_FLIP
+
+.OAMData_ForFrameset09:
+	db 10
+	dsprite -1,  7,  0,  0, $00, 0
+	dsprite -1,  7,  1,  0, $01, 0
+	dsprite -1,  7,  2,  0, $01, 0
+	dsprite -1,  7,  3,  0, $01, 0
+	dsprite -1,  7,  4,  0, $00, 0 | X_FLIP
+	dsprite  0,  0,  0,  0, $00, 0 | Y_FLIP
+	dsprite  0,  0,  1,  0, $01, 0 | Y_FLIP
+	dsprite  0,  0,  2,  0, $01, 0 | Y_FLIP
+	dsprite  0,  0,  3,  0, $01, 0 | Y_FLIP
+	dsprite  0,  0,  4,  0, $00, 0 | X_FLIP | Y_FLIP
 
 .OAMData_SlotsGolem:
 	db 6

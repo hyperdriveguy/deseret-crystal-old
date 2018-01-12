@@ -29,6 +29,9 @@ SpriteAnimFrameData: ; 8d6e6
 	dw .Frameset_CutTree
 	dw .Frameset_EggCrack
 	dw .Frameset_EggHatch
+	dw .Frameset_21
+	dw .Frameset_22
+	dw .Frameset_23
 	dw .Frameset_HeadbuttTree
 	dw .Frameset_BlueWalk
 	dw .Frameset_MagnetTrainBlue
@@ -225,6 +228,18 @@ SpriteAnimFrameData: ; 8d6e6
 
 .Frameset_EggHatch:
 	frame SPRITE_ANIM_OAMSET_55, 32
+	endanim
+
+.Frameset_21:
+	frame SPRITE_ANIM_OAMSET_55, 32, OAM_X_FLIP
+	endanim
+
+.Frameset_22:
+	frame SPRITE_ANIM_OAMSET_55, 32, OAM_Y_FLIP
+	endanim
+
+.Frameset_23:
+	frame SPRITE_ANIM_OAMSET_55, 32, OAM_X_FLIP, OAM_Y_FLIP
 	endanim
 
 .Frameset_HeadbuttTree:

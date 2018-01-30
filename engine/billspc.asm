@@ -136,7 +136,7 @@ _DepositPKMN: ; e2391 (38:6391)
 	jp c, BillsPCDepositFuncCancel
 	ld a, [wMenuCursorY]
 	dec a
-	and $3
+	and %11
 	ld e, a
 	ld d, 0
 	ld hl, BillsPCDepositJumptable
@@ -229,15 +229,14 @@ BillsPCDepositFuncCancel: ; e2537 (38:6537)
 ; e253d (38:653d)
 
 BillsPCDepositMenuDataHeader: ; 0xe253d (38:653d)
-	db $40 ; flags
-	db 04, 09 ; start coords
-	db 13, 19 ; end coords
+	db MENU_BACKUP_TILES ; flags
+	menu_coords 9, 4, SCREEN_WIDTH - 1, 13
 	dw .MenuData2
 	db 1 ; default option
 ; 0xe2545
 
 .MenuData2: ; 0xe2545 (38:6545)
-	db $80 ; flags
+	db STATICMENU_CURSOR ; flags
 	db 4 ; items
 	db "DEPOSIT@"
 	db "STATS@"
@@ -379,7 +378,7 @@ BillsPC_Withdraw: ; e2675 (38:6675)
 	jp c, .cancel
 	ld a, [wMenuCursorY]
 	dec a
-	and 3
+	and %11
 	ld e, a
 	ld d, 0
 	ld hl, .dw
@@ -468,15 +467,14 @@ BillsPC_Withdraw: ; e2675 (38:6675)
 ; e2731 (38:6731)
 
 .MenuDataHeader: ; 0xe2731
-	db $40 ; flags
-	db 04, 09 ; start coords
-	db 13, 19 ; end coords
+	db MENU_BACKUP_TILES ; flags
+	menu_coords 9, 4, SCREEN_WIDTH - 1, 13
 	dw .MenuData
 	db 1 ; default option
 ; 0xe2739
 
 .MenuData: ; 0xe2739
-	db $80 ; flags
+	db STATICMENU_CURSOR ; flags
 	db 4 ; items
 	db "WITHDRAW@"
 	db "STATS@"
@@ -636,7 +634,7 @@ _MovePKMNWithoutMail: ; e2759
 	jp c, .Cancel
 	ld a, [wMenuCursorY]
 	dec a
-	and 3
+	and %11
 	ld e, a
 	ld d, 0
 	ld hl, .Jumptable2
@@ -687,15 +685,14 @@ _MovePKMNWithoutMail: ; e2759
 ; e28c3
 
 .MenuDataHeader: ; 0xe28c3
-	db $40 ; flags
-	db 04, 09 ; start coords
-	db 13, 19 ; end coords
+	db MENU_BACKUP_TILES ; flags
+	menu_coords 9, 4, SCREEN_WIDTH - 1, 13
 	dw .MenuData2
 	db 1 ; default option
 ; 0xe28cb
 
 .MenuData2: ; 0xe28cb
-	db $80 ; flags
+	db STATICMENU_CURSOR ; flags
 	db 3 ; items
 	db "MOVE@"
 	db "STATS@"
@@ -1308,11 +1305,11 @@ BillsPC_RefreshTextboxes: ; e2c2c (38:6c2c)
 	jr z, .boxfail
 	ld bc, sBoxMonNicknames - sBox
 	add hl, bc
-	ld bc, PKMN_NAME_LENGTH
+	ld bc, MON_NAME_LENGTH
 	ld a, e
 	call AddNTimes
 	ld de, StringBuffer1
-	ld bc, PKMN_NAME_LENGTH
+	ld bc, MON_NAME_LENGTH
 	call CopyBytes
 	call CloseSRAM
 	pop hl
@@ -1334,11 +1331,11 @@ BillsPC_RefreshTextboxes: ; e2c2c (38:6c2c)
 	and a
 	jr z, .partyfail
 	ld hl, PartyMonNicknames
-	ld bc, PKMN_NAME_LENGTH
+	ld bc, MON_NAME_LENGTH
 	ld a, e
 	call AddNTimes
 	ld de, StringBuffer1
-	ld bc, PKMN_NAME_LENGTH
+	ld bc, MON_NAME_LENGTH
 	call CopyBytes
 	pop hl
 	ld de, StringBuffer1
@@ -1360,11 +1357,11 @@ BillsPC_RefreshTextboxes: ; e2c2c (38:6c2c)
 	and a
 	jr z, .sBoxFail
 	ld hl, sBoxMonNicknames
-	ld bc, PKMN_NAME_LENGTH
+	ld bc, MON_NAME_LENGTH
 	ld a, e
 	call AddNTimes
 	ld de, StringBuffer1
-	ld bc, PKMN_NAME_LENGTH
+	ld bc, MON_NAME_LENGTH
 	call CopyBytes
 	call CloseSRAM
 	pop hl
@@ -1475,7 +1472,7 @@ BillsPC_UpdateSelectionCursor: ; e2e01 (38:6e01)
 
 .place_cursor
 	ld hl, .OAM
-	ld de, Sprites
+	ld de, Sprite01
 .loop
 	ld a, [hl]
 	cp -1
@@ -1485,9 +1482,9 @@ BillsPC_UpdateSelectionCursor: ; e2e01 (38:6e01)
 	swap a
 	add [hl]
 	inc hl
-	ld [de], a
+	ld [de], a ; y
 	inc de
-rept 3
+rept SPRITEOAMSTRUCT_LENGTH +- 1
 	ld a, [hli]
 	ld [de], a
 	inc de
@@ -1496,36 +1493,36 @@ endr
 ; e2e2b (38:6e2b)
 
 .OAM: ; e2e2b
-	dsprite 4, 6, 10, 0, $00, $00
-	dsprite 4, 6, 11, 0, $00, $00
-	dsprite 4, 6, 12, 0, $00, $00
-	dsprite 4, 6, 13, 0, $00, $00
-	dsprite 4, 6, 14, 0, $00, $00
-	dsprite 4, 6, 15, 0, $00, $00
-	dsprite 4, 6, 16, 0, $00, $00
-	dsprite 4, 6, 17, 0, $00, $00
-	dsprite 4, 6, 18, 0, $00, $00
-	dsprite 4, 6, 18, 7, $00, $00
-	dsprite 7, 1, 10, 0, $00, $40
-	dsprite 7, 1, 11, 0, $00, $40
-	dsprite 7, 1, 12, 0, $00, $40
-	dsprite 7, 1, 13, 0, $00, $40
-	dsprite 7, 1, 14, 0, $00, $40
-	dsprite 7, 1, 15, 0, $00, $40
-	dsprite 7, 1, 16, 0, $00, $40
-	dsprite 7, 1, 17, 0, $00, $40
-	dsprite 7, 1, 18, 0, $00, $40
-	dsprite 7, 1, 18, 7, $00, $40
-	dsprite 5, 6,  9, 6, $01, $00
-	dsprite 6, 1,  9, 6, $01, $40
-	dsprite 5, 6, 19, 1, $01, $20
-	dsprite 6, 1, 19, 1, $01, $60
+	dsprite 4, 6, 10, 0, $00, 0
+	dsprite 4, 6, 11, 0, $00, 0
+	dsprite 4, 6, 12, 0, $00, 0
+	dsprite 4, 6, 13, 0, $00, 0
+	dsprite 4, 6, 14, 0, $00, 0
+	dsprite 4, 6, 15, 0, $00, 0
+	dsprite 4, 6, 16, 0, $00, 0
+	dsprite 4, 6, 17, 0, $00, 0
+	dsprite 4, 6, 18, 0, $00, 0
+	dsprite 4, 6, 18, 7, $00, 0
+	dsprite 7, 1, 10, 0, $00, 0 | Y_FLIP
+	dsprite 7, 1, 11, 0, $00, 0 | Y_FLIP
+	dsprite 7, 1, 12, 0, $00, 0 | Y_FLIP
+	dsprite 7, 1, 13, 0, $00, 0 | Y_FLIP
+	dsprite 7, 1, 14, 0, $00, 0 | Y_FLIP
+	dsprite 7, 1, 15, 0, $00, 0 | Y_FLIP
+	dsprite 7, 1, 16, 0, $00, 0 | Y_FLIP
+	dsprite 7, 1, 17, 0, $00, 0 | Y_FLIP
+	dsprite 7, 1, 18, 0, $00, 0 | Y_FLIP
+	dsprite 7, 1, 18, 7, $00, 0 | Y_FLIP
+	dsprite 5, 6,  9, 6, $01, 0
+	dsprite 6, 1,  9, 6, $01, 0 | Y_FLIP
+	dsprite 5, 6, 19, 1, $01, 0 | X_FLIP
+	dsprite 6, 1, 19, 1, $01, 0 | X_FLIP | Y_FLIP
 	db -1
 ; e2e8c
 
 BillsPC_UpdateInsertCursor: ; e2e8c
 	ld hl, .OAM
-	ld de, Sprites
+	ld de, Sprite01
 .loop
 	ld a, [hl]
 	cp -1
@@ -1535,9 +1532,9 @@ BillsPC_UpdateInsertCursor: ; e2e8c
 	swap a
 	add [hl]
 	inc hl
-	ld [de], a
+	ld [de], a ; y
 	inc de
-rept 3
+rept SPRITEOAMSTRUCT_LENGTH +- 1
 	ld a, [hli]
 	ld [de], a
 	inc de
@@ -1546,16 +1543,16 @@ endr
 ; e2eac
 
 .OAM: ; e2eac
-	dsprite 4, 7, 10, 0, $06, $00
-	dsprite 5, 3, 11, 0, $00, $40
-	dsprite 5, 3, 12, 0, $00, $40
-	dsprite 5, 3, 13, 0, $00, $40
-	dsprite 5, 3, 14, 0, $00, $40
-	dsprite 5, 3, 15, 0, $00, $40
-	dsprite 5, 3, 16, 0, $00, $40
-	dsprite 5, 3, 17, 0, $00, $40
-	dsprite 5, 3, 18, 0, $00, $40
-	dsprite 4, 7, 19, 0, $07, $00
+	dsprite 4, 7, 10, 0, $06, 0
+	dsprite 5, 3, 11, 0, $00, 0 | Y_FLIP
+	dsprite 5, 3, 12, 0, $00, 0 | Y_FLIP
+	dsprite 5, 3, 13, 0, $00, 0 | Y_FLIP
+	dsprite 5, 3, 14, 0, $00, 0 | Y_FLIP
+	dsprite 5, 3, 15, 0, $00, 0 | Y_FLIP
+	dsprite 5, 3, 16, 0, $00, 0 | Y_FLIP
+	dsprite 5, 3, 17, 0, $00, 0 | Y_FLIP
+	dsprite 5, 3, 18, 0, $00, 0 | Y_FLIP
+	dsprite 4, 7, 19, 0, $07, 0
 	db -1
 ; e2ed5
 
@@ -1779,13 +1776,13 @@ DepositPokemon: ; e307c (38:707c)
 	call GetNick
 	ld a, PC_DEPOSIT
 	ld [wPokemonWithdrawDepositParameter], a
-	predef SentGetPkmnIntoFromBox
+	predef SendGetPkmnIntoFromBox
 	jr c, .asm_boxisfull
 	xor a
 	ld [wPokemonWithdrawDepositParameter], a
 	farcall RemoveMonFromPartyOrBox
 	ld a, [CurPartySpecies]
-	call PlayCry
+	call PlayMonCry
 	hlcoord 0, 0
 	lb bc, 15, 8
 	call ClearBox
@@ -1834,13 +1831,13 @@ TryWithdrawPokemon: ; e30fa (38:70fa)
 	call CloseSRAM
 	xor a
 	ld [wPokemonWithdrawDepositParameter], a
-	predef SentGetPkmnIntoFromBox
+	predef SendGetPkmnIntoFromBox
 	jr c, .PartyFull
 	ld a, PC_DEPOSIT
 	ld [wPokemonWithdrawDepositParameter], a
 	farcall RemoveMonFromPartyOrBox
 	ld a, [CurPartySpecies]
-	call PlayCry
+	call PlayMonCry
 	hlcoord 0, 0
 	lb bc, 15, 8
 	call ClearBox
@@ -1894,7 +1891,7 @@ ReleasePKMN_ByePKMN: ; e3180 (38:7180)
 	jr c, .skip_cry
 	ld e, c
 	ld d, b
-	call PlayCryHeader
+	call PlayCry
 .skip_cry
 
 	ld a, [CurPartySpecies]
@@ -2060,7 +2057,7 @@ MovePKMNWitoutMail_InsertMon: ; e31e7
 	ld hl, wBillsPC_BackupScrollPosition
 	add [hl]
 	ld [CurPartyMon], a
-	ld a, $1
+	ld a, BANK(sBox)
 	call GetSRAMBank
 	ld hl, sBoxSpecies
 	call CopySpeciesToTemp
@@ -2131,11 +2128,11 @@ CopySpeciesToTemp: ; e3357 (38:7357)
 	ret
 
 CopyNicknameToTemp: ; e3363 (38:7363)
-	ld bc, PKMN_NAME_LENGTH
+	ld bc, MON_NAME_LENGTH
 	ld a, [CurPartyMon]
 	call AddNTimes
 	ld de, wBufferMonNick
-	ld bc, PKMN_NAME_LENGTH
+	ld bc, MON_NAME_LENGTH
 	call CopyBytes
 	ret
 
@@ -2288,15 +2285,14 @@ BillsPC_ClearTilemap: ; e35e2 (38:75e2)
 ; e35f1 (38:75f1)
 
 _ChangeBox_menudataheader: ; 0xe35f1
-	db $40 ; flags
-	db 05, 01 ; start coords
-	db 12, 09 ; end coords
+	db MENU_BACKUP_TILES ; flags
+	menu_coords 1, 5, 9, 12
 	dw .menudata2
 	db 1 ; default option
 ; 0xe35f9
 
 .menudata2 ; 0xe35f9
-	db $22 ; flags
+	db MENU_UNUSED_1 | MENU_UNUSED_3 ; flags
 	db 4, 0
 	db 1
 	dba .boxes
@@ -2515,15 +2511,14 @@ BillsPC_ChangeBoxSubmenu: ; e36f9 (38:76f9)
 ; e3778 (38:7778)
 
 .MenuDataHeader: ; 0xe377b
-	db $40 ; flags
-	db 04, 11 ; start coords
-	db 13, 19 ; end coords
+	db MENU_BACKUP_TILES ; flags
+	menu_coords 11, 4, SCREEN_WIDTH - 1, 13
 	dw .MenuData2
 	db 1 ; default option
 ; 0xe3783
 
 .MenuData2: ; 0xe3783
-	db $80 ; flags
+	db STATICMENU_CURSOR ; flags
 	db 4 ; items
 	db "SWITCH@"
 	db "NAME@"

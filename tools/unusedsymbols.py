@@ -100,7 +100,7 @@ for filename in argv[argi:]:
     file = open(filename, "rb")
 
     id = unpack_file("4s", file)[0]
-    if id != b'RGB5':
+    if id != b'RGB6':
         print("File %s is of an unknown format." % filename, file=stderr)
         exit(1)
 
@@ -157,11 +157,15 @@ for filename in argv[argi:]:
 
                 pos = 0
                 while pos < len(rpn):
-                    if rpn[pos] <= 0x14 or rpn[pos] == 0x16:
+                    if rpn[pos] < 0x50 or rpn[pos] == 0x52 or rpn[pos] == 0x60:
                         pos += 1
+                    elif rpn[pos] == 0x51:
+                        pos += 1
+                        while rpn[pos] != 0:
+                            pos += 1
                     elif rpn[pos] == 0x80:
                         pos += 5
-                    elif rpn[pos] == 0x15 or rpn[pos] == 0x81:
+                    elif rpn[pos] == 0x50 or rpn[pos] == 0x81:
                         symbol_id = unpack("<I", rpn[pos + 1:pos + 5])[0]
                         symbol = object["symbols"][symbol_id]
                         if symbol["type"] == 0:

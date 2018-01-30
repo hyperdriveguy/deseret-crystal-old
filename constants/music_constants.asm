@@ -103,6 +103,10 @@
 	const MUSIC_SUICUNE_BATTLE               ; 64
 	const MUSIC_BATTLE_TOWER_LOBBY           ; 65
 
-; GetMapHeaderMusic picks music for this bit flag
+; ExitPokegearRadio_HandleMusic uses these values
+RESTART_MAP_MUSIC EQU $fe
+ENTER_MAP_MUSIC   EQU $ff
+
+; GetMapMusic picks music for this bit flag
 RADIO_TOWER_MUSIC_F EQU 7
 RADIO_TOWER_MUSIC EQU 1 << RADIO_TOWER_MUSIC_F

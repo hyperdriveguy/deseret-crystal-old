@@ -2,7 +2,7 @@ const_value set 2
 	const GOLDENRODFLOWERSHOP_TEACHER
 	const GOLDENRODFLOWERSHOP_FLORIA
 
-GoldenrodFlowerShop_MapScriptHeader:
+GoldenrodFlowerShop_MapScripts:
 .SceneScripts:
 	db 0
 
@@ -147,7 +147,7 @@ UnknownText_0x55604:
 	line "#MON!"
 	done
 
-GoldenrodFlowerShop_MapEventHeader:
+GoldenrodFlowerShop_MapEvents:
 	; filler
 	db 0, 0
 

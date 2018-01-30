@@ -1,6 +1,6 @@
 ; Replaces the functionality of sgb.asm to work with CGB hardware.
 
-Predef_LoadSGBLayoutCGB: ; 8d59
+LoadSGBLayoutCGB: ; 8d59
 	ld a, b
 	cp SCGB_RAM
 	jr nz, .not_ram
@@ -45,7 +45,7 @@ Predef_LoadSGBLayoutCGB: ; 8d59
 	dw _CGB_PokedexUnownMode
 	dw _CGB_BillsPC
 	dw _CGB_UnownPuzzle
-	dw _CGB_GamefreakLogo ; called before copyright
+	dw _CGB_GamefreakLogo
 	dw _CGB_PlayerOrMonFrontpicPals
 	dw _CGB_TradeTube
 	dw _CGB_TrainerOrMonFrontpicPals
@@ -53,15 +53,15 @@ Predef_LoadSGBLayoutCGB: ; 8d59
 ; 8db8
 
 _CGB_BattleGrayscale: ; 8db8
-	ld hl, PalPacket_9c66 + 1
+	ld hl, PalPacket_BattleGrayscale + 1
 	ld de, wBGPals1
 	ld c, 4
 	call CopyPalettes
-	ld hl, PalPacket_9c66 + 1
+	ld hl, PalPacket_BattleGrayscale + 1
 	ld de, wBGPals1 palette PAL_BATTLE_BG_EXP
 	ld c, 4
 	call CopyPalettes
-	ld hl, PalPacket_9c66 + 1
+	ld hl, PalPacket_BattleGrayscale + 1
 	ld de, wOBPals1
 	ld c, 2
 	call CopyPalettes
@@ -142,7 +142,7 @@ _CGB_FinishBattleScreenLayout: ; 8e23
 
 
 InitPartyMenuBGPal7: ; 8e85
-	ld hl, Palette_b311
+	ld hl, PartyMenuBGPalette
 	ld de, wBGPals1 palette 7
 	ld bc, 1 palettes
 	ld a, BANK(wBGPals1)
@@ -151,7 +151,7 @@ InitPartyMenuBGPal7: ; 8e85
 ; 8e9f
 
 InitPartyMenuBGPal0: ; 8e9f
-	ld hl, Palette_b311
+	ld hl, PartyMenuBGPalette
 	ld de, wBGPals1 palette 0
 	ld bc, 1 palettes
 	ld a, BANK(wBGPals1)
@@ -235,35 +235,16 @@ _CGB_StatsScreenHPPals: ; 8edb
 ; 8f52
 
 StatsScreenPagePals: ; 8f52
-; pink
-	RGB 31, 31, 31
-	RGB 31, 19, 31
-	RGB 31, 15, 31
-	RGB 00, 00, 00
-; green
-	RGB 31, 31, 31
-	RGB 21, 31, 14
-	RGB 17, 31, 00
-	RGB 00, 00, 00
-; blue
-	RGB 31, 31, 31
-	RGB 17, 31, 31
-	RGB 17, 31, 31
-	RGB 00, 00, 00
+INCLUDE "gfx/stats/pages.pal"
 ; 8f6a
 
 StatsScreenPals: ; 8f6a
-; pink
-	RGB 31, 19, 31
-; green
-	RGB 21, 31, 14
-; blue
-	RGB 17, 31, 31
+INCLUDE "gfx/stats/stats.pal"
 ; 8f70
 
 _CGB_Pokedex: ; 8f70
 	ld de, wBGPals1
-	ld a, $1d
+	ld a, PREDEFPAL_POKEDEX
 	call GetPredefPal
 	call LoadHLPaletteIntoDE ; dex interface palette
 	ld a, [CurPartySpecies]
@@ -296,21 +277,16 @@ _CGB_Pokedex: ; 8f70
 ; 8fba
 
 .PokedexQuestionMarkPalette: ; 8fba
-	RGB 11, 23, 00
-	RGB 07, 17, 00
-	RGB 06, 16, 03
-	RGB 05, 12, 01
+INCLUDE "gfx/pokedex/question_mark.pal"
+; 8fc2
 
 .PokedexCursorPalette: ; 8fc2
-	RGB 00, 00, 00
-	RGB 11, 23, 00
-	RGB 07, 17, 00
-	RGB 00, 00, 00
+INCLUDE "gfx/pokedex/cursor.pal"
 ; 8fca
 
 _CGB_BillsPC: ; 8fca
 	ld de, wBGPals1
-	ld a, $1d
+	ld a, PREDEFPAL_POKEDEX
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
 	ld a, [CurPartySpecies]
@@ -339,15 +315,12 @@ _CGB_BillsPC: ; 8fca
 ; 9009
 
 .BillsPCOrangePalette: ; 9036
-	RGB 31, 15, 00
-	RGB 23, 12, 00
-	RGB 15, 07, 00
-	RGB 00, 00, 00
+INCLUDE "gfx/pc/orange.pal"
 ; 903e
 
 _CGB_PokedexUnownMode: ; 903e
 	ld de, wBGPals1
-	ld a, $1d
+	ld a, PREDEFPAL_POKEDEX
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
 	ld a, [CurPartySpecies]
@@ -427,7 +400,7 @@ _CGB_Diploma: ; 91ad
 	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 
-	ld hl, PalPacket_9cb6 + 1
+	ld hl, PalPacket_Diploma + 1
 	call CopyFourPalettes
 	call WipeAttrMap
 	call ApplyAttrMap
@@ -442,7 +415,7 @@ _CGB_MapPals: ; 91c8
 ; 91d1
 
 _CGB_PartyMenu: ; 91d1
-	ld hl, PalPacket_9c56 + 1
+	ld hl, PalPacket_PartyMenu + 1
 	call CopyFourPalettes
 	call InitPartyMenuBGPal0
 	call InitPartyMenuBGPal7
@@ -456,7 +429,7 @@ _CGB_Evolution: ; 91e4
 	ld a, c
 	and a
 	jr z, .pokemon
-	ld a, $1a
+	ld a, PREDEFPAL_BLACKOUT
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
 	jr .got_palette
@@ -487,10 +460,10 @@ _CGB_Evolution: ; 91e4
 ; 9228
 
 _CGB_UnownPuzzle: ; 925e
-	ld hl, PalPacket_9bc6 + 1
+	ld hl, PalPacket_UnownPuzzle + 1
 	call CopyFourPalettes
 	ld de, wOBPals1
-	ld a, $4c
+	ld a, PREDEFPAL_UNOWN_PUZZLE
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
 	ld a, [rSVBK]
@@ -498,9 +471,9 @@ _CGB_UnownPuzzle: ; 925e
 	ld a, BANK(wOBPals1)
 	ld [rSVBK], a
 	ld hl, wOBPals1
-	ld a, $1f
+	ld a, LOW(palred 31 + palgreen 0 + palblue 0)
 	ld [hli], a
-	ld a, $0
+	ld a, HIGH(palred 31 + palgreen 0 + palblue 0)
 	ld [hl], a
 	pop af
 	ld [rSVBK], a
@@ -535,7 +508,7 @@ _CGB_TrainerCard: ; 9289
 	ld a, PRYCE
 	call GetTrainerPalettePointer
 	call LoadPalette_White_Col1_Col2_Black
-	ld a, $24
+	ld a, PREDEFPAL_CGB_BADGE
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
 
@@ -617,7 +590,7 @@ _CGB_TrainerCard: ; 9289
 
 _CGB_MoveList: ; 9373
 	ld de, wBGPals1
-	ld a, $10
+	ld a, PREDEFPAL_GOLDENROD
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
 	ld a, [PlayerHPPal]
@@ -642,7 +615,7 @@ _CGB_MoveList: ; 9373
 
 _CGB_PokedexSearchOption: ; 93ba
 	ld de, wBGPals1
-	ld a, $1d
+	ld a, PREDEFPAL_POKEDEX
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
 	call WipeAttrMap
@@ -703,11 +676,11 @@ _CGB_PackPals: ; 93d3
 ; 9439
 
 .ChrisPackPals: ; 9439
-INCLUDE "data/palettes/pack.pal"
+INCLUDE "gfx/pack/pack.pal"
 ; 9469
 
 .KrisPackPals: ; 9469
-INCLUDE "data/palettes/pack_f.pal"
+INCLUDE "gfx/pack/pack_f.pal"
 ; 9499
 
 _CGB_Pokepic: ; 9499
@@ -747,7 +720,7 @@ _CGB_Pokepic: ; 9499
 
 _CGB_GamefreakLogo: ; 94fa
 	ld de, wBGPals1
-	ld a, $4e
+	ld a, PREDEFPAL_GAMEFREAK_LOGO
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
 	ld hl, .Palette
@@ -763,10 +736,7 @@ _CGB_GamefreakLogo: ; 94fa
 ; 9521
 
 .Palette: ; 9521
-	RGB 31, 31, 31
-	RGB 13, 11, 00
-	RGB 23, 12, 28
-	RGB 00, 00, 00
+INCLUDE "gfx/splash/logo.pal"
 ; 9529
 
 _CGB_PlayerOrMonFrontpicPals: ; 9529
@@ -782,7 +752,7 @@ _CGB_PlayerOrMonFrontpicPals: ; 9529
 ; 9542
 
 _CGB_TradeTube: ; 9555
-	ld hl, PalPacket_9cc6 + 1
+	ld hl, PalPacket_TradeTube + 1
 	call CopyFourPalettes
 	ld hl, PartyMenuOBPals
 	ld de, wOBPals1
@@ -790,7 +760,7 @@ _CGB_TradeTube: ; 9555
 	ld a, BANK(wOBPals1)
 	call FarCopyWRAM
 	ld de, wOBPals1 palette 7
-	ld a, $1c
+	ld a, PREDEFPAL_TRADE_TUBE
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
 	call WipeAttrMap
@@ -842,13 +812,5 @@ _CGB_MysteryGift: ; 9591
 ; 95e0
 
 .Palettes: ; 95e0
-	RGB 31, 31, 31
-	RGB 16, 31, 14
-	RGB 05, 14, 21
-	RGB 05, 13, 10
-
-	RGB 31, 31, 31
-	RGB 11, 21, 25
-	RGB 05, 14, 21
-	RGB 00, 03, 19
+INCLUDE "gfx/mystery_gift/mystery_gift.pal"
 ; 95f0

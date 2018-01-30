@@ -1,7 +1,7 @@
 const_value set 2
 	const TINTOWER9F_POKE_BALL
 
-TinTower9F_MapScriptHeader:
+TinTower9F_MapScripts:
 .SceneScripts:
 	db 0
 
@@ -11,7 +11,7 @@ TinTower9F_MapScriptHeader:
 TinTower9FHPUp:
 	itemball HP_UP
 
-TinTower9F_MapEventHeader:
+TinTower9F_MapEvents:
 	; filler
 	db 0, 0
 

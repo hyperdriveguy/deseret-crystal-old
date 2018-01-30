@@ -617,7 +617,7 @@ FlyFunction: ; ca3b
 	special UpdateTimePals
 	callasm FlyFromAnim
 	farscall Script_AbortBugContest
-	special WarpToSpawnPoint
+	special Special_WarpToSpawnPoint
 	callasm DelayLoadingNewSprites
 	writecode VAR_MOVEMENT, PLAYER_NORMAL
 	newloadmap MAPSETUP_FLY
@@ -864,7 +864,7 @@ dig_incave
 	playsound SFX_WARP_TO
 	applymovement PLAYER, .DigOut
 	farscall Script_AbortBugContest
-	special WarpToSpawnPoint
+	special Special_WarpToSpawnPoint
 	writecode VAR_MOVEMENT, PLAYER_NORMAL
 	newloadmap MAPSETUP_DOOR
 	playsound SFX_WARP_FROM
@@ -951,7 +951,7 @@ TeleportFunction: ; cc61
 	playsound SFX_WARP_TO
 	applymovement PLAYER, .TeleportFrom
 	farscall Script_AbortBugContest
-	special WarpToSpawnPoint
+	special Special_WarpToSpawnPoint
 	writecode VAR_MOVEMENT, PLAYER_NORMAL
 	newloadmap MAPSETUP_TELEPORT
 	playsound SFX_WARP_FROM

@@ -1,11 +1,13 @@
-SLOTS_NOBIAS EQU -1
-SLOTS_NOMATCH EQU -1
-SLOTS_SEVEN EQU $00
+SLOTS_NO_BIAS  EQU -1
+SLOTS_NO_MATCH EQU -1
+
+SLOTS_SEVEN    EQU $00
 SLOTS_POKEBALL EQU $04
-SLOTS_CHERRY EQU $08
-SLOTS_PIKACHU EQU $0c
+SLOTS_CHERRY   EQU $08
+SLOTS_PIKACHU  EQU $0c
 SLOTS_SQUIRTLE EQU $10
-SLOTS_STARYU EQU $14
+SLOTS_STARYU   EQU $14
+
 REEL_SIZE EQU 15
 
 ; Constants for slot_reel offsets (see macros/wram.asm)
@@ -147,7 +149,7 @@ _SlotMachine:
 	ld [hl], $40
 	xor a ; SLOTS_INIT
 	ld [wJumptableIndex], a
-	ld a, SLOTS_NOBIAS
+	ld a, SLOTS_NO_BIAS
 	ld [wSlotBias], a
 	ld de, MUSIC_GAME_CORNER
 	call PlayMusic
@@ -177,7 +179,7 @@ SlotsLoop: ; 927af (24:67af)
 	ld [wCurrSpriteOAMAddr], a
 	callfar DoNextFrameForFirst16Sprites
 	call .PrintCoinsAndPayout
-	call .DummyFunc
+	call .Stubbed_Function927d3
 	call DelayFrame
 	and a
 	ret
@@ -186,7 +188,7 @@ SlotsLoop: ; 927af (24:67af)
 	scf
 	ret
 
-.DummyFunc: ; 927d3 (24:67d3)
+.Stubbed_Function927d3: ; 927d3 (24:67d3)
 ; dummied out
 	ret
 	ld a, [wReel1ReelAction]
@@ -260,7 +262,7 @@ SlotsAction_Init: ; 9287e (24:687e)
 	xor a
 	ld [wFirstTwoReelsMatching], a
 	ld [wFirstTwoReelsMatchingSevens], a
-	ld a, SLOTS_NOMATCH
+	ld a, SLOTS_NO_MATCH
 	ld [wSlotMatched], a
 	ret
 
@@ -368,7 +370,7 @@ SlotsAction_WaitStopReel3: ; 9293a (24:693a)
 
 SlotsAction_FlashIfWin: ; 92955 (24:6955)
 	ld a, [wSlotMatched]
-	cp SLOTS_NOMATCH
+	cp SLOTS_NO_MATCH
 	jr nz, .GotIt
 	call SlotsAction_Next
 	call SlotsAction_Next
@@ -538,7 +540,7 @@ Slots_StopReel2: ; 92a2e (24:6a2e)
 	ld a, [wSlotBias]
 	and a
 	jr z, .skip
-	cp SLOTS_NOBIAS
+	cp SLOTS_NO_BIAS
 	jr nz, .dont_jump
 .skip
 	call .CheckReel1ForASeven
@@ -621,7 +623,7 @@ Slots_InitReelTiles: ; 92a98 (24:6a98)
 	ld bc, wReel1
 	ld hl, REEL_OAM_ADDR
 	add hl, bc
-	ld de, Sprites + 16 * 4
+	ld de, Sprite17
 	ld [hl], e
 	inc hl
 	ld [hl], d
@@ -639,7 +641,7 @@ Slots_InitReelTiles: ; 92a98 (24:6a98)
 	ld bc, wReel2
 	ld hl, REEL_OAM_ADDR
 	add hl, bc
-	ld de, Sprites + 24 * 4
+	ld de, Sprite25
 	ld [hl], e
 	inc hl
 	ld [hl], d
@@ -657,7 +659,7 @@ Slots_InitReelTiles: ; 92a98 (24:6a98)
 	ld bc, wReel3
 	ld hl, REEL_OAM_ADDR
 	add hl, bc
-	ld de, Sprites + 32 * 4
+	ld de, Sprite33
 	ld [hl], e
 	inc hl
 	ld [hl], d
@@ -772,34 +774,34 @@ Slots_UpdateReelPositionAndOAM: ; 92b53 (24:6b53)
 	ld l, a
 .loop
 	ld a, [wCurrReelYCoord]
-	ld [hli], a
+	ld [hli], a ; y
 	ld a, [wCurrReelXCoord]
-	ld [hli], a
+	ld [hli], a ; x
 	ld a, [de]
-	ld [hli], a
+	ld [hli], a ; tile id
 	srl a
 	srl a
-	set 7, a
-	ld [hli], a
+	set OAM_PRIORITY, a
+	ld [hli], a ; attributes
 
 	ld a, [wCurrReelYCoord]
-	ld [hli], a
+	ld [hli], a ; y
 	ld a, [wCurrReelXCoord]
-	add 1 * 8
-	ld [hli], a
+	add 1 * TILE_WIDTH
+	ld [hli], a ; x
 	ld a, [de]
 	inc a
 	inc a
-	ld [hli], a
+	ld [hli], a ; tile id
 	srl a
 	srl a
-	set 7, a
-	ld [hli], a
+	set OAM_PRIORITY, a
+	ld [hli], a ; attributes
 	inc de
 	ld a, [wCurrReelYCoord]
-	sub 2 * 8
+	sub 2 * TILE_WIDTH
 	ld [wCurrReelYCoord], a
-	cp 2 * 8
+	cp 2 * TILE_WIDTH
 	jr nz, .loop
 	ret
 
@@ -928,7 +930,7 @@ ReelAction_StopReel1: ; 92c5e
 ; even if the current bet won't allow lining it up.
 
 	ld a, [wSlotBias]
-	cp SLOTS_NOBIAS
+	cp SLOTS_NO_BIAS
 	jr z, .NoBias
 	ld hl, REEL_MANIP_COUNTER
 	add hl, bc
@@ -974,7 +976,7 @@ ReelAction_StopReel2: ; 92c86
 	jr z, .NoBias
 .nope
 	ld a, [wSlotBias]
-	cp SLOTS_NOBIAS
+	cp SLOTS_NO_BIAS
 	jr z, .NoBias
 	ld hl, REEL_MANIP_COUNTER
 	add hl, bc
@@ -1010,7 +1012,7 @@ ReelAction_StopReel3: ; 92ca9
 
 .NoMatch:
 	ld a, [wSlotBias]
-	cp SLOTS_NOBIAS
+	cp SLOTS_NO_BIAS
 	jr z, .NoBias
 	ld hl, REEL_MANIP_COUNTER
 	add hl, bc
@@ -1463,7 +1465,7 @@ Slots_CheckMatchedFirstTwoReels: ; 92e94
 ; 92f1d
 
 Slots_CheckMatchedAllThreeReels: ; 92f1d
-	ld a, SLOTS_NOMATCH
+	ld a, SLOTS_NO_MATCH
 	ld [wSlotMatched], a
 	call Slots_GetCurrentReelState
 	call Slots_CopyReelState
@@ -1483,7 +1485,7 @@ Slots_CheckMatchedAllThreeReels: ; 92f1d
 
 .return
 	ld a, [wSlotMatched]
-	cp SLOTS_NOMATCH
+	cp SLOTS_NO_MATCH
 	jr nz, .matched_nontrivial
 	and a
 	ret
@@ -1684,7 +1686,7 @@ Slots_InitBias: ; 93002 (24:7002)
 	db $14, SLOTS_SQUIRTLE ; 5/128
 	db $28, SLOTS_PIKACHU  ; 5/64
 	db $30, SLOTS_CHERRY   ; 1/32
-	db $ff, SLOTS_NOBIAS   ; everything else
+	db $ff, SLOTS_NO_BIAS   ; everything else
 ; 93031
 
 .Lucky: ; 93031
@@ -1694,7 +1696,7 @@ Slots_InitBias: ; 93002 (24:7002)
 	db $10, SLOTS_SQUIRTLE ;  1/32
 	db $1e, SLOTS_PIKACHU  ;  7/128
 	db $50, SLOTS_CHERRY   ; 25/128
-	db $ff, SLOTS_NOBIAS   ; everything else
+	db $ff, SLOTS_NO_BIAS   ; everything else
 ; 9303f
 
 Slots_IlluminateBetLights: ; 9303f (24:703f)
@@ -1799,15 +1801,14 @@ Slots_AskBet: ; 9307c (24:707c)
 ; 0x930d6
 
 .MenuDataHeader: ; 0x930d6
-	db $40 ; flags
-	db 10, 14 ; start coords
-	db 17, 19 ; end coords
+	db MENU_BACKUP_TILES ; flags
+	menu_coords 14, 10, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1
 	dw .MenuData2
 	db 1 ; default option
 ; 0x930de
 
 .MenuData2: ; 0x930de
-	db $80 ; flags
+	db STATICMENU_CURSOR ; flags
 	db 3 ; items
 	db " 3@"
 	db " 2@"
@@ -1855,7 +1856,7 @@ Slots_AskPlayAgain: ; 930e9 (24:70e9)
 
 Slots_GetPayout: ; 93124 (24:7124)
 	ld a, [wSlotMatched]
-	cp SLOTS_NOMATCH
+	cp SLOTS_NO_MATCH
 	jr z, .no_win
 	srl a
 	ld e, a
@@ -1887,7 +1888,7 @@ Slots_GetPayout: ; 93124 (24:7124)
 
 Slots_PayoutText: ; 93158 (24:7158)
 	ld a, [wSlotMatched]
-	cp SLOTS_NOMATCH
+	cp SLOTS_NO_MATCH
 	jr nz, .MatchedSomething
 	ld hl, .Text_Darn
 	call PrintText
@@ -1975,7 +1976,7 @@ endr
 	call Random
 	and %0010100
 	ret z ; 25% chance to stick with seven symbol bias
-	ld a, SLOTS_NOBIAS
+	ld a, SLOTS_NO_BIAS
 	ld [wSlotBias], a
 	ret
 
@@ -1983,7 +1984,7 @@ endr
 	call Random
 	and %0011100
 	ret z ; 12.5% chance to stick with seven symbol bias
-	ld a, SLOTS_NOBIAS
+	ld a, SLOTS_NO_BIAS
 	ld [wSlotBias], a
 	ret
 

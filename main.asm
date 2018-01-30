@@ -1,4 +1,4 @@
-INCLUDE "includes.asm"
+INCLUDE "constants.asm"
 
 
 SECTION "bank1", ROMX
@@ -49,7 +49,7 @@ SECTION "bank4", ROMX
 INCLUDE "engine/pack.asm"
 INCLUDE "engine/time.asm"
 INCLUDE "engine/tmhm.asm"
-INCLUDE "engine/namingscreen.asm"
+INCLUDE "engine/naming_screen.asm"
 INCLUDE "engine/events/misc_scripts.asm"
 INCLUDE "engine/events/heal_machine_anim.asm"
 INCLUDE "engine/events/whiteout.asm"
@@ -84,14 +84,12 @@ INCLUDE "engine/events/daycare.asm"
 INCLUDE "engine/events/print_unown.asm"
 INCLUDE "engine/events/print_photo.asm"
 INCLUDE "engine/breeding.asm"
-
-
-INCLUDE "tilesets/data.asm"
+INCLUDE "gfx/tilesets.asm"
 
 
 SECTION "Roofs", ROMX
 
-INCLUDE "tilesets/roofs.asm"
+INCLUDE "engine/mapgroup_roofs.asm"
 
 
 SECTION "Clock Reset", ROMX
@@ -170,12 +168,12 @@ INCLUDE "data/trainers/parties.asm"
 SECTION "Battle Core", ROMX
 
 INCLUDE "engine/battle/core.asm"
-INCLUDE "data/battle_command_pointers.asm"
+INCLUDE "data/battle/effect_command_pointers.asm"
 
 
 SECTION "bank10", ROMX
 
-INCLUDE "engine/pokedex.asm"
+INCLUDE "engine/pokedex/pokedex.asm"
 INCLUDE "data/moves/moves.asm"
 INCLUDE "engine/evolve.asm"
 
@@ -184,7 +182,7 @@ SECTION "bank11", ROMX
 
 INCLUDE "engine/events/fruit_trees.asm"
 INCLUDE "engine/battle/ai/move.asm"
-INCLUDE "engine/pokedex_2.asm"
+INCLUDE "engine/pokedex/pokedex_2.asm"
 INCLUDE "data/pokemon/dex_entry_pointers.asm"
 INCLUDE "engine/mail.asm"
 
@@ -194,7 +192,7 @@ SECTION "Crystal Features 1", ROMX
 INCLUDE "engine/init_gender.asm"
 INCLUDE "engine/routines/drawkrispackgfx.asm"
 INCLUDE "engine/events/move_tutor.asm"
-INCLUDE "engine/crystal_colors.asm"
+INCLUDE "engine/crystal_layouts.asm"
 INCLUDE "engine/main_menu.asm"
 INCLUDE "engine/search.asm"
 INCLUDE "engine/events/buena_menu.asm"
@@ -203,15 +201,7 @@ INCLUDE "engine/events/buena_menu.asm"
 SECTION "bank13", ROMX
 
 INCLUDE "engine/map_palettes.asm"
-INCLUDE "tilesets/palette_maps.asm"
-
-; unreferenced
-; 0x4ce05
-rept 26
-	db $06
-endr
-; 0x4ce1f
-
+INCLUDE "gfx/tilesets/palette_maps.asm"
 INCLUDE "data/collision_permissions.asm"
 INCLUDE "engine/routines/emptyallsrambanks.asm"
 INCLUDE "engine/routines/savemenu_copytilemapatonce.asm"
@@ -221,14 +211,14 @@ INCLUDE "engine/routines/loadmappart.asm"
 INCLUDE "engine/routines/phonering_copytilemapatonce.asm"
 
 Shrink1Pic: ; 4d249
-INCBIN "gfx/shrink/shrink1.2bpp.lz"
+INCBIN "gfx/new_game/shrink1.2bpp.lz"
 
 Shrink2Pic: ; 4d2d9
-INCBIN "gfx/shrink/shrink2.2bpp.lz"
+INCBIN "gfx/new_game/shrink2.2bpp.lz"
 
 INCLUDE "engine/link_2.asm"
 INCLUDE "engine/delete_save_change_clock.asm"
-INCLUDE "tilesets/tilesets.asm"
+INCLUDE "data/tilesets.asm"
 INCLUDE "engine/routines/flagpredef.asm"
 INCLUDE "engine/routines/trademonfrontpic.asm"
 INCLUDE "engine/events/pokerus/check_pokerus.asm"
@@ -260,7 +250,7 @@ INCLUDE "engine/mon_stats.asm"
 INCLUDE "engine/routines/initlist.asm"
 INCLUDE "engine/experience.asm"
 INCLUDE "engine/routines/switchpartymons.asm"
-INCLUDE "gfx/load_pics.asm"
+INCLUDE "engine/load_pics.asm"
 INCLUDE "engine/move_mon_wo_mail.asm"
 INCLUDE "data/pokemon/base_stats.asm"
 INCLUDE "data/pokemon/names.asm"
@@ -268,7 +258,7 @@ INCLUDE "data/pokemon/names.asm"
 
 SECTION "Crystal Phone Text", ROMX
 
-INCLUDE "text/phone/extra.asm"
+INCLUDE "data/phone/text/extra.asm"
 
 
 SECTION "bank20", ROMX
@@ -276,7 +266,7 @@ SECTION "bank20", ROMX
 INCLUDE "engine/player_movement.asm"
 INCLUDE "engine/engine_flags.asm"
 INCLUDE "engine/variables.asm"
-INCLUDE "text/battle.asm"
+INCLUDE "data/battle/battle_text.asm"
 
 
 SECTION "bank21", ROMX
@@ -290,10 +280,10 @@ SECTION "Crystal Features 2", ROMX
 
 INCLUDE "engine/events/kurt.asm"
 INCLUDE "engine/player_gfx.asm"
-INCLUDE "engine/events/crystal_unown.asm"
+INCLUDE "engine/events/unown_walls.asm"
 INCLUDE "engine/events/buena.asm"
 INCLUDE "engine/events/dratini.asm"
-INCLUDE "engine/events/battle_tower_rules.asm"
+INCLUDE "engine/events/battle_tower/rules.asm"
 
 
 SECTION "bank23", ROMX
@@ -325,28 +315,31 @@ INCLUDE "engine/phone/buenas_password.asm"
 
 SECTION "Phone Text", ROMX
 
-INCLUDE "text/phone/anthony_overworld.asm"
-INCLUDE "text/phone/todd_overworld.asm"
-INCLUDE "text/phone/gina_overworld.asm"
-INCLUDE "text/phone/irwin_overworld.asm"
-INCLUDE "text/phone/arnie_overworld.asm"
-INCLUDE "text/phone/alan_overworld.asm"
-INCLUDE "text/phone/dana_overworld.asm"
-INCLUDE "text/phone/chad_overworld.asm"
-INCLUDE "text/phone/derek_overworld.asm"
-INCLUDE "text/phone/tully_overworld.asm"
-INCLUDE "text/phone/brent_overworld.asm"
-INCLUDE "text/phone/tiffany_overworld.asm"
-INCLUDE "text/phone/vance_overworld.asm"
-INCLUDE "text/phone/wilton_overworld.asm"
-INCLUDE "text/phone/kenji_overworld.asm"
-INCLUDE "text/phone/parry_overworld.asm"
-INCLUDE "text/phone/erin_overworld.asm"
+INCLUDE "data/phone/text/anthony_overworld.asm"
+INCLUDE "data/phone/text/todd_overworld.asm"
+INCLUDE "data/phone/text/gina_overworld.asm"
+INCLUDE "data/phone/text/irwin_overworld.asm"
+INCLUDE "data/phone/text/arnie_overworld.asm"
+INCLUDE "data/phone/text/alan_overworld.asm"
+INCLUDE "data/phone/text/dana_overworld.asm"
+INCLUDE "data/phone/text/chad_overworld.asm"
+INCLUDE "data/phone/text/derek_overworld.asm"
+INCLUDE "data/phone/text/tully_overworld.asm"
+INCLUDE "data/phone/text/brent_overworld.asm"
+INCLUDE "data/phone/text/tiffany_overworld.asm"
+INCLUDE "data/phone/text/vance_overworld.asm"
+INCLUDE "data/phone/text/wilton_overworld.asm"
+INCLUDE "data/phone/text/kenji_overworld.asm"
+INCLUDE "data/phone/text/parry_overworld.asm"
+INCLUDE "data/phone/text/erin_overworld.asm"
 
 
 SECTION "bank2E", ROMX
 
-INCLUDE "engine/events_3.asm"
+INCLUDE "engine/events/map_name_sign.asm"
+INCLUDE "engine/events/checkforhiddenitems.asm"
+INCLUDE "engine/events/treemons.asm"
+INCLUDE "engine/events/loadfishinggfx.asm"
 INCLUDE "engine/radio.asm"
 INCLUDE "engine/mail_2.asm"
 
@@ -373,7 +366,7 @@ SECTION "Move Animations", ROMX
 
 INCLUDE "engine/events/bug_contest/display_stats.asm"
 INCLUDE "engine/battle_anims/anim_commands.asm"
-INCLUDE "engine/battle_anims/engine.asm"
+INCLUDE "engine/battle_anims/core.asm"
 INCLUDE "data/battle_anims/objects.asm"
 INCLUDE "engine/battle_anims/functions.asm"
 INCLUDE "engine/battle_anims/helpers.asm"
@@ -437,13 +430,13 @@ INCLUDE "engine/crystal_intro.asm"
 
 SECTION "bank3E", ROMX
 
-INCLUDE "gfx/font.asm"
+INCLUDE "engine/load_font.asm"
 INCLUDE "engine/time_capsule.asm"
 INCLUDE "engine/events/name_rater.asm"
 INCLUDE "engine/routines/playslowcry.asm"
-INCLUDE "engine/routines/newpokedexentry.asm"
+INCLUDE "engine/pokedex/newpokedexentry.asm"
 INCLUDE "engine/time_capsule_2.asm"
-INCLUDE "engine/unown_dex.asm"
+INCLUDE "engine/pokedex/unown_dex.asm"
 INCLUDE "engine/events/magikarp.asm"
 INCLUDE "engine/battle/hidden_power.asm"
 INCLUDE "engine/battle/misc.asm"
@@ -451,7 +444,7 @@ INCLUDE "engine/battle/misc.asm"
 
 SECTION "bank3F", ROMX
 
-INCLUDE "tilesets/animations.asm"
+INCLUDE "engine/tileset_anims.asm"
 INCLUDE "engine/npctrade.asm"
 INCLUDE "engine/events/mom_phone.asm"
 
@@ -466,7 +459,7 @@ INCLUDE "gfx/emotes.asm"
 INCLUDE "engine/warp_connection.asm"
 INCLUDE "engine/mystery_gift.asm"
 INCLUDE "engine/battle/used_move_text.asm"
-INCLUDE "gfx/overworld_font.asm"
+INCLUDE "engine/routines/loadoverworldfont.asm"
 
 
 SECTION "Intro Logo", ROMX
@@ -488,7 +481,7 @@ INCLUDE "mobile/mobile_46.asm"
 
 SECTION "Battle Tower", ROMX
 
-INCLUDE "mobile/battle_tower_47.asm"
+INCLUDE "engine/events/battle_tower/trainer_text.asm"
 
 
 SECTION "bank5B", ROMX
@@ -498,12 +491,12 @@ INCLUDE "engine/link_trade.asm"
 
 SECTION "Mobile 5C", ROMX
 
-INCLUDE "mobile/battle_tower_5c.asm"
+INCLUDE "engine/events/battle_tower/battle_tower.asm"
 
 
 SECTION "Crystal Phone Text 2", ROMX
 
-INCLUDE "text/phone/extra2.asm"
+INCLUDE "data/phone/text/extra2.asm"
 
 
 SECTION "UpdateBattleHUDs", ROMX
@@ -518,31 +511,32 @@ INCLUDE "mobile/mobile_5f.asm"
 
 SECTION "Common Text 1", ROMX
 
-INCLUDE "text/stdtext.asm"
-INCLUDE "text/phone/jack_overworld.asm"
-INCLUDE "text/phone/beverly_overworld.asm"
-INCLUDE "text/phone/huey_overworld.asm"
-INCLUDE "text/phone/gaven_overworld.asm"
-INCLUDE "text/phone/beth_overworld.asm"
-INCLUDE "text/phone/jose_overworld.asm"
-INCLUDE "text/phone/reena_overworld.asm"
-INCLUDE "text/phone/joey_overworld.asm"
-INCLUDE "text/phone/wade_overworld.asm"
-INCLUDE "text/phone/ralph_overworld.asm"
-INCLUDE "text/phone/liz_overworld.asm"
+INCLUDE "data/std_text.asm"
+INCLUDE "data/phone/text/jack_overworld.asm"
+INCLUDE "data/phone/text/beverly_overworld.asm"
+INCLUDE "data/phone/text/huey_overworld.asm"
+INCLUDE "data/phone/text/gaven_overworld.asm"
+INCLUDE "data/phone/text/beth_overworld.asm"
+INCLUDE "data/phone/text/jose_overworld.asm"
+INCLUDE "data/phone/text/reena_overworld.asm"
+INCLUDE "data/phone/text/joey_overworld.asm"
+INCLUDE "data/phone/text/wade_overworld.asm"
+INCLUDE "data/phone/text/ralph_overworld.asm"
+INCLUDE "data/phone/text/liz_overworld.asm"
 
 
 SECTION "Special Phone Text", ROMX
 
-INCLUDE "text/phone/mom.asm"
-INCLUDE "text/phone/bill.asm"
-INCLUDE "text/phone/elm.asm"
-INCLUDE "text/phone/trainers1.asm"
+INCLUDE "data/phone/text/mom.asm"
+INCLUDE "data/phone/text/bill.asm"
+INCLUDE "data/phone/text/elm.asm"
+INCLUDE "data/phone/text/trainers1.asm"
 
 
 SECTION "Miscellaneous Text", ROMX
 
 INCLUDE "data/items/names.asm"
+INCLUDE "engine/routines/printitemdescription.asm"
 INCLUDE "data/items/descriptions.asm"
 INCLUDE "data/moves/names.asm"
 INCLUDE "engine/landmarks.asm"
@@ -560,7 +554,7 @@ SECTION "bank77_2", ROMX
 
 INCLUDE "engine/routines/printhoursmins.asm"
 INCLUDE "engine/diploma.asm"
-INCLUDE "engine/pokedex_3.asm"
+INCLUDE "engine/pokedex/pokedex_3.asm"
 INCLUDE "engine/events/catch_tutorial_input.asm"
 INCLUDE "engine/routines/townmap_convertlinebreakcharacters.asm"
 
@@ -572,15 +566,15 @@ INCLUDE "engine/european_mail.asm"
 
 SECTION "Battle Tower Text", ROMX
 
-INCLUDE "text/battle_tower.asm"
+INCLUDE "data/battle_tower/trainer_text.asm"
 
 
 SECTION "Battle Tower Trainer Data", ROMX
 
-INCLUDE "data/battle_tower_2.asm"
+INCLUDE "data/battle_tower/unknown.asm"
 
 
 SECTION "Crystal Events", ROMX
 
-INCLUDE "engine/events/battle_tower.asm"
+INCLUDE "engine/events/battle_tower/load_trainer.asm"
 INCLUDE "engine/events/odd_egg.asm"

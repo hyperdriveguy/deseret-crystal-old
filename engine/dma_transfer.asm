@@ -102,7 +102,7 @@ CallInSafeGFXMode: ; 104177
 	ld [hMapAnims], a
 	ld a, [rSVBK]
 	push af
-	ld a, $6
+	ld a, BANK(wScratchTileMap)
 	ld [rSVBK], a
 	ld a, [rVBK]
 	push af
@@ -292,7 +292,7 @@ _Get2bpp:: ; 104284
 	; switch to WRAM bank 6
 	ld a, [rSVBK]
 	push af
-	ld a, $6
+	ld a, BANK(wScratchTileMap)
 	ld [rSVBK], a
 
 	push bc
@@ -362,7 +362,7 @@ _Get1bpp:: ; 1042b2
 .bankswitch ; 1042d6
 	ld a, [rSVBK]
 	push af
-	ld a, $6
+	ld a, BANK(wScratchTileMap)
 	ld [rSVBK], a
 
 	push bc

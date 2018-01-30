@@ -44,11 +44,11 @@ MovePlayerPic: ; 88266
 	jr .loop
 
 ShowPlayerNamingChoices: ; 88297
-	ld hl, ChrisNameMenuHeader
+	ld hl, ChrisNameMenuDataHeader
 	ld a, [wPlayerGender]
 	bit 0, a
 	jr z, .GotGender
-	ld hl, KrisNameMenuHeader
+	ld hl, KrisNameMenuDataHeader
 .GotGender:
 	call LoadMenuDataHeader
 	call VerticalMenu
@@ -58,7 +58,7 @@ ShowPlayerNamingChoices: ; 88297
 	call CloseWindow
 	ret
 
-INCLUDE "data/default_names.asm"
+INCLUDE "data/player_names.asm"
 
 GetPlayerIcon: ; 8832c
 ; Get the player icon corresponding to gender
@@ -117,7 +117,7 @@ GetChrisBackpic: ; 88830
 	ld b, BANK(ChrisBackpic)
 	ld de, vTiles2 tile $31
 	ld c, 7 * 7
-	predef DecompressPredef
+	predef DecompressGet2bpp
 	ret
 
 HOF_LoadTrainerFrontpic: ; 88840

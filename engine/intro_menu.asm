@@ -492,10 +492,10 @@ Continue_LoadMenuHeader: ; 5ebf
 	ld hl, .MenuDataHeader_Dex
 	ld a, [wStatusFlags]
 	bit 0, a ; pokedex
-	jr nz, .pokedex_header
+	jr nz, .show_menu
 	ld hl, .MenuDataHeader_NoDex
 
-.pokedex_header
+.show_menu
 	call _OffsetMenuDataHeader
 	call MenuBox
 	call PlaceVerticalMenuItems
@@ -503,15 +503,14 @@ Continue_LoadMenuHeader: ; 5ebf
 ; 5ed9
 
 .MenuDataHeader_Dex: ; 5ed9
-	db $40 ; flags
-	db 00, 00 ; start coords
-	db 09, 15 ; end coords
+	db MENU_BACKUP_TILES ; flags
+	menu_coords 0, 0, 15, 9
 	dw .MenuData2_Dex
 	db 1 ; default option
 ; 5ee1
 
 .MenuData2_Dex: ; 5ee1
-	db $00 ; flags
+	db 0 ; flags
 	db 4 ; items
 	db "PLAYER@"
 	db "BADGES@"
@@ -520,15 +519,14 @@ Continue_LoadMenuHeader: ; 5ebf
 ; 5efb
 
 .MenuDataHeader_NoDex: ; 5efb
-	db $40 ; flags
-	db 00, 00 ; start coords
-	db 09, 15 ; end coords
+	db MENU_BACKUP_TILES ; flags
+	menu_coords 0, 0, 15, 9
 	dw .MenuData2_NoDex
 	db 1 ; default option
 ; 5f03
 
 .MenuData2_NoDex: ; 5f03
-	db $00 ; flags
+	db 0 ; flags
 	db 4 ; items
 	db "PLAYER <PLAYER>@"
 	db "BADGES@"
@@ -706,7 +704,7 @@ OakText2: ; 0x604a
 	text_jump _OakText2
 	start_asm
 	ld a, WOOPER
-	call PlayCry
+	call PlayMonCry
 	call WaitSFX
 	ld hl, OakText3
 	ret
@@ -793,7 +791,7 @@ ShrinkPlayer: ; 610f
 	ld a, [hROMBank]
 	push af
 
-	ld a, 0 << 7 | 32 ; fade out
+	ld a, 32 ; fade time
 	ld [MusicFade], a
 	ld de, MUSIC_NONE
 	ld a, e
@@ -894,8 +892,8 @@ Intro_PrepTrainerPic: ; 619c
 
 ShrinkFrame: ; 61b4
 	ld de, vTiles2
-	ld c, $31
-	predef DecompressPredef
+	ld c, 7 * 7
+	predef DecompressGet2bpp
 	xor a
 	ld [hGraphicStartTile], a
 	hlcoord 6, 4
@@ -911,7 +909,7 @@ Intro_PlacePlayerSprite: ; 61cd
 	ld hl, vTiles0
 	call Request2bpp
 
-	ld hl, Sprites
+	ld hl, Sprite01
 	ld de, .sprites
 	ld a, [de]
 	inc de
@@ -920,19 +918,19 @@ Intro_PlacePlayerSprite: ; 61cd
 .loop
 	ld a, [de]
 	inc de
-	ld [hli], a
+	ld [hli], a ; y
 	ld a, [de]
 	inc de
-	ld [hli], a
+	ld [hli], a ; x
 	ld a, [de]
 	inc de
-	ld [hli], a
+	ld [hli], a ; tile id
 
-	ld b, 0
+	ld b, PAL_OW_RED
 	ld a, [wPlayerGender]
 	bit 0, a
 	jr z, .male
-	ld b, 1
+	ld b, PAL_OW_BLUE
 .male
 	ld a, b
 
@@ -944,6 +942,7 @@ Intro_PlacePlayerSprite: ; 61cd
 
 .sprites ; 61fe
 	db 4
+	; y pxl, x pxl, tile offset
 	db  9 * 8 + 4,  9 * 8, 0
 	db  9 * 8 + 4, 10 * 8, 1
 	db 10 * 8 + 4,  9 * 8, 2
@@ -959,7 +958,7 @@ CrystalIntroSequence: ; 620b
 StartTitleScreen: ; 6219
 	ld a, [rSVBK]
 	push af
-	ld a, $5
+	ld a, BANK(wBGPals1)
 	ld [rSVBK], a
 
 	call .TitleScreen
@@ -1256,7 +1255,7 @@ Copyright: ; 63e2
 	call LoadFontsExtra
 	ld de, CopyrightGFX
 	ld hl, vTiles2 tile $60
-	lb bc, BANK(CopyrightGFX), $1d
+	lb bc, BANK(CopyrightGFX), 29
 	call Request2bpp
 	hlcoord 2, 7
 	ld de, CopyrightString

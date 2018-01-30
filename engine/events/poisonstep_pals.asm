@@ -1,12 +1,11 @@
 LoadPoisonBGPals: ; cbcdd
 	ld a, [rSVBK]
 	push af
-	ld a, $5
+	ld a, BANK(wBGPals2)
 	ld [rSVBK], a
 	ld hl, wBGPals2
 	ld c, 4 palettes
 .loop
-; RGB 28, 21, 31
 	ld a, LOW(palred 28 + palgreen 21 + palblue 31)
 	ld [hli], a
 	ld a, HIGH(palred 28 + palgreen 21 + palblue 31)

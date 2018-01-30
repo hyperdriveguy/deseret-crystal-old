@@ -188,7 +188,7 @@ PokeAnim_Finish: ; d0171
 
 PokeAnim_Cry: ; d017a
 	ld a, [wPokeAnimSpecies]
-	call _PlayCry
+	call _PlayMonCry
 	ld a, [wPokeAnimSceneIndex]
 	inc a
 	ld [wPokeAnimSceneIndex], a
@@ -197,7 +197,7 @@ PokeAnim_Cry: ; d017a
 
 PokeAnim_CryNoWait: ; d0188
 	ld a, [wPokeAnimSpecies]
-	call PlayCry2
+	call PlayMonCry2
 	ld a, [wPokeAnimSceneIndex]
 	inc a
 	ld [wPokeAnimSceneIndex], a
@@ -218,7 +218,7 @@ PokeAnim_StereoCry: ; d0196
 PokeAnim_DeinitFrames: ; d01a9
 	ld a, [rSVBK]
 	push af
-	ld a, $2
+	ld a, BANK(wPokeAnimCoord)
 	ld [rSVBK], a
 	call PokeAnim_PlaceGraphic
 	farcall HDMATransferTileMapToWRAMBank3
@@ -274,12 +274,12 @@ PokeAnim_InitPicAttributes: ; d01d6
 	ld a, d
 	ld [wPokeAnimGraphicStartTile], a
 
-	ld a, $1
+	ld a, BANK(CurPartySpecies)
 	ld hl, CurPartySpecies
 	call GetFarWRAMByte
 	ld [wPokeAnimSpecies], a
 
-	ld a, $1
+	ld a, BANK(UnownLetter)
 	ld hl, UnownLetter
 	call GetFarWRAMByte
 	ld [wPokeAnimUnownLetter], a
@@ -812,7 +812,7 @@ PokeAnim_PlaceGraphic: ; d04bd
 PokeAnim_SetVBank1: ; d0504
 	ld a, [rSVBK]
 	push af
-	ld a, $2
+	ld a, BANK(wPokeAnimCoord)
 	ld [rSVBK], a
 	xor a
 	ld [hBGMapMode], a
@@ -960,7 +960,7 @@ GetMonFramesPointer: ; d05ce
 	ld hl, UnownFramesPointers
 	jr z, .got_frames
 	ld a, [wPokeAnimSpecies]
-	cp CHIKORITA
+	cp JOHTO_POKEMON
 	ld b, BANK(FramesPointers)
 	ld c, BANK(KantoFrames)
 	ld hl, FramesPointers
@@ -1046,7 +1046,7 @@ PokeAnim_GetSpeciesOrUnown: ; d065c
 	ret
 ; d0669
 
-HOF_AnimateFrontpic: ; d066e Predef 49
+HOF_AnimateFrontpic: ; d066e
 	call AnimateMon_CheckIfPokemon
 	jr c, .fail
 	ld h, d
@@ -1054,7 +1054,7 @@ HOF_AnimateFrontpic: ; d066e Predef 49
 	push bc
 	push hl
 	ld de, vTiles2
-	predef GetAnimatedFrontpicPredef
+	predef GetAnimatedFrontpic
 	pop hl
 	pop bc
 	ld d, 0

@@ -2,7 +2,7 @@ const_value set 2
 	const TRADECENTER_CHRIS1
 	const TRADECENTER_CHRIS2
 
-TradeCenter_MapScriptHeader:
+TradeCenter_MapScripts:
 .SceneScripts:
 	db 2
 	scene_script .InitializeTradeCenter
@@ -10,7 +10,7 @@ TradeCenter_MapScriptHeader:
 
 .MapCallbacks:
 	db 1
-	dbw MAPCALLBACK_OBJECTS, .SetWhichChris
+	callback MAPCALLBACK_OBJECTS, .SetWhichChris
 
 .InitializeTradeCenter:
 	priorityjump .InitializeAndPreparePokecenter2F
@@ -32,8 +32,8 @@ TradeCenter_MapScriptHeader:
 	return
 
 .InitializeAndPreparePokecenter2F:
-	setscene $1
-	setmapscene POKECENTER_2F, $1
+	setscene 1
+	setmapscene POKECENTER_2F, 1
 	end
 
 MapTradeCenterSignpost1Script:
@@ -41,7 +41,7 @@ MapTradeCenterSignpost1Script:
 	newloadmap MAPSETUP_LINKRETURN
 	end
 
-TradeCenter_MapEventHeader:
+TradeCenter_MapEvents:
 	; filler
 	db 0, 0
 

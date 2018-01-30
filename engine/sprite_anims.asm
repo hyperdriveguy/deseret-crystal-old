@@ -34,7 +34,7 @@ DoAnimFrame: ; 8d24b
 	dw .FlyFrom
 	dw .FlyLeaf
 	dw .FlyTo
-	dw .IntroSuicune 
+	dw .IntroSuicune
 	dw .IntroPichuWooper
 	dw .IntroUnown
 	dw .IntroUnownF
@@ -200,7 +200,7 @@ DoAnimFrame: ; 8d24b
 ; 8d493
 
 .TradePokeBall_zero ; 8d493
-	ld a, SPRITE_ANIM_FRAMESET_TRADE_POKE_BALL_0
+	ld a, SPRITE_ANIM_FRAMESET_TRADE_POKE_BALL_WOBBLE
 	call _ReinitSpriteAnimFrame
 
 	ld hl, SPRITEANIMSTRUCT_JUMPTABLE_INDEX

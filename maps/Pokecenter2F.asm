@@ -4,7 +4,7 @@ const_value set 2
 	const POKECENTER2F_TIME_CAPSULE_RECEPTIONIST
 	const POKECENTER2F_OFFICER
 
-Pokecenter2F_MapScriptHeader:
+Pokecenter2F_MapScripts:
 .SceneScripts:
 	db 4
 	scene_script .Scene0
@@ -90,7 +90,7 @@ LinkReceptionistScript_Trade:
 	end
 
 .FriendNotReady:
-	special WaitForOtherPlayerToExit
+	special Special_WaitForOtherPlayerToExit
 	writetext Text_FriendNotReady
 	closetext
 	end
@@ -115,7 +115,7 @@ LinkReceptionistScript_Trade:
 .DidNotSave:
 	writetext Text_PleaseComeAgain
 .AbortLink:
-	special WaitForOtherPlayerToExit
+	special Special_WaitForOtherPlayerToExit
 .Cancel:
 	closetext
 	end
@@ -151,7 +151,7 @@ LinkReceptionistScript_Battle:
 	end
 
 .FriendNotReady:
-	special WaitForOtherPlayerToExit
+	special Special_WaitForOtherPlayerToExit
 	writetext Text_FriendNotReady
 	closetext
 	end
@@ -176,7 +176,7 @@ LinkReceptionistScript_Battle:
 .DidNotSave:
 	writetext Text_PleaseComeAgain
 .AbortLink:
-	special WaitForOtherPlayerToExit
+	special Special_WaitForOtherPlayerToExit
 .Cancel:
 	closetext
 	end
@@ -233,7 +233,7 @@ LinkReceptionistScript_TimeCapsule:
 	end
 
 .FriendNotReady:
-	special WaitForOtherPlayerToExit
+	special Special_WaitForOtherPlayerToExit
 	writetext Text_FriendNotReady
 	closetext
 	end
@@ -245,7 +245,7 @@ LinkReceptionistScript_TimeCapsule:
 .DidNotSave:
 	writetext Text_PleaseComeAgain
 .Cancel:
-	special WaitForOtherPlayerToExit
+	special Special_WaitForOtherPlayerToExit
 	closetext
 	end
 
@@ -265,17 +265,17 @@ LinkReceptionistScript_TimeCapsule:
 	end
 
 Script_LeftCableTradeCenter:
-	special WaitForOtherPlayerToExit
+	special Special_WaitForOtherPlayerToExit
 	scall Script_WalkOutOfLinkTradeRoom
-	setscene $0
-	setmapscene TRADE_CENTER, $0
+	setscene 0
+	setmapscene TRADE_CENTER, 0
 	end
 
 Script_LeftCableColosseum:
-	special WaitForOtherPlayerToExit
+	special Special_WaitForOtherPlayerToExit
 	scall Script_WalkOutOfLinkBattleRoom
-	setscene $0
-	setmapscene COLOSSEUM, $0
+	setscene 0
+	setmapscene COLOSSEUM, 0
 	end
 
 Pokecenter2F_CheckGender:
@@ -423,7 +423,7 @@ TimeCapsuleScript_CheckPlayerGender:
 	end
 
 Script_LeftTimeCapsule:
-	special WaitForOtherPlayerToExit
+	special Special_WaitForOtherPlayerToExit
 	checkflag ENGINE_KRIS_IN_CABLE_CLUB
 	iftrue .Female
 	applymovement POKECENTER2F_TIME_CAPSULE_RECEPTIONIST, Pokecenter2FMovementData_ReceptionistStepsLeftLooksRight
@@ -444,12 +444,12 @@ Script_LeftTimeCapsule:
 	applymovement PLAYER, Pokecenter2FMovementData_PlayerTakesOneStepDown
 	applymovement POKECENTER2F_TIME_CAPSULE_RECEPTIONIST, Pokecenter2FMovementData_ReceptionistStepsRightLooksDown_2
 .Done:
-	setscene $0
-	setmapscene TIME_CAPSULE, $0
+	setscene 0
+	setmapscene TIME_CAPSULE, 0
 	end
 
 MapPokecenter2FSignpost0Script:
-	refreshscreen $0
+	refreshscreen
 	special Special_DisplayLinkRecord
 	closetext
 	end
@@ -714,7 +714,7 @@ Text_PleaseComeIn2:
 Text_RejectNewMon:
 	text "Sorry--@"
 	text_from_ram StringBuffer1
-	text ""
+	text_start
 	line "can't be taken."
 	prompt
 
@@ -801,7 +801,7 @@ Text_LikeTheLook:
 	line "style look to you?"
 	done
 
-Pokecenter2F_MapEventHeader:
+Pokecenter2F_MapEvents:
 	; filler
 	db 0, 0
 

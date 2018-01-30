@@ -35,9 +35,8 @@ LoadMenuTextBox:: ; 1d58
 ; 1d5f
 
 .MenuDataHeader: ; 1d5f
-	db $40 ; tile backup
-	db 12, 0 ; start coords
-	db 17, 19 ; end coords
+	db MENU_BACKUP_TILES ; flags
+	menu_coords 0, 12, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1
 	dw vTiles0
 	db 0 ; default option
 ; 1d67
@@ -55,9 +54,8 @@ LoadStandardMenuDataHeader:: ; 1d6e
 ; 1d75
 
 .MenuDataHeader: ; 1d75
-	db $40 ; tile backup
-	db 0, 0 ; start coords
-	db 17, 19 ; end coords
+	db MENU_BACKUP_TILES ; flags
+	menu_coords 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1
 	dw 0
 	db 1 ; default option
 ; 1d7d
@@ -171,15 +169,14 @@ InterpretTwoOptionMenu:: ; 1dfe
 ; 1e1d
 
 YesNoMenuDataHeader:: ; 1e1d
-	db $40 ; tile backup
-	db 5, 10 ; start coords
-	db 9, 15 ; end coords
+	db MENU_BACKUP_TILES ; flags
+	menu_coords 10, 5, 15, 9
 	dw .MenuData2
 	db 1 ; default option
 ; 1e25
 
 .MenuData2: ; 1e25
-	db $c0 ; flags
+	db STATICMENU_CURSOR | STATICMENU_NO_TOP_SPACING ; flags
 	db 2
 	db "YES@"
 	db "NO@"
@@ -476,7 +473,7 @@ ClearWindowData:: ; 1fbf
 
 	ld a, [rSVBK]
 	push af
-	ld a, $7
+	ld a, BANK(wWindowStack)
 	ld [rSVBK], a
 
 	xor a
@@ -494,7 +491,7 @@ ClearWindowData:: ; 1fbf
 ; 1ff0
 
 .bytefill ; 1ff0
-	ld bc, $0010
+	ld bc, $10
 	xor a
 	call ByteFill
 	ret

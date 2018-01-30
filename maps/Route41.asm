@@ -10,7 +10,7 @@ const_value set 2
 	const ROUTE41_SWIMMER_GIRL4
 	const ROUTE41_SWIMMER_GIRL5
 
-Route41_MapScriptHeader:
+Route41_MapScripts:
 .SceneScripts:
 	db 0
 
@@ -128,7 +128,7 @@ TrainerSwimmermMathew:
 	end
 
 Route41HiddenMaxEther:
-	dwb EVENT_ROUTE_41_HIDDEN_MAX_ETHER, MAX_ETHER
+	hiddenitem EVENT_ROUTE_41_HIDDEN_MAX_ETHER, MAX_ETHER
 
 SwimmermCharlieSeenText:
 	text "The water's warm"
@@ -337,7 +337,7 @@ SwimmerfWendyAfterBattleText:
 	line "it's scary."
 	done
 
-Route41_MapEventHeader:
+Route41_MapEvents:
 	; filler
 	db 0, 0
 

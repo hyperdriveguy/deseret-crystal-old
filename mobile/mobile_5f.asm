@@ -36,14 +36,13 @@ Function17d246: ; 17d246
 ; 17d26a
 
 MenuDataHeader_ChallengeExplanationCancel: ; 17d28f
-	db $40 ; flags
-	db  0,  0 ; start coords
-	db  7, 14 ; end coords
+	db MENU_BACKUP_TILES ; flags
+	menu_coords 0, 0, 14, 7
 	dw MenuData2_ChallengeExplanationCancel
 	db 1 ; default option
 
 MenuData2_ChallengeExplanationCancel: ; 17d297
-	db $a0 ; flags
+	db STATICMENU_CURSOR | STATICMENU_WRAP ; flags
 	db 3
 	db "Challenge@"
 	db "Explanation@"

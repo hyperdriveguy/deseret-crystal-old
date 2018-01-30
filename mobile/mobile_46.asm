@@ -269,9 +269,8 @@ BattleTowerRoomMenu_UpdateYesNoMenu:
 ; 119cf7
 
 MenuDataHeader_119cf7: ; 119cf7
-	db $40 ; flags
-	db  7, 12 ; start coords
-	db 11, 19 ; end coords
+	db MENU_BACKUP_TILES ; flags
+	menu_coords 12, 7, SCREEN_WIDTH - 1, TEXTBOX_Y - 1
 	dw NULL
 	db 0 ; default option
 ; 119cff
@@ -389,7 +388,7 @@ BattleTower_UbersCheck: ; 119dd1 (46:5dd1)
 	call GetPokemonName
 	ld hl, StringBuffer1
 	ld de, wcd49
-	ld bc, PKMN_NAME_LENGTH
+	ld bc, MON_NAME_LENGTH
 	call CopyBytes
 	ld a, $a
 	ld [wcf66], a
@@ -514,9 +513,8 @@ String_11a2d3: ; 11a2d3
 ; 11a2d6
 
 MenuDataHeader_11a2de: ; 11a2de
-	db $40 ; flags
-	db  7, 14 ; start coords
-	db 11, 19 ; end coords
+	db MENU_BACKUP_TILES ; flags
+	menu_coords 14, 7, SCREEN_WIDTH - 1, TEXTBOX_Y - 1
 	dw NULL
 	db 0 ; default option
 ; 11a2e6
@@ -743,13 +741,13 @@ AddMobileMonToParty: ; 11b98f
 	ld l, a
 	ld a, [wMobileMonOTNamePointerBuffer + 1]
 	ld h, a
-	ld bc, PKMN_NAME_LENGTH - 1
+	ld bc, MON_NAME_LENGTH - 1
 	call CopyBytes
 	ld a, "@"
 	ld [de], a
 
 	ld hl, PartyMonNicknames
-	ld bc, PKMN_NAME_LENGTH
+	ld bc, MON_NAME_LENGTH
 	ld a, [wMobileMonSpeciesBuffer]
 .loop4
 	add hl, bc
@@ -762,7 +760,7 @@ AddMobileMonToParty: ; 11b98f
 	ld l, a
 	ld a, [wMobileMonNicknamePointerBuffer + 1]
 	ld h, a
-	ld bc, PKMN_NAME_LENGTH - 1
+	ld bc, MON_NAME_LENGTH - 1
 	call CopyBytes
 	ld a, "@"
 	ld [de], a

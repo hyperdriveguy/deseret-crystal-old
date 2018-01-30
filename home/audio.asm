@@ -141,7 +141,7 @@ PlayMusic2:: ; 3bbc
 ; 3be3
 
 
-PlayCryHeader:: ; 3be3
+PlayCry:: ; 3be3
 ; Play cry header de.
 
 	push hl
@@ -176,11 +176,11 @@ endr
 	ld a, [hl]
 	ld [CryLength + 1], a
 
-	ld a, BANK(_PlayCryHeader)
+	ld a, BANK(_PlayCry)
 	ld [hROMBank], a
 	ld [MBC3RomBank], a
 
-	call _PlayCryHeader
+	call _PlayCry
 
 	pop af
 	ld [hROMBank], a
@@ -313,7 +313,7 @@ VolumeOff:: ; 3ca3
 ; 3ca8
 
 FadeInMusic:: ; 3cae
-	ld a, 4 | 1 << 7
+	ld a, 4 | (1 << MUSIC_FADE_IN_F)
 	ld [MusicFade], a
 	ret
 ; 3cb4
@@ -334,7 +334,7 @@ FadeToMapMusic:: ; 3cbc
 	push bc
 	push af
 
-	call GetMapMusic
+	call GetMapMusic_MaybeSpecial
 	ld a, [wMapMusic]
 	cp e
 	jr z, .done
@@ -362,7 +362,7 @@ PlayMapMusic:: ; 3cdf
 	push bc
 	push af
 
-	call GetMapMusic
+	call GetMapMusic_MaybeSpecial
 	ld a, [wMapMusic]
 	cp e
 	jr z, .done
@@ -396,7 +396,7 @@ EnterMapMusic:: ; 3d03
 	ld a, [PlayerState]
 	cp PLAYER_BIKE
 	jr z, .play
-	call GetMapMusic
+	call GetMapMusic_MaybeSpecial
 .play
 	push de
 	ld de, MUSIC_NONE
@@ -489,10 +489,10 @@ SpecialMapMusic:: ; 3d62
 	ret
 ; 3d97
 
-GetMapMusic:: ; 3d97
+GetMapMusic_MaybeSpecial:: ; 3d97
 	call SpecialMapMusic
 	ret c
-	call GetMapHeaderMusic
+	call GetMapMusic
 	ret
 ; 3d9f
 

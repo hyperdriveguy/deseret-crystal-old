@@ -26,8 +26,8 @@ DoBattle: ; 3c000
 	and a
 	jr z, .not_linked
 
-	ld a, [hLinkPlayerNumber]
-	cp $2
+	ld a, [hSerialConnectionStatus]
+	cp USING_INTERNAL_CLOCK
 	jr z, .player_2
 
 .not_linked
@@ -97,8 +97,8 @@ DoBattle: ; 3c000
 	ld a, [wLinkMode]
 	and a
 	jr z, .not_linked_2
-	ld a, [hLinkPlayerNumber]
-	cp $2
+	ld a, [hSerialConnectionStatus]
+	cp USING_INTERNAL_CLOCK
 	jr nz, .not_linked_2
 	xor a
 	ld [wEnemySwitchMonIndex], a
@@ -208,8 +208,8 @@ BattleTurn: ; 3c12f
 ; 3c1bf
 
 HandleBetweenTurnEffects: ; 3c1d6
-	ld a, [hLinkPlayerNumber]
-	cp $1
+	ld a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
 	jr z, .CheckEnemyFirst
 	call CheckFaint_PlayerThenEnemy
 	ret c
@@ -307,8 +307,8 @@ CheckFaint_EnemyThenPlayer: ; 3c25c
 ; 3c27c
 
 HandleBerserkGene: ; 3c27c
-	ld a, [hLinkPlayerNumber]
-	cp $1
+	ld a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
 	jr z, .reverse
 
 	call .player
@@ -415,8 +415,8 @@ DetermineMoveOrder: ; 3c314
 	ld a, [wPlayerAction]
 	cp $2
 	jr nz, .switch
-	ld a, [hLinkPlayerNumber]
-	cp $2
+	ld a, [hSerialConnectionStatus]
+	cp USING_INTERNAL_CLOCK
 	jr z, .player_2
 
 	call BattleRandom
@@ -472,8 +472,8 @@ DetermineMoveOrder: ; 3c314
 	jp .enemy_first
 
 .both_have_quick_claw
-	ld a, [hLinkPlayerNumber]
-	cp $2
+	ld a, [hSerialConnectionStatus]
+	cp USING_INTERNAL_CLOCK
 	jr z, .player_2b
 	call BattleRandom
 	cp c
@@ -502,8 +502,8 @@ DetermineMoveOrder: ; 3c314
 	jp .enemy_first
 
 .speed_tie
-	ld a, [hLinkPlayerNumber]
-	cp $2
+	ld a, [hSerialConnectionStatus]
+	cp USING_INTERNAL_CLOCK
 	jr z, .player_2c
 	call BattleRandom
 	cp 1 + (50 percent)
@@ -666,8 +666,8 @@ ParsePlayerAction: ; 3c434
 ; 3c4df
 
 HandleEncore: ; 3c4df
-	ld a, [hLinkPlayerNumber]
-	cp $1
+	ld a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
 	jr z, .player_1
 	call .do_player
 	jr .do_enemy
@@ -688,7 +688,7 @@ HandleEncore: ; 3c4df
 	ld b, 0
 	add hl, bc
 	ld a, [hl]
-	and $3f
+	and PP_MASK
 	ret nz
 
 .end_player_encore
@@ -712,7 +712,7 @@ HandleEncore: ; 3c4df
 	ld b, 0
 	add hl, bc
 	ld a, [hl]
-	and $3f
+	and PP_MASK
 	ret nz
 
 .end_enemy_encore
@@ -815,7 +815,7 @@ GetMovePriority: ; 3c5c5
 	cp -1
 	jr nz, .loop
 
-	ld a, 1
+	ld a, BASE_PRIORITY
 	ret
 
 .done
@@ -823,15 +823,7 @@ GetMovePriority: ; 3c5c5
 	ret
 ; 3c5df
 
-MoveEffectPriorities: ; 3c5df
-	db EFFECT_PROTECT,      3
-	db EFFECT_ENDURE,       3
-	db EFFECT_PRIORITY_HIT, 2
-	db EFFECT_FORCE_SWITCH, 0
-	db EFFECT_COUNTER,      0
-	db EFFECT_MIRROR_COAT,  0
-	db -1
-; 3c5ec
+INCLUDE "data/moves/effects_priorities.asm"
 
 GetMoveEffect: ; 3c5ec
 	ld a, b
@@ -1118,8 +1110,8 @@ ResidualDamage: ; 3c716
 ; 3c801
 
 HandlePerishSong: ; 3c801
-	ld a, [hLinkPlayerNumber]
-	cp $1
+	ld a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
 	jr z, .EnemyFirst
 	call SetPlayerTurn
 	call .do_it
@@ -1187,8 +1179,8 @@ HandlePerishSong: ; 3c801
 ; 3c874
 
 HandleWrap: ; 3c874
-	ld a, [hLinkPlayerNumber]
-	cp $1
+	ld a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
 	jr z, .EnemyFirst
 	call SetPlayerTurn
 	call .do_it
@@ -1259,8 +1251,8 @@ SwitchTurnCore: ; 3c8e4
 ; 3c8eb
 
 HandleLeftovers: ; 3c8eb
-	ld a, [hLinkPlayerNumber]
-	cp $1
+	ld a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
 	jr z, .DoEnemyFirst
 	call SetPlayerTurn
 	call .do_it
@@ -1309,8 +1301,8 @@ HandleLeftovers: ; 3c8eb
 ; 3c93c
 
 HandleMysteryberry: ; 3c93c
-	ld a, [hLinkPlayerNumber]
-	cp $1
+	ld a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
 	jr z, .DoEnemyFirst
 	call SetPlayerTurn
 	call .do_it
@@ -1359,7 +1351,7 @@ HandleMysteryberry: ; 3c93c
 	and a
 	jr z, .quit
 	ld a, [de]
-	and $3f
+	and PP_MASK
 	jr z, .restore
 	inc hl
 	inc de
@@ -1448,8 +1440,8 @@ HandleMysteryberry: ; 3c93c
 ; 3ca26
 
 HandleFutureSight: ; 3ca26
-	ld a, [hLinkPlayerNumber]
-	cp $1
+	ld a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
 	jr z, .enemy_first
 	call SetPlayerTurn
 	call .do_it
@@ -1507,8 +1499,8 @@ HandleFutureSight: ; 3ca26
 ; 3ca8f
 
 HanleDefrost: ; 3ca8f
-	ld a, [hLinkPlayerNumber]
-	cp $1
+	ld a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
 	jr z, .enemy_first
 	call .do_player_turn
 	jr .do_enemy_turn
@@ -1567,8 +1559,8 @@ HanleDefrost: ; 3ca8f
 ; 3cafb
 
 HandleSafeguard: ; 3cafb
-	ld a, [hLinkPlayerNumber]
-	cp $1
+	ld a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
 	jr z, .player1
 	call .CheckPlayer
 	jr .CheckEnemy
@@ -1604,8 +1596,8 @@ HandleSafeguard: ; 3cafb
 	jp StdBattleTextBox
 
 HandleScreens: ; 3cb36
-	ld a, [hLinkPlayerNumber]
-	cp 1
+	ld a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
 	jr z, .Both
 	call .CheckPlayer
 	jr .CheckEnemy
@@ -1688,8 +1680,8 @@ HandleWeather: ; 3cb9e
 	cp WEATHER_SANDSTORM
 	ret nz
 
-	ld a, [hLinkPlayerNumber]
-	cp 1
+	ld a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
 	jr z, .enemy_first
 
 .player_first
@@ -2050,8 +2042,8 @@ HandleEnemyMonFaint: ; 3cd55
 ; 3cdca
 
 DoubleSwitch: ; 3cdca
-	ld a, [hLinkPlayerNumber]
-	cp $1
+	ld a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
 	jr z, .player_1
 	call ClearSprites
 	hlcoord 1, 0
@@ -2377,7 +2369,7 @@ WinTrainerBattle: ; 3cfa4
 	ld c, 40
 	call DelayFrames
 	call EmptyBattleTextBox
-	ld c, $3
+	ld c, BATTLETOWERTEXT_LOSS_TEXT
 	farcall BattleTowerText
 	call WaitPressAorB_BlinkCursor
 	ld hl, wPayDayMoney
@@ -2550,7 +2542,7 @@ PlayVictoryMusic: ; 3d0ea
 
 .trainer_victory
 	ld de, MUSIC_GYM_VICTORY
-	call IsJohtoGymLeader
+	call IsGymLeader
 	jr c, .play_music
 	ld de, MUSIC_TRAINER_VICTORY
 
@@ -2562,58 +2554,22 @@ PlayVictoryMusic: ; 3d0ea
 	ret
 ; 3d123
 
-; These functions check if the current opponent is a gym leader or one of a
-; few other special trainers.
-
-; Note: KantoGymLeaders is a subset of JohtoGymLeaders. If you wish to
-; differentiate between the two, call IsKantoGymLeader first.
-
-; The Lance and Red entries are unused for music checks; those trainers are
-; accounted for elsewhere.
-
 IsKantoGymLeader: ; 0x3d123
 	ld hl, KantoGymLeaders
 	jr IsGymLeaderCommon
 
-IsJohtoGymLeader: ; 0x3d128
-	ld hl, JohtoGymLeaders
+IsGymLeader: ; 0x3d128
+	ld hl, GymLeaders
 IsGymLeaderCommon:
 	push de
 	ld a, [OtherTrainerClass]
-	ld de, $0001
+	ld de, $1
 	call IsInArray
 	pop de
 	ret
 ; 0x3d137
 
-JohtoGymLeaders:
-	db FALKNER
-	db WHITNEY
-	db BUGSY
-	db MORTY
-	db PRYCE
-	db JASMINE
-	db CHUCK
-	db CLAIR
-	db WILL
-	db BRUNO
-	db KAREN
-	db KOGA
-; fallthrough
-; these two entries are unused
-	db CHAMPION
-	db RED
-; fallthrough
-KantoGymLeaders:
-	db BROCK
-	db MISTY
-	db LT_SURGE
-	db ERIKA
-	db JANINE
-	db SABRINA
-	db BLAINE
-	db BLUE
-	db -1
+INCLUDE "data/trainers/leaders.asm"
 
 HandlePlayerMonFaint: ; 3d14e
 	call FaintYourPokemon
@@ -2668,7 +2624,7 @@ PlayerMonFaintHappinessMod: ; 3d1aa
 	ld c, a
 	ld hl, wBattleParticipantsNotFainted
 	ld b, RESET_FLAG
-	predef FlagPredef
+	predef SmallFarFlagAction
 	ld hl, EnemySubStatus3
 	res SUBSTATUS_IN_LOOP, [hl]
 	xor a
@@ -2938,7 +2894,7 @@ LostBattle: ; 3d38e
 	call DelayFrames
 
 	call EmptyBattleTextBox
-	ld c, 2
+	ld c, BATTLETOWERTEXT_WIN_TEXT
 	farcall BattleTowerText
 	call WaitPressAorB_BlinkCursor
 	call ClearTileMap
@@ -3212,10 +3168,10 @@ AddBattleParticipant: ; 3d581
 	ld hl, wBattleParticipantsNotFainted
 	ld b, SET_FLAG
 	push bc
-	predef FlagPredef
+	predef SmallFarFlagAction
 	pop bc
 	ld hl, wBattleParticipantsIncludingFainted
-	predef_jump FlagPredef
+	predef_jump SmallFarFlagAction
 ; 3d599
 
 FindPkmnInOTPartyToSwitchIntoBattle: ; 3d599
@@ -3872,7 +3828,7 @@ InitBattleMon: ; 3da0d
 	ld a, [CurBattleMon]
 	call SkipNames
 	ld de, BattleMonNick
-	ld bc, PKMN_NAME_LENGTH
+	ld bc, MON_NAME_LENGTH
 	call CopyBytes
 	ld hl, BattleMonAttack
 	ld de, PlayerStats
@@ -3957,7 +3913,7 @@ InitEnemyMon: ; 3dabd
 	ld a, [CurPartyMon]
 	call SkipNames
 	ld de, EnemyMonNick
-	ld bc, PKMN_NAME_LENGTH
+	ld bc, MON_NAME_LENGTH
 	call CopyBytes
 	ld hl, EnemyMonAttack
 	ld de, EnemyStats
@@ -4189,7 +4145,7 @@ PursuitSwitch: ; 3dc5b
 	ld c, a
 	ld hl, wBattleParticipantsNotFainted
 	ld b, RESET_FLAG
-	predef FlagPredef
+	predef SmallFarFlagAction
 	call PlayerMonFaintedAnimation
 	ld hl, BattleText_PkmnFainted
 	jr .done_fainted
@@ -4233,8 +4189,8 @@ RecallPlayerMon: ; 3dce6
 ; 3dcf9
 
 HandleHealingItems: ; 3dcf9
-	ld a, [hLinkPlayerNumber]
-	cp $1
+	ld a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
 	jr z, .player_1
 	call SetPlayerTurn
 	call HandleHPHealingItem
@@ -4425,13 +4381,13 @@ UseHeldStatusHealingItem: ; 3dde9
 ; 3de44
 
 .Statuses: ; 3de44
-	db HELD_HEAL_POISON, 1 << PSN
-	db HELD_HEAL_FREEZE, 1 << FRZ
-	db HELD_HEAL_BURN, 1 << BRN
-	db HELD_HEAL_SLEEP, SLP
+	db HELD_HEAL_POISON,   1 << PSN
+	db HELD_HEAL_FREEZE,   1 << FRZ
+	db HELD_HEAL_BURN,     1 << BRN
+	db HELD_HEAL_SLEEP,    SLP
 	db HELD_HEAL_PARALYZE, 1 << PAR
-	db HELD_HEAL_STATUS, ALL_STATUS
-	db $ff
+	db HELD_HEAL_STATUS,   ALL_STATUS
+	db -1 ; end
 ; 3de51
 
 UseConfusionHealingItem: ; 3de51
@@ -4478,8 +4434,8 @@ UseConfusionHealingItem: ; 3de51
 
 HandleStatBoostingHeldItems: ; 3de97
 ; The effects handled here are not used in-game.
-	ld a, [hLinkPlayerNumber]
-	cp $1
+	ld a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
 	jr z, .player_1
 	call .DoPlayer
 	jp .DoEnemy
@@ -4555,7 +4511,7 @@ HandleStatBoostingHeldItems: ; 3de97
 	dbw HELD_SP_DEFENSE_UP, BattleCommand_SpecialDefenseUp
 	dbw HELD_ACCURACY_UP,   BattleCommand_AccuracyUp
 	dbw HELD_EVASION_UP,    BattleCommand_EvasionUp
-	db $ff
+	db -1 ; end
 ; 3df12
 
 GetPartymonItem: ; 3df12
@@ -4691,7 +4647,7 @@ PrintPlayerHUD: ; 3dfbf
 	ld [de], a
 	ld hl, BattleMonLevel
 	ld de, TempMonLevel
-	ld bc, $0011
+	ld bc, $11
 	call CopyBytes
 	ld a, [CurBattleMon]
 	ld hl, PartyMon1Species
@@ -5227,8 +5183,8 @@ PlayerSwitch: ; 3e3ad
 	ret
 
 .dont_run
-	ld a, [hLinkPlayerNumber]
-	cp $1
+	ld a, [hSerialConnectionStatus]
+	cp USING_EXTERNAL_CLOCK
 	jr z, .player_1
 	call BattleMonEntrance
 	call EnemyMonEntrance
@@ -5497,7 +5453,7 @@ MoveSelectionScreen: ; 3e4bc
 	ld b, 0
 	add hl, bc
 	ld a, [hl]
-	and $3f
+	and PP_MASK
 	jr z, .no_pp_left
 	ld a, [PlayerDisableCount]
 	swap a
@@ -5695,7 +5651,7 @@ MoveInfoBox: ; 3e6c8
 	ld hl, BattleMonPP
 	add hl, bc
 	ld a, [hl]
-	and $3f
+	and PP_MASK
 	ld [StringBuffer1], a
 	call .PrintPP
 
@@ -5753,7 +5709,7 @@ CheckPlayerHasUsableMoves: ; 3e786
 	or [hl]
 	inc hl
 	or [hl]
-	and $3f
+	and PP_MASK
 	ret nz
 	jr .force_struggle
 
@@ -5775,8 +5731,7 @@ CheckPlayerHasUsableMoves: ; 3e786
 
 .done
 	; Bug: this will result in a move with PP Up confusing the game.
-	; Replace with "and $3f" to fix.
-	and a
+	and a ; should be "and PP_MASK"
 	ret nz
 
 .force_struggle
@@ -5855,7 +5810,7 @@ ParseEnemyAction: ; 3e7c1
 	cp [hl]
 	jr z, .disabled
 	ld a, [de]
-	and $3f
+	and PP_MASK
 	jr nz, .enough_pp
 
 .disabled
@@ -5873,7 +5828,7 @@ ParseEnemyAction: ; 3e7c1
 .loop2
 	ld hl, EnemyMonMoves
 	call BattleRandom
-	and 3 ; TODO factor in NUM_MOVES
+	maskbits NUM_MOVES
 	ld c, a
 	ld b, 0
 	add hl, bc
@@ -5890,7 +5845,7 @@ ParseEnemyAction: ; 3e7c1
 	add hl, bc
 	ld b, a
 	ld a, [hl]
-	and $3f
+	and PP_MASK
 	jr z, .loop2
 	ld a, c
 	ld [CurEnemyMoveNum], a
@@ -6173,9 +6128,9 @@ LoadEnemyMon: ; 3e8eb
 ; but the value is in feet and inches (one byte each).
 
 ; The first filter is supposed to make very large Magikarp even rarer,
-; by targeting those 1600 mm or larger.
+; by targeting those 1600 mm (= 5'3") or larger.
 ; After the conversion to feet, it is unable to target any,
-; as the largest possible Magikarp is 5'3'', which reads as 1283.
+; since the largest possible Magikarp is 5'3", and $0503 = 1283 mm.
 	ld a, [TempEnemyMonSpecies]
 	cp MAGIKARP
 	jr nz, .Happiness
@@ -6185,42 +6140,43 @@ LoadEnemyMon: ; 3e8eb
 	ld bc, PlayerID
 	callfar CalcMagikarpLength
 
-; No reason to keep going if length > 1536 (i.e. if length / 256 != 6)
+; No reason to keep going if length > 1536 mm (i.e. if HIGH(length) > 6 feet)
 	ld a, [wMagikarpLength]
-	cp HIGH(1536) ; this compares to 6'0'', should be cp 5
+	cp HIGH(1536) ; should be "cp 5", since 1536 mm = 5'0", but HIGH(1536) = 6
 	jr nz, .CheckMagikarpArea
 
 ; 5% chance of skipping both size checks
 	call Random
 	cp 5 percent
 	jr c, .CheckMagikarpArea
-; Try again if length > 1615
+; Try again if length >= 1616 mm (i.e. if LOW(length) >= 3 inches)
 	ld a, [wMagikarpLength + 1]
-	cp LOW(1616) ; this compares to 6'80'', should be cp 3
+	cp LOW(1616) ; should be "cp 3", since 1616 mm = 5'3", but LOW(1616) = 80
 	jr nc, .GenerateDVs
 
 ; 20% chance of skipping this check
 	call Random
 	cp 20 percent - 1
 	jr c, .CheckMagikarpArea
-; Try again if length > 1599
+; Try again if length >= 1600 mm (i.e. if LOW(length) >= 2 inches)
 	ld a, [wMagikarpLength + 1]
-	cp LOW(1600) ; this compares to 6'64'', should be cp 2
+	cp LOW(1600) ; should be "cp 2", since 1600 mm = 5'2", but LOW(1600) = 64
 	jr nc, .GenerateDVs
 
 .CheckMagikarpArea:
-; The z checks are supposed to be nz
-; Instead, all maps in GROUP_LAKE_OF_RAGE (mahogany area)
-; and routes 20 and 44 are treated as Lake of Rage
+; The "jr z" checks are supposed to be "jr nz".
+
+; Instead, all maps in GROUP_LAKE_OF_RAGE (Mahogany area)
+; and Routes 20 and 44 are treated as Lake of Rage.
 
 ; This also means Lake of Rage Magikarp can be smaller than ones
-; caught elsewhere rather than the other way around
+; caught elsewhere rather than the other way around.
 
-; Intended behavior enforces a minimum size at Lake of Rage
-; The real behavior prevents size flooring in the Lake of Rage area
+; Intended behavior enforces a minimum size at Lake of Rage.
+; The real behavior prevents a minimum size in the Lake of Rage area.
 
-; Moreover, due to the check not being translated to feet, all Magikarp
-; smaller than 4'0'' may be caught by the filter, a lot more than intended
+; Moreover, due to the check not being translated to feet+inches, all Magikarp
+; smaller than 4'0" may be caught by the filter, a lot more than intended.
 	ld a, [MapGroup]
 	cp GROUP_LAKE_OF_RAGE
 	jr z, .Happiness
@@ -6231,9 +6187,9 @@ LoadEnemyMon: ; 3e8eb
 	call Random
 	cp 40 percent - 2
 	jr c, .Happiness
-; Floor at length 1024
+; Try again if length < 1024 mm (i.e. if HIGH(length) < 3 feet)
 	ld a, [wMagikarpLength]
-	cp HIGH(1024) ; compares to 4'0'', cp 3 would be closer to intended value
+	cp HIGH(1024) ; should be "cp 3", since 1024 mm = 3'4", but HIGH(1024) = 4
 	jr c, .GenerateDVs ; try again
 
 ; Finally done with DVs
@@ -6419,7 +6375,7 @@ LoadEnemyMon: ; 3e8eb
 ; Update enemy nick
 	ld hl, StringBuffer1
 	ld de, EnemyMonNick
-	ld bc, PKMN_NAME_LENGTH
+	ld bc, MON_NAME_LENGTH
 	call CopyBytes
 
 ; Saw this mon
@@ -6428,7 +6384,7 @@ LoadEnemyMon: ; 3e8eb
 	ld c, a
 	ld b, SET_FLAG
 	ld hl, PokedexSeen
-	predef FlagPredef
+	predef SmallFarFlagAction
 
 	ld hl, EnemyMonStats
 	ld de, EnemyStats
@@ -6448,13 +6404,13 @@ CheckSleepingTreeMon: ; 3eb38
 	jr nz, .NotSleeping
 
 ; Get list for the time of day
-	ld hl, .Morn
+	ld hl, AsleepTreeMonsMorn
 	ld a, [TimeOfDay]
 	cp DAY_F
 	jr c, .Check
-	ld hl, .Day
+	ld hl, AsleepTreeMonsDay
 	jr z, .Check
-	ld hl, .Nite
+	ld hl, AsleepTreeMonsNite
 
 .Check:
 	ld a, [TempEnemyMonSpecies]
@@ -6467,36 +6423,7 @@ CheckSleepingTreeMon: ; 3eb38
 	and a
 	ret
 
-.Nite:
-	db CATERPIE
-	db METAPOD
-	db BUTTERFREE
-	db WEEDLE
-	db KAKUNA
-	db BEEDRILL
-	db SPEAROW
-	db EKANS
-	db EXEGGCUTE
-	db LEDYBA
-	db AIPOM
-	db -1 ; end
-
-.Day:
-	db VENONAT
-	db HOOTHOOT
-	db NOCTOWL
-	db SPINARAK
-	db HERACROSS
-	db -1 ; end
-
-.Morn:
-	db VENONAT
-	db HOOTHOOT
-	db NOCTOWL
-	db SPINARAK
-	db HERACROSS
-	db -1 ; end
-; 3eb75
+INCLUDE "data/wild/treemons_asleep.asm"
 
 CheckUnownLetter: ; 3eb75
 ; Return carry if the Unown letter hasn't been unlocked yet
@@ -7083,7 +7010,7 @@ GiveExperiencePoints: ; 3ee3b
 	ld c, a
 	ld b, CHECK_FLAG
 	ld d, $0
-	predef FlagPredef
+	predef SmallFarFlagAction
 	ld a, c
 	and a
 	pop bc
@@ -7412,7 +7339,7 @@ GiveExperiencePoints: ; 3ee3b
 	ld a, [CurPartyMon]
 	ld c, a
 	ld b, SET_FLAG
-	predef FlagPredef
+	predef SmallFarFlagAction
 	pop af
 	ld [CurPartyLevel], a
 
@@ -7609,7 +7536,7 @@ AnimateExpBar: ; 3f136
 	call PrintPlayerHUD
 	ld hl, BattleMonNick
 	ld de, StringBuffer1
-	ld bc, PKMN_NAME_LENGTH
+	ld bc, MON_NAME_LENGTH
 	call CopyBytes
 	call TerminateExpBarSound
 	ld de, SFX_HIT_END_OF_EXP_BAR
@@ -8066,7 +7993,7 @@ DropEnemySub: ; 3f486
 	ld hl, EnemyMonDVs
 	predef GetUnownLetter
 	ld de, vTiles2
-	predef GetAnimatedFrontpicPredef
+	predef GetAnimatedFrontpic
 	pop af
 	ld [CurPartySpecies], a
 	ret
@@ -8164,7 +8091,7 @@ InitEnemy: ; 3f55e
 BackUpBGMap2: ; 3f568
 	ld a, [rSVBK]
 	push af
-	ld a, $6 ; BANK(wDecompressScratch)
+	ld a, BANK(wDecompressScratch)
 	ld [rSVBK], a
 	ld hl, wDecompressScratch
 	ld bc, $40 tiles ; vBGMap3 - vBGMap2
@@ -8192,6 +8119,7 @@ InitEnemyTrainer: ; 3f594
 	callfar GetTrainerAttributes
 	callfar ReadTrainerParty
 
+	; RIVAL1's first mon has no held item
 	ld a, [TrainerClass]
 	cp RIVAL1
 	jr nz, .ok
@@ -8213,7 +8141,7 @@ InitEnemyTrainer: ; 3f594
 	ld a, TRAINER_BATTLE
 	ld [wBattleMode], a
 
-	call IsJohtoGymLeader
+	call IsGymLeader
 	jr nc, .done
 	xor a
 	ld [CurPartyMon], a
@@ -8263,7 +8191,7 @@ InitEnemyWildmon: ; 3f607
 	ld [wFirstUnownSeen], a
 .skip_unown
 	ld de, vTiles2
-	predef GetAnimatedFrontpicPredef
+	predef GetAnimatedFrontpic
 	xor a
 	ld [TrainerClass], a
 	ld [hGraphicStartTile], a
@@ -8942,7 +8870,7 @@ InitBattleDisplay: ; 3fb6c
 .BlankBGMap: ; 3fbd6
 	ld a, [rSVBK]
 	push af
-	ld a, $6
+	ld a, BANK(wDecompressScratch)
 	ld [rSVBK], a
 
 	ld hl, wDecompressScratch
@@ -8995,15 +8923,15 @@ GetTrainerBackpic: ; 3fbff
 
 .Decompress:
 	ld de, vTiles2 tile $31
-	ld c, $31
-	predef DecompressPredef
+	ld c, 7 * 7
+	predef DecompressGet2bpp
 	ret
 ; 3fc30
 
 CopyBackpic: ; 3fc30
 	ld a, [rSVBK]
 	push af
-	ld a, $6
+	ld a, BANK(wDecompressScratch)
 	ld [rSVBK], a
 	ld hl, vTiles0
 	ld de, vTiles2 tile $31
@@ -9023,27 +8951,27 @@ CopyBackpic: ; 3fc30
 ; 3fc5b
 
 .LoadTrainerBackpicAsOAM: ; 3fc5b
-	ld hl, Sprites
+	ld hl, Sprite01
 	xor a
 	ld [hMapObjectIndexBuffer], a
-	ld b, $6
-	ld e, 21 * 8
+	ld b, 6
+	ld e, (SCREEN_WIDTH + 1) * TILE_WIDTH
 .outer_loop
-	ld c, $3
-	ld d, 8 * 8
+	ld c, 3
+	ld d, 8 * TILE_WIDTH
 .inner_loop
-	ld [hl], d
+	ld [hl], d ; y
 	inc hl
-	ld [hl], e
+	ld [hl], e ; x
 	inc hl
 	ld a, [hMapObjectIndexBuffer]
-	ld [hli], a
+	ld [hli], a ; tile id
 	inc a
 	ld [hMapObjectIndexBuffer], a
-	ld a, $1
-	ld [hli], a
+	ld a, PAL_BATTLE_OB_PLAYER
+	ld [hli], a ; attributes
 	ld a, d
-	add $8
+	add 1 * TILE_WIDTH
 	ld d, a
 	dec c
 	jr nz, .inner_loop
@@ -9051,7 +8979,7 @@ CopyBackpic: ; 3fc30
 	add $3
 	ld [hMapObjectIndexBuffer], a
 	ld a, e
-	add $8
+	add 1 * TILE_WIDTH
 	ld e, a
 	dec b
 	jr nz, .outer_loop

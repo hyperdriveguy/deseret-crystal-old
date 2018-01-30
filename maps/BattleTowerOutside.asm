@@ -4,14 +4,14 @@ const_value set 2
 	const BATTLETOWEROUTSIDE_SAILOR
 	const BATTLETOWEROUTSIDE_LASS
 
-BattleTowerOutside_MapScriptHeader:
+BattleTowerOutside_MapScripts:
 .SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 2
-	dbw MAPCALLBACK_TILES, .Callback1
-	dbw MAPCALLBACK_OBJECTS, .Callback2
+	callback MAPCALLBACK_TILES, .Callback1
+	callback MAPCALLBACK_OBJECTS, .Callback2
 
 .Callback1:
 	return
@@ -70,7 +70,7 @@ BattleTowerOutsideText_UltimateChallenge:
 	line "Trainer Challenge!"
 	done
 
-BattleTowerOutside_MapEventHeader:
+BattleTowerOutside_MapEvents:
 	; filler
 	db 0, 0
 

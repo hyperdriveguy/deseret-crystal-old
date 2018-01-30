@@ -465,9 +465,9 @@ SavePlayerData: ; 14dd7
 	ld de, sPlayerData
 	ld bc, wPlayerDataEnd - wPlayerData
 	call CopyBytes
-	ld hl, wMapData
-	ld de, sMapData
-	ld bc, wMapDataEnd - wMapData
+	ld hl, wCurrMapData
+	ld de, sCurrMapData
+	ld bc, wCurrMapDataEnd - wCurrMapData
 	call CopyBytes
 	jp CloseSRAM
 ; 14df7
@@ -532,9 +532,9 @@ SaveBackupPlayerData: ; 14e55
 	ld de, sBackupPlayerData
 	ld bc, wPlayerDataEnd - wPlayerData
 	call CopyBytes
-	ld hl, wMapData
-	ld de, sBackupMapData
-	ld bc, wMapDataEnd - wMapData
+	ld hl, wCurrMapData
+	ld de, sBackupCurrMapData
+	ld bc, wCurrMapDataEnd - wCurrMapData
 	call CopyBytes
 	call CloseSRAM
 	ret
@@ -715,9 +715,9 @@ LoadPlayerData: ; 14fd7 (5:4fd7)
 	ld de, wPlayerData
 	ld bc, wPlayerDataEnd - wPlayerData
 	call CopyBytes
-	ld hl, sMapData
-	ld de, wMapData
-	ld bc, wMapDataEnd - wMapData
+	ld hl, sCurrMapData
+	ld de, wCurrMapData
+	ld bc, wCurrMapDataEnd - wCurrMapData
 	call CopyBytes
 	call CloseSRAM
 	ld a, BANK(sBattleTowerChallengeState)
@@ -771,9 +771,9 @@ LoadBackupPlayerData: ; 15046 (5:5046)
 	ld de, wPlayerData
 	ld bc, wPlayerDataEnd - wPlayerData
 	call CopyBytes
-	ld hl, sBackupMapData
-	ld de, wMapData
-	ld bc, wMapDataEnd - wMapData
+	ld hl, sBackupCurrMapData
+	ld de, wCurrMapData
+	ld bc, wCurrMapDataEnd - wCurrMapData
 	call CopyBytes
 	call CloseSRAM
 	ret
@@ -807,6 +807,11 @@ VerifyBackupChecksum: ; 1507c (5:507c)
 
 
 _SaveData: ; 1509a
+	; This is called within two scenarios:
+	;   a) ErasePreviousSave (the process of erasing the save from a previous game file)
+	;   b) unused mobile functionality
+	; It is not part of a regular save.
+
 	ld a, BANK(sCrystalData)
 	call GetSRAMBank
 	ld hl, wCrystalData
@@ -814,7 +819,11 @@ _SaveData: ; 1509a
 	ld bc, wCrystalDataEnd - wCrystalData
 	call CopyBytes
 
-	; XXX SRAM bank 7
+	; This block originally had some mobile functionality, but since we're still in
+	; BANK(sCrystalData), it instead overwrites the sixteen EventFlags starting at 1:a603 with
+	; garbage from wd479. This isn't an issue, since ErasePreviousSave is followed by a regular
+	; save that unwrites the garbage.
+
 	ld hl, wd479
 	ld a, [hli]
 	ld [$a60e + 0], a
@@ -832,7 +841,9 @@ _LoadData: ; 150b9
 	ld bc, wCrystalDataEnd - wCrystalData
 	call CopyBytes
 
-	; XXX SRAM bank 7
+	; This block originally had some mobile functionality to mirror _SaveData above, but instead it
+	; (harmlessly) writes the aforementioned EventFlags to the unused wd479.
+
 	ld hl, wd479
 	ld a, [$a60e + 0]
 	ld [hli], a

@@ -3,7 +3,7 @@ const_value set 2
 	const OLIVINELIGHTHOUSE6F_MONSTER
 	const OLIVINELIGHTHOUSE6F_POKE_BALL
 
-OlivineLighthouse6F_MapScriptHeader:
+OlivineLighthouse6F_MapScripts:
 .SceneScripts:
 	db 0
 
@@ -47,9 +47,9 @@ UnknownScript_0x60bab:
 	closetext
 	special RestartMapMusic
 	cry AMPHAROS
-	special FadeOutPalettes
+	special Special_FadeOutPalettes
 	pause 10
-	special FadeInPalettes
+	special Special_FadeInPalettes
 	opentext
 	writetext UnknownText_0x60f3d
 	waitbutton
@@ -106,7 +106,7 @@ MonsterScript_0x60c3a:
 	iftrue UnknownScript_0x60c51
 	writetext UnknownText_0x60f03
 	writebyte AMPHAROS
-	special PlaySlowCry
+	special Special_PlaySlowCry
 	buttonsound
 	writetext UnknownText_0x60f19
 	waitbutton
@@ -118,10 +118,10 @@ UnknownScript_0x60c51:
 	cry AMPHAROS
 	waitbutton
 	closetext
-	special FadeOutPalettes
-	special FadeInPalettes
-	special FadeOutPalettes
-	special FadeInPalettes
+	special Special_FadeOutPalettes
+	special Special_FadeInPalettes
+	special Special_FadeOutPalettes
+	special Special_FadeInPalettes
 	end
 
 OlivineLighthouse6FSuperPotion:
@@ -254,7 +254,7 @@ UnknownText_0x60f3d:
 	line "Palulu!"
 	done
 
-OlivineLighthouse6F_MapEventHeader:
+OlivineLighthouse6F_MapEvents:
 	; filler
 	db 0, 0
 

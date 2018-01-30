@@ -42,7 +42,7 @@ CheckShininess:
 	ret
 
 InitPartyMenuPalettes:
-	ld hl, PalPacket_9c56 + 1
+	ld hl, PalPacket_PartyMenu + 1
 	call CopyFourPalettes
 	call InitPartyMenuOBPals
 	call WipeAttrMap
@@ -93,7 +93,7 @@ ApplyHPBarPals:
 	ld bc, HPBarPals
 	add hl, bc
 	ld bc, 4
-	ld a, $5
+	ld a, BANK(wBGPals2)
 	call FarCopyWRAM
 	ld a, $1
 	ld [hCGBPalUpdate], a
@@ -126,7 +126,7 @@ LoadStatsScreenPals:
 	add hl, bc
 	ld a, [rSVBK]
 	push af
-	ld a, $5
+	ld a, BANK(wBGPals1)
 	ld [rSVBK], a
 	ld a, [hli]
 	ld [wBGPals1 palette 0], a
@@ -151,7 +151,7 @@ LoadMailPalettes:
 
 	ld de, wBGPals1
 	ld bc, 1 palettes
-	ld a, $5
+	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 	call ApplyPals
 	call WipeAttrMap
@@ -159,13 +159,13 @@ LoadMailPalettes:
 	ret
 
 .MailPals:
-INCLUDE "data/palettes/mail.pal"
+INCLUDE "gfx/mail/mail.pal"
 
 INCLUDE "engine/cgb_layouts.asm"
 
 CopyFourPalettes:
 	ld de, wBGPals1
-	ld c, $4
+	ld c, 4
 
 CopyPalettes:
 .loop
@@ -194,7 +194,7 @@ GetPredefPal:
 LoadHLPaletteIntoDE:
 	ld a, [rSVBK]
 	push af
-	ld a, $5
+	ld a, BANK(wOBPals1)
 	ld [rSVBK], a
 	ld c, $8
 .loop
@@ -210,13 +210,13 @@ LoadHLPaletteIntoDE:
 LoadPalette_White_Col1_Col2_Black:
 	ld a, [rSVBK]
 	push af
-	ld a, $5
+	ld a, BANK(wBGPals1)
 	ld [rSVBK], a
 
-	ld a, LOW(palred 31 + palgreen 31 + palblue 31)
+	ld a, LOW(PALRGB_WHITE)
 	ld [de], a
 	inc de
-	ld a, HIGH(palred 31 + palgreen 31 + palblue 31)
+	ld a, HIGH(PALRGB_WHITE)
 	ld [de], a
 	inc de
 
@@ -262,7 +262,7 @@ ResetBGPals:
 
 	ld a, [rSVBK]
 	push af
-	ld a, $5
+	ld a, BANK(wBGPals1)
 	ld [rSVBK], a
 
 	ld hl, wBGPals1
@@ -301,7 +301,7 @@ ApplyPals:
 	ld hl, wBGPals1
 	ld de, wBGPals2
 	ld bc, 16 palettes
-	ld a, $5
+	ld a, BANK(wPals)
 	call FarCopyWRAM
 	ret
 
@@ -378,7 +378,7 @@ InitPartyMenuOBPals:
 	ld hl, PartyMenuOBPals
 	ld de, wOBPals1
 	ld bc, 2 palettes
-	ld a, $5
+	ld a, BANK(wOBPals1)
 	call FarCopyWRAM
 	ret
 
@@ -437,7 +437,7 @@ GetMonPalettePointer_:
 	ret
 
 BattleObjectPals:
-INCLUDE "data/palettes/battle_objects.pal"
+INCLUDE "gfx/battle_anims/battle_anims.pal"
 
 GetMonPalettePointer:
 	ld l, a
@@ -463,21 +463,21 @@ endr
 	ret
 
 InitCGBPals::
-	ld a, $1
+	ld a, BANK(vTiles3)
 	ld [rVBK], a
-	ld hl, vTiles0
+	ld hl, vTiles3
 	ld bc, $200 tiles
 	xor a
 	call ByteFill
-	ld a, $0
+	ld a, BANK(vTiles0)
 	ld [rVBK], a
 	ld a, 1 << rBGPI_AUTO_INCREMENT
 	ld [rBGPI], a
 	ld c, 4 * 8
 .bgpals_loop
-	ld a, LOW(palred 31 + palgreen 31 + palblue 31)
+	ld a, LOW(PALRGB_WHITE)
 	ld [rBGPD], a
-	ld a, HIGH(palred 31 + palgreen 31 + palblue 31)
+	ld a, HIGH(PALRGB_WHITE)
 	ld [rBGPD], a
 	dec c
 	jr nz, .bgpals_loop
@@ -485,15 +485,15 @@ InitCGBPals::
 	ld [rOBPI], a
 	ld c, 4 * 8
 .obpals_loop
-	ld a, LOW(palred 31 + palgreen 31 + palblue 31)
+	ld a, LOW(PALRGB_WHITE)
 	ld [rOBPD], a
-	ld a, HIGH(palred 31 + palgreen 31 + palblue 31)
+	ld a, HIGH(PALRGB_WHITE)
 	ld [rOBPD], a
 	dec c
 	jr nz, .obpals_loop
 	ld a, [rSVBK]
 	push af
-	ld a, $5
+	ld a, BANK(wBGPals1)
 	ld [rSVBK], a
 	ld hl, wBGPals1
 	call .LoadWhitePals
@@ -506,24 +506,24 @@ InitCGBPals::
 .LoadWhitePals:
 	ld c, 4 * 16
 .loop
-	ld a, LOW(palred 31 + palgreen 31 + palblue 31)
+	ld a, LOW(PALRGB_WHITE)
 	ld [hli], a
-	ld a, HIGH(palred 31 + palgreen 31 + palblue 31)
+	ld a, HIGH(PALRGB_WHITE)
 	ld [hli], a
 	dec c
 	jr nz, .loop
 	ret
 
-INCLUDE "data/palettes/pal_packets.asm"
+INCLUDE "gfx/sgb/pal_packets.asm"
 
 PredefPals:
-INCLUDE "data/palettes/predef.pal"
+INCLUDE "gfx/sgb/predef.pal"
 
 HPBarPals:
-INCLUDE "data/palettes/hp_bar.pal"
+INCLUDE "gfx/battle/hp_bar.pal"
 
 ExpBarPalette:
-INCLUDE "data/palettes/exp_bar.pal"
+INCLUDE "gfx/battle/exp_bar.pal"
 
 INCLUDE "data/pokemon/palettes.asm"
 
@@ -546,7 +546,7 @@ LoadMapPals:
 	ld l, a
 	; Futher refine by time of day
 	ld a, [TimeOfDayPal]
-	and 3
+	maskbits NUM_DAYTIMES
 	add a
 	add a
 	add a
@@ -558,7 +558,7 @@ LoadMapPals:
 	; Switch to palettes WRAM bank
 	ld a, [rSVBK]
 	push af
-	ld a, $5
+	ld a, BANK(wBGPals1)
 	ld [rSVBK], a
 	ld hl, wBGPals1
 	ld b, 8
@@ -592,7 +592,7 @@ LoadMapPals:
 
 .got_pals
 	ld a, [TimeOfDayPal]
-	and 3
+	maskbits NUM_DAYTIMES
 	ld bc, 8 palettes
 	ld hl, MapObjectPals
 	call AddNTimes
@@ -616,7 +616,7 @@ LoadMapPals:
 	ld de, RoofPals
 	add hl, de
 	ld a, [TimeOfDayPal]
-	and 3
+	maskbits NUM_DAYTIMES
 	cp NITE_F
 	jr c, .morn_day
 rept 4
@@ -625,38 +625,35 @@ endr
 .morn_day
 	ld de, wBGPals1 palette PAL_BG_ROOF + 2
 	ld bc, 4
-	ld a, $5
+	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 	ret
 
 INCLUDE "data/maps/environment_colors.asm"
 
-Palette_b311: ; b311 not mobile
-	RGB 31, 31, 31
-	RGB 17, 19, 31
-	RGB 14, 16, 31
-	RGB 00, 00, 00
+PartyMenuBGPalette:
+INCLUDE "gfx/stats/party_menu_bg.pal"
 
 TilesetBGPalette:
-INCLUDE "data/palettes/overworld/tileset_bg.pal"
+INCLUDE "gfx/tilesets/bg_tiles.pal"
 
 MapObjectPals::
-INCLUDE "data/palettes/overworld/map_objects.pal"
+INCLUDE "gfx/overworld/npc_sprites.pal"
 
 RoofPals:
-INCLUDE "data/palettes/overworld/roofs.pal"
+INCLUDE "gfx/tilesets/roofs.pal"
 
 DiplomaPalettes:
-INCLUDE "data/palettes/diploma.pal"
+INCLUDE "gfx/diploma/diploma.pal"
 
 PartyMenuOBPals:
-INCLUDE "data/palettes/party_menu.pal"
+INCLUDE "gfx/stats/party_menu_ob.pal"
 
 MalePokegearPals:
-INCLUDE "data/palettes/pokegear.pal"
+INCLUDE "gfx/pokegear/pokegear.pal"
 
 FemalePokegearPals:
-INCLUDE "data/palettes/pokegear_f.pal"
+INCLUDE "gfx/pokegear/pokegear_f.pal"
 
 SlotMachinePals:
-INCLUDE "data/palettes/slot_machine.pal"
+INCLUDE "gfx/slots/slots.pal"

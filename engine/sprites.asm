@@ -36,7 +36,7 @@ PlaySpriteAnimations: ; 8cf69
 
 DoNextFrameForAllSprites: ; 8cf7a
 	ld hl, wSpriteAnimationStructs
-	ld e, 10 ; There are 10 structs here.
+	ld e, NUM_SPRITE_ANIM_STRUCTS
 
 .loop
 	ld a, [hl]
@@ -53,7 +53,7 @@ DoNextFrameForAllSprites: ; 8cf7a
 	jr c, .done
 
 .next
-	ld bc, $10
+	ld bc, SPRITEANIMSTRUCT_LENGTH
 	add hl, bc
 	dec e
 	jr nz, .loop
@@ -76,7 +76,7 @@ DoNextFrameForAllSprites: ; 8cf7a
 
 DoNextFrameForFirst16Sprites: ; 8cfa8 (23:4fa8)
 	ld hl, wSpriteAnimationStructs
-	ld e, 10
+	ld e, NUM_SPRITE_ANIM_STRUCTS
 
 .loop
 	ld a, [hl]
@@ -93,18 +93,18 @@ DoNextFrameForFirst16Sprites: ; 8cfa8 (23:4fa8)
 	jr c, .done
 
 .next
-	ld bc, $10
+	ld bc, SPRITEANIMSTRUCT_LENGTH
 	add hl, bc
 	dec e
 	jr nz, .loop
 
 	ld a, [wCurrSpriteOAMAddr]
 	ld l, a
-	ld h, HIGH(Sprites + 16 * 4)
+	ld h, HIGH(Sprite17)
 
 .loop2 ; Clear (Sprites + [wCurrSpriteOAMAddr] --> Sprites + $40)
 	ld a, l
-	cp LOW(Sprites + 16 * 4)
+	cp LOW(Sprite17)
 	jr nc, .done
 	xor a
 	ld [hli], a
@@ -119,12 +119,12 @@ InitSpriteAnimStruct:: ; 8cfd6
 	push de
 	push af
 	ld hl, wSpriteAnimationStructs
-	ld e, 10
+	ld e, NUM_SPRITE_ANIM_STRUCTS
 .loop
 	ld a, [hl]
 	and a
 	jr z, .found
-	ld bc, $10
+	ld bc, SPRITEANIMSTRUCT_LENGTH
 	add hl, bc
 	dec e
 	jr nz, .loop
@@ -222,8 +222,8 @@ DeinitializeSprite: ; 8d036
 DeinitializeAllSprites: ; 8d03d (23:503d)
 ; Clear the index field of every struct in the wSpriteAnimationStructs array.
 	ld hl, wSpriteAnimationStructs
-	ld bc, $10
-	ld e, 10
+	ld bc, SPRITEANIMSTRUCT_LENGTH
+	ld e, NUM_SPRITE_ANIM_STRUCTS
 	xor a
 .loop
 	ld [hl], a
@@ -391,7 +391,7 @@ GetSpriteAnimVTile: ; 8d109
 	push bc
 	ld hl, wSpriteAnimDict
 	ld b, a
-	ld c, 10
+	ld c, NUM_SPRITE_ANIM_STRUCTS
 .loop
 	ld a, [hli]
 	cp b
@@ -538,21 +538,22 @@ INCLUDE "data/sprite_anims/oam.asm"
 
 
 Sprites_Cosine: ; 8e72a
-	add $10
+; a = d * cos(a * pi/32)
+	add %010000
 Sprites_Sine: ; 8e72c
-; floor(d * sin(a * pi/32))
-	and $3f
-	cp $20
+; a = d * sin(a * pi/32)
+	and %111111
+	cp %100000
 	jr nc, .negative
 	call .ApplySineWave
 	ld a, h
 	ret
 
 .negative
-	and $1f
+	and %011111
 	call .ApplySineWave
 	ld a, h
-	xor $ff ; cpl
+	xor $ff
 	inc a
 	ret
 ; 8e741
@@ -572,7 +573,6 @@ Sprites_Sine: ; 8e72c
 	srl a
 	jr nc, .even
 	add hl, de
-
 .even
 	sla e
 	rl d
@@ -606,8 +606,8 @@ AnimateEndOfExpBar: ; 8e79d
 ; 8e7c6
 
 .AnimateFrame: ; 8e7c6
-	ld hl, Sprites
-	ld c, $8
+	ld hl, Sprite01
+	ld c, 8 ; number of animated circles
 .anim_loop
 	ld a, c
 	and a
@@ -625,8 +625,8 @@ AnimateEndOfExpBar: ; 8e79d
 	call Sprites_Sine
 	pop hl
 	pop de
-	add 13 * 8
-	ld [hli], a
+	add 13 * TILE_WIDTH
+	ld [hli], a ; y
 
 	pop af
 	push de
@@ -634,13 +634,13 @@ AnimateEndOfExpBar: ; 8e79d
 	call Sprites_Cosine
 	pop hl
 	pop de
-	add 10 * 8 + 4
-	ld [hli], a
+	add 10 * TILE_WIDTH + 4
+	ld [hli], a ; x
 
 	ld a, $0
-	ld [hli], a
+	ld [hli], a ; tile id
 	ld a, PAL_BATTLE_OB_BLUE
-	ld [hli], a
+	ld [hli], a ; attributes
 	jr .anim_loop
 ; 8e7f4
 

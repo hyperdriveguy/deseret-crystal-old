@@ -9,7 +9,7 @@ const_value set 2
 	const UNIONCAVE1F_POKE_BALL3
 	const UNIONCAVE1F_POKE_BALL4
 
-UnionCave1F_MapScriptHeader:
+UnionCave1F_MapScripts:
 .SceneScripts:
 	db 0
 
@@ -192,7 +192,7 @@ FirebreatherRayAfterBattleText:
 	cont "up this cave."
 	done
 
-UnionCave1F_MapEventHeader:
+UnionCave1F_MapEvents:
 	; filler
 	db 0, 0
 

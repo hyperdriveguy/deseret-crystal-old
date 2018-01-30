@@ -2,7 +2,7 @@ CheckTrainerBattle2:: ; 3600
 	ld a, [hROMBank]
 	push af
 
-	call SwitchToMapScriptHeaderBank
+	call SwitchToMapScriptsBank
 	call CheckTrainerBattle
 
 	pop bc
@@ -110,7 +110,7 @@ TalkToTrainer:: ; 3674
 	ld [EngineBuffer3], a
 
 LoadTrainer_continue:: ; 367e
-	call GetMapScriptHeaderBank
+	call GetMapScriptsBank
 	ld [EngineBuffer1], a
 
 	ld a, [hLastTalked]
@@ -120,8 +120,8 @@ LoadTrainer_continue:: ; 367e
 	add hl, bc
 	ld a, [EngineBuffer1]
 	call GetFarHalfword
-	ld de, wTempTrainerHeader
-	ld bc, wTempTrainerHeaderEnd - wTempTrainerHeader
+	ld de, wTempTrainer
+	ld bc, wTempTrainerEnd - wTempTrainer
 	ld a, [EngineBuffer1]
 	call FarCopyBytes
 	xor a
@@ -215,7 +215,7 @@ PrintWinLossText:: ; 3718
 	cp BATTLETYPE_CANLOSE
 	jr .canlose ; ??????????
 
-; unreferenced
+; unused
 	ld hl, wWinTextPointer
 	jr .ok
 
@@ -230,7 +230,7 @@ PrintWinLossText:: ; 3718
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	call GetMapScriptHeaderBank
+	call GetMapScriptsBank
 	call FarPrintText
 	call WaitBGMap
 	call WaitPressAorB_BlinkCursor

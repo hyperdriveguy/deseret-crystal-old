@@ -23,15 +23,6 @@ INCBIN "gfx/frames/9.1bpp"
 
 StatsScreenPageTilesGFX: ; f89b0
 INCBIN "gfx/stats/stats_tiles.2bpp"
-; f8a90
-
-ShinyIconGFX: ; f8a90
-; also part of StatsScreenPageTilesGFX
-INCBIN "gfx/stats/shiny.2bpp"
-
-ExpBarEndsGFX: ; f8aa0
-; not referenced on its own, but part of StatsScreenPageTilesGFX
-INCBIN "gfx/stats/exp_bar_ends.2bpp"
 ; f8ac0
 
 EnemyHPBarBorderGFX: ; f8ac0
@@ -50,20 +41,17 @@ TownMapGFX: ; f8ba0
 INCBIN "gfx/pokegear/town_map.2bpp.lz"
 ; f8ea4
 
-OverworldPhoneIconGFX: ; f8f24
-INCBIN "gfx/font/overworld_phone_icon.2bpp"
+PokegearPhoneIconGFX: ; f8f24
+INCBIN "gfx/font/phone_icon.2bpp"
 ; f8f34
 
 TextBoxSpaceGFX: ; f9204
 INCBIN "gfx/frames/space.1bpp"
 ; f9214
 
-MobilePhoneTilesGFX: ; f9214
-; One completely black tile, because it's used for filler
-rept LEN_1BPP_TILE
-db $ff
-endr
-; f9344
+FontsExtra_SolidBlackGFX: ; f9214
+INCBIN "gfx/font/black.1bpp"
+; f921c
 
 MapEntryFrameGFX: ; f9344
 INCBIN "gfx/frames/map_entry_sign.2bpp"
@@ -76,134 +64,3 @@ INCBIN "gfx/font/up_arrow.2bpp"
 Footprints: ; f9434
 INCLUDE "gfx/footprints.asm"
 ; fb434
-
-_LoadStandardFont:: ; fb449
-	ld de, Font
-	ld hl, vTiles1
-	lb bc, BANK(Font), $80
-	ld a, [rLCDC]
-	bit rLCDC_ENABLE, a
-	jp z, Copy1bpp
-
-	ld de, Font
-	ld hl, vTiles1
-	lb bc, BANK(Font), $20
-	call Get1bpp_2
-	ld de, Font + $20 * LEN_1BPP_TILE
-	ld hl, vTiles1 tile $20
-	lb bc, BANK(Font), $20
-	call Get1bpp_2
-	ld de, Font + $40 * LEN_1BPP_TILE
-	ld hl, vTiles1 tile $40
-	lb bc, BANK(Font), $20
-	call Get1bpp_2
-	ld de, Font + $60 * LEN_1BPP_TILE
-	ld hl, vTiles1 tile $60
-	lb bc, BANK(Font), $20
-	call Get1bpp_2
-	ret
-; fb48a
-
-_LoadFontsExtra1:: ; fb48a
-	ld de, MobilePhoneTilesGFX
-	ld hl, vTiles2 tile "<BLACK>" ; $60
-	lb bc, BANK(MobilePhoneTilesGFX), 1
-	call Get1bpp_2
-	ld de, OverworldPhoneIconGFX
-	ld hl, vTiles2 tile "<PHONE>" ; $62
-	lb bc, BANK(OverworldPhoneIconGFX), 1
-	call Get2bpp_2
-	ld de, FontExtra + 3 * LEN_2BPP_TILE
-	ld hl, vTiles2 tile $63
-	lb bc, BANK(FontExtra), $16
-	call Get2bpp_2
-	jr LoadFrame
-; fb4b0
-
-_LoadFontsExtra2:: ; fb4b0
-	ld de, FontsExtra2_UpArrowGFX
-	ld hl, vTiles2 tile "▲" ; $61
-	ld b, BANK(FontsExtra2_UpArrowGFX)
-	ld c, 1
-	call Get2bpp_2
-	ret
-; fb4be
-
-_LoadFontsBattleExtra:: ; fb4be
-	ld de, FontBattleExtra
-	ld hl, vTiles2 tile $60
-	lb bc, BANK(FontBattleExtra), $19
-	call Get2bpp_2
-	jr LoadFrame
-; fb4cc
-
-LoadFrame: ; fb4cc
-	ld a, [TextBoxFrame]
-	and 7
-	ld bc, LEN_1BPP_TILE * 6
-	ld hl, Frames
-	call AddNTimes
-	ld d, h
-	ld e, l
-	ld hl, vTiles2 tile "┌" ; $79
-	lb bc, BANK(Frames), 6
-	call Get1bpp_2
-	ld hl, vTiles2 tile " " ; $7f
-	ld de, TextBoxSpaceGFX
-	lb bc, BANK(TextBoxSpaceGFX), 1
-	call Get1bpp_2
-	ret
-; fb4f2
-
-LoadBattleFontsHPBar: ; fb4f2
-	ld de, FontBattleExtra
-	ld hl, vTiles2 tile $60
-	lb bc, BANK(FontBattleExtra), $c
-	call Get2bpp_2
-	ld hl, vTiles2 tile $70
-	ld de, FontBattleExtra tile $10
-	lb bc, BANK(FontBattleExtra), 3
-	call Get2bpp_2
-	call LoadFrame
-
-LoadHPBar: ; fb50d
-	ld de, EnemyHPBarBorderGFX
-	ld hl, vTiles2 tile $6c
-	lb bc, BANK(EnemyHPBarBorderGFX), 4
-	call Get1bpp_2
-	ld de, HPExpBarBorderGFX
-	ld hl, vTiles2 tile $73
-	lb bc, BANK(HPExpBarBorderGFX), 6
-	call Get1bpp_2
-	ld de, ExpBarGFX
-	ld hl, vTiles2 tile $55
-	lb bc, BANK(ExpBarGFX), 9
-	call Get2bpp_2
-	ret
-; fb53e
-
-StatsScreen_LoadFont: ; fb53e
-	call _LoadFontsBattleExtra
-	ld de, EnemyHPBarBorderGFX
-	ld hl, vTiles2 tile $6c
-	lb bc, BANK(EnemyHPBarBorderGFX), 4
-	call Get1bpp_2
-	ld de, HPExpBarBorderGFX
-	ld hl, vTiles2 tile $78
-	lb bc, BANK(HPExpBarBorderGFX), 1
-	call Get1bpp_2
-	ld de, HPExpBarBorderGFX + 3 * LEN_1BPP_TILE
-	ld hl, vTiles2 tile $76
-	lb bc, BANK(HPExpBarBorderGFX), 2
-	call Get1bpp_2
-	ld de, ExpBarGFX
-	ld hl, vTiles2 tile $55
-	lb bc, BANK(ExpBarGFX), 8
-	call Get2bpp_2
-LoadStatsScreenPageTilesGFX: ; fb571
-	ld de, StatsScreenPageTilesGFX
-	ld hl, vTiles2 tile $31
-	lb bc, BANK(StatsScreenPageTilesGFX), $11
-	call Get2bpp_2
-	ret
-; fb57e

@@ -1,4 +1,4 @@
-INCLUDE "includes.asm"
+INCLUDE "constants.asm"
 
 
 SECTION "NULL", ROM0
@@ -152,12 +152,12 @@ ClearSprites:: ; 300b
 
 HideSprites:: ; 3016
 ; Set all OAM y-positions to 160 to hide them offscreen
-	ld hl, Sprites
-	ld de, 4 ; length of an OAM struct
-	ld b, (SpritesEnd - Sprites) / 4 ; number of OAM structs
-	ld a, 160 ; y
+	ld hl, Sprite01YCoord
+	ld de, SPRITEOAMSTRUCT_LENGTH
+	ld b, NUM_SPRITE_OAM_STRUCTS
+	ld a, SCREEN_WIDTH_PX
 .loop
-	ld [hl], a
+	ld [hl], a ; y
 	add hl, de
 	dec b
 	jr nz, .loop
@@ -615,8 +615,8 @@ ClearPalettes:: ; 3317
 GetMemSGBLayout:: ; 333e
 	ld b, SCGB_RAM
 GetSGBLayout:: ; 3340
-; load cgb packets
-	predef_jump Predef_LoadSGBLayoutCGB
+; load sgb packets
+	predef_jump LoadSGBLayoutCGB
 ; 334e
 
 SetHPPal:: ; 334e
@@ -747,7 +747,7 @@ HandleStoneQueue:: ; 3567
 	ld a, [hROMBank]
 	push af
 
-	call SwitchToMapScriptHeaderBank
+	call SwitchToMapScriptsBank
 	call .WarpAction
 
 	pop bc
@@ -804,7 +804,7 @@ HandleStoneQueue:: ; 3567
 ; 35b0
 
 .check_on_warp ; 35b0
-	ld hl, wCurrMapWarpHeaderPointer
+	ld hl, wCurrMapWarpsPointer
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
@@ -1088,7 +1088,7 @@ GetNick:: ; 38a2
 	ld de, StringBuffer1
 
 	push de
-	ld bc, PKMN_NAME_LENGTH
+	ld bc, MON_NAME_LENGTH
 	call CopyBytes
 	pop de
 

@@ -8,7 +8,7 @@ SpriteAnimFrameData: ; 8d6e6
 	dw .Frameset_PartyMonWithMailFast
 	dw .Frameset_PartyMonWithItemFast
 	dw .Frameset_TextEntryCursor
-	dw .Frameset_09
+	dw .Frameset_TextEntryCursorBig
 	dw .Frameset_GameFreakLogo
 	dw .Frameset_SlotsGolem
 	dw .Frameset_SlotsChansey
@@ -17,7 +17,7 @@ SpriteAnimFrameData: ; 8d6e6
 	dw .Frameset_RedWalk
 	dw .Frameset_StillCursor
 	dw .Frameset_TradePokeBall
-	dw .Frameset_TradePokeBall0
+	dw .Frameset_TradePokeBallWobble
 	dw .Frameset_TradePoof
 	dw .Frameset_TradeTubeBulge
 	dw .Frameset_TrademonIcon
@@ -28,10 +28,10 @@ SpriteAnimFrameData: ; 8d6e6
 	dw .Frameset_Leaf
 	dw .Frameset_CutTree
 	dw .Frameset_EggCrack
-	dw .Frameset_EggHatch
-	dw .Frameset_21
-	dw .Frameset_22
-	dw .Frameset_23
+	dw .Frameset_EggHatch1
+	dw .Frameset_EggHatch2
+	dw .Frameset_EggHatch3
+	dw .Frameset_EggHatch4
 	dw .Frameset_HeadbuttTree
 	dw .Frameset_BlueWalk
 	dw .Frameset_MagnetTrainBlue
@@ -108,8 +108,8 @@ SpriteAnimFrameData: ; 8d6e6
 	dorepeat  1
 	dorestart
 
-.Frameset_09:
-	frame SPRITE_ANIM_OAMSET_FOR_FRAMESET_09,  1
+.Frameset_TextEntryCursorBig:
+	frame SPRITE_ANIM_OAMSET_TEXT_ENTRY_CURSOR_BIG,  1
 	dorepeat  1
 	dorestart
 
@@ -165,7 +165,7 @@ SpriteAnimFrameData: ; 8d6e6
 	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_1, 32
 	endanim
 
-.Frameset_TradePokeBall0:
+.Frameset_TradePokeBallWobble:
 	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_1,  3
 	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_2,  3
 	frame SPRITE_ANIM_OAMSET_TRADE_POKE_BALL_1,  3
@@ -179,8 +179,8 @@ SpriteAnimFrameData: ; 8d6e6
 	delanim
 
 .Frameset_TradeTubeBulge:
-	frame SPRITE_ANIM_OAMSET_35,  3
-	frame SPRITE_ANIM_OAMSET_36,  3
+	frame SPRITE_ANIM_OAMSET_TRADE_TUBE_BULGE_1,  3
+	frame SPRITE_ANIM_OAMSET_TRADE_TUBE_BULGE_2,  3
 	dorestart
 
 .Frameset_TrademonIcon:
@@ -226,20 +226,20 @@ SpriteAnimFrameData: ; 8d6e6
 	frame SPRITE_ANIM_OAMSET_EGG_CRACK, 32
 	endanim
 
-.Frameset_EggHatch:
-	frame SPRITE_ANIM_OAMSET_55, 32
+.Frameset_EggHatch1:
+	frame SPRITE_ANIM_OAMSET_EGG_HATCH, 32
 	endanim
 
-.Frameset_21:
-	frame SPRITE_ANIM_OAMSET_55, 32, OAM_X_FLIP
+.Frameset_EggHatch2:
+	frame SPRITE_ANIM_OAMSET_EGG_HATCH, 32, OAM_X_FLIP
 	endanim
 
-.Frameset_22:
-	frame SPRITE_ANIM_OAMSET_55, 32, OAM_Y_FLIP
+.Frameset_EggHatch3:
+	frame SPRITE_ANIM_OAMSET_EGG_HATCH, 32, OAM_Y_FLIP
 	endanim
 
-.Frameset_23:
-	frame SPRITE_ANIM_OAMSET_55, 32, OAM_X_FLIP, OAM_Y_FLIP
+.Frameset_EggHatch4:
+	frame SPRITE_ANIM_OAMSET_EGG_HATCH, 32, OAM_X_FLIP, OAM_Y_FLIP
 	endanim
 
 .Frameset_HeadbuttTree:

@@ -12,13 +12,13 @@ const_value set 2
 	const ROUTE40_LASS2
 	const ROUTE40_STANDING_YOUNGSTER
 
-Route40_MapScriptHeader:
+Route40_MapScripts:
 .SceneScripts:
 	db 0
 
 .MapCallbacks:
 	db 1
-	dbw MAPCALLBACK_OBJECTS, .MonicaCallback
+	callback MAPCALLBACK_OBJECTS, .MonicaCallback
 
 .MonicaCallback:
 	clearevent EVENT_BATTLE_TOWER_OUTSIDE_SAILOR
@@ -130,7 +130,7 @@ Route40Rock:
 	jumpstd smashrock
 
 Route40HiddenHyperPotion:
-	dwb EVENT_ROUTE_40_HIDDEN_HYPER_POTION, HYPER_POTION
+	hiddenitem EVENT_ROUTE_40_HIDDEN_HYPER_POTION, HYPER_POTION
 
 SwimmermSimonSeenText:
 	text "You have to warm"
@@ -298,7 +298,7 @@ Route40SignText:
 	line "OLIVINE CITY"
 	done
 
-Route40_MapEventHeader:
+Route40_MapEvents:
 	; filler
 	db 0, 0
 

@@ -36,6 +36,8 @@ jumptable: MACRO
 ENDM
 
 maskbits: MACRO
+; masks just enough bits to cover the argument
+; e.g. "maskbits 26" becomes "and %00011111" (since 26 - 1 = %00011001)
 ; example usage in rejection sampling:
 ; .loop
 ; 	call Random
@@ -44,8 +46,8 @@ maskbits: MACRO
 ; 	jr nc, .loop
 x = 1
 rept 8
-if \1 > x
-x = (x + 1) * 2 +- 1
+if x + 1 < (\1)
+x = x << 1 | 1
 endc
 endr
 	and x

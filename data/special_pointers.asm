@@ -106,7 +106,6 @@ SpecialsPointers:: ; c029
 	add_special Special_DaisyMassage
 	add_special Special_PlayCurMonCry
 	add_special Special_ProfOaksPCBoot
-	add_special Special_GameboyCheck ; FIXME
 	add_special Special_TrainerHouse
 	add_special Special_PhotoStudio
 	add_special Special_InitRoamMons

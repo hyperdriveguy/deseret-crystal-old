@@ -370,12 +370,6 @@ Special_PlayCurMonCry: ; c472
 ; c478
 
 
-Special_GameboyCheck: ; c478
-	ld a, GBCHECK_CGB
-	ld [ScriptVar], a
-	ret
-
-
 Special_FadeOutMusic: ; c48f
 	ld a, LOW(MUSIC_NONE)
 	ld [MusicFadeID], a

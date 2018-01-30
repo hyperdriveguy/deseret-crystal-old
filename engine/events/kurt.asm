@@ -160,9 +160,9 @@ Kurt_SelectQuantity: ; 880c2
 .MenuDataHeader: ; 0x8810d
 	db MENU_BACKUP_TILES ; flags
 	menu_coords 6, 9, SCREEN_WIDTH - 1, 12
-	;dw NULL FIXME
-	;db -1 ; default option
-	;db 0 FIXME
+	dw NULL
+	db -1 ; default option
+	db 0
 
 .PlaceApricornName: ; 88116
 	call MenuBoxCoord2Tile

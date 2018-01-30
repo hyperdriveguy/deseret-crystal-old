@@ -106,18 +106,10 @@ ReceptionistScript_0x560ce:
 Carrie:
 	faceplayer
 	opentext
-	special Special_GameboyCheck
-	if_not_equal $2, .NotGBC ; This is a dummy check from Gold and Silver.  In normal gameplay, this would not be checked.
 	writetext UnknownText_0x56241
 	waitbutton
 	closetext
 	special Special_UnlockMysteryGift
-	end
-
-.NotGBC:
-	writetext UnknownText_0x56279
-	waitbutton
-	closetext
 	end
 
 GoldenrodDeptStore5FLassScript:

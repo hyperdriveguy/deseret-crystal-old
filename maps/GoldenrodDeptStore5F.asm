@@ -175,12 +175,6 @@ UnknownText_0x56241:
 	cont "get a gift."
 	done
 
-UnknownText_0x56279:
-	text "The MYSTERY GIFT"
-	line "option requires a"
-	cont "Game Boy Color."
-	done
-
 GoldenrodDeptStore5FLassText:
 	text "On Sundays, a lady"
 	line "comes to check out"

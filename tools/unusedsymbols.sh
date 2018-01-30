@@ -24,7 +24,6 @@ Cry_Teddiursa_branch_f3296
 Cry_Teddiursa_branch_f32a2
 Cry_Teddiursa_branch_f32ae
 DrawHP
-ExpBarEndsGFX
 FacingsEnd
 FemalePlayerNameArray
 Function24f19
@@ -39,6 +38,7 @@ MalePlayerNameArray
 Mobile_GetMenuSelection
 NamingScreen_AdvanceCursor_CheckEndOfString
 NamingScreen_LoadNextCharacter
+POKEDEX_SCX
 SetSeenMon
 Sfx_GetEggFromDayCareMan_Ch5
 Sfx_GetEggFromDayCareMan_Ch6

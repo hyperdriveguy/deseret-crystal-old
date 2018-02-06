@@ -6,7 +6,7 @@ _BillsPC: ; e3fd
 	jp .LogOut
 
 .CheckCanUsePC: ; e40a (3:640a)
-	ld a, [PartyCount]
+	ld a, [wPartyCount]
 	and a
 	ret nz
 	ld hl, .Text_GottaHavePokemon
@@ -24,14 +24,14 @@ _BillsPC: ; e3fd
 	ld [hBGMapMode], a
 	call LoadStandardMenuDataHeader
 	call ClearPCItemScreen
-	ld hl, Options
+	ld hl, wOptions
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
 	ld hl, .Text_What
 	call PrintText
 	pop af
-	ld [Options], a
+	ld [wOptions], a
 	call LoadFontsBattleExtra
 	ret
 
@@ -58,7 +58,7 @@ _BillsPC: ; e3fd
 	jr c, .cancel
 	ld a, [wMenuCursorBuffer]
 	push af
-	ld a, [MenuSelection]
+	ld a, [wMenuSelection]
 	ld hl, .Jumptable
 	rst JumpTable
 	pop bc
@@ -143,11 +143,11 @@ BillsPC_DepositMenu: ; e4fe (3:64fe)
 	ret
 
 CheckCurPartyMonFainted: ; e538
-	ld hl, PartyMon1HP
+	ld hl, wPartyMon1HP
 	ld de, PARTYMON_STRUCT_LENGTH
 	ld b, $0
 .loop
-	ld a, [CurPartyMon]
+	ld a, [wCurPartyMon]
 	cp b
 	jr z, .skip
 	ld a, [hli]
@@ -157,7 +157,7 @@ CheckCurPartyMonFainted: ; e538
 
 .skip
 	inc b
-	ld a, [PartyCount]
+	ld a, [wPartyCount]
 	cp b
 	jr z, .done
 	add hl, de
@@ -206,11 +206,11 @@ ClearPCItemScreen: ; e58b
 	ret
 
 CopyBoxmonToTempMon: ; e5bb
-	ld a, [CurPartyMon]
+	ld a, [wCurPartyMon]
 	ld hl, sBoxMon1Species
 	ld bc, BOXMON_STRUCT_LENGTH
 	call AddNTimes
-	ld de, TempMonSpecies
+	ld de, wTempMonSpecies
 	ld bc, BOXMON_STRUCT_LENGTH
 	ld a, BANK(sBoxMon1Species)
 	call GetSRAMBank

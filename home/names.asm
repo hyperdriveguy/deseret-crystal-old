@@ -4,13 +4,13 @@ NamesPointers:: ; 33ab
 	dba MoveNames           ; MOVE_NAME
 	dbw 0, NULL             ; DUMMY_NAME
 	dba ItemNames           ; ITEM_NAME
-	dbw 0, PartyMonOT       ; PARTY_OT_NAME
-	dbw 0, OTPartyMonOT     ; ENEMY_OT_NAME
+	dbw 0, wPartyMonOT       ; PARTY_OT_NAME
+	dbw 0, wOTPartyMonOT     ; ENEMY_OT_NAME
 	dba TrainerClassNames   ; TRAINER_NAME
 ; 33c3
 
 GetName:: ; 33c3
-; Return name CurSpecies from name list wNamedObjectTypeBuffer in StringBuffer1.
+; Return name wCurSpecies from name list wNamedObjectTypeBuffer in wStringBuffer1.
 
 	ld a, [hROMBank]
 	push af
@@ -22,7 +22,7 @@ GetName:: ; 33c3
 	cp MON_NAME
 	jr nz, .NotPokeName
 
-	ld a, [CurSpecies]
+	ld a, [wCurSpecies]
 	ld [wd265], a
 	call GetPokemonName
 	ld hl, MON_NAME_LENGTH
@@ -46,11 +46,11 @@ GetName:: ; 33c3
 	ld h, [hl]
 	ld l, a
 
-	ld a, [CurSpecies]
+	ld a, [wCurSpecies]
 	dec a
 	call GetNthString
 
-	ld de, StringBuffer1
+	ld de, wStringBuffer1
 	ld bc, ITEM_NAME_LENGTH
 	call CopyBytes
 
@@ -94,7 +94,7 @@ GetBasePokemonName:: ; 3420
 	push hl
 	call GetPokemonName
 
-	ld hl, StringBuffer1
+	ld hl, wStringBuffer1
 .loop
 	ld a, [hl]
 	cp "@"
@@ -137,11 +137,11 @@ GetPokemonName:: ; 343b
 	add hl, de
 
 ; Terminator
-	ld de, StringBuffer1
+	ld de, wStringBuffer1
 	push de
 	ld bc, MON_NAME_LENGTH - 1
 	call CopyBytes
-	ld hl, StringBuffer1 + MON_NAME_LENGTH - 1
+	ld hl, wStringBuffer1 + MON_NAME_LENGTH - 1
 	ld [hl], "@"
 	pop de
 
@@ -161,7 +161,7 @@ GetItemName:: ; 3468
 	cp TM01
 	jr nc, .TM
 
-	ld [CurSpecies], a
+	ld [wCurSpecies], a
 	ld a, ITEM_NAME
 	ld [wNamedObjectTypeBuffer], a
 	call GetName
@@ -169,7 +169,7 @@ GetItemName:: ; 3468
 .TM:
 	call GetTMHMName
 .Copied:
-	ld de, StringBuffer1
+	ld de, wStringBuffer1
 	pop bc
 	pop hl
 	ret
@@ -198,7 +198,7 @@ GetTMHMName:: ; 3487
 	ld bc, .TMTextEnd - .TMText
 
 .asm_34a1
-	ld de, StringBuffer1
+	ld de, wStringBuffer1
 	call CopyBytes
 
 ; TM/HM number
@@ -267,10 +267,10 @@ GetMoveName:: ; 34f8
 	ld [wNamedObjectTypeBuffer], a
 
 	ld a, [wNamedObjectIndexBuffer] ; move id
-	ld [CurSpecies], a
+	ld [wCurSpecies], a
 
 	call GetName
-	ld de, StringBuffer1
+	ld de, wStringBuffer1
 
 	pop hl
 	ret

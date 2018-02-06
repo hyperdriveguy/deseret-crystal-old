@@ -5,12 +5,12 @@ SECTION "Events", ROMX
 
 OverworldLoop:: ; 966b0
 	xor a
-	ld [MapStatus], a
+	ld [wMapStatus], a
 .loop
-	ld a, [MapStatus]
+	ld a, [wMapStatus]
 	ld hl, .jumps
 	rst JumpTable
-	ld a, [MapStatus]
+	ld a, [wMapStatus]
 	cp 3 ; done
 	jr nz, .loop
 .done
@@ -25,53 +25,53 @@ OverworldLoop:: ; 966b0
 
 DisableEvents: ; 966cb
 	xor a
-	ld [ScriptFlags3], a
+	ld [wScriptFlags3], a
 	ret
 ; 966d0
 
 EnableEvents:: ; 966d0
 	ld a, $ff
-	ld [ScriptFlags3], a
+	ld [wScriptFlags3], a
 	ret
 ; 966d6
 
 EnableWildEncounters: ; 96706
-	ld hl, ScriptFlags3
+	ld hl, wScriptFlags3
 	set 4, [hl]
 	ret
 ; 9670c
 
 CheckWarpConnxnScriptFlag: ; 9670c
-	ld hl, ScriptFlags3
+	ld hl, wScriptFlags3
 	bit 2, [hl]
 	ret
 ; 96712
 
 CheckCoordEventScriptFlag: ; 96712
-	ld hl, ScriptFlags3
+	ld hl, wScriptFlags3
 	bit 1, [hl]
 	ret
 ; 96718
 
 CheckStepCountScriptFlag: ; 96718
-	ld hl, ScriptFlags3
+	ld hl, wScriptFlags3
 	bit 0, [hl]
 	ret
 ; 9671e
 
 CheckWildEncountersScriptFlag: ; 9671e
-	ld hl, ScriptFlags3
+	ld hl, wScriptFlags3
 	bit 4, [hl]
 	ret
 ; 96724
 
 StartMap: ; 96724
 	xor a
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	xor a
-	ld [ScriptRunning], a
-	ld hl, MapStatus
-	ld bc, wMapStatusEnd - MapStatus
+	ld [wScriptRunning], a
+	ld hl, wMapStatus
+	ld bc, wMapStatusEnd - wMapStatus
 	call ByteFill
 	farcall InitCallReceiveDelay
 	call ClearJoypad
@@ -93,13 +93,13 @@ EnterMap: ; 9673e
 	cp MAPSETUP_RELOADMAP
 	jr nz, .dontresetpoison
 	xor a
-	ld [PoisonStepCount], a
+	ld [wPoisonStepCount], a
 .dontresetpoison
 
 	xor a ; end map entry
 	ld [hMapEntryMethod], a
 	ld a, 2 ; HandleMap
-	ld [MapStatus], a
+	ld [wMapStatus], a
 	ret
 ; 9676d
 
@@ -110,7 +110,7 @@ HandleMap: ; 96773
 	call MapEvents
 
 ; Not immediately entering a connected map will cause problems.
-	ld a, [MapStatus]
+	ld a, [wMapStatus]
 	cp 2 ; HandleMap
 	ret nz
 
@@ -122,7 +122,7 @@ HandleMap: ; 96773
 ; 96795
 
 MapEvents: ; 96795
-	ld a, [MapEventStatus]
+	ld a, [wMapEventStatus]
 	ld hl, .jumps
 	rst JumpTable
 	ret
@@ -149,12 +149,12 @@ MaxOverworldDelay: ; 967af
 
 ResetOverworldDelay: ; 967b0
 	ld a, [MaxOverworldDelay]
-	ld [OverworldDelay], a
+	ld [wOverworldDelay], a
 	ret
 ; 967b7
 
 NextOverworldFrame: ; 967b7
-	ld a, [OverworldDelay]
+	ld a, [wOverworldDelay]
 	and a
 	ret z
 	ld c, a
@@ -163,7 +163,7 @@ NextOverworldFrame: ; 967b7
 ; 967c1
 
 HandleMapTimeAndJoypad: ; 967c1
-	ld a, [MapEventStatus]
+	ld a, [wMapEventStatus]
 	cp 1 ; no events
 	ret z
 
@@ -198,12 +198,12 @@ CheckPlayerState: ; 967f4
 	call EnableEvents
 .events
 	ld a, 0 ; events
-	ld [MapEventStatus], a
+	ld [wMapEventStatus], a
 	ret
 
 .noevents
 	ld a, 1 ; no events
-	ld [MapEventStatus], a
+	ld [wMapEventStatus], a
 	ret
 ; 96812
 
@@ -218,7 +218,7 @@ _CheckObjectEnteringVisibleRange: ; 96812
 PlayerEvents: ; 9681f
 	xor a
 ; If there's already a player event, don't interrupt it.
-	ld a, [ScriptRunning]
+	ld a, [wScriptRunning]
 	and a
 	ret nz
 
@@ -248,9 +248,9 @@ PlayerEvents: ; 9681f
 	farcall EnableScriptMode
 	pop af
 
-	ld [ScriptRunning], a
+	ld [wScriptRunning], a
 	call DoPlayerEvent
-	ld a, [ScriptRunning]
+	ld a, [wScriptRunning]
 	cp PLAYEREVENT_CONNECTION
 	jr z, .ok2
 	cp PLAYEREVENT_JOYCHANGEFACING
@@ -323,7 +323,7 @@ CheckTileEvent: ; 96874
 	ret
 
 .warp_tile
-	ld a, [PlayerStandingTile]
+	ld a, [wPlayerStandingTile]
 	call CheckPitTile
 	jr nz, .not_pit
 	ld a, PLAYEREVENT_FALL
@@ -387,13 +387,13 @@ endr
 	call GetMapScriptsBank
 	call CallScript
 
-	ld hl, ScriptFlags
+	ld hl, wScriptFlags
 	res 3, [hl]
 
 	farcall EnableScriptMode
 	farcall ScriptEvents
 
-	ld hl, ScriptFlags
+	ld hl, wScriptFlags
 	bit 3, [hl]
 	jr z, .nope
 
@@ -560,7 +560,7 @@ TryObjectEvent: ; 969b5
 	ld h, [hl]
 	ld l, a
 	call GetMapScriptsBank
-	ld de, EngineBuffer1
+	ld de, wEngineBuffer1
 	ld bc, 2
 	call FarCopyBytes
 	ld a, PLAYEREVENT_ITEMBALL
@@ -582,7 +582,7 @@ TryBGEvent: ; 96a38
 	ret
 
 .is_bg_event:
-	ld a, [EngineBuffer3]
+	ld a, [wEngineBuffer3]
 	ld hl, .bg_events
 	rst JumpTable
 	ret
@@ -613,14 +613,14 @@ TryBGEvent: ; 96a38
 	jr .checkdir
 
 .checkdir
-	ld a, [PlayerDirection]
+	ld a, [wPlayerDirection]
 	and %1100
 	cp b
 	jp nz, .dontread
 
 .read
 	call PlayTalkObject
-	ld hl, EngineBuffer4
+	ld hl, wEngineBuffer4
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
@@ -634,7 +634,7 @@ TryBGEvent: ; 96a38
 	jp nz, .dontread
 	call PlayTalkObject
 	call GetMapScriptsBank
-	ld de, EngineBuffer1
+	ld de, wEngineBuffer1
 	ld bc, 3
 	call FarCopyBytes
 	ld a, BANK(HiddenItemScript)
@@ -647,7 +647,7 @@ TryBGEvent: ; 96a38
 	call CheckBGEventFlag
 	jr nz, .dontread
 	call GetMapScriptsBank
-	ld de, EngineBuffer1
+	ld de, wEngineBuffer1
 	ld bc, 3
 	call FarCopyBytes
 	jr .dontread
@@ -680,7 +680,7 @@ TryBGEvent: ; 96a38
 ; 96ad8
 
 CheckBGEventFlag: ; 96ad8
-	ld hl, EngineBuffer4
+	ld hl, wEngineBuffer4
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
@@ -835,9 +835,9 @@ CountStep: ; 96b79
 	jr c, .doscript
 
 	; Count the step for poison and total steps
-	ld hl, PoisonStepCount
+	ld hl, wPoisonStepCount
 	inc [hl]
-	ld hl, StepCount
+	ld hl, wStepCount
 	inc [hl]
 	; Every 256 steps, increase the happiness of all your Pokemon.
 	jr nz, .skip_happiness
@@ -848,7 +848,7 @@ CountStep: ; 96b79
 	; Every 256 steps, offset from the happiness incrementor by 128 steps,
 	; decrease the hatch counter of all your eggs until you reach the first
 	; one that is ready to hatch.
-	ld a, [StepCount]
+	ld a, [wStepCount]
 	cp $80
 	jr nz, .skip_egg
 
@@ -860,7 +860,7 @@ CountStep: ; 96b79
 	farcall DayCareStep
 
 	; Every four steps, deal damage to all Poisoned Pokemon
-	ld hl, PoisonStepCount
+	ld hl, wPoisonStepCount
 	ld a, [hl]
 	cp 4
 	jr c, .skip_poison
@@ -904,7 +904,7 @@ DoRepelStep: ; 96bd7
 ; 96beb
 
 DoPlayerEvent: ; 96beb
-	ld a, [ScriptRunning]
+	ld a, [wScriptRunning]
 	and a
 	ret z
 
@@ -921,11 +921,11 @@ DoPlayerEvent: ; 96beb
 	add hl, bc
 	add hl, bc
 	ld a, [hli]
-	ld [ScriptBank], a
+	ld [wScriptBank], a
 	ld a, [hli]
-	ld [ScriptPos], a
+	ld [wScriptPos], a
 	ld a, [hl]
-	ld [ScriptPos + 1], a
+	ld [wScriptPos + 1], a
 	ret
 ; 96c0c
 

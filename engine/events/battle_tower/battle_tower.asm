@@ -50,15 +50,15 @@ _BattleTowerBattle: ; 17022c
 ; 17024d
 
 RunBattleTowerTrainer: ; 17024d
-	ld a, [Options]
+	ld a, [wOptions]
 	push af
-	ld hl, Options
+	ld hl, wOptions
 	set BATTLE_SHIFT, [hl] ; SET MODE
 
-	ld a, [InBattleTowerBattle]
+	ld a, [wInBattleTowerBattle]
 	push af
 	or $1
-	ld [InBattleTowerBattle], a
+	ld [wInBattleTowerBattle], a
 
 	xor a
 	ld [wLinkMode], a
@@ -70,7 +70,7 @@ RunBattleTowerTrainer: ; 17024d
 	farcall LoadPokemonData
 	farcall HealParty
 	ld a, [wBattleResult]
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	and a
 	jr nz, .lost
 	ld a, BANK(sNrOfBeatenBattleTowerTrainers)
@@ -78,7 +78,7 @@ RunBattleTowerTrainer: ; 17024d
 	ld a, [sNrOfBeatenBattleTowerTrainers]
 	ld [wNrOfBeatenBattleTowerTrainers], a
 	call CloseSRAM
-	ld hl, StringBuffer3
+	ld hl, wStringBuffer3
 	ld a, [wNrOfBeatenBattleTowerTrainers]
 	add "1"
 	ld [hli], a
@@ -87,9 +87,9 @@ RunBattleTowerTrainer: ; 17024d
 
 .lost
 	pop af
-	ld [InBattleTowerBattle], a
+	ld [wInBattleTowerBattle], a
 	pop af
-	ld [Options], a
+	ld [wOptions], a
 	ld a, $1
 	ld [wBattleTowerBattleEnded], a
 	ret
@@ -100,7 +100,7 @@ ReadBTTrainerParty: ; 1702b7
 	call CopyBTTrainer_FromBT_OT_TowBT_OTTemp
 
 	ld hl, wBT_OTTempName ; 0xc608
-	ld de, OTPlayerName
+	ld de, wOTPlayerName
 	ld bc, NAME_LENGTH - 1
 	call CopyBytes
 	ld a, "@"
@@ -108,15 +108,15 @@ ReadBTTrainerParty: ; 1702b7
 
 	ld hl, wBT_OTTempTrainerClass
 	ld a, [hli]
-	ld [OtherTrainerClass], a
-	ld a, LOW(OTPartyMonNicknames)
-	ld [BGMapBuffer], a
-	ld a, HIGH(OTPartyMonNicknames)
-	ld [BGMapBuffer + 1], a
+	ld [wOtherTrainerClass], a
+	ld a, LOW(wOTPartyMonNicknames)
+	ld [wBGMapBuffer], a
+	ld a, HIGH(wOTPartyMonNicknames)
+	ld [wBGMapBuffer + 1], a
 
 	; Copy Pkmn into Memory from the address in hl
-	ld de, OTPartyMon1Species
-	ld bc, OTPartyCount
+	ld de, wOTPartyMon1Species
+	ld bc, wOTPartyCount
 	ld a, BATTLETOWER_PARTY_LENGTH
 	ld [bc], a
 	inc bc
@@ -129,16 +129,16 @@ ReadBTTrainerParty: ; 1702b7
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call CopyBytes
 	push de
-	ld a, [BGMapBuffer]
+	ld a, [wBGMapBuffer]
 	ld e, a
-	ld a, [BGMapBuffer + 1]
+	ld a, [wBGMapBuffer + 1]
 	ld d, a
 	ld bc, MON_NAME_LENGTH
 	call CopyBytes
 	ld a, e
-	ld [BGMapBuffer], a
+	ld [wBGMapBuffer], a
 	ld a, d
-	ld [BGMapBuffer + 1], a
+	ld [wBGMapBuffer + 1], a
 	pop de
 	pop bc
 	pop af
@@ -152,13 +152,13 @@ ReadBTTrainerParty: ; 1702b7
 
 
 CopyBTTrainer_FromBT_OT_TowBT_OTTemp: ; 1704a2
-; copy the BattleTower-Trainer data that lies at 'BT_OTTrainer' to 'wBT_OTTemp'
+; copy the BattleTower-Trainer data that lies at 'wBT_OTTrainer' to 'wBT_OTTemp'
 	ld a, [rSVBK]
 	push af
-	ld a, BANK(BT_OTTrainer)
+	ld a, BANK(wBT_OTTrainer)
 	ld [rSVBK], a
 
-	ld hl, BT_OTTrainer
+	ld hl, wBT_OTTrainer
 	ld de, wBT_OTTemp
 	ld bc, BATTLE_TOWER_STRUCT_LENGTH
 	call CopyBytes
@@ -178,7 +178,7 @@ SkipBattleTowerTrainer: ; 1704c9
 ; 1704ca
 
 Special_BattleTowerAction: ; 170687
-	ld a, [ScriptVar]
+	ld a, [wScriptVar]
 	ld e, a
 	ld d, 0
 	ld hl, .dw
@@ -232,13 +232,13 @@ BattleTower_GiveReward: ; 1706ee (5c:46ee) BattleTowerAction $1b
 
 	ld a, [sBattleTowerReward]
 	call CloseSRAM
-	ld [ScriptVar], a
-	ld hl, NumItems
+	ld [wScriptVar], a
+	ld hl, wNumItems
 	ld a, [hli]
 	cp MAX_ITEMS
 	ret c
 	ld b, MAX_ITEMS
-	ld a, [ScriptVar]
+	ld a, [wScriptVar]
 	ld c, a
 .loop
 	ld a, [hli]
@@ -252,7 +252,7 @@ BattleTower_GiveReward: ; 1706ee (5c:46ee) BattleTowerAction $1b
 	dec b
 	jr nz, .loop
 	ld a, POTION
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ret
 
 Function17071b: ; 17071b (5c:471b) BattleTowerAction $1c
@@ -298,7 +298,7 @@ BattleTower_RandomlyChooseReward: ; 17073e (5c:473e) BattleTowerAction $1e
 
 BattleTowerAction_CheckExplanationRead: ; 17075f (5c:475f) BattleTowerAction $00
 	call BattleTower_CheckSaveFileExistsAndIsYours
-	ld a, [ScriptVar]
+	ld a, [wScriptVar]
 	and a
 	ret z
 
@@ -306,7 +306,7 @@ BattleTowerAction_CheckExplanationRead: ; 17075f (5c:475f) BattleTowerAction $00
 	call GetSRAMBank
 	ld a, [sBattleTowerSaveFileFlags]
 	and $2
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	call CloseSRAM
 	ret
 
@@ -315,7 +315,7 @@ BattleTowerAction_GetChallengeState: ; 170778 (5c:4778) BattleTowerAction $02
 	ld a, BANK(sBattleTowerChallengeState)
 	call GetSRAMBank
 	ld a, [hl]
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	call CloseSRAM
 	ret
 
@@ -383,14 +383,14 @@ BattleTower_CheckSaveFileExistsAndIsYours: ; 17089a BattleTowerAction $09
 	ld a, $1
 
 .nope
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ret
 ; 1708b1
 
 
 Function1708b1: ; 1708b1 (5c:48b1) BattleTowerAction $0a
 	xor a
-	ld [MusicFade], a
+	ld [wMusicFade], a
 	call MaxVolume
 	ret
 
@@ -415,7 +415,7 @@ Special_LoadOpponentTrainerAndPokemonWithOTSprite: ; 0x170b44
 	push af
 	ld a, $3
 	ld [rSVBK], a
-	ld hl, BT_OTTrainerClass
+	ld hl, wBT_OTTrainerClass
 	ld a, [hl]
 	dec a
 	ld c, a
@@ -429,7 +429,7 @@ Special_LoadOpponentTrainerAndPokemonWithOTSprite: ; 0x170b44
 
 ; Load sprite of the opponent trainer
 ; because s/he is chosen randomly and appears out of nowhere
-	ld a, [ScriptVar]
+	ld a, [wScriptVar]
 	dec a
 	sla a
 	ld e, a
@@ -439,12 +439,12 @@ Special_LoadOpponentTrainerAndPokemonWithOTSprite: ; 0x170b44
 	ld c, a
 	ld b, 0
 	ld d, 0
-	ld hl, MapObjects
+	ld hl, wMapObjects
 	add hl, bc
 	inc hl
 	ld a, [wBTTempOTSprite]
 	ld [hl], a
-	ld hl, UsedSprites
+	ld hl, wUsedSprites
 	add hl, de
 	ld [hli], a
 	ld [hUsedSpriteIndex], a
@@ -466,6 +466,6 @@ Special_CheckForBattleTowerRules: ; 170bd3
 	ld a, TRUE
 
 .asm_170be0
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ret
 ; 170be4

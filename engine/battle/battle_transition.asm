@@ -190,12 +190,12 @@ BattleTransitionJumptable: ; 8c314
 StartTrainerBattle_DetermineWhichAnimation: ; 8c365 (23:4365)
 ; The screen flashes a different number of times depending on the level of
 ; your lead Pokemon relative to the opponent's.
-; BUG: BattleMonLevel and EnemyMonLevel are not set at this point, so whatever
+; BUG: wBattleMonLevel and wEnemyMonLevel are not set at this point, so whatever
 ; values happen to be there will determine the animation.
 	ld de, 0
-	ld a, [BattleMonLevel]
+	ld a, [wBattleMonLevel]
 	add 3
-	ld hl, EnemyMonLevel
+	ld hl, wEnemyMonLevel
 	cp [hl]
 	jr nc, .okay
 	set 0, e
@@ -290,7 +290,7 @@ StartTrainerBattle_Flash: ; 8c3ab (23:43ab)
 
 StartTrainerBattle_SetUpForWavyOutro: ; 8c3e8 (23:43e8)
 	farcall Function5602
-	ld a, BANK(LYOverrides)
+	ld a, BANK(wLYOverrides)
 	ld [rSVBK], a
 
 	call StartTrainerBattle_NextScene
@@ -326,8 +326,8 @@ StartTrainerBattle_SineWave: ; 8c408 (23:4408)
 	ld d, [hl]
 	add [hl]
 	ld [hl], a
-	ld a, LYOverridesEnd - LYOverrides
-	ld bc, LYOverrides
+	ld a, wLYOverridesEnd - wLYOverrides
+	ld bc, wLYOverrides
 	ld e, $0
 
 .loop
@@ -348,7 +348,7 @@ StartTrainerBattle_SineWave: ; 8c408 (23:4408)
 
 StartTrainerBattle_SetUpForSpinOutro: ; 8c43d (23:443d)
 	farcall Function5602
-	ld a, BANK(LYOverrides)
+	ld a, BANK(wLYOverrides)
 	ld [rSVBK], a
 	call StartTrainerBattle_NextScene
 	xor a
@@ -490,7 +490,7 @@ ENDM
 
 StartTrainerBattle_SetUpForRandomScatterOutro: ; 8c578 (23:4578)
 	farcall Function5602
-	ld a, BANK(LYOverrides)
+	ld a, BANK(wLYOverrides)
 	ld [rSVBK], a
 	call StartTrainerBattle_NextScene
 	ld a, $10
@@ -558,13 +558,13 @@ StartTrainerBattle_SpeckleToBlack: ; 8c58f (23:458f)
 	ret
 
 StartTrainerBattle_LoadPokeBallGraphics: ; 8c5dc (23:45dc)
-	ld a, [OtherTrainerClass]
+	ld a, [wOtherTrainerClass]
 	and a
 	jp z, .nextscene ; don't need to be here if wild
 
 	xor a
 	ld [hBGMapMode], a
-	hlcoord 0, 0, AttrMap
+	hlcoord 0, 0, wAttrMap
 	ld bc, SCREEN_HEIGHT * SCREEN_WIDTH
 	inc b
 	inc c
@@ -621,7 +621,7 @@ StartTrainerBattle_LoadPokeBallGraphics: ; 8c5dc (23:45dc)
 	jr nz, .loop2
 
 	ld hl, .daypals
-	ld a, [TimeOfDayPal]
+	ld a, [wTimeOfDayPal]
 	maskbits NUM_DAYTIMES
 	cp DARKNESS_F
 	jr nz, .daytime
@@ -681,7 +681,7 @@ INCLUDE "gfx/overworld/trainer_battle_nite.pal"
 ; 8c6b1
 
 .loadpokeballgfx
-	ld a, [OtherTrainerClass]
+	ld a, [wOtherTrainerClass]
 	ld de, PokeBallTransition
 	ret
 
@@ -706,12 +706,12 @@ PokeBallTransition:
 WipeLYOverrides: ; 8c6d8
 	ld a, [rSVBK]
 	push af
-	ld a, BANK(LYOverrides)
+	ld a, BANK(wLYOverrides)
 	ld [rSVBK], a
 
-	ld hl, LYOverrides
+	ld hl, wLYOverrides
 	call .wipe
-	ld hl, LYOverridesBackup
+	ld hl, wLYOverridesBackup
 	call .wipe
 
 	pop af

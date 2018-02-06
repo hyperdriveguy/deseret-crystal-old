@@ -4,9 +4,9 @@ _AnimateTileset:: ; fc000
 
 ; Typically in wra1, vra0
 
-	ld a, [TilesetAnim]
+	ld a, [wTilesetAnim]
 	ld e, a
-	ld a, [TilesetAnim + 1]
+	ld a, [wTilesetAnim + 1]
 	ld d, a
 
 	ld a, [hTileAnimFrame]
@@ -227,20 +227,20 @@ WaitTileAnimation: ; fc2fe
 ; fc2ff
 
 StandingTileFrame8: ; fc2ff
-	ld a, [TileAnimationTimer]
+	ld a, [wTileAnimationTimer]
 	inc a
 	and %111
-	ld [TileAnimationTimer], a
+	ld [wTileAnimationTimer], a
 	ret
 ; fc309
 
 
 ScrollTileRightLeft: ; fc309
 ; Scroll right for 4 ticks, then left for 4 ticks.
-	ld a, [TileAnimationTimer]
+	ld a, [wTileAnimationTimer]
 	inc a
 	and %111
-	ld [TileAnimationTimer], a
+	ld [wTileAnimationTimer], a
 	and %100
 	jr nz, ScrollTileLeft
 	jr ScrollTileRight
@@ -311,7 +311,7 @@ AnimateFountain: ; fc387
 	ld b, h
 	ld c, l
 	ld hl, .frames
-	ld a, [TileAnimationTimer]
+	ld a, [wTileAnimationTimer]
 	and %111
 	add a
 	add l
@@ -353,7 +353,7 @@ AnimateWaterTile: ; fc402
 	ld b, h
 	ld c, l
 
-	ld a, [TileAnimationTimer]
+	ld a, [wTileAnimationTimer]
 
 ; 4 tile graphics, updated every other frame.
 	and %110
@@ -369,7 +369,7 @@ AnimateWaterTile: ; fc402
 	adc HIGH(WaterTileFrames)
 	ld h, a
 
-; Stack now points to the start of the tile for this frame.
+; The stack now points to the start of the tile for this frame.
 	ld sp, hl
 
 	ld l, e
@@ -396,7 +396,7 @@ ForestTreeLeftAnimation: ; fc45c
 	jr .asm_fc47d
 
 .asm_fc46c
-	ld a, [TileAnimationTimer]
+	ld a, [wTileAnimationTimer]
 	call GetForestTreeFrame
 	add a
 	add a
@@ -438,7 +438,7 @@ ForestTreeRightAnimation: ; fc4c4
 	jr .asm_fc4eb
 
 .asm_fc4d4
-	ld a, [TileAnimationTimer]
+	ld a, [wTileAnimationTimer]
 	call GetForestTreeFrame
 	add a
 	add a
@@ -473,7 +473,7 @@ ForestTreeLeftAnimation2: ; fc4f2
 	jr .asm_fc515
 
 .asm_fc502
-	ld a, [TileAnimationTimer]
+	ld a, [wTileAnimationTimer]
 	call GetForestTreeFrame
 	xor 2
 	add a
@@ -505,7 +505,7 @@ ForestTreeRightAnimation2: ; fc51c
 	jr .asm_fc545
 
 .asm_fc52c
-	ld a, [TileAnimationTimer]
+	ld a, [wTileAnimationTimer]
 	call GetForestTreeFrame
 	xor 2
 	add a
@@ -563,7 +563,7 @@ AnimateFlowerTile: ; fc56d
 	ld c, l
 
 ; Alternate tile graphic every other frame
-	ld a, [TileAnimationTimer]
+	ld a, [wTileAnimationTimer]
 	and %10
 	ld e, a
 
@@ -596,7 +596,7 @@ LavaBubbleAnim1: ; fc5cc
 	ld hl, sp+0
 	ld b, h
 	ld c, l
-	ld a, [TileAnimationTimer]
+	ld a, [wTileAnimationTimer]
 	and %110
 	srl a
 	inc a
@@ -618,7 +618,7 @@ LavaBubbleAnim2: ; fc5eb
 	ld hl, sp+0
 	ld b, h
 	ld c, l
-	ld a, [TileAnimationTimer]
+	ld a, [wTileAnimationTimer]
 	and %110
 	add a
 	add a
@@ -650,7 +650,7 @@ AnimateTowerPillarTile: ; fc645
 	ld b, h
 	ld c, l
 
-	ld a, [TileAnimationTimer]
+	ld a, [wTileAnimationTimer]
 	and %111
 
 ; Get frame index a
@@ -690,7 +690,7 @@ AnimateTowerPillarTile: ; fc645
 
 
 StandingTileFrame: ; fc673
-	ld hl, TileAnimationTimer
+	ld hl, wTileAnimationTimer
 	inc [hl]
 	ret
 ; fc678
@@ -720,7 +720,7 @@ AnimateWhirlpoolTile: ; fc678
 ; Tile address is now at hl.
 
 ; Get the tile for this frame.
-	ld a, [TileAnimationTimer]
+	ld a, [wTileAnimationTimer]
 	and %11 ; 4 frames x2
 	swap a  ; * 16 bytes per tile
 
@@ -732,7 +732,7 @@ AnimateWhirlpoolTile: ; fc678
 	adc h
 	ld h, a
 
-; Stack now points to the desired frame.
+; The stack now points to the desired frame.
 	ld sp, hl
 
 	ld l, e
@@ -811,7 +811,7 @@ TileAnimationPalette: ; fc6d7
 	ret nz
 
 ; Only update on even frames.
-	ld a, [TileAnimationTimer]
+	ld a, [wTileAnimationTimer]
 	ld l, a
 	and 1 ; odd
 	ret nz

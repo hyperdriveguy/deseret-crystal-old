@@ -132,7 +132,7 @@ HOF_LoadTrainerFrontpic: ; 88840
 
 .GotClass:
 	ld a, e
-	ld [TrainerClass], a
+	ld [wTrainerClass], a
 	ld de, ChrisPic
 	ld a, [wPlayerGender]
 	bit 0, a
@@ -160,7 +160,7 @@ DrawIntroPlayerPic: ; 88874
 	ld e, KRIS
 .GotClass:
 	ld a, e
-	ld [TrainerClass], a
+	ld [wTrainerClass], a
 
 ; Load pic
 	ld de, ChrisPic

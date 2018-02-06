@@ -1,5 +1,5 @@
 CheckForBattleTowerRules: ; 8b201
-	ld hl, StringBuffer2
+	ld hl, wStringBuffer2
 	ld [hl], "3"
 	inc hl
 	ld [hl], "@"
@@ -169,7 +169,7 @@ BattleTower_ExecuteJumptable: ; 8b25b
 ; 8b2bb
 
 Function_PartyCountEq3: ; 8b2da
-	ld a, [PartyCount]
+	ld a, [wPartyCount]
 	cp BATTLETOWER_PARTY_LENGTH
 	ret z
 	scf
@@ -177,13 +177,13 @@ Function_PartyCountEq3: ; 8b2da
 ; 8b2e2
 
 Function_PartySpeciesAreUnique: ; 8b2e2
-	ld hl, PartyMon1Species
+	ld hl, wPartyMon1Species
 	call VerifyUniqueness
 	ret
 ; 8b2e9
 
 VerifyUniqueness: ; 8b2e9
-	ld de, PartyCount
+	ld de, wPartyCount
 	ld a, [de]
 	inc de
 	dec a
@@ -247,13 +247,13 @@ VerifyUniqueness: ; 8b2e9
 ; 8b32a
 
 Function_PartyItemsAreUnique: ; 8b32a
-	ld hl, PartyMon1Item
+	ld hl, wPartyMon1Item
 	call VerifyUniqueness
 	ret
 ; 8b331
 
 Function_HasPartyAnEgg: ; 8b331
-	ld hl, PartyCount
+	ld hl, wPartyCount
 	ld a, [hli]
 	ld c, a
 .loop

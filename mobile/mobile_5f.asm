@@ -1,6 +1,6 @@
 Special_Menu_ChallengeExplanationCancel: ; 17d224
 	ld a, $4
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ld hl, MenuDataHeader_ChallengeExplanationCancel ; English Menu
 
 	call LoadMenuDataHeader
@@ -12,7 +12,7 @@ Special_Menu_ChallengeExplanationCancel: ; 17d224
 Function17d246: ; 17d246
 	call VerticalMenu
 	jr c, .Exit
-	ld a, [ScriptVar]
+	ld a, [wScriptVar]
 	cp $5
 	jr nz, .UsewMenuCursorY
 	ld a, [wMenuCursorY]
@@ -26,12 +26,12 @@ Function17d246: ; 17d246
 	ld a, [wMenuCursorY]
 
 .LoadToScriptVar:
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ret
 
 .Exit:
 	ld a, $4
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ret
 ; 17d26a
 

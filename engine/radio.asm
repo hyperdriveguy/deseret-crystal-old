@@ -253,9 +253,9 @@ endr
 	ld a, BANK(JohtoGrassWildMons)
 	call GetFarByte
 	ld [wNamedObjectIndexBuffer], a
-	ld [CurPartySpecies], a
+	ld [wCurPartySpecies], a
 	call GetPokemonName
-	ld hl, StringBuffer1
+	ld hl, wStringBuffer1
 	ld de, wMonOrItemNameBuffer
 	ld bc, MON_NAME_LENGTH
 	call CopyBytes
@@ -319,7 +319,7 @@ OPT_OakText3:
 	db "@"
 
 OaksPkmnTalk7:
-	ld a, [CurPartySpecies]
+	ld a, [wCurPartySpecies]
 	ld [wNamedObjectIndexBuffer], a
 	call GetPokemonName
 	ld hl, OPT_MaryText1
@@ -672,7 +672,7 @@ ClearBottomLine:
 PokedexShow_GetDexEntryBank:
 	push hl
 	push de
-	ld a, [CurPartySpecies]
+	ld a, [wCurPartySpecies]
 	dec a
 	rlca
 	rlca
@@ -706,7 +706,7 @@ PokedexShow1:
 	jr z, .loop
 	inc c
 	ld a, c
-	ld [CurPartySpecies], a
+	ld [wCurPartySpecies], a
 	ld [wNamedObjectIndexBuffer], a
 	call GetPokemonName
 	ld hl, PokedexShowText
@@ -714,7 +714,7 @@ PokedexShow1:
 	jp NextRadioLine
 
 PokedexShow2:
-	ld a, [CurPartySpecies]
+	ld a, [wCurPartySpecies]
 	dec a
 	ld hl, PokedexDataPointerTable
 	ld c, a
@@ -995,12 +995,12 @@ LuckyNumberShow7:
 	jp NextRadioLine
 
 LuckyNumberShow8:
-	ld hl, StringBuffer1
+	ld hl, wStringBuffer1
 	ld de, wLuckyIDNumber
 	lb bc, PRINTNUM_LEADINGZEROS | 2, 5
 	call PrintNum
 	ld a, "@"
-	ld [StringBuffer1 + 5], a
+	ld [wStringBuffer1 + 5], a
 	ld hl, LC_Text8
 	ld a, LUCKY_NUMBER_SHOW_9
 	jp NextRadioLine
@@ -1172,7 +1172,7 @@ PeoplePlaces4: ; People
 	jr c, PeoplePlaces4
 	push bc
 	callfar GetTrainerClassName
-	ld de, StringBuffer1
+	ld de, wStringBuffer1
 	call CopyName1
 	pop bc
 	ld b, 1
@@ -1653,16 +1653,16 @@ GetBuenasPassword:
 	jr nz, .read_loop
 	dec c
 	jr nz, .read_loop
-; ... and copy it into StringBuffer1.
+; ... and copy it into wStringBuffer1.
 .skip
-	ld hl, StringBuffer1
+	ld hl, wStringBuffer1
 .copy_loop
 	ld a, [de]
 	inc de
 	ld [hli], a
 	cp "@"
 	jr nz, .copy_loop
-	ld de, StringBuffer1
+	ld de, wStringBuffer1
 	ret
 
 INCLUDE "data/radio/buenas_passwords.asm"

@@ -20,7 +20,7 @@ _BattleTowerRoomMenu: ; 118121
 	pop af
 	ld [rSVBK], a
 	ld a, [wc300]
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	jp ReturnToMapFromSubmenu
 ; 118180
 
@@ -59,7 +59,7 @@ BattleTowerRoomMenu_PlacePickLevelMenu:
 	call MenuBox
 	call MenuBoxCoord2Tile
 	call ApplyTilemap
-	hlcoord 16, 8, AttrMap
+	hlcoord 16, 8, wAttrMap
 	ld a, $40
 	or [hl]
 	ld [hl], a
@@ -116,7 +116,7 @@ BattleTowerRoomMenu_UpdatePickLevelMenu:
 	push af
 	ld a, $1
 	ld [rSVBK], a
-	ld bc, StringBuffer3
+	ld bc, wStringBuffer3
 .asm_1189b5
 	ld a, [hli]
 	cp $50
@@ -309,8 +309,8 @@ BattleTower_LevelCheck: ; 119d93 (46:5d93)
 	ld hl, wcd50
 	ld [hl], a
 	ld bc, PARTYMON_STRUCT_LENGTH
-	ld de, PartyMon1Level
-	ld a, [PartyCount]
+	ld de, wPartyMon1Level
+	ld a, [wPartyCount]
 .party_loop
 	push af
 	ld a, [de]
@@ -350,10 +350,10 @@ BattleTower_UbersCheck: ; 119dd1 (46:5dd1)
 	jr nc, .level_70_or_more
 	ld a, $1
 	ld [rSVBK], a
-	ld hl, PartyMon1Level
+	ld hl, wPartyMon1Level
 	ld bc, PARTYMON_STRUCT_LENGTH
-	ld de, PartySpecies
-	ld a, [PartyCount]
+	ld de, wPartySpecies
+	ld a, [wPartyCount]
 .loop
 	push af
 	ld a, [de]
@@ -386,7 +386,7 @@ BattleTower_UbersCheck: ; 119dd1 (46:5dd1)
 	ld a, [de]
 	ld [wd265], a
 	call GetPokemonName
-	ld hl, StringBuffer1
+	ld hl, wStringBuffer1
 	ld de, wcd49
 	ld bc, MON_NAME_LENGTH
 	call CopyBytes
@@ -603,7 +603,7 @@ Function11a971: ; 11a971
 	ret
 
 .asm_11a97f
-	ld a, [Options]
+	ld a, [wOptions]
 	and $7
 	ld [hl], a
 	ld hl, wcd8d
@@ -685,7 +685,7 @@ Text_WhatLevelDoYouWantToChallenge: ; 0x11aba5
 ; 0x11abcb
 
 AddMobileMonToParty: ; 11b98f
-	ld hl, PartyCount
+	ld hl, wPartyCount
 	ld a, [hl]
 	ld e, a
 	inc [hl]
@@ -695,21 +695,21 @@ AddMobileMonToParty: ; 11b98f
 	ld a, [wMobileMonSpeciesPointerBuffer + 1]
 	ld h, a
 	inc hl
-	ld bc, PartySpecies
+	ld bc, wPartySpecies
 	ld d, e
 .loop1
 	inc bc
 	dec d
 	jr nz, .loop1
 	ld a, e
-	ld [CurPartyMon], a
+	ld [wCurPartyMon], a
 	ld a, [hl]
 	ld [bc], a
 	inc bc
 	ld a, -1
 	ld [bc], a
 
-	ld hl, PartyMon1Species
+	ld hl, wPartyMon1Species
 	ld bc, PARTYMON_STRUCT_LENGTH
 	ld a, e
 	ld [wMobileMonSpeciesBuffer], a
@@ -727,7 +727,7 @@ AddMobileMonToParty: ; 11b98f
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call CopyBytes
 
-	ld hl, PartyMonOT
+	ld hl, wPartyMonOT
 	ld bc, NAME_LENGTH
 	ld a, [wMobileMonSpeciesBuffer]
 .loop3
@@ -746,7 +746,7 @@ AddMobileMonToParty: ; 11b98f
 	ld a, "@"
 	ld [de], a
 
-	ld hl, PartyMonNicknames
+	ld hl, wPartyMonNicknames
 	ld bc, MON_NAME_LENGTH
 	ld a, [wMobileMonSpeciesBuffer]
 .loop4

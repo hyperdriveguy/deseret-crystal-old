@@ -9,21 +9,21 @@ _LinkBattleSendReceiveAction: ; 100a09
 ; 100a2e
 
 .StageForSend: ; 100a2e
-	ld a, [wPlayerAction]
+	ld a, [wBattlePlayerAction]
 	and a
 	jr nz, .switch
-	ld a, [CurPlayerMove]
+	ld a, [wCurPlayerMove]
 	ld b, BATTLEACTION_E
 	cp STRUGGLE
 	jr z, .struggle
 	ld b, BATTLEACTION_D
 	cp $ff
 	jr z, .struggle
-	ld a, [CurMoveNum]
+	ld a, [wCurMoveNum]
 	jr .use_move
 
 .switch
-	ld a, [CurPartyMon]
+	ld a, [wCurPartyMon]
 	add BATTLEACTION_SWITCH1
 	jr .use_move
 

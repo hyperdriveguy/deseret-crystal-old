@@ -76,7 +76,7 @@ DoMysteryGift: ; 1048ba (41:48ba)
 	callfar GetDecorationName_c
 	ld h, d
 	ld l, e
-	ld de, StringBuffer1
+	ld de, wStringBuffer1
 	ld bc, ITEM_NAME_LENGTH
 	call CopyBytes
 	ld hl, .Text_SentToHome ; sent decoration to home
@@ -391,7 +391,7 @@ Function104b88: ; 104b88 (41:4b88)
 	jp nz, Function104d32
 	call Function104d38
 	ret nz
-	ld hl, OverworldMap
+	ld hl, wOverworldMap
 	ld a, [wca02]
 	ld b, a
 	call Function104d4e
@@ -1101,8 +1101,8 @@ StagePartyDataForMysteryGift: ; 10510b (41:510b)
 	ld a, BANK(sPokemonData)
 	call GetSRAMBank
 	ld de, wMysteryGiftStaging
-	ld bc, sPokemonData + PartyMons - wPokemonData
-	ld hl, sPokemonData + PartySpecies - wPokemonData
+	ld bc, sPokemonData + wPartyMons - wPokemonData
+	ld hl, sPokemonData + wPartySpecies - wPokemonData
 .loop
 	ld a, [hli]
 	cp -1

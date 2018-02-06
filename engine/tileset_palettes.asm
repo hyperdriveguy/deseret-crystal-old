@@ -1,5 +1,5 @@
 LoadSpecialMapPalette: ; 494ac
-	ld a, [wTileset]
+	ld a, [wMapTileset]
 	cp TILESET_BATTLE_TOWER
 	jr z, .battle_tower
 	cp TILESET_ICE_PATH

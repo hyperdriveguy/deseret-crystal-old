@@ -6,13 +6,13 @@ DrawHP: ; 50b10
 	push hl
 	push bc
 	; box mons have full HP
-	ld a, [MonType]
+	ld a, [wMonType]
 	cp BOXMON
 	jr z, .at_least_1_hp
 
-	ld a, [TempMonHP]
+	ld a, [wTempMonHP]
 	ld b, a
-	ld a, [TempMonHP + 1]
+	ld a, [wTempMonHP + 1]
 	ld c, a
 
 ; Any HP?
@@ -27,11 +27,11 @@ DrawHP: ; 50b10
 	jp .fainted
 
 .at_least_1_hp
-	ld a, [TempMonMaxHP]
+	ld a, [wTempMonMaxHP]
 	ld d, a
-	ld a, [TempMonMaxHP + 1]
+	ld a, [wTempMonMaxHP + 1]
 	ld e, a
-	ld a, [MonType]
+	ld a, [wMonType]
 	cp BOXMON
 	jr nz, .not_boxmon
 
@@ -58,11 +58,11 @@ DrawHP: ; 50b10
 ; Print HP
 	bccoord 1, 1, 0
 	add hl, bc
-	ld de, TempMonHP
-	ld a, [MonType]
+	ld de, wTempMonHP
+	ld a, [wMonType]
 	cp BOXMON
 	jr nz, .not_boxmon_2
-	ld de, TempMonMaxHP
+	ld de, wTempMonMaxHP
 .not_boxmon_2
 	lb bc, 2, 3
 	call PrintNum
@@ -71,7 +71,7 @@ DrawHP: ; 50b10
 	ld [hli], a
 
 ; Print max HP
-	ld de, TempMonMaxHP
+	ld de, wTempMonMaxHP
 	lb bc, 2, 3
 	call PrintNum
 	pop hl
@@ -79,7 +79,7 @@ DrawHP: ; 50b10
 	ret
 
 PrintTempMonStats: ; 50b7b
-; Print TempMon's stats at hl, with spacing bc.
+; Print wTempMon's stats at hl, with spacing bc.
 	push bc
 	push hl
 	ld de, .StatNames
@@ -89,16 +89,16 @@ PrintTempMonStats: ; 50b7b
 	add hl, bc
 	ld bc, SCREEN_WIDTH
 	add hl, bc
-	ld de, TempMonAttack
+	ld de, wTempMonAttack
 	lb bc, 2, 3
 	call .PrintStat
-	ld de, TempMonDefense
+	ld de, wTempMonDefense
 	call .PrintStat
-	ld de, TempMonSpclAtk
+	ld de, wTempMonSpclAtk
 	call .PrintStat
-	ld de, TempMonSpclDef
+	ld de, wTempMonSpclDef
 	call .PrintStat
-	ld de, TempMonSpeed
+	ld de, wTempMonSpeed
 	jp PrintNum
 
 .PrintStat: ; 50bab
@@ -118,8 +118,8 @@ PrintTempMonStats: ; 50b7b
 	next "@"
 
 GetGender: ; 50bdd
-; Return the gender of a given monster (CurPartyMon/CurOTMon/CurWildMon).
-; When calling this function, a should be set to an appropriate MonType value.
+; Return the gender of a given monster (wCurPartyMon/wCurOTMon/CurWildMon).
+; When calling this function, a should be set to an appropriate wMonType value.
 
 ; return values:
 ; a = 1: f = nc|nz; male
@@ -132,14 +132,14 @@ GetGender: ; 50bdd
 ; Figure out what type of monster struct we're looking at.
 
 ; 0: PartyMon
-	ld hl, PartyMon1DVs
+	ld hl, wPartyMon1DVs
 	ld bc, PARTYMON_STRUCT_LENGTH
-	ld a, [MonType]
+	ld a, [wMonType]
 	and a
 	jr z, .PartyMon
 
 ; 1: OTPartyMon
-	ld hl, OTPartyMon1DVs
+	ld hl, wOTPartyMon1DVs
 	dec a
 	jr z, .PartyMon
 
@@ -150,25 +150,25 @@ GetGender: ; 50bdd
 	jr z, .sBoxMon
 
 ; 3: Unknown
-	ld hl, TempMonDVs
+	ld hl, wTempMonDVs
 	dec a
 	jr z, .DVs
 
 ; else: WildMon
-	ld hl, EnemyMonDVs
+	ld hl, wEnemyMonDVs
 	jr .DVs
 
 ; Get our place in the party/box.
 
 .PartyMon:
 .sBoxMon
-	ld a, [CurPartyMon]
+	ld a, [wCurPartyMon]
 	call AddNTimes
 
 .DVs:
 
 ; sBoxMon data is read directly from SRAM.
-	ld a, [MonType]
+	ld a, [wMonType]
 	cp BOXMON
 	ld a, BANK(sBox)
 	call z, GetSRAMBank
@@ -187,13 +187,13 @@ GetGender: ; 50bdd
 	ld b, a
 
 ; Close SRAM if we were dealing with a sBoxMon.
-	ld a, [MonType]
+	ld a, [wMonType]
 	cp BOXMON
 	call z, CloseSRAM
 
 ; We need the gender ratio to do anything with this.
 	push bc
-	ld a, [CurPartySpecies]
+	ld a, [wCurPartySpecies]
 	dec a
 	ld hl, BaseData + BASE_GENDER
 	ld bc, BASE_DATA_SIZE
@@ -239,7 +239,7 @@ ListMovePP: ; 50c50
 	sub c
 	ld b, a
 	push hl
-	ld a, [Buffer1]
+	ld a, [wBuffer1]
 	ld e, a
 	ld d, $0
 	ld a, $3e ; P
@@ -258,7 +258,7 @@ ListMovePP: ; 50c50
 	inc hl
 	ld d, h
 	ld e, l
-	ld hl, TempMonMoves
+	ld hl, wTempMonMoves
 	ld b, 0
 .loop
 	ld a, [hli]
@@ -279,15 +279,15 @@ ListMovePP: ; 50c50
 	pop de
 	pop hl
 	push hl
-	ld bc, TempMonPP - (TempMonMoves + 1)
+	ld bc, wTempMonPP - (wTempMonMoves + 1)
 	add hl, bc
 	ld a, [hl]
 	and $3f
-	ld [StringBuffer1 + 4], a
+	ld [wStringBuffer1 + 4], a
 	ld h, d
 	ld l, e
 	push hl
-	ld de, StringBuffer1 + 4
+	ld de, wStringBuffer1 + 4
 	lb bc, 1, 2
 	call PrintNum
 	ld a, "/"
@@ -296,7 +296,7 @@ ListMovePP: ; 50c50
 	lb bc, 1, 2
 	call PrintNum
 	pop hl
-	ld a, [Buffer1]
+	ld a, [wBuffer1]
 	ld e, a
 	ld d, 0
 	add hl, de
@@ -388,7 +388,7 @@ FrzString: db "FRZ@"
 ParString: db "PAR@"
 
 ListMoves: ; 50d6f
-; List moves at hl, spaced every [Buffer1] tiles.
+; List moves at hl, spaced every [wBuffer1] tiles.
 	ld de, wListMoves_MoveIndicesBuffer
 	ld b, $0
 .moves_loop
@@ -399,11 +399,11 @@ ListMoves: ; 50d6f
 	push de
 	push hl
 	push hl
-	ld [CurSpecies], a
+	ld [wCurSpecies], a
 	ld a, MOVE_NAME
 	ld [wNamedObjectTypeBuffer], a
 	call GetName
-	ld de, StringBuffer1
+	ld de, wStringBuffer1
 	pop hl
 	push bc
 	call PlaceString
@@ -413,7 +413,7 @@ ListMoves: ; 50d6f
 	inc b
 	pop hl
 	push bc
-	ld a, [Buffer1]
+	ld a, [wBuffer1]
 	ld c, a
 	ld b, 0
 	add hl, bc
@@ -429,7 +429,7 @@ ListMoves: ; 50d6f
 .nonmove_loop
 	push af
 	ld [hl], "-"
-	ld a, [Buffer1]
+	ld a, [wBuffer1]
 	ld c, a
 	ld b, 0
 	add hl, bc

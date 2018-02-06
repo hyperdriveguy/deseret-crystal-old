@@ -235,14 +235,14 @@ CheckFacingObject:: ; 6fd9
 	call CheckCounterTile
 	jr nz, .asm_6ff1
 
-	ld a, [PlayerStandingMapX]
+	ld a, [wPlayerStandingMapX]
 	sub d
 	cpl
 	inc a
 	add d
 	ld d, a
 
-	ld a, [PlayerStandingMapY]
+	ld a, [wPlayerStandingMapY]
 	sub e
 	cpl
 	inc a
@@ -250,7 +250,7 @@ CheckFacingObject:: ; 6fd9
 	ld e, a
 
 .asm_6ff1
-	ld bc, ObjectStructs ; redundant
+	ld bc, wObjectStructs ; redundant
 	ld a, 0
 	ld [hMapObjectIndexBuffer], a
 	call IsNPCAtCoord
@@ -279,7 +279,7 @@ WillObjectBumpIntoSomeoneElse: ; 7009
 ; 7015
 
 IsNPCAtCoord: ; 7041
-	ld bc, ObjectStructs
+	ld bc, wObjectStructs
 	xor a
 .loop
 	ld [hObjectStructIndexBuffer], a
@@ -416,7 +416,7 @@ HasObjectReachedMovementLimit: ; 70a4
 IsObjectMovingOffEdgeOfScreen: ; 70ed
 	ld hl, OBJECT_NEXT_MAP_X
 	add hl, bc
-	ld a, [XCoord]
+	ld a, [wXCoord]
 	cp [hl]
 	jr z, .check_y
 	jr nc, .yes
@@ -427,7 +427,7 @@ IsObjectMovingOffEdgeOfScreen: ; 70ed
 .check_y
 	ld hl, OBJECT_NEXT_MAP_Y
 	add hl, bc
-	ld a, [YCoord]
+	ld a, [wYCoord]
 	cp [hl]
 	jr z, .nope
 	jr nc, .yes

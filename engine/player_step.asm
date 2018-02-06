@@ -66,28 +66,28 @@ UpdatePlayerCoords: ; d511 (3:5511)
 	ld a, [wPlayerStepDirection]
 	and a
 	jr nz, .check_step_down
-	ld hl, YCoord
+	ld hl, wYCoord
 	inc [hl]
 	ret
 
 .check_step_down
 	cp UP
 	jr nz, .check_step_left
-	ld hl, YCoord
+	ld hl, wYCoord
 	dec [hl]
 	ret
 
 .check_step_left
 	cp LEFT
 	jr nz, .check_step_right
-	ld hl, XCoord
+	ld hl, wXCoord
 	dec [hl]
 	ret
 
 .check_step_right
 	cp RIGHT
 	ret nz
-	ld hl, XCoord
+	ld hl, wXCoord
 	inc [hl]
 	ret
 
@@ -150,7 +150,7 @@ UpdateOverworldMap: ; d536 (3:5536)
 
 .Add6ToOverworldMapAnchor: ; d595 (3:5595)
 	ld hl, wOverworldMapAnchor
-	ld a, [MapWidth]
+	ld a, [wMapWidth]
 	add 6
 	add [hl]
 	ld [hli], a
@@ -181,7 +181,7 @@ UpdateOverworldMap: ; d536 (3:5536)
 
 .Sub6FromOverworldMapAnchor: ; d5c6 (3:55c6)
 	ld hl, wOverworldMapAnchor
-	ld a, [MapWidth]
+	ld a, [wMapWidth]
 	add 6
 	ld b, a
 	ld a, [hl]

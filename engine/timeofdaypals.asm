@@ -1,9 +1,9 @@
 UpdateTimeOfDayPal:: ; 8c001
 	call UpdateTime
-	ld a, [TimeOfDay]
-	ld [CurTimeOfDay], a
+	ld a, [wTimeOfDay]
+	ld [wCurTimeOfDay], a
 	call GetTimePalette
-	ld [TimeOfDayPal], a
+	ld [wTimeOfDayPal], a
 	ret
 ; 8c011
 
@@ -17,25 +17,25 @@ _TimeOfDayPals:: ; 8c011
 	jr nz, .dontchange
 
 ; do we need to bother updating?
-	ld a, [TimeOfDay]
-	ld hl, CurTimeOfDay
+	ld a, [wTimeOfDay]
+	ld hl, wCurTimeOfDay
 	cp [hl]
 	jr z, .dontchange
 
 ; if so, the time of day has changed
-	ld a, [TimeOfDay]
-	ld [CurTimeOfDay], a
+	ld a, [wTimeOfDay]
+	ld [wCurTimeOfDay], a
 
 ; get palette id
 	call GetTimePalette
 
 ; same palette as before?
-	ld hl, TimeOfDayPal
+	ld hl, wTimeOfDayPal
 	cp [hl]
 	jr z, .dontchange
 
 ; update palette id
-	ld [TimeOfDayPal], a
+	ld [wTimeOfDayPal], a
 
 ; save bg palette 7
 	ld hl, wBGPals1 palette PAL_BG_TEXT
@@ -236,7 +236,7 @@ ReplaceTimeOfDayPals: ; 8c0e5
 ; 8c117
 
 GetTimePalette: ; 8c117
-	ld a, [TimeOfDay]
+	ld a, [wTimeOfDay]
 	ld e, a
 	ld d, 0
 	ld hl, .TimePalettes

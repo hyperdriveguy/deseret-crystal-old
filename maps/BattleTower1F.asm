@@ -337,7 +337,7 @@ Text_CongratulationsYouveBeatenAllTheTrainers: ; 0x9eaef
 Text_PlayerGotFive: ; 0x9eb7e
 	text "<PLAYER> got five"
 	line "@"
-	text_from_ram StringBuffer4
+	text_from_ram wStringBuffer4
 	text "!@"
 	sound_item
 	text_waitbutton
@@ -415,7 +415,7 @@ Text_YourPkmnWillBeHealedToFullHealth: ; 0x9ee92
 Text_NextUpOpponentNo: ; 0x9eebc
 	text "Next up, opponent"
 	line "no.@"
-	text_from_ram StringBuffer3
+	text_from_ram wStringBuffer3
 	text ". Ready?"
 	done
 

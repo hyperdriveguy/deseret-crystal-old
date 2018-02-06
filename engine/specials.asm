@@ -17,22 +17,22 @@ Special:: ; c01b
 INCLUDE "data/special_pointers.asm"
 
 Special_SetPlayerPalette: ; c225
-	ld a, [ScriptVar]
+	ld a, [wScriptVar]
 	ld d, a
 	farcall SetPlayerPalette
 	ret
 ; c230
 
 Special_GameCornerPrizeMonCheckDex: ; c230
-	ld a, [ScriptVar]
+	ld a, [wScriptVar]
 	dec a
 	call CheckCaughtMon
 	ret nz
-	ld a, [ScriptVar]
+	ld a, [wScriptVar]
 	dec a
 	call SetSeenAndCaughtMon
 	call FadeToMenu
-	ld a, [ScriptVar]
+	ld a, [wScriptVar]
 	ld [wd265], a
 	farcall NewPokedexEntry
 	call ExitAllMenus
@@ -40,14 +40,14 @@ Special_GameCornerPrizeMonCheckDex: ; c230
 ; c252
 
 Special_FindThatSpecies: ; c276
-	ld a, [ScriptVar]
+	ld a, [wScriptVar]
 	ld b, a
 	farcall _FindThatSpecies
 	jr z, FoundNone
 	jr FoundOne
 
 Special_FindThatSpeciesYourTrainerID: ; c284
-	ld a, [ScriptVar]
+	ld a, [wScriptVar]
 	ld b, a
 	farcall _FindThatSpeciesYourTrainerID
 	jr z, FoundNone
@@ -55,21 +55,21 @@ Special_FindThatSpeciesYourTrainerID: ; c284
 
 FoundOne: ; c292
 	ld a, TRUE
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ret
 
 FoundNone: ; c298
 	xor a
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ret
 ; c29d
 
 Special_NameRival: ; 0xc29d
 	ld b, $2 ; rival
-	ld de, RivalName
+	ld de, wRivalName
 	farcall _NamingScreen
 	; default to "SILVER"
-	ld hl, RivalName
+	ld hl, wRivalName
 	ld de, DefaultRivalName
 	call InitName
 	ret
@@ -106,10 +106,10 @@ Special_DisplayLinkRecord: ; c2da
 
 Special_KrissHousePC: ; c2e7
 	xor a
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	farcall _KrissHousePC
 	ld a, c
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ret
 ; c2f6
 
@@ -122,7 +122,7 @@ Special_CheckMysteryGift: ; c2f6
 	inc a
 
 .no
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	call CloseSRAM
 	ret
 ; c309
@@ -131,28 +131,28 @@ Special_GetMysteryGiftItem: ; c309
 	ld a, BANK(sMysteryGiftItem)
 	call GetSRAMBank
 	ld a, [sMysteryGiftItem]
-	ld [CurItem], a
+	ld [wCurItem], a
 	ld a, 1
 	ld [wItemQuantityChangeBuffer], a
-	ld hl, NumItems
+	ld hl, wNumItems
 	call ReceiveItem
 	jr nc, .no_room
 	xor a
 	ld [sMysteryGiftItem], a
 	call CloseSRAM
-	ld a, [CurItem]
+	ld a, [wCurItem]
 	ld [wd265], a
 	call GetItemName
 	ld hl, .ReceiveItemText
 	call PrintText
 	ld a, TRUE
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ret
 
 .no_room
 	call CloseSRAM
 	xor a
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ret
 ; c345
 
@@ -165,12 +165,12 @@ Special_GetMysteryGiftItem: ; c309
 Special_BugContestJudging: ; c34a
 	farcall _BugContestJudging
 	ld a, b
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ret
 ; c355
 
 Special_MapRadio: ; c355
-	ld a, [ScriptVar]
+	ld a, [wScriptVar]
 	ld e, a
 	farcall PlayRadio
 	ret
@@ -180,7 +180,7 @@ Special_UnownPuzzle: ; c360
 	call FadeToMenu
 	farcall UnownPuzzle
 	ld a, [wSolvedUnownPuzzle]
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	call ExitAllMenus
 	ret
 ; c373
@@ -219,13 +219,13 @@ Special_StartGameCornerGame: ; c39a
 ; c3ae
 
 Special_CheckCoins: ; c3ae
-	ld hl, Coins
+	ld hl, wCoins
 	ld a, [hli]
 	or [hl]
 	jr z, .no_coins
 	ld a, COIN_CASE
-	ld [CurItem], a
-	ld hl, NumItems
+	ld [wCurItem], a
+	ld hl, wNumItems
 	call CheckItem
 	jr nc, .no_coin_case
 	and a
@@ -259,16 +259,16 @@ Special_CheckCoins: ; c3ae
 ScriptReturnCarry: ; c3e2
 	jr c, .carry
 	xor a
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ret
 .carry
 	ld a, 1
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ret
 ; c3ef
 
 Special_ActivateFishingSwarm: ; c3fc
-	ld a, [ScriptVar]
+	ld a, [wScriptVar]
 	ld [wFishingSwarmFlag], a
 	ret
 ; c403
@@ -318,16 +318,16 @@ Special_SnorlaxAwake: ; 0xc43d
 ; next to Snorlax.
 
 ; outputs:
-; ScriptVar is 1 if the conditions are met, otherwise 0.
+; wScriptVar is 1 if the conditions are met, otherwise 0.
 
 ; check background music
 	ld a, [wMapMusic]
 	cp MUSIC_POKE_FLUTE_CHANNEL
 	jr nz, .nope
 
-	ld a, [XCoord]
+	ld a, [wXCoord]
 	ld b, a
-	ld a, [YCoord]
+	ld a, [wYCoord]
 	ld c, a
 
 	ld hl, .ProximityCoords
@@ -351,7 +351,7 @@ Special_SnorlaxAwake: ; 0xc43d
 .nope
 	xor a
 .done
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ret
 
 .ProximityCoords:
@@ -365,18 +365,18 @@ Special_SnorlaxAwake: ; 0xc43d
 
 
 Special_PlayCurMonCry: ; c472
-	ld a, [CurPartySpecies]
+	ld a, [wCurPartySpecies]
 	jp PlayMonCry
 ; c478
 
 
 Special_FadeOutMusic: ; c48f
 	ld a, LOW(MUSIC_NONE)
-	ld [MusicFadeID], a
+	ld [wMusicFadeID], a
 	ld a, HIGH(MUSIC_NONE)
-	ld [MusicFadeID + 1], a
+	ld [wMusicFadeID + 1], a
 	ld a, $2
-	ld [MusicFade], a
+	ld [wMusicFade], a
 	ret
 ; c49f
 
@@ -398,5 +398,5 @@ Special_TrainerHouse: ; 0xc4b9
 	ld a, BANK(sMysteryGiftTrainerHouseFlag)
 	call GetSRAMBank
 	ld a, [sMysteryGiftTrainerHouseFlag]
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	jp CloseSRAM

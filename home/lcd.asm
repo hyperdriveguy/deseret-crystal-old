@@ -11,7 +11,7 @@ LCD:: ; 552
 	push bc
 	ld a, [rLY]
 	ld c, a
-	ld b, HIGH(LYOverrides)
+	ld b, HIGH(wLYOverrides)
 	ld a, [bc]
 	ld b, a
 	ld a, [hLCDCPointer]

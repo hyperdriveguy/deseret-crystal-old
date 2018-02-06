@@ -40,7 +40,7 @@ Function437b: ; 437b
 	ld hl, OBJECT_FLAGS2
 	add hl, bc
 	res 6, [hl]
-	ld a, [XCoord]
+	ld a, [wXCoord]
 	ld e, a
 	ld hl, OBJECT_NEXT_MAP_X
 	add hl, bc
@@ -50,7 +50,7 @@ Function437b: ; 437b
 	jr c, .ok
 	cp MAPOBJECT_SCREEN_WIDTH
 	jr nc, .ok
-	ld a, [YCoord]
+	ld a, [wYCoord]
 	ld e, a
 	ld hl, OBJECT_NEXT_MAP_Y
 	add hl, bc
@@ -66,7 +66,7 @@ Function437b: ; 437b
 	ld hl, OBJECT_FLAGS2
 	add hl, bc
 	set 6, [hl]
-	ld a, [XCoord]
+	ld a, [wXCoord]
 	ld e, a
 	ld hl, OBJECT_INIT_X
 	add hl, bc
@@ -76,7 +76,7 @@ Function437b: ; 437b
 	jr c, .ok2
 	cp MAPOBJECT_SCREEN_WIDTH
 	jr nc, .ok2
-	ld a, [YCoord]
+	ld a, [wYCoord]
 	ld e, a
 	ld hl, OBJECT_INIT_Y
 	add hl, bc
@@ -169,7 +169,7 @@ asm_4448
 ; 444d
 
 _HandleObjectAction
-; call [4 * ObjectStructs[ObjInd, OBJECT_ACTION] + de]
+; call [4 * wObjectStructs[ObjInd, OBJECT_ACTION] + de]
 	ld hl, OBJECT_ACTION
 	add hl, bc
 	ld a, [hl]
@@ -2090,7 +2090,7 @@ DespawnEmote: ; 5579
 	ret
 
 .DeleteEmote:
-	ld de, ObjectStructs
+	ld de, wObjectStructs
 	ld a, NUM_OBJECT_STRUCTS
 .loop
 	push af
@@ -2164,10 +2164,10 @@ CopyTempObjectData: ; 55b9
 ; 55e0
 
 Function55e0:: ; 55e0
-	ld a, [VramState]
+	ld a, [wVramState]
 	bit 0, a
 	ret z
-	ld bc, ObjectStructs
+	ld bc, wObjectStructs
 	xor a
 .loop
 	ld [hMapObjectIndexBuffer], a
@@ -2230,7 +2230,7 @@ Function5629: ; 5629
 
 Function5645: ; 5645
 	xor a
-	ld bc, ObjectStructs
+	ld bc, wObjectStructs
 .loop
 	ld [hMapObjectIndexBuffer], a
 	call SetFacing_Standing
@@ -2300,7 +2300,7 @@ Function56a3: ; 56a3
 	ld e, [hl]
 	inc d
 	inc e
-	ld a, [XCoord]
+	ld a, [wXCoord]
 	cp d
 	jr z, .equal_x
 	jr nc, .nope
@@ -2308,7 +2308,7 @@ Function56a3: ; 56a3
 	cp d
 	jr c, .nope
 .equal_x
-	ld a, [YCoord]
+	ld a, [wYCoord]
 	cp e
 	jr z, .equal_y
 	jr nc, .nope
@@ -2449,7 +2449,7 @@ HandleNPCStep:: ; 576a
 	ret
 
 .DoStepsForAllObjects:
-	ld bc, ObjectStructs
+	ld bc, wObjectStructs
 	xor a
 .loop
 	ld [hMapObjectIndexBuffer], a
@@ -2474,7 +2474,7 @@ RefreshPlayerSprite: ; 579d
 	ld [wPlayerMovement], a
 	xor a
 	ld [wPlayerTurningDirection], a
-	ld [PlayerObjectStepFrame], a
+	ld [wPlayerObjectStepFrame], a
 	call .TryResetPlayerAction
 	farcall CheckWarpFacingDown
 	call c, SpawnInFacingDown
@@ -2490,7 +2490,7 @@ RefreshPlayerSprite: ; 579d
 
 .ok
 	ld a, OBJECT_ACTION_00
-	ld [PlayerAction], a
+	ld [wPlayerAction], a
 	ret
 ; 57ca
 
@@ -2508,7 +2508,7 @@ RefreshPlayerSprite: ; 579d
 SpawnInFacingDown: ; 57d9
 	ld a, 0
 ContinueSpawnFacing: ; 57db
-	ld bc, PlayerStruct
+	ld bc, wPlayerStruct
 	call SetSpriteDirection
 	ret
 ; 57e2
@@ -2527,7 +2527,7 @@ SetPlayerPalette: ; 57e2
 	swap a
 	and %00000111
 	ld d, a
-	ld bc, PlayerStruct
+	ld bc, wPlayerStruct
 	ld hl, OBJECT_PALETTE
 	add hl, bc
 	ld a, [hl]
@@ -2612,7 +2612,7 @@ SetFlagsForMovement_1:: ; 585c
 ; 586e
 
 Function587a: ; 587a
-	ld bc, ObjectStructs
+	ld bc, wObjectStructs
 	xor a
 .loop
 	push af
@@ -2657,7 +2657,7 @@ _SetFlagsForMovement_2:: ; 5897
 
 Function58b9:: ; 58b9
 	push bc
-	ld bc, ObjectStructs
+	ld bc, wObjectStructs
 	xor a
 .loop
 	push af
@@ -2725,7 +2725,7 @@ Function5903: ; 5903
 ; 5920
 
 _UpdateSprites:: ; 5920
-	ld a, [VramState]
+	ld a, [wVramState]
 	bit 0, a
 	ret z
 	xor a
@@ -2741,9 +2741,9 @@ _UpdateSprites:: ; 5920
 	ret
 
 .fill
-	ld a, [VramState]
+	ld a, [wVramState]
 	bit 1, a
-	ld b, LOW(SpritesEnd)
+	ld b, LOW(wVirtualOAMEnd)
 	jr z, .ok
 	ld b, 28 * SPRITEOAMSTRUCT_LENGTH
 .ok
@@ -2751,7 +2751,7 @@ _UpdateSprites:: ; 5920
 	cp b
 	ret nc
 	ld l, a
-	ld h, HIGH(Sprites)
+	ld h, HIGH(wVirtualOAM)
 	ld de, SPRITEOAMSTRUCT_LENGTH
 	ld a, b
 	ld c, SCREEN_HEIGHT_PX + 2 * TILE_WIDTH
@@ -2771,7 +2771,7 @@ ApplyBGMapAnchorToObjects: ; 5958
 	ld d, a
 	ld a, [wPlayerBGMapOffsetY]
 	ld e, a
-	ld bc, ObjectStructs
+	ld bc, wObjectStructs
 	ld a, NUM_OBJECT_STRUCTS
 .loop
 	push af
@@ -2825,7 +2825,7 @@ InitSprites: ; 5991
 	ld bc, NUM_OBJECT_STRUCTS
 	call ByteFill
 	ld d, 0
-	ld bc, ObjectStructs
+	ld bc, wObjectStructs
 	ld hl, wMovementPointer
 .loop
 	push hl
@@ -2965,11 +2965,11 @@ InitSprites: ; 5991
 	ld l, a
 	ld a, [hUsedSpriteIndex]
 	ld c, a
-	ld b, HIGH(Sprites)
+	ld b, HIGH(wVirtualOAM)
 	ld a, [hli]
 	ld [hUsedSpriteTile], a
 	add c
-	cp LOW(SpritesEnd)
+	cp LOW(wVirtualOAMEnd)
 	jr nc, .full
 .addsprite
 	ld a, [hFFC0]
@@ -3029,17 +3029,17 @@ InitSprites: ; 5991
 	ret
 
 .Addresses: ; 5ace
-	dw PlayerStruct
-	dw Object1Struct
-	dw Object2Struct
-	dw Object3Struct
-	dw Object4Struct
-	dw Object5Struct
-	dw Object6Struct
-	dw Object7Struct
-	dw Object8Struct
-	dw Object9Struct
-	dw Object10Struct
-	dw Object11Struct
-	dw Object12Struct
+	dw wPlayerStruct
+	dw wObject1Struct
+	dw wObject2Struct
+	dw wObject3Struct
+	dw wObject4Struct
+	dw wObject5Struct
+	dw wObject6Struct
+	dw wObject7Struct
+	dw wObject8Struct
+	dw wObject9Struct
+	dw wObject10Struct
+	dw wObject11Struct
+	dw wObject12Struct
 ; 5ae8

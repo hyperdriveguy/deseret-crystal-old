@@ -1,7 +1,7 @@
 TreeMonEncounter: ; b81ea
 	xor a
-	ld [TempWildMonSpecies], a
-	ld [CurPartyLevel], a
+	ld [wTempWildMonSpecies], a
+	ld [wCurPartyLevel], a
 
 	ld hl, TreeMonMaps
 	call GetTreeMonSet
@@ -14,22 +14,22 @@ TreeMonEncounter: ; b81ea
 	jr nc, .no_battle
 
 	ld a, BATTLETYPE_TREE
-	ld [BattleType], a
+	ld [wBattleType], a
 	ld a, 1
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ret
 
 .no_battle
 	xor a
-	ld [ScriptVar], a
+	ld [wScriptVar], a
 	ret
 ; b8219
 
 RockMonEncounter: ; b8219
 
 	xor a
-	ld [TempWildMonSpecies], a
-	ld [CurPartyLevel], a
+	ld [wTempWildMonSpecies], a
+	ld [wCurPartyLevel], a
 
 	ld hl, RockMonMaps
 	call GetTreeMonSet
@@ -59,9 +59,9 @@ RockMonEncounter: ; b8219
 GetTreeMonSet: ; b823f
 ; Return carry and treemon set in a
 ; if the current map is in table hl.
-	ld a, [MapNumber]
+	ld a, [wMapNumber]
 	ld e, a
-	ld a, [MapGroup]
+	ld a, [wMapGroup]
 	ld d, a
 .loop
 	ld a, [hli]
@@ -187,26 +187,26 @@ SelectTreeMon: ; b841f
 	jr z, NoTreeMon
 
 	ld a, [hli]
-	ld [TempWildMonSpecies], a
+	ld [wTempWildMonSpecies], a
 	ld a, [hl]
-	ld [CurPartyLevel], a
+	ld [wCurPartyLevel], a
 	scf
 	ret
 
 NoTreeMon: ; b843b
 	xor a
-	ld [TempWildMonSpecies], a
-	ld [CurPartyLevel], a
+	ld [wTempWildMonSpecies], a
+	ld [wCurPartyLevel], a
 	ret
 ; b8443
 
 GetTreeScore: ; b8443
 	call .CoordScore
-	ld [Buffer1], a
+	ld [wBuffer1], a
 	call .OTIDScore
-	ld [Buffer2], a
+	ld [wBuffer2], a
 	ld c, a
-	ld a, [Buffer1]
+	ld a, [wBuffer1]
 	sub c
 	jr z, .rare
 	jr nc, .ok
@@ -270,9 +270,9 @@ GetTreeScore: ; b8443
 ; b849d
 
 .OTIDScore: ; b849d
-	ld a, [PlayerID]
+	ld a, [wPlayerID]
 	ld [hDividend], a
-	ld a, [PlayerID + 1]
+	ld a, [wPlayerID + 1]
 	ld [hDividend + 1], a
 	ld a, 10
 	ld [hDivisor], a

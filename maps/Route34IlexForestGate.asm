@@ -1,15 +1,13 @@
-const_value set 2
+	const_def 2 ; object constants
 	const ROUTE34ILEXFORESTGATE_TEACHER1
 	const ROUTE34ILEXFORESTGATE_BUTTERFREE
 	const ROUTE34ILEXFORESTGATE_LASS
 	const ROUTE34ILEXFORESTGATE_TEACHER2
 
 Route34IlexForestGate_MapScripts:
-.SceneScripts:
-	db 0
+	db 0 ; scene scripts
 
-.MapCallbacks:
-	db 1
+	db 1 ; callbacks
 	callback MAPCALLBACK_OBJECTS, .IsForestRestless
 
 .IsForestRestless:
@@ -24,44 +22,44 @@ Route34IlexForestGate_MapScripts:
 	appear ROUTE34ILEXFORESTGATE_TEACHER1
 	return
 
-UnknownScript_0x62d3d:
+Route34IlexForestGateCelebiEvent:
 	checkevent EVENT_FOREST_IS_RESTLESS
-	iffalse UnknownScript_0x62d62
+	iffalse .skip
 	showemote EMOTE_SHOCK, ROUTE34ILEXFORESTGATE_TEACHER2, 20
-	spriteface ROUTE34ILEXFORESTGATE_TEACHER2, LEFT
-	spriteface PLAYER, RIGHT
+	turnobject ROUTE34ILEXFORESTGATE_TEACHER2, LEFT
+	turnobject PLAYER, RIGHT
 	follow PLAYER, ROUTE34ILEXFORESTGATE_TEACHER2
 	applymovement PLAYER, MovementData_0x62d97
 	stopfollow
-	spriteface PLAYER, DOWN
+	turnobject PLAYER, DOWN
 	opentext
 	writetext UnknownText_0x62e41
 	waitbutton
 	closetext
 	applymovement ROUTE34ILEXFORESTGATE_TEACHER2, MovementData_0x62d9a
-UnknownScript_0x62d62:
+.skip:
 	end
 
 TeacherScript_0x62d63:
 	faceplayer
 	opentext
 	checkevent EVENT_FOREST_IS_RESTLESS
-	iftrue UnknownScript_0x62d84
+	iftrue .ForestIsRestless
 	checkevent EVENT_GOT_TM12_SWEET_SCENT
-	iftrue UnknownScript_0x62d7e
+	iftrue .GotSweetScent
 	writetext UnknownText_0x62d9d
 	buttonsound
 	verbosegiveitem TM_SWEET_SCENT
-	iffalse UnknownScript_0x62d82
+	iffalse .NoRoom
 	setevent EVENT_GOT_TM12_SWEET_SCENT
-UnknownScript_0x62d7e:
+.GotSweetScent:
 	writetext UnknownText_0x62df6
 	waitbutton
-UnknownScript_0x62d82:
+.NoRoom:
 	closetext
 	end
 
-UnknownScript_0x62d84:
+.ForestIsRestless:
 	writetext UnknownText_0x62e41
 	buttonsound
 	closetext
@@ -136,26 +134,21 @@ Route34IlexForestGateLassText:
 	done
 
 Route34IlexForestGate_MapEvents:
-	; filler
-	db 0, 0
+	db 0, 0 ; filler
 
-.Warps:
-	db 4
-	warp_def 4, 0, 1, ROUTE_34
-	warp_def 5, 0, 2, ROUTE_34
-	warp_def 4, 7, 1, ILEX_FOREST
-	warp_def 5, 7, 1, ILEX_FOREST
+	db 4 ; warp events
+	warp_event  4,  0, ROUTE_34, 1
+	warp_event  5,  0, ROUTE_34, 2
+	warp_event  4,  7, ILEX_FOREST, 1
+	warp_event  5,  7, ILEX_FOREST, 1
 
-.CoordEvents:
-	db 1
-	coord_event 4, 7, 0, UnknownScript_0x62d3d
+	db 1 ; coord events
+	coord_event  4,  7, SCENE_DEFAULT, Route34IlexForestGateCelebiEvent
 
-.BGEvents:
-	db 0
+	db 0 ; bg events
 
-.ObjectEvents:
-	db 4
-	object_event 9, 3, SPRITE_TEACHER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, TeacherScript_0x62d63, EVENT_ROUTE_34_ILEX_FOREST_GATE_TEACHER_BEHIND_COUNTER
-	object_event 9, 4, SPRITE_BUTTERFREE, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, IlexGateButterfree, -1
-	object_event 3, 4, SPRITE_LASS, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, Route34IlexForestGateLassScript, EVENT_ROUTE_34_ILEX_FOREST_GATE_LASS
-	object_event 5, 7, SPRITE_TEACHER, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, TeacherScript_0x62d63, EVENT_ROUTE_34_ILEX_FOREST_GATE_TEACHER_IN_WALKWAY
+	db 4 ; object events
+	object_event  9,  3, SPRITE_TEACHER, SPRITEMOVEDATA_STANDING_LEFT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, TeacherScript_0x62d63, EVENT_ROUTE_34_ILEX_FOREST_GATE_TEACHER_BEHIND_COUNTER
+	object_event  9,  4, SPRITE_BUTTERFREE, SPRITEMOVEDATA_POKEMON, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, IlexGateButterfree, -1
+	object_event  3,  4, SPRITE_LASS, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, Route34IlexForestGateLassScript, EVENT_ROUTE_34_ILEX_FOREST_GATE_LASS
+	object_event  5,  7, SPRITE_TEACHER, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, TeacherScript_0x62d63, EVENT_ROUTE_34_ILEX_FOREST_GATE_TEACHER_IN_WALKWAY

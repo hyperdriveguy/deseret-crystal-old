@@ -47,7 +47,7 @@ DoBattle: ; 3c000
 
 .player_2
 	call LoadTileMapToTempTileMap
-	call CheckPlayerPartyForFitPkmn
+	call CheckPlayerPartyForFitMon
 	ld a, d
 	and a
 	jp z, LostBattle
@@ -86,7 +86,7 @@ DoBattle: ; 3c000
 	call ResetBattleParticipants
 	call InitBattleMon
 	call ResetPlayerStatLevels
-	call SendOutPkmnText
+	call SendOutMonText
 	call NewBattleMonStatus
 	call BreakAttraction
 	call SendOutPlayerMon
@@ -420,13 +420,13 @@ DetermineMoveOrder: ; 3c314
 	jr z, .player_2
 
 	call BattleRandom
-	cp 1 + (50 percent)
+	cp 50 percent + 1
 	jp c, .player_first
 	jp .enemy_first
 
 .player_2
 	call BattleRandom
-	cp 1 + (50 percent)
+	cp 50 percent + 1
 	jp c, .enemy_first
 	jp .player_first
 
@@ -506,13 +506,13 @@ DetermineMoveOrder: ; 3c314
 	cp USING_INTERNAL_CLOCK
 	jr z, .player_2c
 	call BattleRandom
-	cp 1 + (50 percent)
+	cp 50 percent + 1
 	jp c, .player_first
 	jp .enemy_first
 
 .player_2c
 	call BattleRandom
-	cp 1 + (50 percent)
+	cp 50 percent + 1
 	jp c, .enemy_first
 .player_first
 	scf
@@ -748,7 +748,7 @@ TryEnemyFlee: ; 3c543
 
 	call BattleRandom
 	ld b, a
-	cp 1 + (50 percent)
+	cp 50 percent + 1
 	jr nc, .Stay
 
 	push bc
@@ -760,7 +760,7 @@ TryEnemyFlee: ; 3c543
 	jr c, .Flee
 
 	ld a, b
-	cp 1 + (10 percent)
+	cp 10 percent + 1
 	jr nc, .Stay
 
 	ld a, [wTempEnemyMonSpecies]
@@ -1646,7 +1646,7 @@ HandleScreens: ; 3cb36
 	res SCREENS_LIGHT_SCREEN, [hl]
 	push hl
 	push de
-	ld hl, BattleText_PkmnLightScreenFell
+	ld hl, BattleText_MonsLightScreenFell
 	call StdBattleTextBox
 	pop de
 	pop hl
@@ -1660,7 +1660,7 @@ HandleScreens: ; 3cb36
 	ld [de], a
 	ret nz
 	res SCREENS_REFLECT, [hl]
-	ld hl, BattleText_PkmnReflectFaded
+	ld hl, BattleText_MonsReflectFaded
 	jp StdBattleTextBox
 ; 3cb9e
 
@@ -1756,10 +1756,13 @@ HandleWeather: ; 3cb9e
 ; 3cc2d
 
 .WeatherMessages:
+; entries correspond to WEATHER_* constants
 	dw BattleText_RainContinuesToFall
 	dw BattleText_TheSunlightIsStrong
 	dw BattleText_TheSandstormRages
+
 .WeatherEndedMessages:
+; entries correspond to WEATHER_* constants
 	dw BattleText_TheRainStopped
 	dw BattleText_TheSunlightFaded
 	dw BattleText_TheSandstormSubsided
@@ -1771,7 +1774,7 @@ SubtractHPFromTarget: ; 3cc39
 ; 3cc3f
 
 SubtractHPFromUser: ; 3cc3f
-; Subtract HP from Pkmn
+; Subtract HP from mon
 	call SubtractHP
 	jp UpdateHPBarBattleHuds
 ; 3cc45
@@ -1983,7 +1986,7 @@ HandleEnemyMonFaint: ; 3cd55
 	xor a
 	ld [wWhichMonFaintedFirst], a
 	call UpdateBattleStateAndExperienceAfterEnemyFaint
-	call CheckPlayerPartyForFitPkmn
+	call CheckPlayerPartyForFitMon
 	ld a, d
 	and a
 	jp z, LostBattle
@@ -2113,7 +2116,7 @@ UpdateBattleStateAndExperienceAfterEnemyFaint: ; 3ce01
 	call PlayerMonFaintHappinessMod
 
 .player_mon_did_not_faint
-	call CheckPlayerPartyForFitPkmn
+	call CheckPlayerPartyForFitMon
 	ld a, d
 	and a
 	ret z
@@ -2235,7 +2238,7 @@ FaintYourPokemon: ; 3cef1
 	hlcoord 9, 7
 	lb bc, 5, 11
 	call ClearBox
-	ld hl, BattleText_PkmnFainted
+	ld hl, BattleText_MonFainted
 	jp StdBattleTextBox
 ; 3cf14
 
@@ -2249,7 +2252,7 @@ FaintEnemyPokemon: ; 3cf14
 	hlcoord 1, 0
 	lb bc, 4, 10
 	call ClearBox
-	ld hl, BattleText_EnemyPkmnFainted
+	ld hl, BattleText_EnemyMonFainted
 	jp StdBattleTextBox
 ; 3cf35
 
@@ -2388,22 +2391,22 @@ WinTrainerBattle: ; 3cfa4
 	call nz, .DoubleReward
 	call .CheckMaxedOutMomMoney
 	push af
-	ld a, $0
+	ld a, FALSE
 	jr nc, .okay
 	ld a, [wMomSavingMoney]
-	and $7
-	cp $3
+	and MOM_SAVING_MONEY_MASK
+	cp (1 << MOM_SAVING_SOME_MONEY_F) | (1 << MOM_SAVING_HALF_MONEY_F)
 	jr nz, .okay
-	inc a
+	inc a ; TRUE
 
 .okay
 	ld b, a
-	ld c, $4
+	ld c, 4
 .loop
 	ld a, b
 	and a
 	jr z, .loop2
-	call .SendMoneyToMom
+	call .AddMoneyToMom
 	dec c
 	dec b
 	jr .loop
@@ -2422,7 +2425,7 @@ WinTrainerBattle: ; 3cfa4
 	pop af
 	jr nc, .KeepItAll
 	ld a, [wMomSavingMoney]
-	and $7
+	and MOM_SAVING_MONEY_MASK
 	jr z, .KeepItAll
 	ld hl, .SentToMomTexts
 	dec a
@@ -2440,7 +2443,7 @@ WinTrainerBattle: ; 3cfa4
 	jp StdBattleTextBox
 ; 3d081
 
-.SendMoneyToMom: ; 3d081
+.AddMoneyToMom: ; 3d081
 	push bc
 	ld hl, wBattleReward + 2
 	ld de, wMomsMoney + 2
@@ -2474,6 +2477,7 @@ WinTrainerBattle: ; 3cfa4
 ; 3d0ab
 
 .SentToMomTexts: ; 3d0ab
+; entries correspond to MOM_SAVING_* constants
 	dw SentSomeToMomText
 	dw SentHalfToMomText
 	dw SentAllToMomText
@@ -2491,7 +2495,7 @@ WinTrainerBattle: ; 3cfa4
 ; 3d0be
 
 AddBattleMoneyToAccount: ; 3d0be
-	ld c, $3
+	ld c, 3
 	and a
 	push de
 .loop
@@ -2563,7 +2567,7 @@ IsGymLeader: ; 0x3d128
 IsGymLeaderCommon:
 	push de
 	ld a, [wOtherTrainerClass]
-	ld de, $1
+	ld de, 1
 	call IsInArray
 	pop de
 	ret
@@ -2580,7 +2584,7 @@ HandlePlayerMonFaint: ; 3d14e
 	ld a, $1
 	ld [wWhichMonFaintedFirst], a
 	call PlayerMonFaintHappinessMod
-	call CheckPlayerPartyForFitPkmn
+	call CheckPlayerPartyForFitMon
 	ld a, d
 	and a
 	jp z, LostBattle
@@ -2689,7 +2693,7 @@ AskUseNextPokemon: ; 3d1f8
 
 ForcePlayerMonChoice: ; 3d227
 	call EmptyBattleTextBox
-	call LoadStandardMenuDataHeader
+	call LoadStandardMenuHeader
 	call SetUpBattlePartyMenu_NoLoop
 	call ForcePickPartyMonInBattle
 	ld a, [wLinkMode]
@@ -2735,7 +2739,7 @@ ForcePlayerMonChoice: ; 3d227
 	call CloseWindow
 	call GetMemSGBLayout
 	call SetPalettes
-	call SendOutPkmnText
+	call SendOutMonText
 	call NewBattleMonStatus
 	call BreakAttraction
 	call SendOutPlayerMon
@@ -2757,7 +2761,7 @@ PlayerPartyMonEntrance: ; 3d2b3
 	call AddBattleParticipant
 	call InitBattleMon
 	call ResetPlayerStatLevels
-	call SendOutPkmnText
+	call SendOutMonText
 	call NewBattleMonStatus
 	call BreakAttraction
 	call SendOutPlayerMon
@@ -2810,7 +2814,7 @@ SwitchMonAlreadyOut: ; 3d34f
 	cp [hl]
 	jr nz, .notout
 
-	ld hl, BattleText_PkmnIsAlreadyOut
+	ld hl, BattleText_MonIsAlreadyOut
 	call StdBattleTextBox
 	scf
 	ret
@@ -3052,11 +3056,11 @@ ForceEnemySwitch: ; 3d4c3
 	ld a, [wEnemySwitchMonIndex]
 	dec a
 	ld b, a
-	call LoadEnemyPkmnToSwitchTo
+	call LoadEnemyMonToSwitchTo
 	call ClearEnemyMonBox
 	call NewEnemyMonStatus
 	call ResetEnemyStatLevels
-	call Function_SetEnemyPkmnAndSendOutAnimation
+	call Function_SetEnemyMonAndSendOutAnimation
 	call BreakAttraction
 	call ResetBattleParticipants
 	ret
@@ -3069,15 +3073,15 @@ EnemySwitch: ; 3d4e1
 	call ResetEnemyBattleVars
 	call CheckWhetherSwitchmonIsPredetermined
 	jr c, .skip
-	call FindPkmnInOTPartyToSwitchIntoBattle
+	call FindMonInOTPartyToSwitchIntoBattle
 .skip
-	; 'b' contains the PartyNr of the Pkmn the AI will switch to
-	call LoadEnemyPkmnToSwitchTo
+	; 'b' contains the PartyNr of the mon the AI will switch to
+	call LoadEnemyMonToSwitchTo
 	call OfferSwitch
 	push af
 	call ClearEnemyMonBox
 	call Function_BattleTextEnemySentOut
-	call Function_SetEnemyPkmnAndSendOutAnimation
+	call Function_SetEnemyMonAndSendOutAnimation
 	pop af
 	ret c
 	; If we're here, then we're switching too
@@ -3095,15 +3099,15 @@ EnemySwitch_SetMode: ; 3d517
 	call ResetEnemyBattleVars
 	call CheckWhetherSwitchmonIsPredetermined
 	jr c, .skip
-	call FindPkmnInOTPartyToSwitchIntoBattle
+	call FindMonInOTPartyToSwitchIntoBattle
 .skip
-	; 'b' contains the PartyNr of the Pkmn the AI will switch to
-	call LoadEnemyPkmnToSwitchTo
+	; 'b' contains the PartyNr of the mon the AI will switch to
+	call LoadEnemyMonToSwitchTo
 	ld a, 1
 	ld [wEnemyIsSwitching], a
 	call ClearEnemyMonBox
 	call Function_BattleTextEnemySentOut
-	jp Function_SetEnemyPkmnAndSendOutAnimation
+	jp Function_SetEnemyMonAndSendOutAnimation
 ; 3d533
 
 CheckWhetherSwitchmonIsPredetermined: ; 3d533
@@ -3155,7 +3159,7 @@ ResetEnemyBattleVars: ; 3d557
 	ld a, 8
 	call SlideBattlePicOut
 	call EmptyBattleTextBox
-	jp LoadStandardMenuDataHeader
+	jp LoadStandardMenuHeader
 ; 3d57a
 
 ResetBattleParticipants: ; 3d57a
@@ -3174,8 +3178,8 @@ AddBattleParticipant: ; 3d581
 	predef_jump SmallFarFlagAction
 ; 3d599
 
-FindPkmnInOTPartyToSwitchIntoBattle: ; 3d599
-	ld b, $ff
+FindMonInOTPartyToSwitchIntoBattle: ; 3d599
+	ld b, -1
 	ld a, $1
 	ld [wBuffer1], a
 	ld [wBuffer2], a
@@ -3202,7 +3206,7 @@ FindPkmnInOTPartyToSwitchIntoBattle: ; 3d599
 	pop bc
 	jr z, .discourage
 	call LookUpTheEffectivenessOfEveryMove
-	call IsThePlayerPkmnTypesEffectiveAgainstOTPkmn
+	call IsThePlayerMonTypesEffectiveAgainstOTMon
 	jr .loop
 
 .discourage
@@ -3249,9 +3253,9 @@ LookUpTheEffectivenessOfEveryMove: ; 3d5d7
 	ret
 ; 3d618
 
-IsThePlayerPkmnTypesEffectiveAgainstOTPkmn: ; 3d618
-; Calculates the effectiveness of the types of the PlayerPkmn
-; against the OTPkmn
+IsThePlayerMonTypesEffectiveAgainstOTMon: ; 3d618
+; Calculates the effectiveness of the types of the PlayerMon
+; against the OTMon
 	push bc
 	ld hl, wOTPartyCount
 	ld a, b
@@ -3319,7 +3323,7 @@ ScoreMonTypeMatchups: ; 3d672
 	ld a, [wBuffer1]
 	and a
 	jr z, .okay2
-	ld b, $ff
+	ld b, -1
 	ld c, a
 .loop3
 	inc b
@@ -3328,7 +3332,7 @@ ScoreMonTypeMatchups: ; 3d672
 	jr .quit
 
 .okay2
-	ld b, $ff
+	ld b, -1
 	ld a, [wBuffer2]
 	ld c, a
 .loop4
@@ -3363,8 +3367,8 @@ ScoreMonTypeMatchups: ; 3d672
 	ret
 ; 3d6ca
 
-LoadEnemyPkmnToSwitchTo: ; 3d6ca
-	; 'b' contains the PartyNr of the Pkmn the AI will switch to
+LoadEnemyMonToSwitchTo: ; 3d6ca
+	; 'b' contains the PartyNr of the mon the AI will switch to
 	ld a, b
 	ld [wCurPartyMon], a
 	ld hl, wOTPartyMon1Level
@@ -3436,7 +3440,7 @@ OfferSwitch: ; 3d74b
 	ld a, [wCurPartyMon]
 	push af
 	callfar Battle_GetTrainerName
-	ld hl, BattleText_EnemyIsAboutToUseWillPlayerChangePkmn
+	ld hl, BattleText_EnemyIsAboutToUseWillPlayerChangeMon
 	call StdBattleTextBox
 	lb bc, 1, 7
 	call PlaceYesNoBox
@@ -3492,14 +3496,14 @@ Function_BattleTextEnemySentOut: ; 3d7b8
 	jp WaitBGMap
 ; 3d7c7
 
-Function_SetEnemyPkmnAndSendOutAnimation: ; 3d7c7
+Function_SetEnemyMonAndSendOutAnimation: ; 3d7c7
 	ld a, [wTempEnemyMonSpecies]
 	ld [wCurPartySpecies], a
 	ld [wCurSpecies], a
 	call GetBaseData
 	ld a, OTPARTYMON
 	ld [wMonType], a
-	predef CopyPkmnToTempMon
+	predef CopyMonToTempMon
 	call GetEnemyMonFrontpic
 
 	xor a
@@ -3576,8 +3580,8 @@ ResetEnemyStatLevels: ; 3d867
 	ret
 ; 3d873
 
-CheckPlayerPartyForFitPkmn: ; 3d873
-; Has the player any Pkmn in his Party that can fight?
+CheckPlayerPartyForFitMon: ; 3d873
+; Has the player any mon in his Party that can fight?
 	ld a, [wPartyCount]
 	ld e, a
 	xor a
@@ -4147,7 +4151,7 @@ PursuitSwitch: ; 3dc5b
 	ld b, RESET_FLAG
 	predef SmallFarFlagAction
 	call PlayerMonFaintedAnimation
-	ld hl, BattleText_PkmnFainted
+	ld hl, BattleText_MonFainted
 	jr .done_fainted
 
 .check_enemy_fainted
@@ -4163,7 +4167,7 @@ PursuitSwitch: ; 3dc5b
 	call PlaySFX
 	call WaitSFX
 	call EnemyMonFaintedAnimation
-	ld hl, BattleText_EnemyPkmnFainted
+	ld hl, BattleText_EnemyMonFainted
 
 .done_fainted
 	call StdBattleTextBox
@@ -4266,7 +4270,7 @@ HandleHPHealingItem: ; 3dd2f
 	ld c, a
 	dec de
 	ld a, [de]
-	adc $0
+	adc 0
 	ld [wBuffer6], a
 	ld b, a
 	ld a, [hld]
@@ -4327,7 +4331,7 @@ ItemRecoveryAnim: ; 3ddc8
 
 UseHeldStatusHealingItem: ; 3dde9
 	callfar GetOpponentItem
-	ld hl, .Statuses
+	ld hl, HeldStatusHealingEffects
 .loop
 	ld a, [hli]
 	cp $ff
@@ -4380,15 +4384,7 @@ UseHeldStatusHealingItem: ; 3dde9
 	ret
 ; 3de44
 
-.Statuses: ; 3de44
-	db HELD_HEAL_POISON,   1 << PSN
-	db HELD_HEAL_FREEZE,   1 << FRZ
-	db HELD_HEAL_BURN,     1 << BRN
-	db HELD_HEAL_SLEEP,    SLP
-	db HELD_HEAL_PARALYZE, 1 << PAR
-	db HELD_HEAL_STATUS,   ALL_STATUS
-	db -1 ; end
-; 3de51
+INCLUDE "data/battle/held_heal_status.asm"
 
 UseConfusionHealingItem: ; 3de51
 	ld a, BATTLE_VARS_SUBSTATUS3_OPP
@@ -4463,10 +4459,10 @@ HandleStatBoostingHeldItems: ; 3de97
 	ld a, [bc]
 	ld b, a
 	callfar GetItemHeldEffect
-	ld hl, .StatUpItems
+	ld hl, HeldStatUpItems
 .loop
 	ld a, [hli]
-	cp $ff
+	cp -1
 	jr z, .finish
 	inc hl
 	inc hl
@@ -4503,16 +4499,7 @@ HandleStatBoostingHeldItems: ; 3de97
 	ret
 ; 3defc
 
-.StatUpItems:
-	dbw HELD_ATTACK_UP,     BattleCommand_AttackUp
-	dbw HELD_DEFENSE_UP,    BattleCommand_DefenseUp
-	dbw HELD_SPEED_UP,      BattleCommand_SpeedUp
-	dbw HELD_SP_ATTACK_UP,  BattleCommand_SpecialAttackUp
-	dbw HELD_SP_DEFENSE_UP, BattleCommand_SpecialDefenseUp
-	dbw HELD_ACCURACY_UP,   BattleCommand_AccuracyUp
-	dbw HELD_EVASION_UP,    BattleCommand_EvasionUp
-	db -1 ; end
-; 3df12
+INCLUDE "data/battle/held_stat_up.asm"
 
 GetPartymonItem: ; 3df12
 	ld hl, wPartyMon1Item
@@ -4926,7 +4913,7 @@ BattleMenu_Pack: ; 3e1c7
 	and a
 	jp nz, .ItemsCantBeUsed
 
-	call LoadStandardMenuDataHeader
+	call LoadStandardMenuHeader
 
 	ld a, [wBattleType]
 	cp BATTLETYPE_TUTORIAL
@@ -5021,10 +5008,10 @@ BattleMenu_Pack: ; 3e1c7
 ; 3e28d
 
 BattleMenu_PKMN: ; 3e28d
-	call LoadStandardMenuDataHeader
+	call LoadStandardMenuHeader
 BattleMenuPKMN_ReturnFromStats:
 	call ExitMenu
-	call LoadStandardMenuDataHeader
+	call LoadStandardMenuHeader
 	call ClearBGPalettes
 BattleMenuPKMN_Loop:
 	call SetUpBattlePartyMenu
@@ -5115,7 +5102,7 @@ TryPlayerSwitch: ; 3e358
 	ld a, [wCurPartyMon]
 	cp d
 	jr nz, .check_trapped
-	ld hl, BattleText_PkmnIsAlreadyOut
+	ld hl, BattleText_MonIsAlreadyOut
 	call StdBattleTextBox
 	jp BattleMenuPKMN_Loop
 
@@ -5128,7 +5115,7 @@ TryPlayerSwitch: ; 3e358
 	jr z, .try_switch
 
 .trapped
-	ld hl, BattleText_PkmnCantBeRecalled
+	ld hl, BattleText_MonCantBeRecalled
 	call StdBattleTextBox
 	jp BattleMenuPKMN_Loop
 
@@ -5154,7 +5141,7 @@ PlayerSwitch: ; 3e3ad
 	ld a, [wLinkMode]
 	and a
 	jr z, .not_linked
-	call LoadStandardMenuDataHeader
+	call LoadStandardMenuHeader
 	call LinkBattleSendReceiveAction
 	call CloseWindow
 
@@ -5205,7 +5192,7 @@ EnemyMonEntrance: ; 3e3ff
 ; 3e40b
 
 BattleMonEntrance: ; 3e40b
-	call WithdrawPkmnText
+	call WithdrawMonText
 
 	ld c, 50
 	call DelayFrames
@@ -5228,7 +5215,7 @@ BattleMonEntrance: ; 3e40b
 	call AddBattleParticipant
 	call InitBattleMon
 	call ResetPlayerStatLevels
-	call SendOutPkmnText
+	call SendOutMonText
 	call NewBattleMonStatus
 	call BreakAttraction
 	call SendOutPlayerMon
@@ -5735,7 +5722,7 @@ CheckPlayerHasUsableMoves: ; 3e786
 	ret nz
 
 .force_struggle
-	ld hl, BattleText_PkmnHasNoMovesLeft
+	ld hl, BattleText_MonHasNoMovesLeft
 	call StdBattleTextBox
 	ld c, 60
 	call DelayFrames
@@ -5987,7 +5974,7 @@ LoadEnemyMon: ; 3e8eb
 
 ; 25% chance of getting an item
 	call BattleRandom
-	cp 1 + (75 percent)
+	cp 75 percent + 1
 	ld a, NO_ITEM
 	jr c, .UpdateItem
 
@@ -6205,7 +6192,7 @@ LoadEnemyMon: ; 3e8eb
 	ld de, wEnemyMonMaxHP
 	ld b, FALSE
 	ld hl, wEnemyMonDVs - (MON_DVS - MON_STAT_EXP + 1) ; wLinkBattleRNs + 7 ; ?
-	predef CalcPkmnStats
+	predef CalcMonStats
 
 ; If we're in a trainer battle,
 ; get the rest of the parameters from the party struct
@@ -6439,7 +6426,7 @@ CheckUnownLetter: ; 3eb75
 	jr nc, .next
 
 ; Is our letter in the set?
-	ld hl, .LetterSets
+	ld hl, UnlockedUnownLetterSets
 	add hl, de
 	ld a, [hli]
 	ld h, [hl]
@@ -6460,7 +6447,7 @@ CheckUnownLetter: ; 3eb75
 	inc e
 	inc e
 	ld a, e
-	cp .Set1 - .LetterSets
+	cp UnlockedUnownLetterSets.End - UnlockedUnownLetterSets
 	jr c, .loop
 
 ; Hasn't been unlocked, or the letter is invalid
@@ -6472,26 +6459,8 @@ CheckUnownLetter: ; 3eb75
 	and a
 	ret
 
-.LetterSets:
-	dw .Set1
-	dw .Set2
-	dw .Set3
-	dw .Set4
+INCLUDE "data/wild/unlocked_unowns.asm"
 
-.Set1:
-	;  A   B   C   D   E   F   G   H   I   J   K
-	db 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, $ff
-.Set2:
-	;  L   M   N   O   P   Q   R
-	db 12, 13, 14, 15, 16, 17, 18, $ff
-.Set3:
-	;  S   T   U   V   W
-	db 19, 20, 21, 22, 23, $ff
-.Set4:
-	;  X   Y   Z
-	db 24, 25, 26, $ff
-
-; 3ebc7
 
 BattleWinSlideInEnemyTrainerFrontpic: ; 3ebd8
 	xor a
@@ -6705,7 +6674,7 @@ ApplyStatLevelMultiplier: ; 3ecb7
 .okay2
 	pop bc
 	push hl
-	ld hl, .StatLevelMultipliers
+	ld hl, StatLevelMultipliers_Applied
 	dec b
 	sla b
 	ld c, b
@@ -6754,24 +6723,7 @@ ApplyStatLevelMultiplier: ; 3ecb7
 	ret
 ; 3ed2b
 
-.StatLevelMultipliers:
-;	      /
-	db 25, 100 ; 25%
-	db 28, 100 ; 28%
-	db 33, 100 ; 33%
-	db 40, 100 ; 40%
-	db 50, 100 ; 50%
-	db 66, 100 ; 66%
-
-	db  1,  1 ; 100%
-
-	db 15, 10 ; 150%
-	db  2,  1 ; 200%
-	db 25, 10 ; 250%
-	db  3,  1 ; 300%
-	db 35, 10 ; 350%
-	db  4,  1 ; 400%
-; 3ed45
+INCLUDE "data/battle/stat_multipliers_2.asm"
 
 BadgeStatBoosts: ; 3ed45
 ; Raise the stats of the battle mon in wBattleMon
@@ -7120,7 +7072,7 @@ GiveExperiencePoints: ; 3ee3b
 	ld a, [wCurPartyMon]
 	ld hl, wPartyMonNicknames
 	call GetNick
-	ld hl, Text_PkmnGainedExpPoint
+	ld hl, Text_MonGainedExpPoint
 	call BattleTextBox
 	ld a, [wStringBuffer2 + 1]
 	ld [hQuotient + 2], a
@@ -7189,7 +7141,7 @@ GiveExperiencePoints: ; 3ee3b
 .not_max_exp
 	xor a ; PARTYMON
 	ld [wMonType], a
-	predef CopyPkmnToTempMon
+	predef CopyMonToTempMon
 	callfar CalcLevel
 	pop bc
 	ld hl, MON_LEVEL
@@ -7226,7 +7178,7 @@ GiveExperiencePoints: ; 3ee3b
 	add hl, bc
 	push bc
 	ld b, TRUE
-	predef CalcPkmnStats
+	predef CalcMonStats
 	pop bc
 	pop de
 	ld hl, MON_MAXHP + 1
@@ -7302,7 +7254,7 @@ GiveExperiencePoints: ; 3ee3b
 .skip_animation2
 	xor a ; PARTYMON
 	ld [wMonType], a
-	predef CopyPkmnToTempMon
+	predef CopyMonToTempMon
 	hlcoord 9, 0
 	ld b, $a
 	ld c, $9
@@ -7418,7 +7370,7 @@ BoostExp: ; 3f106
 	ret
 ; 3f11b
 
-Text_PkmnGainedExpPoint: ; 3f11b
+Text_MonGainedExpPoint: ; 3f11b
 	text_jump Text_Gained
 	start_asm
 	ld hl, TextJump_StringBuffer2ExpPoints
@@ -7462,7 +7414,7 @@ AnimateExpBar: ; 3f136
 	ld [wd002], a
 	xor a ; PARTYMON
 	ld [wMonType], a
-	predef CopyPkmnToTempMon
+	predef CopyMonToTempMon
 	ld a, [wTempMonLevel]
 	ld b, a
 	ld e, a
@@ -7626,23 +7578,23 @@ AnimateExpBar: ; 3f136
 	ld [hBGMapMode], a
 	ret
 
-SendOutPkmnText: ; 3f26d
+SendOutMonText: ; 3f26d
 	ld a, [wLinkMode]
 	and a
 	jr z, .not_linked
 
-	ld hl, JumpText_GoPkmn ; If we're in a LinkBattle print just "Go <PlayerMon>"
+	ld hl, JumpText_GoMon ; If we're in a LinkBattle print just "Go <PlayerMon>"
 
 	ld a, [wBattleHasJustStarted] ; unless this (unidentified) variable is set
 	and a
 	jr nz, .skip_to_textbox
 
 .not_linked
-; Depending on the HP of the enemy Pkmn, the game prints a different text
+; Depending on the HP of the enemy mon, the game prints a different text
 	ld hl, wEnemyMonHP
 	ld a, [hli]
 	or [hl]
-	ld hl, JumpText_GoPkmn
+	ld hl, JumpText_GoMon
 	jr z, .skip_to_textbox
 
 	; compute enemy helth remaining as a percentage
@@ -7671,43 +7623,43 @@ SendOutPkmnText: ; 3f26d
 	call Divide
 
 	ld a, [hQuotient + 2]
-	ld hl, JumpText_GoPkmn
+	ld hl, JumpText_GoMon
 	cp 70
 	jr nc, .skip_to_textbox
 
-	ld hl, JumpText_DoItPkmn
+	ld hl, JumpText_DoItMon
 	cp 40
 	jr nc, .skip_to_textbox
 
-	ld hl, JumpText_GoForItPkmn
+	ld hl, JumpText_GoForItMon
 	cp 10
 	jr nc, .skip_to_textbox
 
-	ld hl, JumpText_YourFoesWeakGetmPkmn
+	ld hl, JumpText_YourFoesWeakGetmMon
 .skip_to_textbox
 	jp BattleTextBox
 ; 3f2d1
 
-JumpText_GoPkmn: ; 3f2d1
-	text_jump Text_GoPkmn
+JumpText_GoMon: ; 3f2d1
+	text_jump Text_GoMon
 	start_asm
 	jr Function_TextJump_BattleMonNick01
 ; 3f2d6
 
-JumpText_DoItPkmn: ; 3f2d8
-	text_jump Text_DoItPkmn
+JumpText_DoItMon: ; 3f2d8
+	text_jump Text_DoItMon
 	start_asm
 	jr Function_TextJump_BattleMonNick01
 ; 3f2dd
 
-JumpText_GoForItPkmn: ; 3f2df
-	text_jump Text_GoForItPkmn
+JumpText_GoForItMon: ; 3f2df
+	text_jump Text_GoForItMon
 	start_asm
 	jr Function_TextJump_BattleMonNick01
 ; 3f2e4
 
-JumpText_YourFoesWeakGetmPkmn: ; 3f2e6
-	text_jump Text_YourFoesWeakGetmPkmn
+JumpText_YourFoesWeakGetmMon: ; 3f2e6
+	text_jump Text_YourFoesWeakGetmMon
 	start_asm
 Function_TextJump_BattleMonNick01: ; 3f2eb
 	ld hl, TextJump_BattleMonNick01
@@ -7719,14 +7671,14 @@ TextJump_BattleMonNick01: ; 3f2ef
 	db "@"
 ; 3f2f4
 
-WithdrawPkmnText: ; 3f2f4
-	ld hl, .WithdrawPkmnText
+WithdrawMonText: ; 3f2f4
+	ld hl, .WithdrawMonText
 	jp BattleTextBox
 
-.WithdrawPkmnText:
+.WithdrawMonText:
 	text_jump Text_BattleMonNickComma
 	start_asm
-; Print text to withdraw Pkmn
+; Print text to withdraw mon
 ; depending on HP the message is different
 	push de
 	push bc
@@ -8354,7 +8306,7 @@ DisplayLinkBattleResult: ; 3f77c
 	db "  DRAW@"
 ; 3f80f
 
-DisplayLinkRecord: ; 3f836
+_DisplayLinkRecord: ; 3f836
 	ld a, BANK(sLinkBattleStats)
 	call GetSRAMBank
 
@@ -8523,13 +8475,13 @@ BattleEnd_HandleRoamMons: ; 3f998
 
 .caught_or_defeated_roam_mon
 	call GetRoamMonHP
-	ld [hl], $0
+	ld [hl], 0
 	call GetRoamMonMapGroup
-	ld [hl], $ff
+	ld [hl], GROUP_N_A
 	call GetRoamMonMapNumber
-	ld [hl], $ff
+	ld [hl], MAP_N_A
 	call GetRoamMonSpecies
-	ld [hl], $0
+	ld [hl], 0
 	ret
 
 .not_roaming
@@ -8907,10 +8859,10 @@ GetTrainerBackpic: ; 3fbff
 
 ; What gender are we?
 	ld a, [wPlayerSpriteSetupFlags]
-	bit 2, a ; transformed to male
+	bit PLAYERSPRITESETUP_FEMALE_TO_MALE_F, a
 	jr nz, .Chris
 	ld a, [wPlayerGender]
-	bit 0, a
+	bit PLAYERGENDER_FEMALE_F, a
 	jr z, .Chris
 
 ; It's a girl.

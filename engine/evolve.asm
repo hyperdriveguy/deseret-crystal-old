@@ -55,7 +55,7 @@ EvolveAfterBattle_MasterLoop
 	push hl
 	xor a
 	ld [wMonType], a
-	predef CopyPkmnToTempMon
+	predef CopyMonToTempMon
 	pop hl
 
 .loop
@@ -263,8 +263,8 @@ EvolveAfterBattle_MasterLoop
 
 	ld hl, wTempMonExp + 2
 	ld de, wTempMonMaxHP
-	ld b, $1
-	predef CalcPkmnStats
+	ld b, TRUE
+	predef CalcMonStats
 
 	ld a, [wCurPartyMon]
 	ld hl, wPartyMons

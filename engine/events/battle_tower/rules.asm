@@ -1,4 +1,4 @@
-CheckForBattleTowerRules: ; 8b201
+_CheckForBattleTowerRules: ; 8b201
 	ld hl, wStringBuffer2
 	ld [hl], "3"
 	inc hl
@@ -25,9 +25,9 @@ CheckForBattleTowerRules: ; 8b201
 
 .TextPointers: ; 8b222
 	dw JumpText_ExcuseMeYoureNotReady
-	dw JumpText_OnlyThreePkmnMayBeEntered
-	dw JumpText_ThePkmnMustAllBeDifferentKinds
-	dw JumpText_ThePkmnMustNotHoldTheSameItems
+	dw JumpText_OnlyThreeMonMayBeEntered
+	dw JumpText_TheMonMustAllBeDifferentKinds
+	dw JumpText_TheMonMustNotHoldTheSameItems
 	dw JumpText_YouCantTakeAnEgg
 ; 8b22c
 
@@ -49,21 +49,21 @@ BattleTower_PleaseReturnWhenReady: ; 8b231
 	db "@"
 ; 0x8b23d
 
-JumpText_OnlyThreePkmnMayBeEntered: ; 0x8b247
+JumpText_OnlyThreeMonMayBeEntered: ; 0x8b247
 	; Only three #MON may be entered.
-	text_jump Text_OnlyThreePkmnMayBeEntered
+	text_jump Text_OnlyThreeMonMayBeEntered
 	db "@"
 ; 0x8b24c
 
-JumpText_ThePkmnMustAllBeDifferentKinds: ; 0x8b24c
+JumpText_TheMonMustAllBeDifferentKinds: ; 0x8b24c
 	; The @  #MON must all be different kinds.
-	text_jump Text_ThePkmnMustAllBeDifferentKinds
+	text_jump Text_TheMonMustAllBeDifferentKinds
 	db "@"
 ; 0x8b251
 
-JumpText_ThePkmnMustNotHoldTheSameItems: ; 0x8b251
+JumpText_TheMonMustNotHoldTheSameItems: ; 0x8b251
 	; The @  #MON must not hold the same items.
-	text_jump Text_ThePkmnMustNotHoldTheSameItems
+	text_jump Text_TheMonMustNotHoldTheSameItems
 	db "@"
 ; 0x8b256
 

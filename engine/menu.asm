@@ -1,6 +1,6 @@
 _2DMenu_:: ; 2400e
-	ld hl, CopyMenuData2
-	ld a, [wMenuData2_2DMenuItemStringsBank]
+	ld hl, CopyMenuData
+	ld a, [wMenuData_2DMenuItemStringsBank]
 	rst FarCall
 
 	call Draw2DMenu
@@ -11,8 +11,8 @@ _2DMenu_:: ; 2400e
 ; 24022
 
 _InterpretBattleMenu:: ; 24022
-	ld hl, CopyMenuData2
-	ld a, [wMenuData2_2DMenuItemStringsBank]
+	ld hl, CopyMenuData
+	ld a, [wMenuData_2DMenuItemStringsBank]
 	rst FarCall
 
 	call Draw2DMenu
@@ -37,7 +37,7 @@ Get2DMenuSelection: ; 2408f
 	call StaticMenuJoypad
 	call MenuClickSound
 Mobile_GetMenuSelection: ; 24098
-	ld a, [wMenuData2Flags]
+	ld a, [wMenuDataFlags]
 	bit 1, a
 	jr z, .skip
 	call GetMenuJoypad
@@ -45,7 +45,7 @@ Mobile_GetMenuSelection: ; 24098
 	jr nz, .quit1
 
 .skip
-	ld a, [wMenuData2Flags]
+	ld a, [wMenuDataFlags]
 	bit 0, a
 	jr nz, .skip2
 	call GetMenuJoypad
@@ -75,20 +75,20 @@ Mobile_GetMenuSelection: ; 24098
 ; 240cd
 
 Get2DMenuNumberOfColumns: ; 240cd
-	ld a, [wMenuData2_2DMenuDimensions]
+	ld a, [wMenuData_2DMenuDimensions]
 	and $f
 	ret
 ; 240d3
 
 Get2DMenuNumberOfRows: ; 240d3
-	ld a, [wMenuData2_2DMenuDimensions]
+	ld a, [wMenuData_2DMenuDimensions]
 	swap a
 	and $f
 	ret
 ; 240db
 
 Place2DMenuItemStrings: ; 240db
-	ld hl, wMenuData2_2DMenuItemStringsAddr
+	ld hl, wMenuData_2DMenuItemStringsAddr
 	ld e, [hl]
 	inc hl
 	ld d, [hl]
@@ -103,10 +103,10 @@ Place2DMenuItemStrings: ; 240db
 	ld c, a
 .col
 	push bc
-	ld a, [wMenuData2_2DMenuItemStringsBank]
+	ld a, [wMenuData_2DMenuItemStringsBank]
 	call Place2DMenuItemName
 	inc de
-	ld a, [wMenuData2_2DMenuSpacing]
+	ld a, [wMenuData_2DMenuSpacing]
 	ld c, a
 	ld b, 0
 	add hl, bc
@@ -119,13 +119,13 @@ Place2DMenuItemStrings: ; 240db
 	pop bc
 	dec b
 	jr nz, .row
-	ld hl, wMenuData2_2DMenuFunctionAddr
+	ld hl, wMenuData_2DMenuFunctionAddr
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
 	or h
 	ret z
-	ld a, [wMenuData2_2DMenuFunctionBank]
+	ld a, [wMenuData_2DMenuFunctionBank]
 	rst FarCall
 	ret
 ; 2411a
@@ -193,7 +193,7 @@ Init2DMenuCursorPosition: ; 2411a (9:411a)
 	ld hl, w2DMenuFlags1
 	ld [hli], a
 	ld [hld], a
-	ld a, [wMenuData2Flags]
+	ld a, [wMenuDataFlags]
 	bit 5, a
 	ret z
 	set 5, [hl]
@@ -202,14 +202,14 @@ Init2DMenuCursorPosition: ; 2411a (9:411a)
 ; 2418a
 
 .InitFlags_b: ; 2418a
-	ld a, [wMenuData2_2DMenuSpacing]
+	ld a, [wMenuData_2DMenuSpacing]
 	or $20
 	ld [w2DMenuCursorOffsets], a
 	ret
 ; 24193
 
 .InitFlags_c: ; 24193
-	ld hl, wMenuData2Flags
+	ld hl, wMenuDataFlags
 	ld a, A_BUTTON
 	bit 0, [hl]
 	jr nz, .skip
@@ -645,7 +645,7 @@ Error_Cant_ExitMenu: ; 2445d
 ; 2446d
 
 _InitVerticalMenuCursor:: ; 2446d
-	ld a, [wMenuData2Flags]
+	ld a, [wMenuDataFlags]
 	ld b, a
 	ld hl, w2DMenuCursorInitY
 	ld a, [wMenuBorderTopCoord]
@@ -660,7 +660,7 @@ _InitVerticalMenuCursor:: ; 2446d
 	inc a
 	ld [hli], a
 ; w2DMenuNumRows
-	ld a, [wMenuData2Items]
+	ld a, [wMenuDataItems]
 	ld [hli], a
 ; w2DMenuNumCols
 	ld a, 1
@@ -695,7 +695,7 @@ _InitVerticalMenuCursor:: ; 2446d
 	and a
 	jr z, .load_at_the_top
 	ld c, a
-	ld a, [wMenuData2Items]
+	ld a, [wMenuDataItems]
 	cp c
 	jr nc, .load_position
 .load_at_the_top

@@ -1,4 +1,4 @@
-const_value set 2
+	const_def 2 ; object constants
 	const BATTLETOWER1F_RECEPTIONIST
 	const BATTLETOWER1F_YOUNGSTER
 	const BATTLETOWER1F_COOLTRAINER_F
@@ -6,24 +6,22 @@ const_value set 2
 	const BATTLETOWER1F_GRANNY
 
 BattleTower1F_MapScripts:
-.SceneScripts:
-	db 2
-	scene_script .Scene0
-	scene_script .Scene1
+	db 2 ; scene scripts
+	scene_script .Scene0 ; SCENE_DEFAULT
+	scene_script .Scene1 ; SCENE_FINISHED
 
-.MapCallbacks:
-	db 0
+	db 0 ; callbacks
 
 .Scene0:
 	writebyte BATTLETOWERACTION_CHECKSAVEFILEISYOURS
-	special Special_BattleTowerAction
+	special BattleTowerAction
 	iffalse .SkipEverything
 	writebyte BATTLETOWERACTION_GET_CHALLENGE_STATE ; copybytetovar sBattleTowerChallengeState
-	special Special_BattleTowerAction
-	if_equal $0, .SkipEverything
-	if_equal $2, .priorityjump1
-	if_equal $3, .SkipEverything
-	if_equal $4, .SkipEverything
+	special BattleTowerAction
+	ifequal $0, .SkipEverything
+	ifequal $2, .priorityjump1
+	ifequal $3, .SkipEverything
+	ifequal $4, .SkipEverything
 	opentext
 	writetext Text_WeveBeenWaitingForYou
 	waitbutton
@@ -34,9 +32,9 @@ BattleTower1F_MapScripts:
 .priorityjump1
 	priorityjump BattleTower_LeftWithoutSaving
 	writebyte BATTLETOWERACTION_CHALLENGECANCELED
-	special Special_BattleTowerAction
+	special BattleTowerAction
 .SkipEverything:
-	setscene 1
+	setscene SCENE_FINISHED
 .Scene1:
 	end
 
@@ -44,68 +42,68 @@ MapBattleTower1FSignpost0Script:
 	opentext
 	writetext Text_ReadBattleTowerRules
 	yesorno
-	iffalse UnknownScript_0x9e3e0
+	iffalse .skip
 	writetext Text_BattleTowerRules
 	waitbutton
-UnknownScript_0x9e3e0:
+.skip:
 	closetext
 	end
 
 ReceptionistScript_0x9e3e2:
 	writebyte BATTLETOWERACTION_GET_CHALLENGE_STATE ; copybytetovar sBattleTowerChallengeState
-	special Special_BattleTowerAction
-	if_equal $3, Script_BeatenAllTrainers2 ; maps/BattleTowerBattleRoom.asm
+	special BattleTowerAction
+	ifequal $3, Script_BeatenAllTrainers2 ; maps/BattleTowerBattleRoom.asm
 	opentext
 	writetext Text_BattleTowerWelcomesYou
 	buttonsound
 	writebyte BATTLETOWERACTION_CHECK_EXPLANATION_READ ; if new save file: bit 1, [sBattleTowerSaveFileFlags]
-	special Special_BattleTowerAction
-	if_not_equal $0, Script_Menu_ChallengeExplanationCancel
+	special BattleTowerAction
+	ifnotequal $0, Script_Menu_ChallengeExplanationCancel
 	jump Script_BattleTowerIntroductionYesNo
 
 Script_Menu_ChallengeExplanationCancel: ; 0x9e3fc
 	writetext Text_WantToGoIntoABattleRoom
-	special Special_Menu_ChallengeExplanationCancel
-	if_equal 1, Script_ChooseChallenge
-	if_equal 2, Script_BattleTowerExplanation
+	special Menu_ChallengeExplanationCancel
+	ifequal 1, Script_ChooseChallenge
+	ifequal 2, Script_BattleTowerExplanation
 	jump Script_BattleTowerHopeToServeYouAgain
 
 Script_ChooseChallenge: ; 0x9e40f
 	writebyte BATTLETOWERACTION_RESETDATA ; ResetBattleTowerTrainerSRAM
-	special Special_BattleTowerAction
-	special Special_CheckForBattleTowerRules
-	if_not_equal FALSE, Script_WaitButton
+	special BattleTowerAction
+	special CheckForBattleTowerRules
+	ifnotequal FALSE, Script_WaitButton
 	writetext Text_SaveBeforeEnteringBattleRoom
 	yesorno
 	iffalse Script_Menu_ChallengeExplanationCancel
-	setscene 0
-	special Special_TryQuickSave
+	setscene SCENE_DEFAULT
+	special TryQuickSave
 	iffalse Script_Menu_ChallengeExplanationCancel
-	setscene 1
+	setscene SCENE_FINISHED
 	writebyte BATTLETOWERACTION_SET_EXPLANATION_READ ; set 1, [sBattleTowerSaveFileFlags]
-	special Special_BattleTowerAction
-	special Special_BattleTowerRoomMenu
-	if_equal $a, Script_Menu_ChallengeExplanationCancel
+	special BattleTowerAction
+	special BattleTowerRoomMenu
+	ifequal $a, Script_Menu_ChallengeExplanationCancel
 	writetext Text_RightThisWayToYourBattleRoom
 	waitbutton
 	closetext
 	writebyte BATTLETOWERACTION_CHOOSEREWARD
-	special Special_BattleTowerAction
+	special BattleTowerAction
 	jump Script_WalkToBattleTowerElevator
 
 Script_ResumeBattleTowerChallenge:
 	closetext
 	writebyte BATTLETOWERACTION_LOADLEVELGROUP ; load choice of level group
-	special Special_BattleTowerAction
+	special BattleTowerAction
 Script_WalkToBattleTowerElevator:
 	musicfadeout MUSIC_NONE, 8
-	setmapscene BATTLE_TOWER_BATTLE_ROOM, 0
-	setmapscene BATTLE_TOWER_ELEVATOR, 0
-	setmapscene BATTLE_TOWER_HALLWAY, 0
+	setmapscene BATTLE_TOWER_BATTLE_ROOM, SCENE_DEFAULT
+	setmapscene BATTLE_TOWER_ELEVATOR, SCENE_DEFAULT
+	setmapscene BATTLE_TOWER_HALLWAY, SCENE_DEFAULT
 	follow BATTLETOWER1F_RECEPTIONIST, PLAYER
 	applymovement BATTLETOWER1F_RECEPTIONIST, MovementData_BattleTower1FWalkToElevator
 	writebyte BATTLETOWERACTION_0A
-	special Special_BattleTowerAction
+	special BattleTowerAction
 	warpsound
 	disappear BATTLETOWER1F_RECEPTIONIST
 	stopfollow
@@ -115,15 +113,15 @@ Script_WalkToBattleTowerElevator:
 
 Script_GivePlayerHisPrize: ; 0x9e47a
 	writebyte BATTLETOWERACTION_1C
-	special Special_BattleTowerAction
+	special BattleTowerAction
 	writebyte BATTLETOWERACTION_GIVEREWARD
-	special Special_BattleTowerAction
-	if_equal POTION, Script_YourPackIsStuffedFull
+	special BattleTowerAction
+	ifequal POTION, Script_YourPackIsStuffedFull
 	itemtotext USE_SCRIPT_VAR, MEM_BUFFER_1
 	giveitem ITEM_FROM_MEM, 5
 	writetext Text_PlayerGotFive
 	writebyte BATTLETOWERACTION_1D
-	special Special_BattleTowerAction
+	special BattleTowerAction
 	closetext
 	end
 
@@ -141,7 +139,7 @@ Script_BattleTowerExplanation: ; 0x9e4a5
 	writetext Text_BattleTowerIntroduction_2
 Script_BattleTowerSkipExplanation:
 	writebyte BATTLETOWERACTION_SET_EXPLANATION_READ
-	special Special_BattleTowerAction
+	special BattleTowerAction
 	jump Script_Menu_ChallengeExplanationCancel
 
 Script_BattleTowerHopeToServeYouAgain:
@@ -167,7 +165,7 @@ YoungsterScript_0x9e55d:
 	writetext Text_BattleTowerYoungster
 	waitbutton
 	closetext
-	spriteface BATTLETOWER1F_YOUNGSTER, RIGHT
+	turnobject BATTLETOWER1F_YOUNGSTER, RIGHT
 	end
 
 CooltrainerFScript_0x9e568:
@@ -406,7 +404,7 @@ Text_BattleTower_LeftWithoutSaving:
 	line "invalid."
 	done
 
-Text_YourPkmnWillBeHealedToFullHealth: ; 0x9ee92
+Text_YourMonWillBeHealedToFullHealth: ; 0x9ee92
 	text "Your #MON will"
 	line "be healed to full"
 	cont "health."
@@ -487,26 +485,21 @@ Text_BattleTowerBugCatcher: ; 0x9f35b
 	done
 
 BattleTower1F_MapEvents:
-	; filler
-	db 0, 0
+	db 0, 0 ; filler
 
-.Warps:
-	db 3
-	warp_def 7, 9, 3, BATTLE_TOWER_OUTSIDE
-	warp_def 8, 9, 4, BATTLE_TOWER_OUTSIDE
-	warp_def 7, 0, 1, BATTLE_TOWER_ELEVATOR
+	db 3 ; warp events
+	warp_event  7,  9, BATTLE_TOWER_OUTSIDE, 3
+	warp_event  8,  9, BATTLE_TOWER_OUTSIDE, 4
+	warp_event  7,  0, BATTLE_TOWER_ELEVATOR, 1
 
-.CoordEvents:
-	db 0
+	db 0 ; coord events
 
-.BGEvents:
-	db 1
-	bg_event 6, 6, BGEVENT_READ, MapBattleTower1FSignpost0Script
+	db 1 ; bg events
+	bg_event  6,  6, BGEVENT_READ, MapBattleTower1FSignpost0Script
 
-.ObjectEvents:
-	db 5
-	object_event 7, 6, SPRITE_RECEPTIONIST, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ReceptionistScript_0x9e3e2, -1
-	object_event 14, 9, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_SCRIPT, 0, YoungsterScript_0x9e55d, -1
-	object_event 4, 9, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, CooltrainerFScript_0x9e568, -1
-	object_event 1, 3, SPRITE_BUG_CATCHER, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, BugCatcherScript_0x9e56b, -1
-	object_event 14, 3, SPRITE_GRANNY, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GrannyScript_0x9e56e, -1
+	db 5 ; object events
+	object_event  7,  6, SPRITE_RECEPTIONIST, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ReceptionistScript_0x9e3e2, -1
+	object_event 14,  9, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_SCRIPT, 0, YoungsterScript_0x9e55d, -1
+	object_event  4,  9, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, CooltrainerFScript_0x9e568, -1
+	object_event  1,  3, SPRITE_BUG_CATCHER, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, BugCatcherScript_0x9e56b, -1
+	object_event 14,  3, SPRITE_GRANNY, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GrannyScript_0x9e56e, -1

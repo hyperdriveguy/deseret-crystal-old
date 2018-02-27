@@ -52,7 +52,7 @@ SwitchOften: ; 38045
 	cp $10
 	jr nz, .not_10
 	call Random
-	cp 1 + 50 percent
+	cp 50 percent + 1
 	jr c, .switch
 	jp DontSwitch
 .not_10
@@ -60,7 +60,7 @@ SwitchOften: ; 38045
 	cp $20
 	jr nz, .not_20
 	call Random
-	cp -1 + 79 percent
+	cp 79 percent - 1
 	jr c, .switch
 	jp DontSwitch
 .not_20
@@ -74,7 +74,7 @@ SwitchOften: ; 38045
 	ld a, [wEnemySwitchMonParam]
 	and $f
 	inc a
-	; In register 'a' is the number (1-6) of the Pkmn to switch to
+	; In register 'a' is the number (1-6) of the mon to switch to
 	ld [wEnemySwitchMonIndex], a
 	jp AI_TrySwitch
 ; 38083
@@ -103,7 +103,7 @@ SwitchRarely: ; 38083
 
 	; $30
 	call Random
-	cp -1 + 79 percent
+	cp 79 percent - 1
 	jp c, DontSwitch
 
 .switch
@@ -123,7 +123,7 @@ SwitchSometimes: ; 380c1
 	cp $10
 	jr nz, .not_10
 	call Random
-	cp -1 + 20 percent
+	cp 20 percent - 1
 	jr c, .switch
 	jp DontSwitch
 .not_10
@@ -131,14 +131,14 @@ SwitchSometimes: ; 380c1
 	cp $20
 	jr nz, .not_20
 	call Random
-	cp 1 + 50 percent
+	cp 50 percent + 1
 	jr c, .switch
 	jp DontSwitch
 .not_20
 
 	; $30
 	call Random
-	cp -1 + 20 percent
+	cp 20 percent - 1
 	jp c, DontSwitch
 
 .switch
@@ -306,7 +306,7 @@ AI_Items: ; 39196
 	bit ALWAYS_USE_F, a
 	jp nz, .Use
 	call Random
-	cp -1 + 20 percent
+	cp 20 percent - 1
 	jp c, .Use
 	jp .DontUse
 
@@ -318,7 +318,7 @@ AI_Items: ; 39196
 	cp 4
 	jr c, .FailToxicCheck
 	call Random
-	cp 1 + 50 percent
+	cp 50 percent + 1
 	jp c, .Use
 .FailToxicCheck:
 	ld a, [wEnemyMonStatus]
@@ -359,7 +359,7 @@ AI_Items: ; 39196
 	callfar AICheckEnemyQuarterHP
 	jp nc, .UseHealItem
 	call Random
-	cp 1 + 50 percent
+	cp 50 percent + 1
 	jp c, .UseHealItem
 	jp .DontUse
 
@@ -367,7 +367,7 @@ AI_Items: ; 39196
 	callfar AICheckEnemyQuarterHP
 	jp c, .DontUse
 	call Random
-	cp -1 + 20 percent
+	cp 20 percent - 1
 	jp c, .DontUse
 	jr .UseHealItem
 
@@ -377,7 +377,7 @@ AI_Items: ; 39196
 	callfar AICheckEnemyQuarterHP
 	jp nc, .UseHealItem
 	call Random
-	cp -1 + 20 percent
+	cp 20 percent - 1
 	jp nc, .DontUse
 
 .UseHealItem: ; 38281 (e:4281)
@@ -465,13 +465,13 @@ AI_Items: ; 39196
 	bit ALWAYS_USE_F, a
 	jp nz, .Use
 	call Random
-	cp 1 + 50 percent
+	cp 50 percent + 1
 	jp c, .DontUse
 	ld a, [bc]
 	bit CONTEXT_USE_F, a
 	jp nz, .Use
 	call Random
-	cp 1 + 50 percent
+	cp 50 percent + 1
 	jp c, .DontUse
 	jp .Use
 .notfirstturnout
@@ -479,7 +479,7 @@ AI_Items: ; 39196
 	bit ALWAYS_USE_F, a
 	jp z, .DontUse
 	call Random
-	cp -1 + 20 percent
+	cp 20 percent - 1
 	jp nc, .DontUse
 	jp .Use
 

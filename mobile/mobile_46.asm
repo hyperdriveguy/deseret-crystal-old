@@ -54,8 +54,8 @@ BattleTowerRoomMenu_PlacePickLevelMenu:
 	ld a, [$c31a]
 	and a
 	ret nz
-	ld hl, MenuDataHeader_119cf7
-	call LoadMenuDataHeader
+	ld hl, MenuHeader_119cf7
+	call LoadMenuHeader
 	call MenuBox
 	call MenuBoxCoord2Tile
 	call ApplyTilemap
@@ -69,15 +69,15 @@ BattleTowerRoomMenu_PlacePickLevelMenu:
 	ld a, $1
 	ld [rSVBK], a
 	ld a, [wStatusFlags]
-	bit 6, a ; Hall Of Fame
+	bit STATUSFLAGS_HALL_OF_FAME_F, a
 	jr nz, .asm_11896b
-	ld hl, Strings_Ll0ToL40		; Address to list of strings with the choosable levels
-	ld a, 5						; 4 levels to choose from, including 'Cancel'-option
+	ld hl, Strings_Ll0ToL40 ; Address to list of strings with the choosable levels
+	ld a, 5                 ; 4 levels to choose from, including 'Cancel'-option
 	jr .asm_118970
 
 .asm_11896b
-	ld hl, Strings_L10ToL100	; Address to list of strings with the choosable levels
-	ld a, 11					; 10 levels to choose from, including 'Cancel'-option
+	ld hl, Strings_L10ToL100 ; Address to list of strings with the choosable levels
+	ld a, 11                 ; 10 levels to choose from, including 'Cancel'-option
 
 .asm_118970
 	ld [wcd4a], a
@@ -268,7 +268,7 @@ BattleTowerRoomMenu_UpdateYesNoMenu:
 	ret
 ; 119cf7
 
-MenuDataHeader_119cf7: ; 119cf7
+MenuHeader_119cf7: ; 119cf7
 	db MENU_BACKUP_TILES ; flags
 	menu_coords 12, 7, SCREEN_WIDTH - 1, TEXTBOX_Y - 1
 	dw NULL
@@ -405,8 +405,8 @@ BattleTowerRoomMenu_IncrementJumptable: ; 119e2e (46:5e2e)
 ; 119e33 (46:5e33)
 
 BattleTowerRoomMenu2_PlaceYesNoMenu: ; 11a207
-	ld hl, MenuDataHeader_11a2de
-	call LoadMenuDataHeader
+	ld hl, MenuHeader_11a2de
+	call LoadMenuHeader
 	call MenuBox
 	call MenuBoxCoord2Tile
 	call ApplyTilemap
@@ -512,7 +512,7 @@ String_11a2d3: ; 11a2d3
 	db "NO@"
 ; 11a2d6
 
-MenuDataHeader_11a2de: ; 11a2de
+MenuHeader_11a2de: ; 11a2de
 	db MENU_BACKUP_TILES ; flags
 	menu_coords 14, 7, SCREEN_WIDTH - 1, TEXTBOX_Y - 1
 	dw NULL

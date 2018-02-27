@@ -5,7 +5,7 @@ PlayRadioShow:
 	jr nc, .ok
 ; If Team Rocket is not occupying the radio tower, we don't need to be here.
 	ld a, [wStatusFlags2]
-	bit 0, a ; checkflag ENGINE_ROCKETS_IN_RADIO_TOWER
+	bit STATUSFLAGS2_ROCKETS_IN_RADIO_TOWER_F, a
 	jr z, .ok
 ; If we're in Kanto, we don't need to be here.
 	call IsInJohto
@@ -29,7 +29,7 @@ PlayRadioShow:
 
 RadioJumptable:
 ; entries correspond to constants/radio_constants.asm
-	dw OaksPkmnTalk1  ; $00
+	dw OaksPKMNTalk1  ; $00
 	dw PokedexShow1 ; $01
 	dw BenMonMusic1  ; $02
 	dw LuckyNumberShow1 ; $03
@@ -40,15 +40,15 @@ RadioJumptable:
 	dw PokeFluteRadio ; $08
 	dw UnownRadio ; $09
 	dw EvolutionRadio ; $0a
-; OaksPkmnTalk
-	dw OaksPkmnTalk2  ; $0b
-	dw OaksPkmnTalk3  ; $0c
-	dw OaksPkmnTalk4  ; $0d
-	dw OaksPkmnTalk5  ; $0e
-	dw OaksPkmnTalk6  ; $0f
-	dw OaksPkmnTalk7  ; $10
-	dw OaksPkmnTalk8  ; $11
-	dw OaksPkmnTalk9  ; $12
+; OaksPKMNTalk
+	dw OaksPKMNTalk2  ; $0b
+	dw OaksPKMNTalk3  ; $0c
+	dw OaksPKMNTalk4  ; $0d
+	dw OaksPKMNTalk5  ; $0e
+	dw OaksPKMNTalk6  ; $0f
+	dw OaksPKMNTalk7  ; $10
+	dw OaksPKMNTalk8  ; $11
+	dw OaksPKMNTalk9  ; $12
 	dw PokedexShow2 ; $13
 	dw PokedexShow3 ; $14
 	dw PokedexShow4 ; $15
@@ -94,11 +94,11 @@ RadioJumptable:
 	dw RocketRadio9 ; $39
 	dw RocketRadio10 ; $3a
 ; More Pokemon Channel stuff
-	dw OaksPkmnTalk10 ; $3b
-	dw OaksPkmnTalk11 ; $3c
-	dw OaksPkmnTalk12 ; $3d
-	dw OaksPkmnTalk13 ; $3e
-	dw OaksPkmnTalk14 ; $3f
+	dw OaksPKMNTalk10 ; $3b
+	dw OaksPKMNTalk11 ; $3c
+	dw OaksPKMNTalk12 ; $3d
+	dw OaksPKMNTalk13 ; $3e
+	dw OaksPKMNTalk14 ; $3f
 ; Buenas Password
 	dw BuenasPassword2 ; $40
 	dw BuenasPassword3 ; $41
@@ -166,33 +166,33 @@ RadioScroll:
 	call nz, CopyBottomLineToTopLine
 	jp ClearBottomLine
 
-OaksPkmnTalk1:
+OaksPKMNTalk1:
 	ld a, 5
-	ld [wOaksPkmnTalkSegmentCounter], a
+	ld [wOaksPKMNTalkSegmentCounter], a
 	call StartRadioStation
 	ld hl, OPT_IntroText1
 	ld a, OAKS_POKEMON_TALK_2
 	jp NextRadioLine
 
-OaksPkmnTalk2:
+OaksPKMNTalk2:
 	ld hl, OPT_IntroText2
 	ld a, OAKS_POKEMON_TALK_3
 	jp NextRadioLine
 
-OaksPkmnTalk3:
+OaksPKMNTalk3:
 	ld hl, OPT_IntroText3
 	ld a, OAKS_POKEMON_TALK_4
 	jp NextRadioLine
 
-OaksPkmnTalk4:
+OaksPKMNTalk4:
 ; Choose a random route, and a random Pokemon from that route.
 .sample
 	call Random
 	and %11111
-	cp (OaksPkmnTalkRoutesEnd - OaksPkmnTalkRoutes) / 2
+	cp (OaksPKMNTalkRoutes.End - OaksPKMNTalkRoutes) / 2
 	jr nc, .sample
 	; We now have a number between 0 and 14.
-	ld hl, OaksPkmnTalkRoutes
+	ld hl, OaksPKMNTalkRoutes
 	ld c, a
 	ld b, 0
 	add hl, bc
@@ -278,12 +278,12 @@ endr
 
 INCLUDE "data/radio/oaks_pkmn_talk_routes.asm"
 
-OaksPkmnTalk5:
+OaksPKMNTalk5:
 	ld hl, OPT_OakText2
 	ld a, OAKS_POKEMON_TALK_6
 	jp NextRadioLine
 
-OaksPkmnTalk6:
+OaksPKMNTalk6:
 	ld hl, OPT_OakText3
 	ld a, OAKS_POKEMON_TALK_7
 	jp NextRadioLine
@@ -318,7 +318,7 @@ OPT_OakText3:
 	text_jump _OPT_OakText3
 	db "@"
 
-OaksPkmnTalk7:
+OaksPKMNTalk7:
 	ld a, [wCurPartySpecies]
 	ld [wNamedObjectIndexBuffer], a
 	call GetPokemonName
@@ -331,11 +331,11 @@ OPT_MaryText1:
 	text_jump _OPT_MaryText1
 	db "@"
 
-OaksPkmnTalk8:
+OaksPKMNTalk8:
 	; 0-15 are all valid indexes into .Adverbs,
 	; so no need for a retry loop
 	call Random
-	maskbits NUM_OAKS_MON_TALK_ADVERBS
+	maskbits NUM_OAKS_POKEMON_TALK_ADVERBS
 	ld e, a
 	ld d, 0
 	ld hl, .Adverbs
@@ -348,7 +348,7 @@ OaksPkmnTalk8:
 	jp NextRadioLine
 
 .Adverbs:
-; there are NUM_OAKS_MON_TALK_ADVERBS entries
+; there are NUM_OAKS_POKEMON_TALK_ADVERBS entries
 	dw .sweetadorably
 	dw .wigglyslickly
 	dw .aptlynamed
@@ -446,11 +446,11 @@ OaksPkmnTalk8:
 	text_jump OPT_HeartMeltingly
 	db "@"
 
-OaksPkmnTalk9:
+OaksPKMNTalk9:
 	; 0-15 are all valid indexes into .Adjectives,
 	; so no need for a retry loop
 	call Random
-	maskbits NUM_OAKS_MON_TALK_ADJECTIVES
+	maskbits NUM_OAKS_POKEMON_TALK_ADJECTIVES
 	ld e, a
 	ld d, 0
 	ld hl, .Adjectives
@@ -459,19 +459,19 @@ OaksPkmnTalk9:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	ld a, [wOaksPkmnTalkSegmentCounter]
+	ld a, [wOaksPKMNTalkSegmentCounter]
 	dec a
-	ld [wOaksPkmnTalkSegmentCounter], a
+	ld [wOaksPKMNTalkSegmentCounter], a
 	ld a, OAKS_POKEMON_TALK_4
 	jr nz, .ok
 	ld a, 5
-	ld [wOaksPkmnTalkSegmentCounter], a
+	ld [wOaksPKMNTalkSegmentCounter], a
 	ld a, OAKS_POKEMON_TALK_10
 .ok
 	jp NextRadioLine
 
 .Adjectives:
-; there are NUM_OAKS_MON_TALK_ADJECTIVES entries
+; there are NUM_OAKS_POKEMON_TALK_ADJECTIVES entries
 	dw .cute
 	dw .weird
 	dw .pleasant
@@ -569,7 +569,7 @@ OaksPkmnTalk9:
 	text_jump OPT_Speedy
 	db "@"
 
-OaksPkmnTalk10:
+OaksPKMNTalk10:
 	farcall RadioMusicRestartPokemonChannel
 	ld hl, OPT_RestartText
 	call PrintText
@@ -590,7 +590,7 @@ OPT_PokemonChannelText:
 OPT_RestartText:
 	db "@"
 
-OaksPkmnTalk11:
+OaksPKMNTalk11:
 	ld hl, wRadioTextDelay
 	dec [hl]
 	ret nz
@@ -602,7 +602,7 @@ OaksPkmnTalk11:
 .pokemon_string
 	db "#MON@"
 
-OaksPkmnTalk12:
+OaksPKMNTalk12:
 	ld hl, wRadioTextDelay
 	dec [hl]
 	ret nz
@@ -614,7 +614,7 @@ OaksPkmnTalk12:
 .pokemon_channel_string
 	db "#MON Channel@"
 
-OaksPkmnTalk13:
+OaksPKMNTalk13:
 	ld hl, wRadioTextDelay
 	dec [hl]
 	ret nz
@@ -626,7 +626,7 @@ OaksPkmnTalk13:
 .terminator
 	db "@"
 
-OaksPkmnTalk14:
+OaksPKMNTalk14:
 	ld hl, wRadioTextDelay
 	dec [hl]
 	ret nz
@@ -686,7 +686,7 @@ PokedexShow_GetDexEntryBank:
 	pop hl
 	ret
 
-.PokedexEntryBanks
+.PokedexEntryBanks:
 	db BANK(PokedexEntries1)
 	db BANK(PokedexEntries2)
 	db BANK(PokedexEntries3)
@@ -956,9 +956,9 @@ BenFernText3B:
 
 LuckyNumberShow1:
 	call StartRadioStation
-	callfar Special_CheckLuckyNumberShowFlag
+	callfar CheckLuckyNumberShowFlag
 	jr nc, .dontreset
-	callfar Special_ResetLuckyNumberShowFlag
+	callfar ResetLuckyNumberShowFlag
 .dontreset
 	ld hl, LC_Text1
 	ld a, LUCKY_NUMBER_SHOW_2
@@ -1155,7 +1155,7 @@ PeoplePlaces4: ; People
 	push af
 	ld hl, PnP_HiddenPeople
 	ld a, [wStatusFlags]
-	bit 6, a ; ENGINE_CREDITS_SKIP
+	bit STATUSFLAGS_HALL_OF_FAME_F, a
 	jr z, .ok
 	ld hl, PnP_HiddenPeople_BeatE4
 	ld a, [wKantoBadges]
@@ -1314,7 +1314,7 @@ PnP_odd:
 
 PeoplePlaces6: ; Places
 	call Random
-	cp (PnP_HiddenPlacesEnd - PnP_HiddenPlaces) / 2
+	cp (PnP_HiddenPlaces.End - PnP_HiddenPlaces) / 2
 	jr nc, PeoplePlaces6
 	ld hl, PnP_HiddenPlaces
 	ld c, a
@@ -1544,7 +1544,7 @@ BuenasPassword4:
 	ld a, [wBuenasPassword]
 ; If we already generated the password today, we don't need to generate a new one.
 	ld hl, wWeeklyFlags
-	bit 7, [hl] ; ENGINE_BUENAS_PASSWORD
+	bit WEEKLYFLAGS_BUENAS_PASSWORD_F, [hl]
 	jr nz, .AlreadyGotIt
 ; There are only 11 groups to choose from.
 .greater_than_11
@@ -1566,7 +1566,7 @@ BuenasPassword4:
 	ld [wBuenasPassword], a
 ; Set the flag so that we don't generate a new password this week.
 	ld hl, wWeeklyFlags
-	set 7, [hl] ; ENGINE_BUENAS_PASSWORD
+	set WEEKLYFLAGS_BUENAS_PASSWORD_F, [hl]
 .AlreadyGotIt:
 	ld c, a
 	call GetBuenasPassword
@@ -1687,14 +1687,14 @@ BuenasPassword7:
 BuenasPasswordAfterMidnight:
 	push hl
 	ld hl, wWeeklyFlags
-	res 7, [hl] ; ENGINE_BUENAS_PASSWORD
+	res WEEKLYFLAGS_BUENAS_PASSWORD_F, [hl]
 	pop hl
 	ld a, BUENAS_PASSWORD_8
 	jp NextRadioLine
 
 BuenasPassword8:
 	ld hl, wWeeklyFlags
-	res 7, [hl] ; ENGINE_BUENAS_PASSWORD
+	res WEEKLYFLAGS_BUENAS_PASSWORD_F, [hl]
 	ld hl, BuenaRadioMidnightText10
 	ld a, BUENAS_PASSWORD_9
 	jp NextRadioLine
@@ -1762,7 +1762,7 @@ BuenasPassword20:
 	pop af
 	ld [hBGMapMode], a
 	ld hl, wWeeklyFlags
-	res 7, [hl]
+	res WEEKLYFLAGS_BUENAS_PASSWORD_F, [hl]
 	ld a, BUENAS_PASSWORD
 	ld [wCurrentRadioLine], a
 	xor a

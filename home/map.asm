@@ -385,7 +385,7 @@ CheckIndoorMap:: ; 22f4
 ; 2300
 
 LoadMapAttributes:: ; 2309
-	call CopyMapDefAndData
+	call CopyMapPartialAndAttributes
 	call SwitchToMapScriptsBank
 	call ReadMapScripts
 	xor a ; do not skip object_events
@@ -394,7 +394,7 @@ LoadMapAttributes:: ; 2309
 ; 2317
 
 LoadMapAttributes_SkipPeople:: ; 2317
-	call CopyMapDefAndData
+	call CopyMapPartialAndAttributes
 	call SwitchToMapScriptsBank
 	call ReadMapScripts
 	ld a, TRUE ; skip object events
@@ -402,11 +402,11 @@ LoadMapAttributes_SkipPeople:: ; 2317
 	ret
 ; 2326
 
-CopyMapDefAndData:: ; 2326
-	call PartialCopyMapDef
-	call SwitchToMapDataBank
-	call GetMapDataPointer
-	call CopyMapData
+CopyMapPartialAndAttributes:: ; 2326
+	call CopyMapPartial
+	call SwitchToMapAttributesBank
+	call GetMapAttributesPointer
+	call CopyMapAttributes
 	call GetMapConnections
 	ret
 ; 2336
@@ -441,9 +441,9 @@ ReadMapScripts:: ; 234f
 	ret
 ; 235c
 
-CopyMapData:: ; 235c
-	ld de, wMapData
-	ld c, wMapDataEnd - wMapData
+CopyMapAttributes:: ; 235c
+	ld de, wMapAttributes
+	ld c, wMapAttributesEnd - wMapAttributes
 .loop
 	ld a, [hli]
 	ld [de], a
@@ -1948,8 +1948,8 @@ CheckCurrentMapCoordEvents:: ; 2ad4
 FadeToMenu:: ; 2b29
 	xor a
 	ld [hBGMapMode], a
-	call LoadStandardMenuDataHeader
-	farcall Special_FadeOutPalettes
+	call LoadStandardMenuHeader
+	farcall FadeOutPalettes
 	call ClearSprites
 	call DisableSpriteUpdates
 	ret
@@ -1975,7 +1975,7 @@ FinishExitMenu:: ; 2b5c
 	call GetSGBLayout
 	farcall LoadOW_BGPal7
 	call WaitBGMap2
-	farcall Special_FadeInPalettes
+	farcall FadeInPalettes
 	call EnableSpriteUpdates
 	ret
 ; 2b74
@@ -2008,7 +2008,7 @@ ReturnToMapWithSpeechTextbox:: ; 0x2b74
 ReloadTilesetAndPalettes:: ; 2bae
 	call DisableLCD
 	call ClearSprites
-	farcall Special_RefreshSprites
+	farcall RefreshSprites
 	call LoadStandardFont
 	call LoadFontsExtra
 	ld a, [hROMBank]
@@ -2017,7 +2017,7 @@ ReloadTilesetAndPalettes:: ; 2bae
 	ld b, a
 	ld a, [wMapNumber]
 	ld c, a
-	call SwitchToAnyMapDataBank
+	call SwitchToAnyMapAttributesBank
 	farcall UpdateTimeOfDayPal
 	call OverworldTextModeSwitch
 	call LoadTilesetGFX
@@ -2030,12 +2030,12 @@ ReloadTilesetAndPalettes:: ; 2bae
 	ret
 ; 2be5
 
-GetMapDefPointer:: ; 2be5
+GetMapPointer:: ; 2be5
 	ld a, [wMapGroup]
 	ld b, a
 	ld a, [wMapNumber]
 	ld c, a
-GetAnyMapDefPointer:: ; 0x2bed
+GetAnyMapPointer:: ; 0x2bed
 ; Prior to calling this function, you must have switched banks so that
 ; MapGroupPointers is visible.
 
@@ -2043,7 +2043,7 @@ GetAnyMapDefPointer:: ; 0x2bed
 ; b = map group, c = map number
 
 ; outputs:
-; hl points to the map_def
+; hl points to the map within its group
 	push bc ; save map number for later
 
 	; get pointer to map group
@@ -2059,7 +2059,7 @@ GetAnyMapDefPointer:: ; 0x2bed
 	ld l, a
 	pop bc ; restore map number
 
-	; find the cth map_def
+	; find the cth map within the group
 	dec c
 	ld b, 0
 	ld a, 9
@@ -2067,28 +2067,28 @@ GetAnyMapDefPointer:: ; 0x2bed
 	ret
 ; 0x2c04
 
-GetMapDefField:: ; 0x2c04
-; Extract data from the current map's map_def.
+GetMapField:: ; 0x2c04
+; Extract data from the current map's group entry.
 
 ; inputs:
-; de = offset of desired data within the map_def (a MAPDEF_* constant)
+; de = offset of desired data within the map (a MAP_* constant)
 
 ; outputs:
-; bc = data from the current map's map_def
-; (e.g., de = MAPDEF_TILESET would return a pointer to the tileset id)
+; bc = data from the current map's field
+; (e.g., de = MAP_TILESET would return a pointer to the tileset id)
 
 	ld a, [wMapGroup]
 	ld b, a
 	ld a, [wMapNumber]
 	ld c, a
-GetAnyMapDefField:: ; 0x2c0c
+GetAnyMapField:: ; 0x2c0c
 	; bankswitch
 	ld a, [hROMBank]
 	push af
 	ld a, BANK(MapGroupPointers)
 	rst Bankswitch
 
-	call GetAnyMapDefPointer
+	call GetAnyMapPointer
 	add hl, de
 	ld c, [hl]
 	inc hl
@@ -2100,39 +2100,39 @@ GetAnyMapDefField:: ; 0x2c0c
 	ret
 ; 0x2c1c
 
-SwitchToMapDataBank:: ; 2c1c
+SwitchToMapAttributesBank:: ; 2c1c
 	ld a, [wMapGroup]
 	ld b, a
 	ld a, [wMapNumber]
 	ld c, a
-SwitchToAnyMapDataBank:: ; 2c24
-	call GetAnyMapDataBank
+SwitchToAnyMapAttributesBank:: ; 2c24
+	call GetAnyMapAttributesBank
 	rst Bankswitch
 	ret
 ; 2c29
 
-GetAnyMapDataBank:: ; 2c31
+GetAnyMapAttributesBank:: ; 2c31
 	push hl
 	push de
-	ld de, MAPDEF_MAPDATA_BANK
-	call GetAnyMapDefField
+	ld de, MAP_MAPATTRIBUTES_BANK
+	call GetAnyMapField
 	ld a, c
 	pop de
 	pop hl
 	ret
 ; 2c3d
 
-PartialCopyMapDef:: ; 2c3d
+CopyMapPartial:: ; 2c3d
 ; Copy map data bank, tileset, environment, and map data address
-; from the current map's map_def.
+; from the current map's entry within its group.
 	ld a, [hROMBank]
 	push af
 	ld a, BANK(MapGroupPointers)
 	rst Bankswitch
 
-	call GetMapDefPointer
-	ld de, wPartialMapDef
-	ld bc, wPartialMapDefEnd - wPartialMapDef
+	call GetMapPointer
+	ld de, wMapPartial
+	ld bc, wMapPartialEnd - wMapPartial
 	call CopyBytes
 
 	pop af
@@ -2158,18 +2158,18 @@ GetAnyMapBlocksBank:: ; 2c5b
 	push bc
 
 	push bc
-	ld de, MAPDEF_MAPDATA
-	call GetAnyMapDefField
+	ld de, MAP_MAPATTRIBUTES
+	call GetAnyMapField
 	ld l, c
 	ld h, b
 	pop bc
 
 	push hl
-	ld de, MAPDEF_MAPDATA_BANK
-	call GetAnyMapDefField
+	ld de, MAP_MAPATTRIBUTES_BANK
+	call GetAnyMapField
 	pop hl
 
-	ld de, MAPDEF_MAPDATA ; blockdata bank
+	ld de, MAP_MAPATTRIBUTES ; blockdata bank
 	add hl, de
 	ld a, c
 	call GetFarByte
@@ -2181,12 +2181,12 @@ GetAnyMapBlocksBank:: ; 2c5b
 	ret
 ; 2c7d
 
-GetMapDataPointer:: ; 0x2c7d
+GetMapAttributesPointer:: ; 0x2c7d
 ; returns the current map's data pointer in hl.
 	push bc
 	push de
-	ld de, MAPDEF_MAPDATA
-	call GetMapDefField
+	ld de, MAP_MAPATTRIBUTES
+	call GetMapField
 	ld l, c
 	ld h, b
 	pop de
@@ -2198,8 +2198,8 @@ GetMapEnvironment:: ; 2c8a
 	push hl
 	push de
 	push bc
-	ld de, MAPDEF_ENVIRONMENT
-	call GetMapDefField
+	ld de, MAP_ENVIRONMENT
+	call GetMapField
 	ld a, c
 	pop bc
 	pop de
@@ -2211,8 +2211,8 @@ GetAnyMapEnvironment:: ; 2c99
 	push hl
 	push de
 	push bc
-	ld de, MAPDEF_ENVIRONMENT
-	call GetAnyMapDefField
+	ld de, MAP_ENVIRONMENT
+	call GetAnyMapField
 	ld a, c
 	pop bc
 	pop de
@@ -2221,8 +2221,8 @@ GetAnyMapEnvironment:: ; 2c99
 ; 2ca7
 
 GetAnyMapTileset:: ; 2ca7
-	ld de, MAPDEF_TILESET
-	call GetAnyMapDefField
+	ld de, MAP_TILESET
+	call GetAnyMapField
 	ld a, c
 	ret
 ; 2caf
@@ -2233,8 +2233,8 @@ GetWorldMapLocation:: ; 0x2caf
 	push de
 	push bc
 
-	ld de, MAPDEF_LOCATION
-	call GetAnyMapDefField
+	ld de, MAP_LOCATION
+	call GetAnyMapField
 	ld a, c
 
 	pop bc
@@ -2246,8 +2246,8 @@ GetWorldMapLocation:: ; 0x2caf
 GetMapMusic:: ; 2cbd
 	push hl
 	push bc
-	ld de, MAPDEF_MUSIC
-	call GetMapDefField
+	ld de, MAP_MUSIC
+	call GetMapField
 	ld a, c
 	bit RADIO_TOWER_MUSIC_F, c
 	jr nz, .radiotower
@@ -2260,7 +2260,7 @@ GetMapMusic:: ; 2cbd
 
 .radiotower
 	ld a, [wStatusFlags2]
-	bit 0, a
+	bit STATUSFLAGS2_ROCKETS_IN_RADIO_TOWER_F, a
 	jr z, .clearedradiotower
 	ld de, MUSIC_ROCKET_OVERTURE
 	jr .done
@@ -2291,8 +2291,8 @@ GetPhoneServiceTimeOfDayByte:: ; 2d0d
 	push hl
 	push bc
 
-	ld de, MAPDEF_PALETTE
-	call GetMapDefField
+	ld de, MAP_PALETTE
+	call GetMapField
 	ld a, c
 
 	pop bc
@@ -2305,8 +2305,8 @@ GetFishingGroup:: ; 2d19
 	push hl
 	push bc
 
-	ld de, MAPDEF_FISHGROUP
-	call GetMapDefField
+	ld de, MAP_FISHGROUP
+	call GetMapField
 	ld a, c
 
 	pop bc

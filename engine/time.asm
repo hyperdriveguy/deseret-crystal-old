@@ -102,10 +102,10 @@ CheckDailyResetTimer:: ; 11452
 	ret nc
 	xor a
 	ld hl, wDailyFlags
-	ld [hli], a
-	ld [hli], a
-	ld [hli], a
-	ld [hl], a
+	ld [hli], a ; wDailyFlags
+	ld [hli], a ; wWeeklyFlags
+	ld [hli], a ; wSwarmFlags
+	ld [hl], a  ; wSwarmFlags + 1
 	ld hl, wDailyRematchFlags
 rept 4
 	ld [hli], a
@@ -125,12 +125,12 @@ endr
 	dec [hl]
 	jr nz, .DontRestartKenjiBreakCountdown
 .RestartKenjiBreakCountdown:
-	call Special_SampleKenjiBreakCountdown
+	call SampleKenjiBreakCountdown
 .DontRestartKenjiBreakCountdown:
 	jr RestartDailyResetTimer
 ; 11485
 
-Special_SampleKenjiBreakCountdown: ; 11485
+SampleKenjiBreakCountdown: ; 11485
 ; Generate a random number between 3 and 6
 	call Random
 	and %11
@@ -227,7 +227,7 @@ RestartLuckyNumberCountdown: ; 1152b
 	ret
 ; 11542
 
-CheckLuckyNumberShowFlag: ; 11542
+_CheckLuckyNumberShowFlag: ; 11542
 	ld hl, wLuckyNumberDayBuffer
 	jp CheckDayDependentEventHL
 ; 11548

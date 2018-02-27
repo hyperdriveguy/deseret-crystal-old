@@ -1,8 +1,8 @@
-_FindThatSpecies: ; 4dbe0
+_FindPartyMonThatSpecies: ; 4dbe0
 	ld hl, wPartyMon1Species
 	jp FindThatSpecies
 
-_FindThatSpeciesYourTrainerID: ; 4dbe6
+_FindPartyMonThatSpeciesYourTrainerID: ; 4dbe6
 	ld hl, wPartyMon1Species
 	call FindThatSpecies
 	ret z

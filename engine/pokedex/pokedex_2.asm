@@ -237,7 +237,7 @@ GetDexEntryPointer: ; 44333
 	pop hl
 	ret
 
-.PokedexEntryBanks: ; 44351
+.PokedexEntryBanks:
 	db BANK(PokedexEntries1)
 	db BANK(PokedexEntries2)
 	db BANK(PokedexEntries3)

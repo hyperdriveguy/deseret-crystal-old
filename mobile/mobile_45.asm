@@ -1,7 +1,7 @@
 SECTION "Mobile Stadium", ROMX
 
-Special_GiveOddEgg: ; 117656
-	farcall GiveOddEgg
+GiveOddEgg: ; 117656
+	farcall _GiveOddEgg
 	ret
 
 ; 11765d

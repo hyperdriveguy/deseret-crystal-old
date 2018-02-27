@@ -153,7 +153,7 @@ LinkTextbox: ; 16d6ca
 ; 16d6ce
 
 Function16d6ce: ; 16d6ce
-	call LoadStandardMenuDataHeader
+	call LoadStandardMenuHeader
 	call Function16d6e1
 	farcall WaitLinkTransfer
 	call Call_ExitMenu

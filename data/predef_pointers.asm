@@ -14,17 +14,17 @@ PredefPointers:: ; 856b
 	add_predef FillPP
 	add_predef TryAddMonToParty
 	add_predef AddTempmonToParty
-	add_predef SendGetPkmnIntoFromBox
-	add_predef SendPkmnIntoBox
+	add_predef SendGetMonIntoFromBox
+	add_predef SendMonIntoBox
 	add_predef AnimateHPBar
-	add_predef CalcPkmnStats
-	add_predef CalcPkmnStatC
+	add_predef CalcMonStats
+	add_predef CalcMonStatC
 	add_predef CanLearnTMHMMove
 	add_predef GetTMHMMove
 	add_predef LinkTextboxAtHL ; $ 10
 	add_predef PrintMoveDesc
 	add_predef PlaceGraphic
-	add_predef CheckPlayerPartyForFitPkmn
+	add_predef CheckPlayerPartyForFitMon
 	add_predef StartBattle
 	add_predef FillInExpBar
 	add_predef LearnLevelMoves
@@ -32,7 +32,7 @@ PredefPointers:: ; 856b
 	add_predef EvolveAfterBattle
 	add_predef TradeAnimationPlayer2
 	add_predef TradeAnimation
-	add_predef CopyPkmnToTempMon
+	add_predef CopyMonToTempMon
 	add_predef ListMoves ; $20
 	add_predef PlaceNonFaintStatus
 	add_predef ListMovePP

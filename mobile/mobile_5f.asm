@@ -1,9 +1,9 @@
-Special_Menu_ChallengeExplanationCancel: ; 17d224
+Menu_ChallengeExplanationCancel: ; 17d224
 	ld a, $4
 	ld [wScriptVar], a
-	ld hl, MenuDataHeader_ChallengeExplanationCancel ; English Menu
+	ld hl, MenuHeader_ChallengeExplanationCancel ; English Menu
 
-	call LoadMenuDataHeader
+	call LoadMenuHeader
 	call Function17d246
 	call CloseWindow
 	ret
@@ -35,13 +35,13 @@ Function17d246: ; 17d246
 	ret
 ; 17d26a
 
-MenuDataHeader_ChallengeExplanationCancel: ; 17d28f
+MenuHeader_ChallengeExplanationCancel: ; 17d28f
 	db MENU_BACKUP_TILES ; flags
 	menu_coords 0, 0, 14, 7
-	dw MenuData2_ChallengeExplanationCancel
+	dw MenuData_ChallengeExplanationCancel
 	db 1 ; default option
 
-MenuData2_ChallengeExplanationCancel: ; 17d297
+MenuData_ChallengeExplanationCancel: ; 17d297
 	db STATICMENU_CURSOR | STATICMENU_WRAP ; flags
 	db 3
 	db "Challenge@"

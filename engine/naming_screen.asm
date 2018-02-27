@@ -915,7 +915,7 @@ NamingScreenGFX_Cursor: ; 11cc7
 INCBIN "gfx/naming_screen/cursor.2bpp"
 ; 11ce7
 
-INCLUDE "data/name_input_chars.asm"
+INCLUDE "data/text/name_input_chars.asm"
 ; 11e5d
 
 NamingScreenGFX_MiddleLine:
@@ -1392,6 +1392,6 @@ MailComposition_TryAddLastCharacter: ; 121ac (4:61ac)
 
 ; 121b2 (4:61b2)
 
-INCLUDE "data/mail_input_chars.asm"
+INCLUDE "data/text/mail_input_chars.asm"
 
 ; 122c1

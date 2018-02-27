@@ -1,8 +1,8 @@
-const_value set 1
+	const_def 1
 	const PINK_PAGE  ; 1
 	const GREEN_PAGE ; 2
 	const BLUE_PAGE  ; 3
-NUM_STAT_PAGES EQU const_value +- 1
+NUM_STAT_PAGES EQU const_value + -1
 
 StatsScreenInit: ; 4dc8a
 	ld hl, StatsScreenMain
@@ -188,7 +188,7 @@ StatsScreen_CopyToTempMon: ; 4ddf2 (13:5df2)
 	ld a, [wMonType]
 	cp TEMPMON
 	jr nz, .breedmon
-	ld a, [wBufferMon]
+	ld a, [wBufferMonSpecies]
 	ld [wCurSpecies], a
 	call GetBaseData
 	ld hl, wBufferMon
@@ -198,7 +198,7 @@ StatsScreen_CopyToTempMon: ; 4ddf2 (13:5df2)
 	jr .done
 
 .breedmon
-	farcall CopyPkmnToTempMon
+	farcall CopyMonToTempMon
 	ld a, [wCurPartySpecies]
 	cp EGG
 	jr z, .done

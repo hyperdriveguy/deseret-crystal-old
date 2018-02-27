@@ -1,11 +1,11 @@
-Special_BattleTowerRoomMenu: ; 1700b0
+BattleTowerRoomMenu: ; 1700b0
 ; special
 	call InitBattleTowerChallengeRAM
 	farcall _BattleTowerRoomMenu
 	ret
 ; 1700ba
 
-Special_BattleTowerBattle: ; 170215
+BattleTowerBattle: ; 170215
 	xor a
 	ld [wBattleTowerBattleEnded], a
 	call _BattleTowerBattle
@@ -96,7 +96,7 @@ RunBattleTowerTrainer: ; 17024d
 
 
 ReadBTTrainerParty: ; 1702b7
-; Initialise the BattleTower-Trainer and his Pkmn
+; Initialise the BattleTower-Trainer and his mon
 	call CopyBTTrainer_FromBT_OT_TowBT_OTTemp
 
 	ld hl, wBT_OTTempName ; 0xc608
@@ -114,7 +114,7 @@ ReadBTTrainerParty: ; 1702b7
 	ld a, HIGH(wOTPartyMonNicknames)
 	ld [wBGMapBuffer + 1], a
 
-	; Copy Pkmn into Memory from the address in hl
+	; Copy mon into Memory from the address in hl
 	ld de, wOTPartyMon1Species
 	ld bc, wOTPartyCount
 	ld a, BATTLETOWER_PARTY_LENGTH
@@ -177,7 +177,7 @@ SkipBattleTowerTrainer: ; 1704c9
 	ret
 ; 1704ca
 
-Special_BattleTowerAction: ; 170687
+BattleTowerAction: ; 170687
 	ld a, [wScriptVar]
 	ld e, a
 	ld d, 0
@@ -409,7 +409,7 @@ Function170923: ; 170923
 ; 17093c
 
 
-Special_LoadOpponentTrainerAndPokemonWithOTSprite: ; 0x170b44
+LoadOpponentTrainerAndPokemonWithOTSprite: ; 0x170b44
 	farcall Function_LoadOpponentTrainerAndPokemons
 	ld a, [rSVBK]
 	push af
@@ -456,8 +456,8 @@ Special_LoadOpponentTrainerAndPokemonWithOTSprite: ; 0x170b44
 
 INCLUDE "data/trainers/sprites.asm"
 
-Special_CheckForBattleTowerRules: ; 170bd3
-	farcall CheckForBattleTowerRules
+CheckForBattleTowerRules: ; 170bd3
+	farcall _CheckForBattleTowerRules
 	jr c, .asm_170bde
 	xor a ; FALSE
 	jr .asm_170be0

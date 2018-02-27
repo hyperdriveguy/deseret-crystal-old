@@ -7,136 +7,136 @@ add_special: MACRO
 ENDM
 
 SpecialsPointers:: ; c029
-	add_special Special_WarpToSpawnPoint
+	add_special WarpToSpawnPoint ; $0
 
 ; Communications
-	add_special Special_SetBitsForLinkTradeRequest
-	add_special Special_WaitForLinkedFriend
-	add_special Special_CheckLinkTimeout
-	add_special Special_TryQuickSave
-	add_special Special_CheckBothSelectedSameRoom
-	add_special Special_FailedLinkToPast
-	add_special Special_CloseLink
-	add_special Special_WaitForOtherPlayerToExit
-	add_special Special_SetBitsForBattleRequest
-	add_special Special_SetBitsForTimeCapsuleRequest
-	add_special Special_CheckTimeCapsuleCompatibility
-	add_special Special_EnterTimeCapsule
-	add_special Special_TradeCenter
-	add_special Special_Colosseum
-	add_special Special_TimeCapsule
-	add_special Special_CableClubCheckWhichChris
-	add_special Special_CheckMysteryGift
-	add_special Special_GetMysteryGiftItem
-	add_special Special_UnlockMysteryGift
+	add_special SetBitsForLinkTradeRequest
+	add_special WaitForLinkedFriend
+	add_special CheckLinkTimeout
+	add_special TryQuickSave
+	add_special CheckBothSelectedSameRoom
+	add_special FailedLinkToPast
+	add_special CloseLink
+	add_special WaitForOtherPlayerToExit ; $8
+	add_special SetBitsForBattleRequest
+	add_special SetBitsForTimeCapsuleRequest
+	add_special CheckTimeCapsuleCompatibility
+	add_special EnterTimeCapsule
+	add_special TradeCenter
+	add_special Colosseum
+	add_special TimeCapsule
+	add_special CableClubCheckWhichChris ; $10
+	add_special CheckMysteryGift
+	add_special GetMysteryGiftItem
+	add_special UnlockMysteryGift
 
-; Map Events
-	add_special Special_BugContestJudging
-	add_special Special_CheckPartyFullAfterContest
-	add_special Special_ContestDropOffMons
-	add_special Special_ContestReturnMons
-	add_special Special_GiveParkBalls
-	add_special Special_CheckMagikarpLength
-	add_special Special_MagikarpHouseSign
+; Map events
+	add_special BugContestJudging
+	add_special CheckPartyFullAfterContest
+	add_special ContestDropOffMons
+	add_special ContestReturnMons
+	add_special GiveParkBalls ; $18
+	add_special CheckMagikarpLength
+	add_special MagikarpHouseSign
 	add_special HealParty ; this is both a special and a predef
-	add_special Special_PokemonCenterPC
-	add_special Special_KrissHousePC
-	add_special Special_DayCareMan
-	add_special Special_DayCareLady
-	add_special Special_DayCareManOutside
-	add_special Special_MoveDeletion
-	add_special Special_BankOfMom
-	add_special Special_MagnetTrain
-	add_special Special_NameRival
-	add_special Special_SetDayOfWeek
-	add_special Special_TownMap
-	add_special Special_UnownPrinter
-	add_special Special_MapRadio
-	add_special Special_UnownPuzzle
-	add_special Special_SlotMachine
-	add_special Special_CardFlip
-	add_special Special_FadeOutPalettes
-	add_special Special_BattleTowerFade
-	add_special Special_FadeBlackQuickly
-	add_special Special_FadeInPalettes
-	add_special Special_FadeInQuickly
+	add_special PokemonCenterPC
+	add_special PlayersHousePC
+	add_special DayCareMan
+	add_special DayCareLady
+	add_special DayCareManOutside ; $20
+	add_special MoveDeletion
+	add_special BankOfMom
+	add_special MagnetTrain
+	add_special NameRival
+	add_special SetDayOfWeek
+	add_special OverworldTownMap
+	add_special UnownPrinter
+	add_special MapRadio ; $28
+	add_special UnownPuzzle
+	add_special SlotMachine
+	add_special CardFlip
+	add_special FadeOutPalettes
+	add_special BattleTowerFade
+	add_special FadeBlackQuickly ; $30
+	add_special FadeInPalettes
+	add_special FadeInQuickly
 	add_special ReloadSpritesNoPalettes ; bank 0
 	add_special ClearBGPalettes ; bank 0
 	add_special UpdateTimePals ; bank 0
 	add_special UpdateSprites ; bank 0
-	add_special ReplaceKrisSprite ; bank 0
-	add_special Special_GameCornerPrizeMonCheckDex
+	add_special ReplaceKrisSprite ; $38 ; bank 0
+	add_special GameCornerPrizeMonCheckDex
 	add_special WaitSFX ; bank 0
 	add_special PlayMapMusic ; bank 0
 	add_special RestartMapMusic ; bank 0
-	add_special Special_HealMachineAnim
-	add_special Special_SurfStartStep
-	add_special Special_FindThatSpecies
-	add_special Special_FindThatSpeciesYourTrainerID
-	add_special Special_DayCareMon1
-	add_special Special_DayCareMon2
-	add_special Special_SelectRandomBugContestContestants
-	add_special Special_ActivateFishingSwarm
-	add_special Special_ToggleMaptileDecorations
-	add_special Special_ToggleDecorationsVisibility
-	add_special Special_GiveShuckle
-	add_special Special_ReturnShuckle
-	add_special Special_BillsGrandfather
-	add_special Special_CheckPokerus
-	add_special Special_DisplayCoinCaseBalance
-	add_special Special_DisplayMoneyAndCoinBalance
-	add_special Special_PlaceMoneyTopRight
-	add_special Special_CheckForLuckyNumberWinners
-	add_special Special_CheckLuckyNumberShowFlag
-	add_special Special_ResetLuckyNumberShowFlag
-	add_special Special_PrintTodaysLuckyNumber
-	add_special Special_SelectApricornForKurt
-	add_special Special_NameRater
-	add_special Special_DisplayLinkRecord
-	add_special Special_GetFirstPokemonHappiness
-	add_special Special_CheckFirstMonIsEgg
-	add_special Special_RandomUnseenWildMon
-	add_special Special_RandomPhoneWildMon
-	add_special Special_RandomPhoneMon
-	add_special Special_LoadUsedSpritesGFX
-	add_special Special_PlaySlowCry
-	add_special Special_SnorlaxAwake
-	add_special Special_YoungerHaircutBrother
-	add_special Special_OlderHaircutBrother
-	add_special Special_DaisyMassage
-	add_special Special_PlayCurMonCry
-	add_special Special_ProfOaksPCBoot
-	add_special Special_TrainerHouse
-	add_special Special_PhotoStudio
-	add_special Special_InitRoamMons
-	add_special Special_FadeOutMusic
-	add_special Special_Diploma
-	add_special Special_PrintDiploma
+	add_special HealMachineAnim
+	add_special SurfStartStep
+	add_special FindPartyMonThatSpecies
+	add_special FindPartyMonThatSpeciesYourTrainerID
+	add_special DayCareMon1
+	add_special DayCareMon2
+	add_special SelectRandomBugContestContestants
+	add_special ActivateFishingSwarm ; $48
+	add_special ToggleMaptileDecorations
+	add_special ToggleDecorationsVisibility
+	add_special GiveShuckle
+	add_special ReturnShuckle
+	add_special BillsGrandfather
+	add_special CheckPokerus
+	add_special DisplayCoinCaseBalance
+	add_special DisplayMoneyAndCoinBalance ; $50
+	add_special PlaceMoneyTopRight
+	add_special CheckForLuckyNumberWinners
+	add_special CheckLuckyNumberShowFlag
+	add_special ResetLuckyNumberShowFlag
+	add_special PrintTodaysLuckyNumber
+	add_special SelectApricornForKurt
+	add_special NameRater
+	add_special DisplayLinkRecord ; $58
+	add_special GetFirstPokemonHappiness
+	add_special CheckFirstMonIsEgg
+	add_special RandomUnseenWildMon
+	add_special RandomPhoneWildMon
+	add_special RandomPhoneMon
+	add_special LoadUsedSpritesGFX
+	add_special PlaySlowCry
+	add_special SnorlaxAwake ; $60
+	add_special YoungerHaircutBrother
+	add_special OlderHaircutBrother
+	add_special DaisysGrooming
+	add_special PlayCurMonCry
+	add_special ProfOaksPCBoot
+	add_special TrainerHouse
+	add_special PhotoStudio ; $68
+	add_special InitRoamMons
+	add_special FadeOutMusic
+	add_special Diploma
+	add_special PrintDiploma
 
-	; Crystal
-	add_special Special_BattleTowerRoomMenu
-	add_special Special_BattleTowerBattle
-	add_special Special_LoadOpponentTrainerAndPokemonWithOTSprite
-	add_special Special_CheckForBattleTowerRules
-	add_special Special_GiveOddEgg
+; Crystal only
+	add_special BattleTowerRoomMenu
+	add_special BattleTowerBattle
+	add_special LoadOpponentTrainerAndPokemonWithOTSprite
+	add_special CheckForBattleTowerRules
+	add_special GiveOddEgg
 	add_special Reset ; bank 0
-	add_special Special_MoveTutor
-	add_special Special_OmanyteChamber
-	add_special Special_BattleTowerAction
-	add_special Special_DisplayUnownWords
-	add_special Special_Menu_ChallengeExplanationCancel
-	add_special Special_HoOhChamber
-	add_special Special_PokeSeer
-	add_special Special_BuenasPassword
-	add_special Special_BuenaPrize
-	add_special Special_Dratini
-	add_special Special_SampleKenjiBreakCountdown
-	add_special Special_BeastsCheck
-	add_special Special_MonCheck
-	add_special Special_SetPlayerPalette
-	add_special Special_RefreshSprites
-	add_special Special_AskRememberPassword
-	add_special Special_LoadMapPalettes
-	add_special Special_InitialSetDSTFlag
-	add_special Special_InitialClearDSTFlag
+	add_special MoveTutor
+	add_special OmanyteChamber
+	add_special BattleTowerAction
+	add_special DisplayUnownWords
+	add_special Menu_ChallengeExplanationCancel ; $88
+	add_special HoOhChamber
+	add_special PokeSeer
+	add_special BuenasPassword
+	add_special BuenaPrize
+	add_special GiveDratini
+	add_special SampleKenjiBreakCountdown
+	add_special BeastsCheck
+	add_special MonCheck
+	add_special SetPlayerPalette ; $98
+	add_special RefreshSprites
+	add_special AskRememberPassword
+	add_special LoadMapPalettes
+	add_special InitialSetDSTFlag
+	add_special InitialClearDSTFlag
 ; c224

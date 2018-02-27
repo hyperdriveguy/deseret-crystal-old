@@ -128,8 +128,8 @@ _DepositPKMN: ; e2391 (38:6391)
 	ret
 
 .Submenu: ; e247d (38:647d)
-	ld hl, BillsPCDepositMenuDataHeader
-	call CopyMenuDataHeader
+	ld hl, BillsPCDepositMenuHeader
+	call CopyMenuHeader
 	ld a, [wMenuCursorY]
 	call StoreTo_wMenuCursorBuffer
 	call VerticalMenu
@@ -172,7 +172,7 @@ BillsPCDepositFuncDeposit: ; e24a9 (38:64a9)
 	ret
 
 BillsPCDepositFuncStats: ; e24c8 (38:64c8)
-	call LoadStandardMenuDataHeader
+	call LoadStandardMenuHeader
 	call BillsPC_StatsScreen
 	call ExitMenu
 	call PCMonInfo
@@ -191,7 +191,7 @@ BillsPCDepositFuncRelease: ; e24e0 (38:64e0)
 	push af
 	ld de, PCString_ReleasePKMN
 	call BillsPC_PlaceString
-	call LoadStandardMenuDataHeader
+	call LoadStandardMenuHeader
 	lb bc, 14, 11
 	call PlaceYesNoBox
 	ld a, [wMenuCursorY]
@@ -203,7 +203,7 @@ BillsPCDepositFuncRelease: ; e24e0 (38:64e0)
 	ld hl, wBillsPC_ScrollPosition
 	add [hl]
 	ld [wCurPartyMon], a
-	xor a
+	xor a ; REMOVE_PARTY
 	ld [wPokemonWithdrawDepositParameter], a
 	farcall RemoveMonFromPartyOrBox
 	call ReleasePKMN_ByePKMN
@@ -228,14 +228,14 @@ BillsPCDepositFuncCancel: ; e2537 (38:6537)
 	ret
 ; e253d (38:653d)
 
-BillsPCDepositMenuDataHeader: ; 0xe253d (38:653d)
+BillsPCDepositMenuHeader: ; 0xe253d (38:653d)
 	db MENU_BACKUP_TILES ; flags
 	menu_coords 9, 4, SCREEN_WIDTH - 1, 13
-	dw .MenuData2
+	dw .MenuData
 	db 1 ; default option
 ; 0xe2545
 
-.MenuData2: ; 0xe2545 (38:6545)
+.MenuData: ; 0xe2545 (38:6545)
 	db STATICMENU_CURSOR ; flags
 	db 4 ; items
 	db "DEPOSIT@"
@@ -370,8 +370,8 @@ _WithdrawPKMN: ; e2583 (38:6583)
 	ret
 
 BillsPC_Withdraw: ; e2675 (38:6675)
-	ld hl, .MenuDataHeader
-	call CopyMenuDataHeader
+	ld hl, .MenuHeader
+	call CopyMenuHeader
 	ld a, [wMenuCursorY]
 	call StoreTo_wMenuCursorBuffer
 	call VerticalMenu
@@ -413,7 +413,7 @@ BillsPC_Withdraw: ; e2675 (38:6675)
 	ret
 
 .stats ; e26c0 (38:66c0)
-	call LoadStandardMenuDataHeader
+	call LoadStandardMenuHeader
 	call BillsPC_StatsScreen
 	call ExitMenu
 	call PCMonInfo
@@ -430,7 +430,7 @@ BillsPC_Withdraw: ; e2675 (38:6675)
 	jr c, .FailedRelease
 	ld de, PCString_ReleasePKMN
 	call BillsPC_PlaceString
-	call LoadStandardMenuDataHeader
+	call LoadStandardMenuHeader
 	lb bc, 14, 11
 	call PlaceYesNoBox
 	ld a, [wMenuCursorY]
@@ -442,7 +442,7 @@ BillsPC_Withdraw: ; e2675 (38:6675)
 	ld hl, wBillsPC_ScrollPosition
 	add [hl]
 	ld [wCurPartyMon], a
-	ld a, PC_DEPOSIT
+	ld a, REMOVE_BOX
 	ld [wPokemonWithdrawDepositParameter], a
 	farcall RemoveMonFromPartyOrBox
 	call ReleasePKMN_ByePKMN
@@ -466,7 +466,7 @@ BillsPC_Withdraw: ; e2675 (38:6675)
 	ret
 ; e2731 (38:6731)
 
-.MenuDataHeader: ; 0xe2731
+.MenuHeader: ; 0xe2731
 	db MENU_BACKUP_TILES ; flags
 	menu_coords 9, 4, SCREEN_WIDTH - 1, 13
 	dw .MenuData
@@ -570,7 +570,7 @@ _MovePKMNWithoutMail: ; e2759
 	ld a, [hl]
 	and A_BUTTON
 	jr nz, .a_button
-	call MovePkmnWithoutMail_DPad
+	call MoveMonWithoutMail_DPad
 	jr c, .d_pad
 	and a
 	ret z
@@ -626,8 +626,8 @@ _MovePKMNWithoutMail: ; e2759
 ; e285d
 
 .MoveMonWOMailSubmenu: ; e285d
-	ld hl, .MenuDataHeader
-	call CopyMenuDataHeader
+	ld hl, .MenuHeader
+	call CopyMenuHeader
 	ld a, [wMenuCursorY]
 	call StoreTo_wMenuCursorBuffer
 	call VerticalMenu
@@ -667,7 +667,7 @@ _MovePKMNWithoutMail: ; e2759
 ; e28a5
 
 .Stats: ; e28a5
-	call LoadStandardMenuDataHeader
+	call LoadStandardMenuHeader
 	call BillsPC_StatsScreen
 	call ExitMenu
 	call PCMonInfo
@@ -684,14 +684,14 @@ _MovePKMNWithoutMail: ; e2759
 	ret
 ; e28c3
 
-.MenuDataHeader: ; 0xe28c3
+.MenuHeader: ; 0xe28c3
 	db MENU_BACKUP_TILES ; flags
 	menu_coords 9, 4, SCREEN_WIDTH - 1, 13
-	dw .MenuData2
+	dw .MenuData
 	db 1 ; default option
 ; 0xe28cb
 
-.MenuData2: ; 0xe28cb
+.MenuData: ; 0xe28cb
 	db STATICMENU_CURSOR ; flags
 	db 3 ; items
 	db "MOVE@"
@@ -724,7 +724,7 @@ _MovePKMNWithoutMail: ; e2759
 	ld a, [hl]
 	and A_BUTTON
 	jr nz, .a_button_2
-	call MovePkmnWithoutMail_DPad_2
+	call MoveMonWithoutMail_DPad_2
 	jr c, .dpad_2
 	and a
 	ret z
@@ -836,7 +836,7 @@ Withdraw_UpDown: ; e29b5 (38:69b5)
 	jp BillsPC_JoypadDidNothing
 ; e29d0 (38:69d0)
 
-MovePkmnWithoutMail_DPad: ; e29d0
+MoveMonWithoutMail_DPad: ; e29d0
 	ld hl, hJoyLast
 	ld a, [wBillsPC_NumMonsOnScreen]
 	ld d, a
@@ -860,7 +860,7 @@ MovePkmnWithoutMail_DPad: ; e29d0
 	jr nz, BillsPC_PressRight
 	jr BillsPC_JoypadDidNothing
 
-MovePkmnWithoutMail_DPad_2: ; e29f4
+MoveMonWithoutMail_DPad_2: ; e29f4
 	ld hl, hJoyLast
 	ld a, [wBillsPC_NumMonsOnScreen]
 	ld d, a
@@ -1484,7 +1484,7 @@ BillsPC_UpdateSelectionCursor: ; e2e01 (38:6e01)
 	inc hl
 	ld [de], a ; y
 	inc de
-rept SPRITEOAMSTRUCT_LENGTH +- 1
+rept SPRITEOAMSTRUCT_LENGTH + -1
 	ld a, [hli]
 	ld [de], a
 	inc de
@@ -1534,7 +1534,7 @@ BillsPC_UpdateInsertCursor: ; e2e8c
 	inc hl
 	ld [de], a ; y
 	inc de
-rept SPRITEOAMSTRUCT_LENGTH +- 1
+rept SPRITEOAMSTRUCT_LENGTH + -1
 	ld a, [hli]
 	ld [de], a
 	inc de
@@ -1720,7 +1720,7 @@ BillsPC_CopyMon: ; e2fd6 (38:6fd6)
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call CopyBytes
 	call CloseSRAM
-	farcall CalcwBufferMonStats
+	farcall CalcBufferMonStats
 	ret
 
 .party
@@ -1763,7 +1763,7 @@ BillsPC_CopyMon: ; e2fd6 (38:6fd6)
 	ld bc, BOXMON_STRUCT_LENGTH
 	call CopyMonToTemp
 	call CloseSRAM
-	farcall CalcwBufferMonStats
+	farcall CalcBufferMonStats
 	ret
 
 DepositPokemon: ; e307c (38:707c)
@@ -1776,9 +1776,9 @@ DepositPokemon: ; e307c (38:707c)
 	call GetNick
 	ld a, PC_DEPOSIT
 	ld [wPokemonWithdrawDepositParameter], a
-	predef SendGetPkmnIntoFromBox
+	predef SendGetMonIntoFromBox
 	jr c, .asm_boxisfull
-	xor a
+	xor a ; REMOVE_PARTY
 	ld [wPokemonWithdrawDepositParameter], a
 	farcall RemoveMonFromPartyOrBox
 	ld a, [wCurPartySpecies]
@@ -1831,9 +1831,9 @@ TryWithdrawPokemon: ; e30fa (38:70fa)
 	call CloseSRAM
 	xor a
 	ld [wPokemonWithdrawDepositParameter], a
-	predef SendGetPkmnIntoFromBox
+	predef SendGetMonIntoFromBox
 	jr c, .PartyFull
-	ld a, PC_DEPOSIT
+	ld a, REMOVE_BOX
 	ld [wPokemonWithdrawDepositParameter], a
 	farcall RemoveMonFromPartyOrBox
 	ld a, [wCurPartySpecies]
@@ -1967,7 +1967,7 @@ MovePKMNWitoutMail_InsertMon: ; e31e7
 .dw_return ; e322a
 	pop af
 	ld e, a
-	farcall MovePkmnWOMail_InsertMon_SaveGame
+	farcall MoveMonWOMail_InsertMon_SaveGame
 	ret
 ; e3233
 
@@ -2052,7 +2052,7 @@ MovePKMNWitoutMail_InsertMon: ; e31e7
 	ld a, [wBillsPC_BackupLoadedBox]
 	dec a
 	ld e, a
-	farcall MovePkmnWOMail_SaveGame
+	farcall MoveMonWOMail_SaveGame
 	ld a, [wBillsPC_BackupCursorPosition]
 	ld hl, wBillsPC_BackupScrollPosition
 	add [hl]
@@ -2069,8 +2069,8 @@ MovePKMNWitoutMail_InsertMon: ; e31e7
 	ld bc, BOXMON_STRUCT_LENGTH
 	call CopyMonToTemp
 	call CloseSRAM
-	farcall CalcwBufferMonStats
-	ld a, PC_DEPOSIT
+	farcall CalcBufferMonStats
+	ld a, REMOVE_BOX
 	ld [wPokemonWithdrawDepositParameter], a
 	farcall RemoveMonFromPartyOrBox
 	ret
@@ -2080,7 +2080,7 @@ MovePKMNWitoutMail_InsertMon: ; e31e7
 	ld a, [wBillsPC_LoadedBox]
 	dec a
 	ld e, a
-	farcall MovePkmnWOMail_SaveGame
+	farcall MoveMonWOMail_SaveGame
 	ld a, [wBillsPC_CursorPosition]
 	ld hl, wBillsPC_ScrollPosition
 	add [hl]
@@ -2103,7 +2103,7 @@ MovePKMNWitoutMail_InsertMon: ; e31e7
 	ld hl, wPartyMon1Species
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call CopyMonToTemp
-	xor a
+	xor a ; REMOVE_PARTY
 	ld [wPokemonWithdrawDepositParameter], a
 	farcall RemoveMonFromPartyOrBox
 	ret
@@ -2249,15 +2249,15 @@ PCString_NoReleasingEGGS: db "No releasing EGGS!@"
 
 
 _ChangeBox: ; e35aa (38:75aa)
-	call LoadStandardMenuDataHeader
+	call LoadStandardMenuHeader
 	call BillsPC_ClearTilemap
 .loop
 	xor a
 	ld [hBGMapMode], a
 	call BillsPC_PrintBoxName
 	call BillsPC_PlaceChooseABoxString
-	ld hl, _ChangeBox_menudataheader
-	call CopyMenuDataHeader
+	ld hl, _ChangeBox_MenuHeader
+	call CopyMenuHeader
 	xor a
 	ld [wMenuScrollPosition], a
 	hlcoord 0, 4
@@ -2284,14 +2284,14 @@ BillsPC_ClearTilemap: ; e35e2 (38:75e2)
 	ret
 ; e35f1 (38:75f1)
 
-_ChangeBox_menudataheader: ; 0xe35f1
+_ChangeBox_MenuHeader: ; 0xe35f1
 	db MENU_BACKUP_TILES ; flags
 	menu_coords 1, 5, 9, 12
-	dw .menudata2
+	dw .MenuData
 	db 1 ; default option
 ; 0xe35f9
 
-.menudata2 ; 0xe35f9
+.MenuData ; 0xe35f9
 	db MENU_UNUSED_1 | MENU_UNUSED_3 ; flags
 	db 4, 0
 	db 1
@@ -2443,8 +2443,8 @@ BillsPC_PrintBoxName: ; e36cf (38:76cf)
 ; e36f9
 
 BillsPC_ChangeBoxSubmenu: ; e36f9 (38:76f9)
-	ld hl, .MenuDataHeader
-	call LoadMenuDataHeader
+	ld hl, .MenuHeader
+	call LoadMenuHeader
 	call VerticalMenu
 	call ExitMenu
 	ret c
@@ -2510,14 +2510,14 @@ BillsPC_ChangeBoxSubmenu: ; e36f9 (38:76f9)
 	ret
 ; e3778 (38:7778)
 
-.MenuDataHeader: ; 0xe377b
+.MenuHeader: ; 0xe377b
 	db MENU_BACKUP_TILES ; flags
 	menu_coords 11, 4, SCREEN_WIDTH - 1, 13
-	dw .MenuData2
+	dw .MenuData
 	db 1 ; default option
 ; 0xe3783
 
-.MenuData2: ; 0xe3783
+.MenuData: ; 0xe3783
 	db STATICMENU_CURSOR ; flags
 	db 4 ; items
 	db "SWITCH@"

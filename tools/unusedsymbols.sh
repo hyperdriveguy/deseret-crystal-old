@@ -9,13 +9,12 @@ sed -n -e 's/^\(BattleTowerMons[0-9][0-9]*\):$/\1/p' data/battle_tower/parties.a
 sed -n -e 's/^\(BattleTowerTrainer[0-9][0-9]*DataTable\):$/\1/p' data/battle_tower/unknown.asm >> unused_ignore.txt
 sed -n -e 's/^\(IncGradGBPalTable_[0-9][0-9]\)::.*/\1/p' home/fade.asm >> unused_ignore.txt
 sed -n -e 's/^\([A-Za-z]*Menu\):.*/\1/p' engine/main_menu.asm | grep -xv MainMenu >> unused_ignore.txt
-sed -n -e 's/^\tmap_header \([A-z0-9]*\),.*/\1_MapHeader/p' data/maps/definitions.asm >> unused_ignore.txt
+sed -n -e 's/^\tmap_attributes \([A-z0-9]*\),.*/\1_MapAttributes/p' data/maps/attributes.asm >> unused_ignore.txt
 
 # Add more labels manually
 cat >> unused_ignore.txt << EOF
 BattleTowerTrainerDataEnd
 BoxNameInputUpper
-BuenaPrizeItemsEnd
 CheckPlayerTurn
 Coord2Attr
 Cry_Teddiursa_branch_f3286
@@ -24,7 +23,6 @@ Cry_Teddiursa_branch_f3296
 Cry_Teddiursa_branch_f32a2
 Cry_Teddiursa_branch_f32ae
 DrawHP
-FacingsEnd
 FemalePlayerNameArray
 Function24f19
 GetDamageStats
@@ -53,7 +51,6 @@ Sfx_ReadText_Ch5
 Sfx_Unknown5F_Ch8
 Sfx_Unknown5F_branch_f270e
 SwitchSpeed
-TeruSama
 WaitDMATransfer
 _CalcHoursDaysSince
 EOF
@@ -83,7 +80,7 @@ rm -f $objs
 # Make sure to look through the unused.txt as well, since that's much more accurate.
 rm -f unused_nojr.txt
 for x in $(cat unused.txt); do
-	if ! grep -rwh --include='*.asm' --exclude-dir=docs --exclude-dir=env "$x" | grep '^	jr' | grep -v ' \.'; then
+	if ! grep -rwh --include='*.asm' "$x" | grep '^	jr' | grep -v ' \.'; then
 		echo "$x" >> unused_nojr.txt
 	fi
 done

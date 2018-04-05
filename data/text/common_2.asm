@@ -328,11 +328,6 @@ UnknownText_0x1c073b::
 	para ""
 	done
 
-UnknownText_0x1c0751::
-	text "A #MON is using"
-	line "STRENGTH already."
-	prompt
-
 UnknownText_0x1c0774::
 	text_from_ram wStringBuffer2
 	text " used"
@@ -498,14 +493,6 @@ UnknownText_0x1c0acc::
 	text_from_ram wStringBuffer3
 	text_start
 	line "fainted!"
-	prompt
-
-UnknownText_0x1c0ada::
-	text "<PLAYER> is out of"
-	line "useable #MON!"
-
-	para "<PLAYER> whited"
-	line "out!"
 	prompt
 
 UnknownText_0x1c0b03::

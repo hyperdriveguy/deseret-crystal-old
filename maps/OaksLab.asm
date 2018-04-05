@@ -9,9 +9,6 @@ OaksLab_MapScripts:
 
 	db 0 ; callbacks
 
-.DummyScene:
-	end
-
 Oak:
 	faceplayer
 	opentext

@@ -161,8 +161,6 @@ StartMenu_PrintBugContestStatus: ; 24be7
 	ld [wOptions], a
 	ret
 
-.Balls_JP: ; 24c43
-	db "ボール　　　こ@"
 .CAUGHT: ; 24c4b
 	db "CAUGHT@"
 .Balls_EN: ; 24c52

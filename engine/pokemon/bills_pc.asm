@@ -102,11 +102,6 @@ _DepositPKMN: ; e2391 (38:6391)
 	ret
 ; e2452 (38:6452)
 
-.go_back
-	ld hl, wJumptableIndex
-	dec [hl]
-	ret
-
 .b_button
 	ld a, $4
 	ld [wJumptableIndex], a

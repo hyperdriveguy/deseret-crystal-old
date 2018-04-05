@@ -463,11 +463,6 @@ SpecialMapMusic:: ; 3d62
 	and a
 	ret
 
-.bike
-	ld de, MUSIC_BICYCLE
-	scf
-	ret
-
 .surf
 	ld de, MUSIC_SURF
 	scf

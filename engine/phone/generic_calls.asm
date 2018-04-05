@@ -1103,11 +1103,6 @@ PhoneScript_Generic_Male:
 	buttonsound
 	end
 
-.Unknown:
-	farwritetext UnknownText_0x1b518b
-	buttonsound
-	end
-
 .Gaven:
 	farwritetext UnknownText_0x1b5393
 	buttonsound

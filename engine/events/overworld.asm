@@ -979,10 +979,6 @@ StrengthFunction: ; cce5
 	jr c, .Failed
 	jr .UseStrength
 
-.JumpText: ; 0xcd01
-	text_jump UnknownText_0x1c0751
-	db "@"
-
 .Failed: ; cd06
 	ld a, $80
 	ret

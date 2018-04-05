@@ -126,26 +126,25 @@ for filename in argv[argi:]:
     for symbol in object["symbols"]:
         if symbol["type"] == 0:
             # if symbol["name"] in locals:
-                # print("Redefinition of %s in locals." % symbol["name"], file=stderr)
-                # exit(1)
-            # locals[symbol["name"]] = 0
+                # continue
+                # # print("Redefinition of %s in locals." % symbol["name"], file=stderr)
+                # # exit(1)
+            # if not symbol["name"] in locals:
+                # locals[symbol["name"]] = 0
             pass
         elif symbol["type"] == 1:
             if not symbol["name"] in referenced:
                 referenced[symbol["name"]] = 0
             imports += 1
         elif symbol["type"] == 2:
-            # if symbol["name"] in globals:
             if symbol["name"] in referenced:
                 continue
                 # print("Redefinition of %s in globals." % symbol["name"], file=stderr)
                 # exit(1)
-            # globals.append(symbol["name"])
             if not symbol["name"] in referenced:
                 referenced[symbol["name"]] = 0
             exports += 1
 
-    print("Filesize:", file.tell(), file=stderr)
     # print("Locals:", len(locals), file=stderr)
     print("Imports:", imports, file=stderr)
     print("Exports:", exports, file=stderr)
@@ -179,25 +178,16 @@ for filename in argv[argi:]:
                         exit(1)
 
     # print("Unreferenced locals:", file=stderr)
-    # for x in range(len(locals)):
-        # if locals_tally[x] == 0:
-            # print(locals[x])
+    # for symbol in locals:
+        # if locals[symbol] == 0:
+            # print(symbol)
 
     print(file=stderr)
 
 if just_dump:
     exit()
 
-# for symbol in referenced:
-    # if symbol not in globals:
-        # print("Referenced symbol %s not found in globals." % symbol, file=stderr)
-        # exit(1)
-
 print("Unreferenced globals:", file=stderr)
-# for symbol in globals:
-    # if not symbol in referenced:
-        # print(symbol)
-
 for symbol in referenced:
     if referenced[symbol] == 0:
         print(symbol)

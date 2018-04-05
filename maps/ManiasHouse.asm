@@ -83,12 +83,6 @@ ManiaScript:
 	closetext
 	end
 
-.nothingleft
-	writetext ManiaText_ShuckleIsYourLastMon
-	waitbutton
-	closetext
-	end
-
 .default_postevent
 	writetext ManiaText_HappinessSpeech
 	waitbutton
@@ -184,14 +178,6 @@ ManiaText_HappinessSpeech:
 
 	para "with a person who"
 	line "treats them well."
-	done
-
-ManiaText_ShuckleIsYourLastMon:
-	text "If I take my #-"
-	line "MON back, what are"
-
-	para "you going to use"
-	line "in battle?"
 	done
 
 ManiasHouse_MapEvents:

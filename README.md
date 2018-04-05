@@ -1,44 +1,32 @@
-# Pokémon Crystal [![Build Status][travis-badge]][travis]
+Optimized Pokémon Crystal
+=========================
 
-This is a disassembly of Pokémon Crystal.
+This is an optimization of pokecrystal, in the sense that all of the unused code and data is removed from the game.  
+This means that you have a lot more free space to work with, and don't have to wade through piles of unused mobile features.
 
-It builds the following ROMs:
+The Goals
+---------
 
-- Pokemon - Crystal Version (UE) (V1.0) [C][!].gbc `sha1: f4cd194bdee0d04ca4eac29e09b8e4e9d818c133`
-- Pokemon - Crystal Version (UE) (V1.1) [C][!].gbc `sha1: f2f52230b536214ef7c9924f483392993e226cfb`
+* Remove as much as possible
+* Keep the regular gameplay and logic intact, don't remove working features
+* Keep link compatibility with the original games intact
+* Don't stray from pokecrystal, don't rename or reorganize things, keep the added line counter as close to 0 as possible
 
-To set up the repository, see [INSTALL.md](INSTALL.md).
+Current status
+--------------
 
-## See also
+Every single labelled but unused code and data has been removed.  
+Unused maps have been removed.  
+Unused sprite animations have been removed.  
+Unused trainers have been removed.  
+Probably more.
 
-- [**FAQ**](FAQ.md)
-- [**Documentation**](docs/)
-- [**Wiki**][wiki] (includes [tutorials][tutorials])
-- **Discord:** [pret][discord]
-- **IRC:** [freenode#pret][irc]
+There's a few exceptions to some of the rules:
+* The battle tower room menu code has been noticeably refactored, to remove the dependency on otherwise unused WRAM addresses, and remove the dependency on an entire jumptable.
 
-Other disassembly projects:
+Notes
+-----
 
-- [**Pokémon Red/Blue**][pokered]
-- [**Pokémon Yellow**][pokeyellow]
-- [**Pokémon Gold**][pokegold]
-- [**Pokémon Pinball**][pokepinball]
-- [**Pokémon TCG**][poketcg]
-- [**Pokémon Ruby**][pokeruby]
-- [**Pokémon Fire Red**][pokefirered]
-- [**Pokémon Emerald**][pokeemerald]
-
-[pokered]: https://github.com/pret/pokered
-[pokeyellow]: https://github.com/pret/pokeyellow
-[pokegold]: https://github.com/pret/pokegold
-[pokepinball]: https://github.com/pret/pokepinball
-[poketcg]: https://github.com/pret/poketcg
-[pokeruby]: https://github.com/pret/pokeruby
-[pokefirered]: https://github.com/pret/pokefirered
-[pokeemerald]: https://github.com/pret/pokeemerald
-[wiki]: https://github.com/pret/pokecrystal/wiki
-[tutorials]: https://github.com/pret/pokecrystal/wiki/Tutorials
-[discord]: https://discord.gg/cJxDDVP
-[irc]: https://kiwiirc.com/client/irc.freenode.net/?#pret
-[travis]: https://travis-ci.org/pret/pokecrystal
-[travis-badge]: https://travis-ci.org/pret/pokecrystal.svg?branch=master
+This project adds a tool, called `tools/unusedsymbols.py`, to scan the built object files for symbols and find unused ones.  
+This tool requires `python3` to run, and is most conveniently used through `tools/unusedsymbols.sh`, a wrapper that takes care of (re)building the objects properly, filtering and saving the output.
+It is adviseable to run `tools/unusedsymbols.sh` and removing (or ignoring) any unused symbols before commiting.

@@ -8,16 +8,16 @@ CeruleanPokecenter1F_MapScripts:
 
 	db 0 ; callbacks
 
-NurseScript_0x18820f:
+CeruleanPokecenter1FNurseScript:
 	jumpstd pokecenternurse
 
-SuperNerdScript_0x188212:
-	jumptextfaceplayer UnknownText_0x188221
+CeruleanPokecenter1FSuperNerdScript:
+	jumptextfaceplayer CeruleanPokecenter1FSuperNerdText
 
 CeruleanPokecenter1FGymGuyScript:
 	jumptextfaceplayer CeruleanPokecenter1FGymGuyText
 
-UnknownText_0x188221:
+CeruleanPokecenter1FSuperNerdText:
 	text "For battles, I'd"
 	line "much rather use"
 
@@ -56,6 +56,6 @@ CeruleanPokecenter1F_MapEvents:
 	db 0 ; bg events
 
 	db 3 ; object events
-	object_event  3,  1, SPRITE_NURSE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, NurseScript_0x18820f, -1
-	object_event  8,  4, SPRITE_SUPER_NERD, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, SuperNerdScript_0x188212, -1
+	object_event  3,  1, SPRITE_NURSE, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, CeruleanPokecenter1FNurseScript, -1
+	object_event  8,  4, SPRITE_SUPER_NERD, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, CeruleanPokecenter1FSuperNerdScript, -1
 	object_event  1,  5, SPRITE_GYM_GUY, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, CeruleanPokecenter1FGymGuyScript, -1

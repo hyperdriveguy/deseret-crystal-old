@@ -27,8 +27,8 @@ BattleTowerOutsideBuenaScript:
 BattleTowerOutsideSailorScript:
 	jumptextfaceplayer BattleTowerOutsideSailorText
 
-MapBattleTowerOutsideSignpost0Script:
-	jumptext BattleTowerOutsideText_UltimateChallenge
+BattleTowerOutsideSign:
+	jumptext BattleTowerOutsideSignText
 
 BattleTowerOutsideYoungsterText:
 	text "Wow, the BATTLE"
@@ -61,7 +61,7 @@ BattleTowerOutsideSailorText:
 	line "all. That I must!"
 	done
 
-BattleTowerOutsideText_UltimateChallenge:
+BattleTowerOutsideSignText:
 	text "BATTLE TOWER"
 
 	para "Take the Ultimate"
@@ -80,7 +80,7 @@ BattleTowerOutside_MapEvents:
 	db 0 ; coord events
 
 	db 1 ; bg events
-	bg_event 10, 10, BGEVENT_READ, MapBattleTowerOutsideSignpost0Script
+	bg_event 10, 10, BGEVENT_READ, BattleTowerOutsideSign
 
 	db 4 ; object events
 	object_event  6, 12, SPRITE_STANDING_YOUNGSTER, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, BattleTowerOutsideYoungsterScript, -1

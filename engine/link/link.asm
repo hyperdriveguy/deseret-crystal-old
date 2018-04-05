@@ -1996,7 +1996,7 @@ SetTradeRoomBGPals: ; 28eff
 	ret
 ; 28f09
 
-INCLUDE "engine/trade_animation.asm"
+INCLUDE "engine/movie/trade_animation.asm"
 
 CheckTimeCapsuleCompatibility: ; 29bfb
 ; Checks to see if your party is compatible with the Gen 1 games.

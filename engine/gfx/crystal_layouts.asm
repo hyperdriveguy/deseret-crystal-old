@@ -28,7 +28,7 @@ Palette_TextBG7: ; 49418
 INCLUDE "gfx/font/bg_text.pal"
 ; 49420
 
-INCLUDE "engine/tileset_palettes.asm"
+INCLUDE "engine/tilesets/tileset_palettes.asm"
 
 _InitMG_Mobile_LinkTradePalMap: ; 49797
 	hlcoord 0, 0, wAttrMap

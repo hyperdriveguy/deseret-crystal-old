@@ -530,7 +530,7 @@ GetFrameOAMPointer: ; 8d1a2
 
 INCLUDE "data/sprite_anims/sequences.asm"
 
-INCLUDE "engine/sprite_anims.asm"
+INCLUDE "engine/gfx/sprite_anims.asm"
 
 INCLUDE "data/sprite_anims/framesets.asm"
 

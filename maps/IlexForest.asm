@@ -415,10 +415,10 @@ IlexForestHiddenSuperPotion:
 IlexForestHiddenFullHeal:
 	hiddenitem FULL_HEAL, EVENT_ILEX_FOREST_HIDDEN_FULL_HEAL
 
-MapIlexForestSignpost0Script:
-	jumptext Text_IlexForestSignpost0
+IlexForestSignpost:
+	jumptext IlexForestSignpostText
 
-MapIlexForestSignpost4Script:
+IlexForestShrineScript:
 	jumptext Text_IlexForestShrine
 
 MovementData_Farfetchd_Pos1_Pos2:
@@ -757,7 +757,7 @@ Text_HeadbuttOutro:
 	cont "#MON fall out."
 	done
 
-Text_IlexForestSignpost0:
+IlexForestSignpostText:
 	text "ILEX FOREST is"
 	line "so overgrown with"
 
@@ -815,11 +815,11 @@ IlexForest_MapEvents:
 	db 0 ; coord events
 
 	db 5 ; bg events
-	bg_event  3, 17, BGEVENT_READ, MapIlexForestSignpost0Script
+	bg_event  3, 17, BGEVENT_READ, IlexForestSignpost
 	bg_event 11,  7, BGEVENT_ITEM, IlexForestHiddenEther
 	bg_event 22, 14, BGEVENT_ITEM, IlexForestHiddenSuperPotion
 	bg_event  1, 17, BGEVENT_ITEM, IlexForestHiddenFullHeal
-	bg_event  8, 22, BGEVENT_UP, MapIlexForestSignpost4Script
+	bg_event  8, 22, BGEVENT_UP, IlexForestShrineScript
 
 	db 9 ; object events
 	object_event 14, 31, SPRITE_BIRD, SPRITEMOVEDATA_SPINRANDOM_SLOW, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_SCRIPT, 0, IlexForestFarfetchdScript, EVENT_ILEX_FOREST_FARFETCHD

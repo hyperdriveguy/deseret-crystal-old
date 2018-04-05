@@ -161,7 +161,7 @@ LoadMailPalettes:
 .MailPals:
 INCLUDE "gfx/mail/mail.pal"
 
-INCLUDE "engine/cgb_layouts.asm"
+INCLUDE "engine/gfx/cgb_layouts.asm"
 
 CopyFourPalettes:
 	ld de, wBGPals1

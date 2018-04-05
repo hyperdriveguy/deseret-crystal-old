@@ -246,7 +246,7 @@ HandleBetweenTurnEffects: ; 3c1d6
 .NoMoreFaintingConditions:
 	call HandleLeftovers
 	call HandleMysteryberry
-	call HanleDefrost
+	call HandleDefrost
 	call HandleSafeguard
 	call HandleScreens
 	call HandleStatBoostingHeldItems
@@ -1482,7 +1482,7 @@ HandleFutureSight: ; 3ca26
 	xor a
 	ld [wAttackMissed], a
 	ld [wAlreadyDisobeyed], a
-	ld a, 10
+	ld a, EFFECTIVE
 	ld [wTypeModifier], a
 	callfar DoMove
 	xor a
@@ -1498,7 +1498,7 @@ HandleFutureSight: ; 3ca26
 	jp UpdateEnemyMonInParty
 ; 3ca8f
 
-HanleDefrost: ; 3ca8f
+HandleDefrost: ; 3ca8f
 	ld a, [hSerialConnectionStatus]
 	cp USING_EXTERNAL_CLOCK
 	jr z, .enemy_first

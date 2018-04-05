@@ -38,7 +38,7 @@ BattleTower1F_MapScripts:
 .Scene1:
 	end
 
-MapBattleTower1FSignpost0Script:
+BattleTower1FRulesSign:
 	opentext
 	writetext Text_ReadBattleTowerRules
 	yesorno
@@ -49,7 +49,7 @@ MapBattleTower1FSignpost0Script:
 	closetext
 	end
 
-ReceptionistScript_0x9e3e2:
+BattleTower1FReceptionistScript:
 	writebyte BATTLETOWERACTION_GET_CHALLENGE_STATE ; copybytetovar sBattleTowerChallengeState
 	special BattleTowerAction
 	ifequal $3, Script_BeatenAllTrainers2 ; maps/BattleTowerBattleRoom.asm
@@ -61,14 +61,14 @@ ReceptionistScript_0x9e3e2:
 	ifnotequal $0, Script_Menu_ChallengeExplanationCancel
 	jump Script_BattleTowerIntroductionYesNo
 
-Script_Menu_ChallengeExplanationCancel: ; 0x9e3fc
+Script_Menu_ChallengeExplanationCancel:
 	writetext Text_WantToGoIntoABattleRoom
 	special Menu_ChallengeExplanationCancel
 	ifequal 1, Script_ChooseChallenge
 	ifequal 2, Script_BattleTowerExplanation
 	jump Script_BattleTowerHopeToServeYouAgain
 
-Script_ChooseChallenge: ; 0x9e40f
+Script_ChooseChallenge:
 	writebyte BATTLETOWERACTION_RESETDATA ; ResetBattleTowerTrainerSRAM
 	special BattleTowerAction
 	special CheckForBattleTowerRules
@@ -111,7 +111,7 @@ Script_WalkToBattleTowerElevator:
 	warpcheck
 	end
 
-Script_GivePlayerHisPrize: ; 0x9e47a
+Script_GivePlayerHisPrize:
 	writebyte BATTLETOWERACTION_1C
 	special BattleTowerAction
 	writebyte BATTLETOWERACTION_GIVEREWARD
@@ -125,17 +125,17 @@ Script_GivePlayerHisPrize: ; 0x9e47a
 	closetext
 	end
 
-Script_YourPackIsStuffedFull: ; 0x9e498
+Script_YourPackIsStuffedFull:
 	writetext Text_YourPackIsStuffedFull
 	waitbutton
 	closetext
 	end
 
-Script_BattleTowerIntroductionYesNo: ; 0x9e49e
+Script_BattleTowerIntroductionYesNo:
 	writetext Text_WouldYouLikeToHearAboutTheBattleTower
 	yesorno
 	iffalse Script_BattleTowerSkipExplanation
-Script_BattleTowerExplanation: ; 0x9e4a5
+Script_BattleTowerExplanation:
 	writetext Text_BattleTowerIntroduction_2
 Script_BattleTowerSkipExplanation:
 	writebyte BATTLETOWERACTION_SET_EXPLANATION_READ
@@ -148,7 +148,7 @@ Script_BattleTowerHopeToServeYouAgain:
 	closetext
 	end
 
-Script_WaitButton: ; 0x9e4bb
+Script_WaitButton:
 	waitbutton
 	closetext
 	end
@@ -159,7 +159,7 @@ BattleTower_LeftWithoutSaving:
 	waitbutton
 	jump Script_BattleTowerHopeToServeYouAgain
 
-YoungsterScript_0x9e55d:
+BattleTower1FYoungsterScript:
 	faceplayer
 	opentext
 	writetext Text_BattleTowerYoungster
@@ -168,13 +168,13 @@ YoungsterScript_0x9e55d:
 	turnobject BATTLETOWER1F_YOUNGSTER, RIGHT
 	end
 
-CooltrainerFScript_0x9e568:
+BattleTower1FCooltrainerFScript:
 	jumptextfaceplayer Text_BattleTowerCooltrainerF
 
-BugCatcherScript_0x9e56b:
+BattleTower1FBugCatcherScript:
 	jumptextfaceplayer Text_BattleTowerBugCatcher
 
-GrannyScript_0x9e56e:
+BattleTower1FGrannyScript:
 	jumptextfaceplayer Text_BattleTowerGranny
 
 MovementData_BattleTower1FWalkToElevator:
@@ -261,7 +261,7 @@ MovementData_BattleTowerBattleRoomPlayerTurnsToFaceNextOpponent:
 	turn_head RIGHT
 	step_end
 
-Text_BattleTowerWelcomesYou: ; 0x9e5ab
+Text_BattleTowerWelcomesYou:
 	text "BATTLE TOWER"
 	line "welcomes you!"
 
@@ -269,17 +269,17 @@ Text_BattleTowerWelcomesYou: ; 0x9e5ab
 	line "to a BATTLE ROOM."
 	done
 
-Text_WantToGoIntoABattleRoom: ; 0x9e5ea
+Text_WantToGoIntoABattleRoom:
 	text "Want to go into a"
 	line "BATTLE ROOM?"
 	done
 
-Text_RightThisWayToYourBattleRoom: ; 0x9e60a
+Text_RightThisWayToYourBattleRoom:
 	text "Right this way to"
 	line "your BATTLE ROOM."
 	done
 
-Text_BattleTowerIntroduction_2: ; 0x9e886
+Text_BattleTowerIntroduction_2:
 	text "BATTLE TOWER is a"
 	line "facility made for"
 	cont "#MON battles."
@@ -315,12 +315,12 @@ Text_BattleTowerIntroduction_2: ; 0x9e886
 	para ""
 	done
 
-Text_ThanksForVisiting: ; 0x9ea49
+Text_ThanksForVisiting:
 	text "Thanks for"
 	line "visiting!"
 	done
 
-Text_CongratulationsYouveBeatenAllTheTrainers: ; 0x9eaef
+Text_CongratulationsYouveBeatenAllTheTrainers:
 	text "Congratulations!"
 
 	para "You've beaten all"
@@ -332,7 +332,7 @@ Text_CongratulationsYouveBeatenAllTheTrainers: ; 0x9eaef
 	para ""
 	done
 
-Text_PlayerGotFive: ; 0x9eb7e
+Text_PlayerGotFive:
 	text "<PLAYER> got five"
 	line "@"
 	text_from_ram wStringBuffer4
@@ -341,7 +341,7 @@ Text_PlayerGotFive: ; 0x9eb7e
 	text_waitbutton
 	db "@"
 
-Text_YourPackIsStuffedFull: ; 0x9eb94
+Text_YourPackIsStuffedFull:
 	text "Oops, your PACK is"
 	line "stuffed full."
 
@@ -349,30 +349,30 @@ Text_YourPackIsStuffedFull: ; 0x9eb94
 	line "and come back."
 	done
 
-Text_WeHopeToServeYouAgain: ; 0x9ec09
+Text_WeHopeToServeYouAgain:
 	text "We hope to serve"
 	line "you again."
 	done
 
-Text_PleaseStepThisWay: ; 0x9ec26
+Text_PleaseStepThisWay:
 	text "Please step this"
 	line "way."
 	done
 
-Text_WouldYouLikeToHearAboutTheBattleTower: ; 0x9ec3d
+Text_WouldYouLikeToHearAboutTheBattleTower:
 	text "Would you like to"
 	line "hear about the"
 	cont "BATTLE TOWER?"
 	done
 
-Text_ReadBattleTowerRules: ; 0x9ed3c
+Text_ReadBattleTowerRules:
 	text "BATTLE TOWER rules"
 	line "are written here."
 
 	para "Read the rules?"
 	done
 
-Text_BattleTowerRules: ; 0x9ed72
+Text_BattleTowerRules:
 	text "Three #MON may"
 	line "enter battles."
 
@@ -404,20 +404,20 @@ Text_BattleTower_LeftWithoutSaving:
 	line "invalid."
 	done
 
-Text_YourMonWillBeHealedToFullHealth: ; 0x9ee92
+Text_YourMonWillBeHealedToFullHealth:
 	text "Your #MON will"
 	line "be healed to full"
 	cont "health."
 	done
 
-Text_NextUpOpponentNo: ; 0x9eebc
+Text_NextUpOpponentNo:
 	text "Next up, opponent"
 	line "no.@"
 	text_from_ram wStringBuffer3
 	text ". Ready?"
 	done
 
-Text_SaveBeforeEnteringBattleRoom: ; 0x9ef1f
+Text_SaveBeforeEnteringBattleRoom:
 	text "Before entering"
 	line "the BATTLE ROOM,"
 
@@ -425,12 +425,12 @@ Text_SaveBeforeEnteringBattleRoom: ; 0x9ef1f
 	line "be saved."
 	done
 
-Text_SaveAndEndTheSession: ; 0x9ef5e
+Text_SaveAndEndTheSession:
 	text "SAVE and end the"
 	line "session?"
 	done
 
-Text_CancelYourBattleRoomChallenge: ; 0x9efbf
+Text_CancelYourBattleRoomChallenge:
 	text "Cancel your BATTLE"
 	line "ROOM challenge?"
 	done
@@ -443,7 +443,7 @@ Text_WeveBeenWaitingForYou:
 	line "please."
 	done
 
-Text_BattleTowerYoungster: ; 0x9f264
+Text_BattleTowerYoungster:
 	text "Destroyed by the"
 	line "first opponent in"
 
@@ -451,7 +451,7 @@ Text_BattleTowerYoungster: ; 0x9f264
 	line "I'm no good…"
 	done
 
-Text_BattleTowerCooltrainerF: ; 0x9f2a4
+Text_BattleTowerCooltrainerF:
 	text "There are lots of"
 	line "BATTLE ROOMS, but"
 
@@ -459,7 +459,7 @@ Text_BattleTowerCooltrainerF: ; 0x9f2a4
 	line "them all!"
 	done
 
-Text_BattleTowerGranny: ; 0x9f2e3
+Text_BattleTowerGranny:
 	text "It's a grueling"
 	line "task, not being"
 
@@ -473,7 +473,7 @@ Text_BattleTowerGranny: ; 0x9f2e3
 	line "winning battles."
 	done
 
-Text_BattleTowerBugCatcher: ; 0x9f35b
+Text_BattleTowerBugCatcher:
 	text "I'm trying to see"
 	line "how far I can go"
 
@@ -495,11 +495,11 @@ BattleTower1F_MapEvents:
 	db 0 ; coord events
 
 	db 1 ; bg events
-	bg_event  6,  6, BGEVENT_READ, MapBattleTower1FSignpost0Script
+	bg_event  6,  6, BGEVENT_READ, BattleTower1FRulesSign
 
 	db 5 ; object events
-	object_event  7,  6, SPRITE_RECEPTIONIST, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ReceptionistScript_0x9e3e2, -1
-	object_event 14,  9, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_SCRIPT, 0, YoungsterScript_0x9e55d, -1
-	object_event  4,  9, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, CooltrainerFScript_0x9e568, -1
-	object_event  1,  3, SPRITE_BUG_CATCHER, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, BugCatcherScript_0x9e56b, -1
-	object_event 14,  3, SPRITE_GRANNY, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GrannyScript_0x9e56e, -1
+	object_event  7,  6, SPRITE_RECEPTIONIST, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, BattleTower1FReceptionistScript, -1
+	object_event 14,  9, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BROWN, OBJECTTYPE_SCRIPT, 0, BattleTower1FYoungsterScript, -1
+	object_event  4,  9, SPRITE_COOLTRAINER_F, SPRITEMOVEDATA_WALK_LEFT_RIGHT, 1, 0, -1, -1, PAL_NPC_RED, OBJECTTYPE_SCRIPT, 0, BattleTower1FCooltrainerFScript, -1
+	object_event  1,  3, SPRITE_BUG_CATCHER, SPRITEMOVEDATA_WANDER, 1, 1, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, BattleTower1FBugCatcherScript, -1
+	object_event 14,  3, SPRITE_GRANNY, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, BattleTower1FGrannyScript, -1

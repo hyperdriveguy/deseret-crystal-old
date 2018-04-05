@@ -15,6 +15,8 @@ These are known bugs and glitches in the original Pokémon Crystal game: code th
 - [A Pokémon that fainted from Pursuit will have its old status condition when revived](#a-pokémon-that-fainted-from-pursuit-will-have-its-old-status-condition-when-revived)
 - [Lock-On and Mind Reader don't always bypass Fly and Dig](#lock-on-and-mind-reader-dont-always-bypass-fly-and-dig)
 - [Beat Up can desynchronize link battles](#beat-up-can-desynchronize-link-battles)
+- [Beat Up may fail to raise substitute](#beat-up-may-fail-to-raise-substitute)
+- [Beat Up may trigger King's Rock even if it failed](#beat-up-may-trigger-kings-rock-even-if-it-failed)
 - [Present damage is incorrect in link battles](#present-damage-is-incorrect-in-link-battles)
 - ["Smart" AI encourages Mean Look if its own Pokémon is badly poisoned](#smart-ai-encourages-mean-look-if-its-own-pokémon-is-badly-poisoned)
 - [AI makes a false assumption about `CheckTypeMatchup`](#ai-makes-a-false-assumption-about-checktypematchup)
@@ -33,6 +35,7 @@ These are known bugs and glitches in the original Pokémon Crystal game: code th
 - [Magikarp length limits have a unit conversion error](#magikarp-length-limits-have-a-unit-conversion-error)
 - [Magikarp lengths can be miscalculated](#magikarp-lengths-can-be-miscalculated)
 - [Battle transitions fail to account for the enemy's level](#battle-transitions-fail-to-account-for-the-enemys-level)
+- [A "HOF Master!" title for 200-Time Famers is defined but inaccessible](#a-hof-master-title-for-200-time-famers-is-defined-but-inaccessible)
 - [Slot machine payout sound effects cut each other off](#slot-machine-payout-sound-effects-cut-each-other-off)
 - [Team Rocket battle music is not used for Executives or Scientists](#team-rocket-battle-music-is-not-used-for-executives-or-scientists)
 - [No bump noise if standing on tile `$3E`](#no-bump-noise-if-standing-on-tile-3e)
@@ -47,6 +50,7 @@ These are known bugs and glitches in the original Pokémon Crystal game: code th
 - [Using a Park Ball in normal battles has a corrupt animation](#using-a-park-ball-in-normal-battles-has-a-corrupt-animation)
 - [`HELD_CATCH_CHANCE` has no effect](#held_catch_chance-has-no-effect)
 - [Only the first three `EvosAttacks` evolution entries can have Stone compatibility reported correctly](#only-the-first-three-evosattacks-evolution-entries-can-have-stone-compatibility-reported-correctly)
+- [`EVOLVE_STAT` can break Stone compatibility reporting](#evolve_stat-can-break-stone-compatibility-reporting)
 - [`ScriptCall` can overflow `wScriptStack` and crash](#scriptcall-can-overflow-wscriptstack-and-crash)
 - [`LoadSpriteGFX` does not limit the capacity of `UsedSprites`](#loadspritegfx-does-not-limit-the-capacity-of-usedsprites)
 - [`ChooseWildEncounter` doesn't really validate the wild Pokémon species](#choosewildencounter-doesnt-really-validate-the-wild-pokémon-species)
@@ -337,6 +341,82 @@ This is a bug with `BattleCommand_BeatUp` in [engine/battle/move_effects/beat_up
 **Fix:** Change `cp [hl]` to `cp c`.
 
 
+## Beat Up may fail to raise substitute
+
+*Fixing this bug will break compatibility with standard Pokémon Crystal for link battles.*  
+(Only the fixes denoted with "breaking" will actually break compatibility, the others just affect what's shown on the screen with the patched game)
+
+This is a bug in `BattleCommand_EndLoop` in [engine/battle/effect_commands.asm](/engine/battle/effect_commands.asm) that prevents the rest of the move's effect from being executed if the player or enemy only has one mon in their party while using Beat Up.
+
+It prevents the substitute from being raised and the King's Rock from working.
+
+```asm
+.only_one_beatup
+	ld a, BATTLE_VARS_SUBSTATUS3
+	call GetBattleVarAddr
+	res SUBSTATUS_IN_LOOP, [hl]
+	call BattleCommand_BeatUpFailText
+	jp EndMoveEffect
+```
+
+**Fix (breaking):** Replace the last two lines with `ret`.  
+**Fix (cosmetics):** Call `BattleCommand_RaiseSub` before the `jp`.
+
+There's a similar oversight in `BattleCommand_FailureText` in [engine/battle/effect_commands.asm](/engine/battle/effect_commands.asm) that will prevent the substitute from being raised if Beat Up is protected against.
+
+```asm
+	cp EFFECT_MULTI_HIT
+	jr z, .multihit
+	cp EFFECT_DOUBLE_HIT
+	jr z, .multihit
+	cp EFFECT_POISON_MULTI_HIT
+	jr z, .multihit
+	jp EndMoveEffect
+
+.multihit
+	call BattleCommand_RaiseSub
+	jp EndMoveEffect
+```
+
+**Fix:** Check for `EFFECT_BEAT_UP` as well.
+
+
+## Beat Up may trigger King's Rock even if it failed
+
+*Fixing this bug will break compatibility with standard Pokémon Crystal for link battles.*
+
+This is a bug in how `wAttackMissed` is never set by BeatUp, even when none of the 'mon have been able to attack (due to being fainted or having a status effect), the King's Rock may activate.
+
+This bug can be fixed in a plethora of ways, but the most straight-forward would be in `BattleCommand_BeatUpFailText` in [engine/battle/move_effects/beat_up.asm](/engine/battle/move_effects/beat_up.asm), as that's always ran before the king's rock effect.
+
+```asm
+BattleCommand_BeatUpFailText: ; 355b5
+; beatupfailtext
+
+	ld a, [wBeatUpHitAtLeastOnce]
+	and a
+	ret nz
+
+	jp PrintButItFailed
+```
+
+**Fix:**
+
+```asm
+BattleCommand_BeatUpFailText: ; 355b5
+; beatupfailtext
+
+	ld a, [wBeatUpHitAtLeastOnce]
+	and a
+	ret nz
+
+	inc a
+	ld [wAttackMissed], a
+
+	jp PrintButItFailed
+```
+
+
 ## Present damage is incorrect in link battles
 
 *Fixing this bug will break compatibility with standard Pokémon Crystal for link battles.*
@@ -488,7 +568,7 @@ This is a bug with `LongAnim_UpdateVariables` in [engine/battle/anim_hp_bar.asm]
 
 ([Video](https://www.youtube.com/watch?v=9KyNVIZxJvI))
 
-This is a bug with `ShortHPBar_CalcPixelFrame` in [engine/anim_hp_bar.asm](/engine/anim_hp_bar.asm):
+This is a bug with `ShortHPBar_CalcPixelFrame` in [engine/battle/anim_hp_bar.asm](/engine/battle/anim_hp_bar.asm):
 
 ```asm
 	ld b, 0
@@ -517,7 +597,7 @@ This is a bug with `ShortHPBar_CalcPixelFrame` in [engine/anim_hp_bar.asm](/engi
 
 This can bring Pokémon straight from level 1 to 100 by gaining just a few experience points.
 
-This is a bug with `CalcExpAtLevel` in [engine/experience.asm](/engine/experience.asm):
+This is a bug with `CalcExpAtLevel` in [engine/pokemon/experience.asm](/engine/pokemon/experience.asm):
 
 ```asm
 CalcExpAtLevel: ; 50e47
@@ -587,7 +667,7 @@ Text_StringBuffer2ExpPoints::
 
 ## BRN/PSN/PAR do not affect catch rate
 
-This is a bug with `PokeBallEffect` in [engine/item_effects.asm](/engine/item_effects.asm):
+This is a bug with `PokeBallEffect` in [engine/items/item_effects.asm](/engine/items/item_effects.asm):
 
 ```asm
 ; This routine is buggy. It was intended that SLP and FRZ provide a higher
@@ -711,7 +791,7 @@ This is a bug with `ItemAttributes` in [data/items/attributes.asm](/data/items/a
 
 ## Daisy's grooming doesn't always increase happiness
 
-This is a bug with `HaircutOrGrooming` in [engine/events/specials_2.asm](/engine/events/specials_2.asm):
+This is a bug with `HaircutOrGrooming` in [engine/events/haircut.asm](/engine/events/haircut.asm):
 
 ```asm
 ; Bug: Subtracting $ff from $ff fails to set c.
@@ -897,11 +977,31 @@ StartTrainerBattle_DetermineWhichAnimation: ; 8c365 (23:4365)
 *To do:* Fix this bug.
 
 
+## A "HOF Master!" title for 200-Time Famers is defined but inaccessible
+
+([Video](https://www.youtube.com/watch?v=iHkWubvxmSg))
+
+This is a bug with `_HallOfFamePC.DisplayMonAndStrings` in [engine/events/halloffame.asm](/engine/events/halloffame.asm):
+
+```asm
+	ld a, [wHallOfFameTempWinCount]
+	cp HOF_MASTER_COUNT + 1 ; should be HOF_MASTER_COUNT
+	jr c, .print_num_hof
+	ld de, .HOFMaster
+	hlcoord 1, 2
+	call PlaceString
+	hlcoord 13, 2
+	jr .finish
+```
+
+**Fix:** Change `HOF_MASTER_COUNT + 1` to `HOF_MASTER_COUNT`.
+
+
 ## Slot machine payout sound effects cut each other off
 
 ([Video](https://www.youtube.com/watch?v=ojq3xqfRF6I))
 
-This is a bug with `Slots_PayoutAnim` in [engine/slot_machine.asm](/engine/slot_machine.asm):
+This is a bug with `Slots_PayoutAnim` in [engine/games/slot_machine.asm](/engine/games/slot_machine.asm):
 
 ```asm
 .okay
@@ -951,7 +1051,7 @@ This is a bug with `PlayBattleMusic` in [engine/battle/start_battle.asm](/engine
 
 ## No bump noise if standing on tile `$3E`
 
-This is a bug with `DoPlayerMovement.CheckWarp` in [engine/player_movement.asm](/engine/player_movement.asm):
+This is a bug with `DoPlayerMovement.CheckWarp` in [engine/overworld/player_movement.asm](/engine/overworld/player_movement.asm):
 
 ```asm
 ; Bug: Since no case is made for STANDING here, it will check
@@ -1086,7 +1186,7 @@ In [home/map.asm](/home/map.asm):
 
 This bug is why the Lapras in [maps/UnionCaveB2F.asm](/maps/UnionCaveB2F.asm), which uses `SPRITEMOVEDATA_SWIM_WANDER`, is not restricted by its `1, 1` movement radius.
 
-In [engine/npc_movement.asm](/engine/npc_movement.asm):
+In [engine/overworld/npc_movement.asm](/engine/overworld/npc_movement.asm):
 
 ```asm
 	ld hl, OBJECT_FLAGS1
@@ -1104,7 +1204,7 @@ In [engine/npc_movement.asm](/engine/npc_movement.asm):
 
 This bug can allow you to talk to Eusine in Celadon City and encounter Ho-Oh with only traded legendary beasts.
 
-In [engine/search.asm](/engine/search.asm):
+In [engine/pokemon/search.asm](/engine/pokemon/search.asm):
 
 ```asm
 ; check OT
@@ -1135,7 +1235,7 @@ endr
 
 This bug can affect Mew or Pokémon other than Ditto that used Transform via Mirror Move or Sketch.
 
-This is a bug with `PokeBallEffect` in [engine/item_effects.asm](/engine/item_effects.asm):
+This is a bug with `PokeBallEffect` in [engine/items/item_effects.asm](/engine/items/item_effects.asm):
 
 ```asm
 	ld hl, wEnemySubStatus5
@@ -1207,7 +1307,7 @@ This is a bug with `PokeBallEffect` in [engine/item_effects.asm](/engine/item_ef
 
 ([Video](https://www.youtube.com/watch?v=v1ErZdLCIyU))
 
-This is a bug with `PokeBallEffect` in [engine/item_effects.asm](/engine/item_effects.asm):
+This is a bug with `PokeBallEffect` in [engine/items/item_effects.asm](/engine/items/item_effects.asm):
 
 ```asm
 .room_in_party
@@ -1232,7 +1332,7 @@ This is a bug with `PokeBallEffect` in [engine/item_effects.asm](/engine/item_ef
 
 ## `HELD_CATCH_CHANCE` has no effect
 
-This is a bug with `PokeBallEffect` in [engine/item_effects.asm](/engine/item_effects.asm):
+This is a bug with `PokeBallEffect` in [engine/items/item_effects.asm](/engine/items/item_effects.asm):
 
 ```asm
 	; BUG: farcall overwrites a, and GetItemHeldEffect takes b anyway.
@@ -1259,7 +1359,7 @@ This is a bug with `PokeBallEffect` in [engine/item_effects.asm](/engine/item_ef
 
 ## Only the first three `EvosAttacks` evolution entries can have Stone compatibility reported correctly
 
-This is a bug with `PlacePartyMonEvoStoneCompatibility.DetermineCompatibility` in [engine/party_menu.asm](/engine/party_menu.asm):
+This is a bug with `PlacePartyMonEvoStoneCompatibility.DetermineCompatibility` in [engine/pokemon/party_menu.asm](/engine/pokemon/party_menu.asm):
 
 ```asm
 .DetermineCompatibility: ; 50268
@@ -1280,9 +1380,42 @@ This is a bug with `PlacePartyMonEvoStoneCompatibility.DetermineCompatibility` i
 **Fix:** Change `ld bc, 10` to `ld bc, wStringBuffer2 - wStringBuffer1` to support up to six Stone entries.
 
 
+## `EVOLVE_STAT` can break Stone compatibility reporting
+
+This is a bug with `PlacePartyMonEvoStoneCompatibility.DetermineCompatibility` in [engine/pokemon/party_menu.asm](/engine/pokemon/party_menu.asm):
+
+```asm
+.loop2
+	ld a, [hli]
+	and a
+	jr z, .nope
+	inc hl
+	inc hl
+	cp EVOLVE_ITEM
+	jr nz, .loop2
+```
+
+**Fix:**
+
+```asm
+.loop2
+	ld a, [hli]
+	and a
+	jr z, .nope
+	cp EVOLVE_STAT
+	jr nz, .not_four_bytes
+	inc hl
+.not_four_bytes
+	inc hl
+	inc hl
+	cp EVOLVE_ITEM
+	jr nz, .loop2
+```
+
+
 ## `ScriptCall` can overflow `wScriptStack` and crash
 
-In [engine/scripting.asm](/engine/scripting.asm):
+In [engine/overworld/scripting.asm](/engine/overworld/scripting.asm):
 
 ```asm
 ScriptCall:
@@ -1322,7 +1455,7 @@ ScriptCall:
 
 ## `LoadSpriteGFX` does not limit the capacity of `UsedSprites`
 
-In [engine/overworld.asm](/engine/overworld.asm):
+In [engine/overworld/overworld.asm](/engine/overworld/overworld.asm):
 
 ```asm
 LoadSpriteGFX: ; 14306
@@ -1359,7 +1492,7 @@ LoadSpriteGFX: ; 14306
 
 ## `ChooseWildEncounter` doesn't really validate the wild Pokémon species
 
-In [engine/wildmons.asm](/engine/wildmons.asm):
+In [engine/overworld/wildmons.asm](/engine/overworld/wildmons.asm):
 
 ```asm
 ChooseWildEncounter: ; 2a14f
@@ -1397,7 +1530,7 @@ ValidateTempWildMonSpecies: ; 2a4a0
 
 ## `TryObjectEvent` arbitrary code execution
 
-In [engine/events.asm](/engine/events.asm):
+In [engine/overworld/events.asm](/engine/overworld/events.asm):
 
 ```asm
 ; Bug: If IsInArray returns nc, data at bc will be executed as code.

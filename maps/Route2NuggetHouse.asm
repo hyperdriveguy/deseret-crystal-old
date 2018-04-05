@@ -6,24 +6,24 @@ Route2NuggetHouse_MapScripts:
 
 	db 0 ; callbacks
 
-FisherScript_0x9b847:
+Route2NuggetHouseFisherScript:
 	faceplayer
 	opentext
 	checkevent EVENT_GOT_NUGGET_FROM_GUY
-	iftrue .GotItem
-	writetext UnknownText_0x9b865
+	iftrue .GotNugget
+	writetext Route2NuggetHouseFisherText
 	buttonsound
 	verbosegiveitem NUGGET
-	iffalse .Done
+	iffalse .NoRoom
 	setevent EVENT_GOT_NUGGET_FROM_GUY
-.GotItem:
-	writetext UnknownText_0x9b8e5
+.GotNugget:
+	writetext Route2NuggetHouseFisherText_GotNugget
 	waitbutton
-.Done:
+.NoRoom:
 	closetext
 	end
 
-UnknownText_0x9b865:
+Route2NuggetHouseFisherText:
 	text "Hi! Wow, I'm glad"
 	line "to see you."
 
@@ -36,7 +36,7 @@ UnknownText_0x9b865:
 	cont "little present."
 	done
 
-UnknownText_0x9b8e5:
+Route2NuggetHouseFisherText_GotNugget:
 	text "That's a NUGGET."
 
 	para "I can't give you"
@@ -58,4 +58,4 @@ Route2NuggetHouse_MapEvents:
 	db 0 ; bg events
 
 	db 1 ; object events
-	object_event  2,  4, SPRITE_FISHER, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 2, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, FisherScript_0x9b847, -1
+	object_event  2,  4, SPRITE_FISHER, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 2, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_SCRIPT, 0, Route2NuggetHouseFisherScript, -1

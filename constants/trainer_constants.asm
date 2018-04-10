@@ -394,7 +394,6 @@ KRIS EQU __enum__
 	const HUEY4
 
 	trainerclass SUPER_NERD ; 29
-	const STAN
 	const ERIC
 	const SAM
 	const TOM
@@ -566,8 +565,6 @@ KRIS EQU __enum__
 	trainerclass MEDIUM ; 39
 	const MARTHA
 	const GRACE
-	const MARGRET
-	const ETHEL
 	const REBECCA
 	const DORIS
 
@@ -586,14 +583,11 @@ KRIS EQU __enum__
 	const BRANDON
 	const JEREMY
 	const COLIN
-	const DEREK2
-	const DEREK3
 	const ALEX
 	const REX
 	const ALLAN
 
 	trainerclass KIMONO_GIRL ; 3c
-	const NAOKO1
 	const NAOKO2
 	const SAYO
 	const ZUKI
@@ -610,13 +604,10 @@ KRIS EQU __enum__
 	const MEGANDPEG1
 	const MEGANDPEG2
 	const LEAANDPIA1
-	const LEAANDPIA2
 
 	trainerclass POKEFANF ; 3e
 	const BEVERLY1
 	const RUTH
-	const BEVERLY2
-	const BEVERLY3
 	const GEORGIA
 	const JAIME
 

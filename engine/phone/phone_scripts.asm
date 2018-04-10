@@ -917,7 +917,7 @@ LizGossip:
 	jump LizGossipScript
 
 .KimonoGirl:
-	trainerclassname KIMONO_GIRL, NAOKO1
+	trainerclassname KIMONO_GIRL, NAOKO2
 	jump LizGossipScript
 
 .Skier:

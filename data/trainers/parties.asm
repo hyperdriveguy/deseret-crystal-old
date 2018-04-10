@@ -1922,11 +1922,6 @@ SailorGroup:
 
 
 SuperNerdGroup:
-	; SUPER_NERD (1)
-	db "STAN@", TRAINERTYPE_NORMAL
-	db 20, GRIMER
-	db -1 ; end
-
 	; SUPER_NERD (2)
 	db "ERIC@", TRAINERTYPE_NORMAL
 	db 11, GRIMER
@@ -2855,16 +2850,6 @@ MediumGroup:
 	db 20, HAUNTER
 	db -1 ; end
 
-	; MEDIUM (4)
-	db "MARGRET@", TRAINERTYPE_NORMAL
-	db 25, HAUNTER
-	db -1 ; end
-
-	; MEDIUM (5)
-	db "ETHEL@", TRAINERTYPE_NORMAL
-	db 25, HAUNTER
-	db -1 ; end
-
 	; MEDIUM (6)
 	db "REBECCA@", TRAINERTYPE_NORMAL
 	db 35, DROWZEE
@@ -2955,16 +2940,6 @@ PokefanMGroup:
 	db 32, DELIBIRD,   BERRY
 	db -1 ; end
 
-	; POKEFANM (10)
-	db "DEREK@", TRAINERTYPE_ITEM
-	db 19, PIKACHU,    BERRY
-	db -1 ; end
-
-	; POKEFANM (11)
-	db "DEREK@", TRAINERTYPE_ITEM
-	db 36, PIKACHU,    BERRY
-	db -1 ; end
-
 	; POKEFANM (12)
 	db "ALEX@", TRAINERTYPE_ITEM
 	db 29, NIDOKING,   BERRY
@@ -2984,13 +2959,6 @@ PokefanMGroup:
 
 
 KimonoGirlGroup:
-	; KIMONO_GIRL (1)
-	db "NAOKO@", TRAINERTYPE_NORMAL
-	db 20, SKIPLOOM
-	db 20, VULPIX
-	db 18, SKIPLOOM
-	db -1 ; end
-
 	; KIMONO_GIRL (2)
 	db "NAOKO@", TRAINERTYPE_NORMAL
 	db 17, FLAREON
@@ -3072,12 +3040,6 @@ TwinsGroup:
 	db 35, DRATINI,    THUNDER_WAVE, TWISTER, ICE_BEAM, HEADBUTT
 	db -1 ; end
 
-	; TWINS (10)
-	db "LEA & PIA@", TRAINERTYPE_MOVES
-	db 38, DRATINI,    THUNDER_WAVE, TWISTER, ICE_BEAM, HEADBUTT
-	db 38, DRATINI,    THUNDER_WAVE, TWISTER, FLAMETHROWER, HEADBUTT
-	db -1 ; end
-
 
 PokefanFGroup:
 	; POKEFANF (1)
@@ -3088,16 +3050,6 @@ PokefanFGroup:
 	; POKEFANF (2)
 	db "RUTH@", TRAINERTYPE_ITEM
 	db 17, PIKACHU,    BERRY
-	db -1 ; end
-
-	; POKEFANF (3)
-	db "BEVERLY@", TRAINERTYPE_ITEM
-	db 18, SNUBBULL,   BERRY
-	db -1 ; end
-
-	; POKEFANF (4)
-	db "BEVERLY@", TRAINERTYPE_ITEM
-	db 30, GRANBULL,   BERRY
 	db -1 ; end
 
 	; POKEFANF (5)

@@ -108,10 +108,55 @@ find unused_ignore_gone.txt -empty -delete
 # All the labels in unused_ignore.txt are filtered out,
 #   as well as those ending with `.anon_dw`
 python3 -u tools/unusedsymbols.py -- $objs \
-	| sed -u -e '/\.anon_dw$/d' \
-	| fgrep --line-buffered -xvf unused_ignore.txt \
-	| tee unused.txt
+    | sed -u -e '/\.anon_dw$/d' \
+    | fgrep --line-buffered -xvf unused_ignore.txt \
+    | tee unused.txt
 find unused.txt -empty -delete
 
 # Clean it up so a regular make won't mess up for the user
 rm -f $objs unused_ignore.txt
+
+##### This is the end of regular unused symbol checking.
+##### From here on out it's grep-based hacks for constants.
+
+# Check BATTLETOWERACTION_
+sed -ne 's/^\tconst \(BATTLETOWERACTION_[^ ]*\).*/\1/p' constants/battle_tower_constants.asm \
+    | while read const; do
+    if ! fgrep -rw "$const" maps > /dev/null; then
+        echo "$const" >> unused.txt
+    fi
+done
+
+# Check unused trainers
+sed -ne '/^KRIS/,/^NUM_TRAINER_CLASSES/s/^\tconst \(.*\)/\1/p' constants/trainer_constants.asm \
+    | while read const; do
+    if ! fgrep -rw "$const" maps > /dev/null; then
+        echo "$const" >> unused.txt
+    fi
+done
+
+# Sprite animation related things
+sed -ne 's/^\tconst \(SPRITE_ANIM_INDEX_[^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
+    | while read const; do
+    if ! fgrep -rw "$const" engine > /dev/null; then
+        echo "$const" >> unused.txt
+    fi
+done
+sed -ne 's/^\tconst \(SPRITE_ANIM_SEQ_[^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
+    | while read const; do
+    if ! fgrep -rw "$const" engine data/sprite_anims/sequences.asm > /dev/null; then
+        echo "$const" >> unused.txt
+    fi
+done
+sed -ne 's/^\tconst \(SPRITE_ANIM_FRAMESET_ [^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
+    | while read const; do
+    if ! fgrep -rw "$const" engine > /dev/null; then
+        echo "$const" >> unused.txt
+    fi
+done
+sed -ne 's/^\tconst \(SPRITE_ANIM_OAMSET[^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
+    | while read const; do
+    if ! fgrep -rw "$const" data/sprite_anims/framesets.asm > /dev/null; then
+        echo "$const" >> unused.txt
+    fi
+done

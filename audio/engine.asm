@@ -1062,7 +1062,7 @@ HandleNoise: ; e858c
 	ret z
 	; are we in a sfx channel?
 	ld a, [wCurChannel]
-	bit 2, a ; sfx
+	bit NOISE_CHAN_F, a
 	jr nz, .next
 	; is ch8 on? (noise)
 	ld hl, wChannel8Flags
@@ -1311,7 +1311,7 @@ GetNoiseSample: ; e86c5
 	call SetNoteDuration
 	; check current channel
 	ld a, [wCurChannel]
-	bit 2, a ; are we in a sfx channel?
+	bit NOISE_CHAN_F, a
 	jr nz, .sfx
 	ld hl, wChannel8Flags
 	bit SOUND_CHANNEL_ON, [hl] ; is ch8 on? (noise)

@@ -535,7 +535,7 @@ PokeBallEffect: ; e8a2
 	cp BATTLETYPE_CELEBI
 	jr nz, .not_celebi
 	ld hl, wBattleResult
-	set 6, [hl]
+	set BATTLERESULT_CAUGHT_CELEBI, [hl]
 .not_celebi
 
 	ld a, [wPartyCount]
@@ -613,7 +613,7 @@ PokeBallEffect: ; e8a2
 	cp MONS_PER_BOX
 	jr nz, .BoxNotFullYet
 	ld hl, wBattleResult
-	set 7, [hl]
+	set BATTLERESULT_BOX_FULL, [hl]
 .BoxNotFullYet:
 	ld a, [wCurItem]
 	cp FRIEND_BALL
@@ -2163,8 +2163,8 @@ PokeDollEffect: ; f48f
 	inc a
 	ld [wForcedSwitch], a
 	ld a, [wBattleResult]
-	and $c0
-	or $2
+	and BATTLERESULT_BITMASK
+	or DRAW
 	ld [wBattleResult], a
 	jp UseItemText
 

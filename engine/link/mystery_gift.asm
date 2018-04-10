@@ -393,7 +393,7 @@ Function104b88: ; 104b88 (41:4b88)
 	jp nz, Function104d32
 	call Function104d38
 	ret nz
-	ld hl, wOverworldMap
+	ld hl, wLinkData
 	ld a, [wca02]
 	ld b, a
 	call Function104d4e

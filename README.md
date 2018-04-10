@@ -23,6 +23,7 @@ Probably more.
 
 There's a few exceptions to some of the rules:
 * The battle tower room menu code has been noticeably refactored, to remove the dependency on otherwise unused WRAM addresses, and remove the dependency on an entire jumptable.
+* The Celebi event will be kept, despite being inaccessible during normal gameplay, as it's fully functional and used in the VC releases.
 
 Notes
 -----

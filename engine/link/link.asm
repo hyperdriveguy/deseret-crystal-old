@@ -1936,6 +1936,7 @@ LinkTrade: ; 28b87
 
 .save
 	farcall SaveAfterLinkTrade
+	farcall BackupMobileEventIndex
 	ld c, 40
 	call DelayFrames
 	hlcoord 0, 12

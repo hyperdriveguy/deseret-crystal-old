@@ -108,6 +108,7 @@ MoveMonWOMail_InsertMon_SaveGame: ; 14ad5
 	call SaveBackupPokemonData
 	call SaveBackupChecksum
 	farcall BackupPartyMonMail
+	farcall BackupMobileEventIndex
 	farcall SaveRTC
 	call LoadBox
 	call ResumeGameLogic
@@ -285,6 +286,7 @@ SaveGameData_: ; 14c10
 	call SaveBackupChecksum
 	call UpdateStackTop
 	farcall BackupPartyMonMail
+	farcall BackupMobileEventIndex
 	farcall SaveRTC
 	ld a, BANK(sBattleTowerChallengeState)
 	call GetSRAMBank
@@ -573,6 +575,7 @@ TryLoadSaveFile: ; 14ea5 (5:4ea5)
 	call LoadPokemonData
 	call LoadBox
 	farcall RestorePartyMonMail
+	farcall RestoreMobileEventIndex
 	farcall RestoreMysteryGift
 	call ValidateBackupSave
 	call SaveBackupOptions
@@ -589,6 +592,7 @@ TryLoadSaveFile: ; 14ea5 (5:4ea5)
 	call LoadBackupPokemonData
 	call LoadBox
 	farcall RestorePartyMonMail
+	farcall RestoreMobileEventIndex
 	farcall RestoreMysteryGift
 	call ValidateSave
 	call SaveOptions

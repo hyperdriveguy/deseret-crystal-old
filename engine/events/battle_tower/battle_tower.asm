@@ -201,6 +201,7 @@ BattleTowerAction: ; 170687
 	dw LoadBattleTowerLevelGroup ; 0x08
 	dw BattleTower_CheckSaveFileExistsAndIsYours ; 0x09
 	dw Function1708b1 ; 0x0a
+	dw CheckMobileEventIndex ; 0x0b
 	dw ResetBattleTowerTrainersSRAM ; 0x1a
 	dw BattleTower_GiveReward ; 0x1b
 	dw Function17071b ; 0x1c
@@ -394,6 +395,13 @@ Function1708b1: ; 1708b1 (5c:48b1) BattleTowerAction $0a
 	call MaxVolume
 	ret
 
+CheckMobileEventIndex: ; 1708b9 (5c:48b9) BattleTowerAction $0b something to do with GS Ball
+	ld a, BANK(sMobileEventIndex)
+	call GetSRAMBank
+	ld a, [sMobileEventIndex]
+	ld [wScriptVar], a
+	call CloseSRAM
+	ret
 
 Function170923: ; 170923
 	ld a, $5

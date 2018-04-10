@@ -8252,6 +8252,7 @@ CheckPayDay: ; 3f71d
 ; 3f759
 
 ShowLinkBattleParticipantsAfterEnd: ; 3f759
+	farcall BackupMobileEventIndex
 	ld a, [wCurOTMon]
 	ld hl, wOTPartyMon1Status
 	call GetPartyLocation
@@ -8282,6 +8283,7 @@ DisplayLinkBattleResult: ; 3f77c
 .store_result
 	hlcoord 6, 8
 	call PlaceString
+	farcall BackupMobileEventIndex
 	ld c, 200
 	call DelayFrames
 

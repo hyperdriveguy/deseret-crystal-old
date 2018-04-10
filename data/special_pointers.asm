@@ -126,6 +126,8 @@ SpecialsPointers:: ; c029
 	add_special DisplayUnownWords
 	add_special Menu_ChallengeExplanationCancel ; $88
 	add_special HoOhChamber
+	add_special CelebiShrineEvent
+	add_special CheckCaughtCelebi ; $90
 	add_special PokeSeer
 	add_special BuenasPassword
 	add_special BuenaPrize

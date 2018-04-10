@@ -52,6 +52,7 @@ NUM_SPRITE_ANIM_STRUCTS EQU 10 ; see wSpriteAnimationStructs
 	const SPRITE_ANIM_INDEX_INTRO_UNOWN              ; 29
 	const SPRITE_ANIM_INDEX_INTRO_UNOWN_F            ; 2a
 	const SPRITE_ANIM_INDEX_INTRO_SUICUNE_AWAY       ; 2b
+	const SPRITE_ANIM_INDEX_CELEBI                   ; 2c
 
 ; DoAnimFrame.Jumptable indexes (see engine/gfx/sprite_anims.asm)
 	const_def
@@ -77,6 +78,7 @@ NUM_SPRITE_ANIM_STRUCTS EQU 10 ; see wSpriteAnimationStructs
 	const SPRITE_ANIM_SEQ_FLY_TO                  ; 18
 	const SPRITE_ANIM_SEQ_INTRO_SUICUNE           ; 1d
 	const SPRITE_ANIM_SEQ_INTRO_PICHU_WOOPER      ; 1e
+	const SPRITE_ANIM_SEQ_CELEBI                  ; 1f
 	const SPRITE_ANIM_SEQ_INTRO_UNOWN             ; 20
 	const SPRITE_ANIM_SEQ_INTRO_UNOWN_F           ; 21
 	const SPRITE_ANIM_SEQ_INTRO_SUICUNE_AWAY      ; 22
@@ -129,6 +131,8 @@ NUM_SPRITE_ANIM_STRUCTS EQU 10 ; see wSpriteAnimationStructs
 	const SPRITE_ANIM_FRAMESET_INTRO_UNOWN_F_2          ; 3d
 	const SPRITE_ANIM_FRAMESET_INTRO_SUICUNE_AWAY       ; 3e
 	const SPRITE_ANIM_FRAMESET_INTRO_UNOWN_F            ; 3f
+	const SPRITE_ANIM_FRAMESET_CELEBI_LEFT              ; 40
+	const SPRITE_ANIM_FRAMESET_CELEBI_RIGHT             ; 41
 
 ; SpriteAnimOAMData indexes (see data/sprite_anims/oam.asm)
 	const_def
@@ -193,6 +197,8 @@ NUM_SPRITE_ANIM_STRUCTS EQU 10 ; see wSpriteAnimationStructs
 	const SPRITE_ANIM_OAMSET_INTRO_UNOWN_F_2_4          ; 7c
 	const SPRITE_ANIM_OAMSET_INTRO_UNOWN_F_2_5          ; 7d
 	const SPRITE_ANIM_OAMSET_INTRO_SUICUNE_AWAY         ; 7e
+	const SPRITE_ANIM_OAMSET_CELEBI_1                   ; 7f
+	const SPRITE_ANIM_OAMSET_CELEBI_2                   ; 80
 	const SPRITE_ANIM_OAMSET_GAMEFREAK_LOGO_1           ; 81
 	const SPRITE_ANIM_OAMSET_GAMEFREAK_LOGO_2           ; 82
 	const SPRITE_ANIM_OAMSET_GAMEFREAK_LOGO_3           ; 83

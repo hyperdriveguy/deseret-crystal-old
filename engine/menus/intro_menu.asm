@@ -208,6 +208,8 @@ endc
 
 	farcall DeletePartyMonMail
 
+	farcall DeleteMobileEventIndex
+
 	call ResetGameTime
 	ret
 ; 5ca1

@@ -46,6 +46,8 @@ SpriteAnimFrameData: ; 8d6e6
 	dw .Frameset_IntroUnownF2
 	dw .Frameset_IntroSuicuneAway
 	dw .Frameset_IntroUnownF
+	dw .Frameset_CelebiLeft
+	dw .Frameset_CelebiRight
 ; 8d76a
 
 .Frameset_00:
@@ -309,5 +311,15 @@ SpriteAnimFrameData: ; 8d6e6
 
 .Frameset_IntroUnownF:
 	dorepeat 0
+	endanim
+
+.Frameset_CelebiLeft:
+	frame SPRITE_ANIM_OAMSET_CELEBI_1,  8
+	frame SPRITE_ANIM_OAMSET_CELEBI_2,  8
+	endanim
+
+.Frameset_CelebiRight:
+	frame SPRITE_ANIM_OAMSET_CELEBI_1,  8, OAM_X_FLIP
+	frame SPRITE_ANIM_OAMSET_CELEBI_2,  8, OAM_X_FLIP
 	endanim
 ; 8d94d

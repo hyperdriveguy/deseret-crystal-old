@@ -62,6 +62,8 @@ DoMysteryGift: ; 1048ba (41:48ba)
 	cp 4
 	jr z, .skip_append_save
 	call .SaveMysteryGiftTrainerName
+	farcall RestoreMobileEventIndex
+	farcall BackupMobileEventIndex
 .skip_append_save
 	ld a, [wMysteryGiftPartnerSentDeco]
 	and a

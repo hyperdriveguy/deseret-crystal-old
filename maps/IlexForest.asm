@@ -4,6 +4,8 @@
 	const ILEXFOREST_BLACK_BELT
 	const ILEXFOREST_ROCKER
 	const ILEXFOREST_POKE_BALL1
+	const ILEXFOREST_KURT
+	const ILEXFOREST_LASS
 	const ILEXFOREST_YOUNGSTER2
 	const ILEXFOREST_POKE_BALL2
 	const ILEXFOREST_POKE_BALL3
@@ -394,6 +396,9 @@ TrainerBugCatcherWayne:
 	closetext
 	end
 
+IlexForestLassScript:
+	jumptextfaceplayer Text_IlexForestLass
+
 IlexForestRevive:
 	itemball REVIVE
 
@@ -419,7 +424,58 @@ IlexForestSignpost:
 	jumptext IlexForestSignpostText
 
 IlexForestShrineScript:
+	checkevent EVENT_FOREST_IS_RESTLESS
+	iftrue .ForestIsRestless
+	jump .DontDoCelebiEvent
+
+.ForestIsRestless:
+	checkitem GS_BALL
+	iftrue .AskCelebiEvent
+.DontDoCelebiEvent:
 	jumptext Text_IlexForestShrine
+
+.AskCelebiEvent:
+	opentext
+	writetext Text_ShrineCelebiEvent
+	yesorno
+	iftrue .CelebiEvent
+	closetext
+	end
+
+.CelebiEvent:
+	takeitem GS_BALL
+	clearevent EVENT_FOREST_IS_RESTLESS
+	setevent EVENT_AZALEA_TOWN_KURT
+	disappear ILEXFOREST_LASS
+	clearevent EVENT_ROUTE_34_ILEX_FOREST_GATE_LASS
+	writetext Text_InsertGSBall
+	waitbutton
+	closetext
+	pause 20
+	showemote EMOTE_SHOCK, PLAYER, 20
+	special FadeOutMusic
+	applymovement PLAYER, MovementData_0x6ef58
+	pause 30
+	turnobject PLAYER, DOWN
+	pause 20
+	clearflag ENGINE_FOREST_IS_RESTLESS
+	special CelebiShrineEvent
+	loadwildmon CELEBI, 30
+	startbattle
+	reloadmapafterbattle
+	pause 20
+	special CheckCaughtCelebi
+	iffalse .DidntCatchCelebi
+	appear ILEXFOREST_KURT
+	applymovement ILEXFOREST_KURT, MovementData_0x6ef4e
+	opentext
+	writetext Text_KurtCaughtCelebi
+	waitbutton
+	closetext
+	applymovement ILEXFOREST_KURT, MovementData_0x6ef53
+	disappear ILEXFOREST_KURT
+.DidntCatchCelebi:
+	end
 
 MovementData_Farfetchd_Pos1_Pos2:
 	big_step UP
@@ -656,6 +712,26 @@ MovementData_Farfetched_Pos9_Pos8_Down:
 	big_step UP
 	step_end
 
+MovementData_0x6ef4e:
+	step UP
+	step UP
+	step UP
+	step UP
+	step_end
+
+MovementData_0x6ef53:
+	step DOWN
+	step DOWN
+	step DOWN
+	step DOWN
+	step_end
+
+MovementData_0x6ef58:
+	fix_facing
+	slow_step DOWN
+	remove_fixed_facing
+	step_end
+
 UnknownText_0x6ef5c:
 	text "Oh, man… My boss"
 	line "is going to be"
@@ -757,6 +833,12 @@ Text_HeadbuttOutro:
 	cont "#MON fall out."
 	done
 
+Text_IlexForestLass:
+	text "Did something"
+	line "happen to the"
+	cont "forest's guardian?"
+	done
+
 IlexForestSignpostText:
 	text "ILEX FOREST is"
 	line "so overgrown with"
@@ -776,6 +858,51 @@ Text_IlexForestShrine:
 	para "It's in honor of"
 	line "the forest's"
 	cont "protector…"
+	done
+
+Text_ShrineCelebiEvent:
+	text "ILEX FOREST"
+	line "SHRINE…"
+
+	para "It's in honor of"
+	line "the forest's"
+	cont "protector…"
+
+	para "Oh? What is this?"
+
+	para "It's a hole."
+	line "It looks like the"
+
+	para "GS BALL would fit"
+	line "inside it."
+
+	para "Want to put the GS"
+	line "BALL here?"
+	done
+
+Text_InsertGSBall:
+	text "<PLAYER> put in the"
+	line "GS BALL."
+	done
+
+Text_KurtCaughtCelebi:
+	text "Whew, wasn't that"
+	line "something!"
+
+	para "<PLAYER>, that was"
+	line "fantastic. Thanks!"
+
+	para "The legends about"
+	line "that SHRINE were"
+	cont "real after all."
+
+	para "I feel inspired by"
+	line "what I just saw."
+
+	para "It motivates me to"
+	line "make better BALLS!"
+
+	para "I'm going!"
 	done
 
 BugCatcherWayneSeenText:
@@ -827,6 +954,8 @@ IlexForest_MapEvents:
 	object_event  5, 28, SPRITE_BLACK_BELT, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, IlexForestCharcoalMasterScript, EVENT_ILEX_FOREST_CHARCOAL_MASTER
 	object_event 15, 14, SPRITE_ROCKER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, IlexForestHeadbuttGuyScript, -1
 	object_event 20, 32, SPRITE_POKE_BALL, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, IlexForestRevive, EVENT_ILEX_FOREST_REVIVE
+	object_event  8, 29, SPRITE_KURT, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_ILEX_FOREST_KURT
+	object_event  3, 24, SPRITE_LASS, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, IlexForestLassScript, EVENT_ILEX_FOREST_LASS
 	object_event 12,  1, SPRITE_YOUNGSTER, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_TRAINER, 0, TrainerBugCatcherWayne, -1
 	object_event  9, 17, SPRITE_POKE_BALL, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, IlexForestXAttack, EVENT_ILEX_FOREST_X_ATTACK
 	object_event 17,  7, SPRITE_POKE_BALL, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, IlexForestAntidote, EVENT_ILEX_FOREST_ANTIDOTE

@@ -332,7 +332,6 @@ AI_Smart: ; 386be
 	dbw EFFECT_RAZOR_WIND,       AI_Smart_RazorWind
 	dbw EFFECT_SUPER_FANG,       AI_Smart_SuperFang
 	dbw EFFECT_TRAP_TARGET,      AI_Smart_TrapTarget
-	dbw EFFECT_UNUSED_2B,        AI_Smart_Unused2B
 	dbw EFFECT_CONFUSE,          AI_Smart_Confuse
 	dbw EFFECT_SP_DEF_UP_2,      AI_Smart_SpDefenseUp2
 	dbw EFFECT_REFLECT,          AI_Smart_Reflect
@@ -350,7 +349,6 @@ AI_Smart: ; 386be
 	dbw EFFECT_SNORE,            AI_Smart_Snore
 	dbw EFFECT_CONVERSION2,      AI_Smart_Conversion2
 	dbw EFFECT_LOCK_ON,          AI_Smart_LockOn
-	dbw EFFECT_DEFROST_OPPONENT, AI_Smart_DefrostOpponent
 	dbw EFFECT_SLEEP_TALK,       AI_Smart_SleepTalk
 	dbw EFFECT_DESTINY_BOND,     AI_Smart_DestinyBond
 	dbw EFFECT_REVERSAL,         AI_Smart_Reversal
@@ -1082,7 +1080,6 @@ AI_Smart_TrapTarget: ; 38a71
 
 
 AI_Smart_RazorWind:
-AI_Smart_Unused2B: ; 38a9c
 	ld a, [wEnemySubStatus1]
 	bit SUBSTATUS_PERISH, a
 	jr z, .asm_38aaa
@@ -1562,20 +1559,6 @@ AI_Smart_SleepTalk: ; 38cba
 	inc [hl]
 	ret
 ; 38ccb
-
-
-AI_Smart_DefrostOpponent: ; 38ccb
-; Greatly encourage this move if enemy is frozen.
-; No move has EFFECT_DEFROST_OPPONENT, so this layer is unused.
-
-	ld a, [wEnemyMonStatus]
-	and $20
-	ret z
-	dec [hl]
-	dec [hl]
-	dec [hl]
-	ret
-; 38cd5
 
 
 AI_Smart_Spite: ; 38cd5

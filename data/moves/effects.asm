@@ -1338,13 +1338,6 @@ Sketch:
 	sketch
 	endmove
 
-DefrostOpponent:
-	checkobedience
-	usedmovetext
-	doturn
-	defrostopponent
-	endmove
-
 SleepTalk:
 	checkobedience
 	usedmovetext
@@ -1816,16 +1809,6 @@ SunnyDay:
 	usedmovetext
 	doturn
 	startsun
-	endmove
-
-FakeOut:
-	checkobedience
-	usedmovetext
-	doturn
-	checkhit
-	fakeout
-	moveanim
-	failuretext
 	endmove
 
 BellyDrum:

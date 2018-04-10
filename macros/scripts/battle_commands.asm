@@ -5,7 +5,6 @@ ENDM
 
 ; BattleCommandPointers indexes (see data/battle/effect_command_pointers.asm)
 	enum_start 1
-	command checkturn               ; 01
 	command checkobedience          ; 02
 	command usedmovetext            ; 03
 	command doturn                  ; 04
@@ -32,8 +31,6 @@ ENDM
 	command paralyzetarget          ; 19
 	command selfdestruct            ; 1a
 	command mirrormove              ; 1b
-	command statup                  ; 1c
-	command statdown                ; 1d
 	command payday                  ; 1e
 	command conversion              ; 1f
 	command resetstats              ; 20
@@ -64,7 +61,6 @@ ENDM
 	command charge                  ; 39
 	command checkcharge             ; 3a
 	command traptarget              ; 3b
-	command effect0x3c              ; 3c
 	command rampage                 ; 3d
 	command checkrampage            ; 3e
 	command constantdamage          ; 3f
@@ -75,7 +71,6 @@ ENDM
 	command conversion2             ; 44
 	command lockon                  ; 45
 	command sketch                  ; 46
-	command defrostopponent         ; 47
 	command sleeptalk               ; 48
 	command destinybond             ; 49
 	command spite                   ; 4a
@@ -97,7 +92,6 @@ ENDM
 	command endure                  ; 5a
 	command checkcurl               ; 5b
 	command rolloutpower            ; 5c
-	command effect0x5d              ; 5d
 	command furycutter              ; 5e
 	command attract                 ; 5f
 	command happinesspower          ; 60
@@ -152,7 +146,6 @@ ENDM
 	command statdownanim            ; 91
 	command statupanim              ; 92
 	command switchturn              ; 93
-	command fakeout                 ; 94
 	command bellydrum               ; 95
 	command psychup                 ; 96
 	command rage                    ; 97

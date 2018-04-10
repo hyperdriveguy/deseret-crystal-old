@@ -37,13 +37,11 @@ MoveEffectsPointers: ; 271f4
 	dw PayDay
 	dw LightScreen
 	dw TriAttack
-	dw NormalHit
 	dw OHKOHit
 	dw RazorWind
 	dw SuperFang
 	dw StaticDamage
 	dw TrapTarget
-	dw NormalHit
 	dw MultiHit
 	dw NormalHit
 	dw Mist
@@ -78,7 +76,6 @@ MoveEffectsPointers: ; 271f4
 	dw SkyAttack
 	dw ConfuseHit
 	dw PoisonMultiHit
-	dw NormalHit
 	dw Substitute
 	dw HyperBeam
 	dw Rage
@@ -96,7 +93,6 @@ MoveEffectsPointers: ; 271f4
 	dw Conversion2
 	dw LockOn
 	dw Sketch
-	dw DefrostOpponent
 	dw SleepTalk
 	dw DestinyBond
 	dw Reversal
@@ -110,7 +106,6 @@ MoveEffectsPointers: ; 271f4
 	dw Nightmare
 	dw FlameWheel
 	dw Curse
-	dw NormalHit
 	dw Protect
 	dw Spikes
 	dw Foresight
@@ -130,8 +125,6 @@ MoveEffectsPointers: ; 271f4
 	dw BatonPass
 	dw Pursuit
 	dw RapidSpin
-	dw NormalHit
-	dw NormalHit
 	dw MorningSun
 	dw Synthesis
 	dw Moonlight
@@ -141,7 +134,6 @@ MoveEffectsPointers: ; 271f4
 	dw DefenseUpHit
 	dw AttackUpHit
 	dw AllUpHit
-	dw FakeOut
 	dw BellyDrum
 	dw PsychUp
 	dw MirrorCoat

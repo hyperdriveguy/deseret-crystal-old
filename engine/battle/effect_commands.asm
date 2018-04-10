@@ -119,10 +119,6 @@ DoMove: ; 3402c
 
 
 CheckTurn:
-BattleCommand_CheckTurn: ; 34084
-; checkturn
-
-; Repurposed as hardcoded turn handling. Useless as a command.
 
 ; Move $ff immediately ends the turn.
 	ld a, BATTLE_VARS_MOVE
@@ -3563,36 +3559,6 @@ INCLUDE "engine/battle/move_effects/lock_on.asm"
 
 INCLUDE "engine/battle/move_effects/sketch.asm"
 
-
-BattleCommand_DefrostOpponent: ; 35b16
-; defrostopponent
-; Thaw the opponent if frozen, and
-; raise the user's Attack one stage.
-
-	call AnimateCurrentMove
-
-	ld a, BATTLE_VARS_STATUS_OPP
-	call GetBattleVarAddr
-	call Defrost
-
-	ld a, BATTLE_VARS_MOVE_EFFECT
-	call GetBattleVarAddr
-	ld a, [hl]
-	push hl
-	push af
-
-	ld a, EFFECT_ATTACK_UP
-	ld [hl], a
-	call BattleCommand_StatUp
-
-	pop af
-	pop hl
-	ld [hl], a
-	ret
-
-; 35b33
-
-
 INCLUDE "engine/battle/move_effects/sleep_talk.asm"
 
 INCLUDE "engine/battle/move_effects/destiny_bond.asm"
@@ -5789,30 +5755,6 @@ BattleCommand_EndLoop: ; 369b6
 ; 36a82
 
 
-BattleCommand_FakeOut: ; 36a82
-	ld a, [wAttackMissed]
-	and a
-	ret nz
-
-	call CheckSubstituteOpp
-	jr nz, .fail
-
-	ld a, BATTLE_VARS_STATUS_OPP
-	call GetBattleVar
-	and 1 << FRZ | SLP
-	jr nz, .fail
-
-	call CheckOpponentWentFirst
-	jr z, FlinchTarget
-
-.fail
-	ld a, 1
-	ld [wAttackMissed], a
-	ret
-
-; 36aa0
-
-
 BattleCommand_FlinchTarget: ; 36aa0
 	call CheckSubstituteOpp
 	ret nz
@@ -6093,13 +6035,6 @@ BattleCommand_Charge: ; 36b4d
 	text_jump UnknownText_0x1c0d6c
 	db "@"
 ; 36c2c
-
-
-BattleCommand3c: ; 36c2c
-; unused
-	ret
-
-; 36c2d
 
 
 BattleCommand_TrapTarget: ; 36c2d
@@ -6986,14 +6921,6 @@ INCLUDE "engine/battle/move_effects/perish_song.asm"
 INCLUDE "engine/battle/move_effects/sandstorm.asm"
 
 INCLUDE "engine/battle/move_effects/rollout.asm"
-
-
-BattleCommand5d: ; 37791
-; unused
-	ret
-
-; 37792
-
 
 INCLUDE "engine/battle/move_effects/fury_cutter.asm"
 

@@ -4,7 +4,6 @@
 
 BattleCommandPointers: ; 3fd28
 ; entries correspond to macros/scripts/battle_commands.asm
-	dw BattleCommand_CheckTurn ; 34084
 	dw BattleCommand_CheckObedience ; 343db
 	dw BattleCommand_UsedMoveText ; 34541
 	dw BattleCommand_DoTurn ; 34555
@@ -31,8 +30,6 @@ BattleCommandPointers: ; 3fd28
 	dw BattleCommand_ParalyzeTarget ; 36165
 	dw BattleCommand_Selfdestruct ; 37380
 	dw BattleCommand_MirrorMove ; 373c9
-	dw BattleCommand_StatUp ; 361e4
-	dw BattleCommand_StatDown ; 362e3
 	dw BattleCommand_PayDay ; 3705c
 	dw BattleCommand_Conversion ; 3707f
 	dw BattleCommand_ResetStats ; 3710e
@@ -63,7 +60,6 @@ BattleCommandPointers: ; 3fd28
 	dw BattleCommand_Charge ; 36b4d
 	dw BattleCommand_CheckCharge ; 36b3a
 	dw BattleCommand_TrapTarget ; 36c2d
-	dw BattleCommand3c ; 36c2c
 	dw BattleCommand_Rampage ; 36751
 	dw BattleCommand_CheckRampage ; 3671a
 	dw BattleCommand_ConstantDamage ; 35726
@@ -74,7 +70,6 @@ BattleCommandPointers: ; 3fd28
 	dw BattleCommand_Conversion2 ; 359e6
 	dw BattleCommand_LockOn ; 35a53
 	dw BattleCommand_Sketch ; 35a74
-	dw BattleCommand_DefrostOpponent ; 35b16
 	dw BattleCommand_SleepTalk ; 35b33
 	dw BattleCommand_DestinyBond ; 35bff
 	dw BattleCommand_Spite ; 35c0f
@@ -96,7 +91,6 @@ BattleCommandPointers: ; 3fd28
 	dw BattleCommand_Endure ; 3766f
 	dw BattleCommand_CheckCurl ; 37718
 	dw BattleCommand_RolloutPower ; 37734
-	dw BattleCommand5d ; 37791
 	dw BattleCommand_FuryCutter ; 37792
 	dw BattleCommand_Attract ; 377ce
 	dw BattleCommand_HappinessPower ; 3784b
@@ -151,7 +145,6 @@ BattleCommandPointers: ; 3fd28
 	dw BattleCommand_StatDownAnim ; 34fdb
 	dw BattleCommand_StatUpAnim ; 34fd1
 	dw BattleCommand_SwitchTurn ; 34ffd - 93
-	dw BattleCommand_FakeOut ; 36a82
 	dw BattleCommand_BellyDrum ; 37c1a
 	dw BattleCommand_PsychUp ; 37c55
 	dw BattleCommand_Rage ; 36f1d

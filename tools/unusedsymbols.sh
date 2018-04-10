@@ -37,6 +37,7 @@ EnemyAttackDamage.physical
 EngineFlagAction.check
 Facings.End
 FemalePlayerNameArray
+FlinchTarget
 FlyMap.JohtoFlyMap
 ForcePlayerMonChoice.enemy_fainted_mobile_error
 Function24f19
@@ -123,7 +124,7 @@ rm -f $objs unused_ignore.txt
 sed -ne 's/^\tconst \(BATTLETOWERACTION_[^ ]*\).*/\1/p' constants/battle_tower_constants.asm \
     | while read const; do
     if ! fgrep -rw "$const" maps > /dev/null; then
-        echo "$const" >> unused.txt
+        echo "$const" | tee -a unused.txt
     fi
 done
 
@@ -131,7 +132,7 @@ done
 sed -ne '/^KRIS/,/^NUM_TRAINER_CLASSES/s/^\tconst \(.*\)/\1/p' constants/trainer_constants.asm \
     | while read const; do
     if ! fgrep -rw "$const" maps > /dev/null; then
-        echo "$const" >> unused.txt
+        echo "$const" | tee -a unused.txt
     fi
 done
 
@@ -139,24 +140,40 @@ done
 sed -ne 's/^\tconst \(SPRITE_ANIM_INDEX_[^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
     | while read const; do
     if ! fgrep -rw "$const" engine > /dev/null; then
-        echo "$const" >> unused.txt
+        echo "$const" | tee -a unused.txt
     fi
 done
 sed -ne 's/^\tconst \(SPRITE_ANIM_SEQ_[^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
     | while read const; do
     if ! fgrep -rw "$const" engine data/sprite_anims/sequences.asm > /dev/null; then
-        echo "$const" >> unused.txt
+        echo "$const" | tee -a unused.txt
     fi
 done
 sed -ne 's/^\tconst \(SPRITE_ANIM_FRAMESET_ [^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
     | while read const; do
     if ! fgrep -rw "$const" engine > /dev/null; then
-        echo "$const" >> unused.txt
+        echo "$const" | tee -a unused.txt
     fi
 done
 sed -ne 's/^\tconst \(SPRITE_ANIM_OAMSET[^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
     | while read const; do
     if ! fgrep -rw "$const" data/sprite_anims/framesets.asm > /dev/null; then
-        echo "$const" >> unused.txt
+        echo "$const" | tee -a unused.txt
+    fi
+done
+
+# Check unused move effects and commands
+sed -ne 's/^\tconst \(EFFECT_[^ ]*\).*/\1/p' constants/move_effect_constants.asm \
+    | egrep -v '_(UP|DOWN)(_2|_HIT)?$' \
+    | while read const; do
+    if ! fgrep -rw "$const" data/moves/moves.asm > /dev/null; then
+        echo "$const" | tee -a unused.txt
+    fi
+done
+sed -ne 's/^\tcommand \([^ ]*\).*/\1/p' macros/scripts/battle_commands.asm \
+    | fgrep -xv 'raisesubnoanim' \
+    | while read const; do
+    if ! fgrep -rw "$const" data/moves/effects.asm > /dev/null; then
+        echo "$const" | tee -a unused.txt
     fi
 done

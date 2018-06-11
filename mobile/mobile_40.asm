@@ -4,8 +4,7 @@ _LinkBattleSendReceiveAction: ; 100a09
 	call .StageForSend
 	ld [wd431], a
 	farcall PlaceWaitingText
-	call .LinkBattle_SendReceiveAction
-	ret
+	jp .LinkBattle_SendReceiveAction
 ; 100a2e
 
 .StageForSend: ; 100a2e

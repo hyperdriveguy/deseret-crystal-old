@@ -1,11 +1,11 @@
 ; Syntactic sugar macros
 
 lb: MACRO ; r, hi, lo
-	ld \1, (\2 & $ff) << 8 + (\3 & $ff)
+	ld \1, (((\2) & $ff) << 8) | (((\3) & $ff))
 ENDM
 
 ln: MACRO ; r, hi, lo
-	ld \1, (\2 & $f) << 4 + (\3 & $f)
+	ld \1, (((\2) & $f) << 4) | (((\3) & $f))
 ENDM
 
 ldpixel: MACRO
@@ -36,8 +36,10 @@ jumptable: MACRO
 ENDM
 
 maskbits: MACRO
-; masks just enough bits to cover the argument
+; masks just enough bits to cover the first argument
+; the second argument is an optional shift amount
 ; e.g. "maskbits 26" becomes "and %00011111" (since 26 - 1 = %00011001)
+; and "maskbits 3, 2" becomes "and %00001100" (since "maskbits 3" becomes %00000011)
 ; example usage in rejection sampling:
 ; .loop
 ; 	call Random
@@ -50,7 +52,11 @@ if x + 1 < (\1)
 x = x << 1 | 1
 endc
 endr
+if _NARG == 2
+	and x << (\2)
+else
 	and x
+endc
 ENDM
 
 calc_sine_wave: MACRO

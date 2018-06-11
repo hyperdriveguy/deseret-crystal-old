@@ -115,20 +115,20 @@ GeneratePartyMonStats: ; d906
 	and a
 	jr nz, .randomlygeneratemoves
 	ld de, wEnemyMonMoves
-	rept NUM_MOVES + -1
+rept NUM_MOVES + -1
 	ld a, [de]
 	inc de
 	ld [hli], a
-	endr
+endr
 	ld a, [de]
 	ld [hl], a
 	jr .next
 
 .randomlygeneratemoves
 	xor a
-	rept NUM_MOVES + -1
+rept NUM_MOVES + -1
 	ld [hli], a
-	endr
+endr
 	ld [hl], a
 	ld [wBuffer1], a
 	predef FillMoves
@@ -220,7 +220,7 @@ endr
 	call FillPP
 	pop de
 	pop hl
-rept 4
+rept NUM_MOVES
 	inc de
 endr
 
@@ -1497,29 +1497,29 @@ CalcMonStatC: ; e17b
 	jr z, .Special
 	cp STAT_SDEF
 	jr z, .Special
-; DV_HP = (DV_ATK & 1) << 3 + (DV_DEF & 1) << 2 + (DV_SPD & 1) << 1 + (DV_SPC & 1)
+; DV_HP = (DV_ATK & 1) << 3 | (DV_DEF & 1) << 2 | (DV_SPD & 1) << 1 | (DV_SPC & 1)
 	push bc
 	ld a, [hl]
 	swap a
-	and $1
+	and 1
 	add a
 	add a
 	add a
 	ld b, a
 	ld a, [hli]
-	and $1
+	and 1
 	add a
 	add a
 	add b
 	ld b, a
 	ld a, [hl]
 	swap a
-	and $1
+	and 1
 	add a
 	add b
 	ld b, a
 	ld a, [hl]
-	and $1
+	and 1
 	add b
 	pop bc
 	jr .GotDV

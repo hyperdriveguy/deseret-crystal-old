@@ -1,14 +1,14 @@
 ; Pic animation arrangement.
 
 pokeanim: MACRO
-	rept _NARG
+rept _NARG
 ; Workaround for a bug where macro args can't come after the start of a symbol
 if !DEF(\1_POKEANIM)
 \1_POKEANIM EQUS "PokeAnim_\1_"
 endc
 	db (\1_POKEANIM - PokeAnim_SetupCommands) / 2
 	shift
-	endr
+endr
 	db (PokeAnim_Finish_ - PokeAnim_SetupCommands) / 2
 ENDM
 
@@ -338,11 +338,11 @@ PokeAnim_DoAnimScript: ; d0250
 .RunAnim: ; d0261
 	call PokeAnim_GetPointer
 	ld a, [wPokeAnimCommand]
-	cp -1
+	cp endanim_command
 	jr z, PokeAnim_End
-	cp -2
+	cp setrepeat_command
 	jr z, .SetRepeat
-	cp -3
+	cp dorepeat_command
 	jr z, .DoRepeat
 	call PokeAnim_GetFrame
 	ld a, [wPokeAnimParameter]

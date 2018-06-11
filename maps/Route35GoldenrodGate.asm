@@ -29,7 +29,7 @@ RandyScript:
 	playsound SFX_KEY_ITEM
 	waitsfx
 	givepoke SPEAROW, 10, NO_ITEM, TRUE, GiftSpearowName, GiftSpearowOTName
-	givepokeitem GiftSpearowMail
+	givepokemail GiftSpearowMail
 	setevent EVENT_GOT_KENYA
 .alreadyhavekenya
 	writetext UnknownText_0x69ed6
@@ -63,15 +63,17 @@ RandyScript:
 	end
 
 GiftSpearowMail:
-	db   FLOWER_MAIL
+	db FLOWER_MAIL
 	db   "DARK CAVE leads"
 	next "to another road@"
+
 GiftSpearowName:
 	db "KENYA@"
+
 GiftSpearowOTName:
 	db "RANDY@"
 
-	db 0
+	db 0 ; filler
 
 Route35GoldenrodGatePokefanFScript:
 	faceplayer

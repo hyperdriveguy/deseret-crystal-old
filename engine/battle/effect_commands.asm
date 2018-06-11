@@ -64,7 +64,7 @@ DoMove: ; 3402c
 	inc hl
 	ld [de], a
 	inc de
-	cp -1
+	cp endmove_command
 	jr nz, .GetMoveEffect
 
 ; Start at the first command.
@@ -360,7 +360,7 @@ CantMove: ; 341f0
 	ld a, BATTLE_VARS_SUBSTATUS3
 	call GetBattleVarAddr
 	ld a, [hl]
-	and $ff ^ (1<<SUBSTATUS_BIDE + 1<<SUBSTATUS_RAMPAGE + 1<<SUBSTATUS_CHARGED)
+	and $ff ^ (1 << SUBSTATUS_BIDE | 1 << SUBSTATUS_RAMPAGE | 1 << SUBSTATUS_CHARGED)
 	ld [hl], a
 
 	call ResetFuryCutterCount
@@ -2400,10 +2400,10 @@ GetFailureResultText: ; 350e4
 	ld hl, wCurDamage
 	ld a, [hli]
 	ld b, [hl]
-	rept 3
+rept 3
 	srl a
 	rr b
-	endr
+endr
 	ld [hl], b
 	dec hl
 	ld [hli], a

@@ -1006,8 +1006,6 @@ Sfx_RegisterPhoneNumber_Ch5: ; f0dd3
 	endchannel
 ; f0def
 
-	togglesfx
-
 Sfx_RegisterPhoneNumber_Ch6: ; f0df0
 	togglesfx
 	dutycycle $3
@@ -1031,8 +1029,6 @@ Sfx_RegisterPhoneNumber_Ch6: ; f0df0
 	endchannel
 ; f0e07
 
-	togglesfx
-
 Sfx_RegisterPhoneNumber_Ch7: ; f0e08
 	togglesfx
 	notetype $c, $25
@@ -1053,8 +1049,6 @@ Sfx_RegisterPhoneNumber_Ch7: ; f0e08
 	endchannel
 ; f0e1b
 
-	togglesfx
-
 Sfx_RegisterPhoneNumber_Ch8: ; f0e1c
 	togglesfx
 	sfxtogglenoise $4
@@ -1064,8 +1058,6 @@ Sfx_RegisterPhoneNumber_Ch8: ; f0e1c
 	note __, 16
 	endchannel
 ; f0e25
-
-	togglesfx
 
 Sfx_3RdPlace: ; f0e26
 	musicheader 3, 5, Sfx_3RdPlace_Ch5
@@ -1091,8 +1083,6 @@ Sfx_3RdPlace_Ch5: ; f0e2f
 	endchannel
 ; f0e44
 
-	togglesfx
-
 Sfx_3RdPlace_Ch6: ; f0e45
 	togglesfx
 	dutycycle $2
@@ -1109,8 +1099,6 @@ Sfx_3RdPlace_Ch6: ; f0e45
 	endchannel
 ; f0e55
 
-	togglesfx
-
 Sfx_3RdPlace_Ch7: ; f0e56
 	togglesfx
 	notetype $c, $25
@@ -1126,8 +1114,6 @@ Sfx_3RdPlace_Ch7: ; f0e56
 	note B_, 6
 	endchannel
 ; f0e65
-
-	togglesfx
 
 Sfx_GetEggFromDayCareLady: ; f0e66
 Sfx_GetEggFromDayCareMan: ; f0e66
@@ -1169,8 +1155,6 @@ Sfx_GetEggFromDayCareMan_Ch5: ; f0e72
 	endchannel
 ; f0e9a
 
-	togglesfx
-
 Sfx_GetEggFromDayCareLady_Ch6: ; f0e9b
 Sfx_GetEggFromDayCareMan_Ch6: ; f0e9b
 	togglesfx
@@ -1200,8 +1184,6 @@ Sfx_GetEggFromDayCareMan_Ch6: ; f0e9b
 	endchannel
 ; f0ebd
 
-	togglesfx
-
 Sfx_GetEggFromDayCareLady_Ch7: ; f0ebe
 Sfx_GetEggFromDayCareMan_Ch7: ; f0ebe
 	togglesfx
@@ -1221,8 +1203,6 @@ Sfx_GetEggFromDayCareMan_Ch7: ; f0ebe
 	endchannel
 ; f0ecf
 
-	togglesfx
-
 Sfx_GetEggFromDayCareLady_Ch8: ; f0ed0
 Sfx_GetEggFromDayCareMan_Ch8: ; f0ed0
 	togglesfx
@@ -1234,8 +1214,6 @@ Sfx_GetEggFromDayCareMan_Ch8: ; f0ed0
 	note __, 12
 	endchannel
 ; f0edb
-
-	togglesfx
 
 Sfx_MoveDeleted: ; f0edc
 	musicheader 4, 5, Sfx_MoveDeleted_Ch5
@@ -1273,8 +1251,6 @@ Sfx_MoveDeleted_Ch5: ; f0ee8
 	endchannel
 ; f0f0c
 
-	togglesfx
-
 Sfx_MoveDeleted_Ch6: ; f0f0d
 	togglesfx
 	dutycycle $3
@@ -1310,8 +1286,6 @@ Sfx_MoveDeleted_Ch6: ; f0f0d
 	endchannel
 ; f0f36
 
-	togglesfx
-
 Sfx_MoveDeleted_Ch7: ; f0f37
 	togglesfx
 	notetype $6, $25
@@ -1338,8 +1312,6 @@ Sfx_MoveDeleted_Ch7: ; f0f37
 	endchannel
 ; f0f52
 
-	togglesfx
-
 Sfx_MoveDeleted_Ch8: ; f0f53
 	togglesfx
 	sfxtogglenoise $3
@@ -1350,8 +1322,6 @@ Sfx_MoveDeleted_Ch8: ; f0f53
 	note __, 6
 	endchannel
 ; f0f5d
-
-	togglesfx
 
 Sfx_2ndPlace: ; f0f5e
 	musicheader 4, 5, Sfx_2ndPlace_Ch5
@@ -1393,8 +1363,6 @@ Sfx_2ndPlace_Ch5: ; f0f6a
 	endchannel
 ; f0f91
 
-	togglesfx
-
 Sfx_2ndPlace_Ch6: ; f0f92
 	togglesfx
 	dutycycle $2
@@ -1417,8 +1385,6 @@ Sfx_2ndPlace_Ch6: ; f0f92
 	note __, 6
 	endchannel
 ; f0fac
-
-	togglesfx
 
 Sfx_2ndPlace_Ch7: ; f0fad
 	togglesfx
@@ -1457,8 +1423,6 @@ Sfx_2ndPlace_Ch7: ; f0fad
 	endchannel
 ; f0fd1
 
-	togglesfx
-
 Sfx_2ndPlace_Ch8: ; f0fd2
 	togglesfx
 	sfxtogglenoise $3
@@ -1472,8 +1436,6 @@ Sfx_2ndPlace_Ch8: ; f0fd2
 	note __, 6
 	endchannel
 ; f0fe1
-
-	togglesfx
 
 Sfx_1stPlace: ; f0fe2
 	musicheader 4, 5, Sfx_1stPlace_Ch5
@@ -1522,8 +1484,6 @@ Sfx_1stPlace_Ch5: ; f0fee
 	endchannel
 ; f101f
 
-	togglesfx
-
 Sfx_1stPlace_Ch6: ; f1020
 	togglesfx
 	dutycycle $3
@@ -1546,8 +1506,6 @@ Sfx_1stPlace_Ch6: ; f1020
 	note __, 6
 	endchannel
 ; f103c
-
-	togglesfx
 
 Sfx_1stPlace_Ch7: ; f103d
 	togglesfx
@@ -1572,8 +1530,6 @@ Sfx_1stPlace_Ch7: ; f103d
 	endchannel
 ; f1053
 
-	togglesfx
-
 Sfx_1stPlace_Ch8: ; f1054
 	togglesfx
 	sfxtogglenoise $4
@@ -1593,8 +1549,6 @@ Sfx_1stPlace_Ch8: ; f1054
 	note __, 6
 	endchannel
 ; f1068
-
-	togglesfx
 
 Sfx_ChooseACard: ; f1069
 	musicheader 4, 5, Sfx_ChooseACard_Ch5
@@ -1648,8 +1602,6 @@ Sfx_ChooseACard_Ch5: ; f1075
 	endchannel
 ; f10a8
 
-	togglesfx
-
 Sfx_ChooseACard_Ch6: ; f10a9
 	togglesfx
 	dutycycle $3
@@ -1680,8 +1632,6 @@ Sfx_ChooseACard_Ch6: ; f10a9
 	note __, 12
 	endchannel
 ; f10c8
-
-	togglesfx
 
 Sfx_ChooseACard_Ch7: ; f10c9
 	togglesfx
@@ -1718,8 +1668,6 @@ Sfx_ChooseACard_Ch7: ; f10c9
 	endchannel
 ; f10eb
 
-	togglesfx
-
 Sfx_ChooseACard_Ch8: ; f10ec
 	togglesfx
 	sfxtogglenoise $4
@@ -1743,8 +1691,6 @@ Sfx_ChooseACard_Ch8: ; f10ec
 	note B_, 16
 	endchannel
 ; f1103
-
-	togglesfx
 
 Sfx_GetTm: ; f1104
 	musicheader 4, 5, Sfx_GetTm_Ch5
@@ -1778,8 +1724,6 @@ Sfx_GetTm_Ch5: ; f1110
 	endchannel
 ; f1130
 
-	togglesfx
-
 Sfx_GetTm_Ch6: ; f1131
 	togglesfx
 	dutycycle $3
@@ -1801,8 +1745,6 @@ Sfx_GetTm_Ch6: ; f1131
 	note __, 6
 	endchannel
 ; f114b
-
-	togglesfx
 
 Sfx_GetTm_Ch7: ; f114c
 	togglesfx
@@ -1834,8 +1776,6 @@ Sfx_GetTm_Ch7: ; f114c
 	endchannel
 ; f1169
 
-	togglesfx
-
 Sfx_GetTm_Ch8: ; f116a
 	togglesfx
 	sfxtogglenoise $4
@@ -1854,8 +1794,6 @@ Sfx_GetTm_Ch8: ; f116a
 	note __, 6
 	endchannel
 ; f117c
-
-	togglesfx
 
 Sfx_GetBadge: ; f117d
 	musicheader 4, 5, Sfx_GetBadge_Ch5
@@ -1883,8 +1821,6 @@ Sfx_GetBadge_Ch5: ; f1189
 	note __, 6
 	endchannel
 ; f11a9
-
-	togglesfx
 
 Sfx_GetBadge_branch_f11aa: ; f11aa
 	note __, 5
@@ -1957,8 +1893,6 @@ Sfx_GetBadge_Ch6: ; f11be
 	endchannel
 ; f11f4
 
-	togglesfx
-
 Sfx_GetBadge_Ch7: ; f11f5
 	togglesfx
 	notetype $6, $25
@@ -1997,8 +1931,6 @@ Sfx_GetBadge_Ch7: ; f11f5
 	endchannel
 ; f121a
 
-	togglesfx
-
 Sfx_GetBadge_Ch8: ; f121b
 	togglesfx
 	sfxtogglenoise $4
@@ -2023,8 +1955,6 @@ Sfx_GetBadge_Ch8: ; f121b
 	note __, 6
 	endchannel
 ; f1235
-
-	togglesfx
 
 Sfx_QuitSlots: ; f1236
 	musicheader 4, 5, Sfx_QuitSlots_Ch5
@@ -2064,8 +1994,6 @@ Sfx_QuitSlots_Ch5: ; f1242
 	endchannel
 ; f1265
 
-	togglesfx
-
 Sfx_QuitSlots_Ch6: ; f1266
 	togglesfx
 	dutycycle $2
@@ -2091,8 +2019,6 @@ Sfx_QuitSlots_Ch6: ; f1266
 	note __, 6
 	endchannel
 ; f1282
-
-	togglesfx
 
 Sfx_QuitSlots_Ch7: ; f1283
 	togglesfx
@@ -2124,8 +2050,6 @@ Sfx_QuitSlots_Ch7: ; f1283
 	endchannel
 ; f12a0
 
-	togglesfx
-
 Sfx_QuitSlots_Ch8: ; f12a1
 	togglesfx
 	sfxtogglenoise $3
@@ -2144,8 +2068,6 @@ Sfx_QuitSlots_Ch8: ; f12a1
 	note __, 6
 	endchannel
 ; f12b3
-
-	togglesfx
 
 Sfx_Protect: ; f12b4
 	musicheader 2, 5, Sfx_Protect_Ch5
@@ -3094,8 +3016,6 @@ Sfx_DexFanfareLessThan20_Ch5: ; f1884
 	endchannel
 ; f189a
 
-	togglesfx
-
 Sfx_DexFanfareLessThan20_Ch6: ; f189b
 	togglesfx
 	notetype $8, $c1
@@ -3113,8 +3033,6 @@ Sfx_DexFanfareLessThan20_Ch6: ; f189b
 	note F#, 6
 	endchannel
 ; f18ac
-
-	togglesfx
 
 Sfx_DexFanfareLessThan20_Ch7: ; f18ad
 	togglesfx
@@ -3143,8 +3061,6 @@ Sfx_DexFanfareLessThan20_Ch7: ; f18ad
 	endchannel
 ; f18c7
 
-	togglesfx
-
 Sfx_DexFanfareLessThan20_Ch8: ; f18c8
 	togglesfx
 	sfxtogglenoise $4
@@ -3154,8 +3070,6 @@ Sfx_DexFanfareLessThan20_Ch8: ; f18c8
 	note __, 12
 	endchannel
 ; f18d1
-
-	togglesfx
 
 Sfx_DexFanfare140169: ; f18d2
 	musicheader 4, 5, Sfx_DexFanfare140169_Ch5
@@ -3192,8 +3106,6 @@ Sfx_DexFanfare140169_Ch5: ; f18de
 	endchannel
 ; f1900
 
-	togglesfx
-
 Sfx_DexFanfare140169_Ch6: ; f1901
 	togglesfx
 	dutycycle $2
@@ -3218,8 +3130,6 @@ Sfx_DexFanfare140169_Ch6: ; f1901
 	note __, 8
 	endchannel
 ; f191d
-
-	togglesfx
 
 Sfx_DexFanfare140169_Ch7: ; f191e
 	togglesfx
@@ -3254,8 +3164,6 @@ Sfx_DexFanfare140169_Ch7: ; f191e
 	endchannel
 ; f193e
 
-	togglesfx
-
 Sfx_DexFanfare140169_Ch8: ; f193f
 	togglesfx
 	sfxtogglenoise $4
@@ -3271,8 +3179,6 @@ Sfx_DexFanfare140169_Ch8: ; f193f
 	note D_, 8
 	endchannel
 ; f1950
-
-	togglesfx
 
 Sfx_DexFanfare170199: ; f1951
 	musicheader 4, 5, Sfx_DexFanfare170199_Ch5
@@ -3309,8 +3215,6 @@ Sfx_DexFanfare170199_Ch5: ; f195d
 	endchannel
 ; f1981
 
-	togglesfx
-
 Sfx_DexFanfare170199_Ch6: ; f1982
 	togglesfx
 	vibrato $12, $34
@@ -3338,8 +3242,6 @@ Sfx_DexFanfare170199_Ch6: ; f1982
 	endchannel
 ; f19a2
 
-	togglesfx
-
 Sfx_DexFanfare170199_Ch7: ; f19a3
 	togglesfx
 	notetype $8, $25
@@ -3366,8 +3268,6 @@ Sfx_DexFanfare170199_Ch7: ; f19a3
 	note __, 4
 	endchannel
 ; f19bf
-
-	togglesfx
 
 Sfx_DexFanfare170199_Ch8: ; f19c0
 	togglesfx
@@ -3425,8 +3325,6 @@ Sfx_DexFanfare200229_Ch5: ; f19e2
 	endchannel
 ; f1a03
 
-	togglesfx
-
 Sfx_DexFanfare200229_Ch6: ; f1a04
 	togglesfx
 	vibrato $12, $34
@@ -3448,8 +3346,6 @@ Sfx_DexFanfare200229_Ch6: ; f1a04
 	note __, 4
 	endchannel
 ; f1a1e
-
-	togglesfx
 
 Sfx_DexFanfare200229_Ch7: ; f1a1f
 	togglesfx
@@ -3494,8 +3390,6 @@ Sfx_DexFanfare200229_Ch7: ; f1a1f
 	endchannel
 ; f1a49
 
-	togglesfx
-
 Sfx_DexFanfare200229_Ch8: ; f1a4a
 	togglesfx
 	sfxtogglenoise $4
@@ -3523,8 +3417,6 @@ Sfx_DexFanfare200229_Ch8: ; f1a4a
 	note B_, 12
 	endchannel
 ; f1a65
-
-	togglesfx
 
 Sfx_DexFanfare230Plus: ; f1a66
 	musicheader 4, 5, Sfx_DexFanfare230Plus_Ch5
@@ -3580,8 +3472,6 @@ Sfx_DexFanfare230Plus_Ch5: ; f1a72
 	endchannel
 ; f1ab1
 
-	togglesfx
-
 Sfx_DexFanfare230Plus_Ch6: ; f1ab2
 	togglesfx
 	vibrato $12, $34
@@ -3615,8 +3505,6 @@ Sfx_DexFanfare230Plus_Ch6: ; f1ab2
 	note __, 2
 	endchannel
 ; f1ad9
-
-	togglesfx
 
 Sfx_DexFanfare230Plus_Ch7: ; f1ada
 	togglesfx
@@ -3666,8 +3554,6 @@ Sfx_DexFanfare230Plus_Ch7: ; f1ada
 	endchannel
 ; f1b0b
 
-	togglesfx
-
 Sfx_DexFanfare230Plus_Ch8: ; f1b0c
 	togglesfx
 	sfxtogglenoise $4
@@ -3702,8 +3588,6 @@ Sfx_DexFanfare230Plus_Ch8: ; f1b0c
 	note D_, 6
 	endchannel
 ; f1b32
-
-	togglesfx
 
 Sfx_NotVeryEffective: ; f1b33
 	musicheader 1, 8, Sfx_NotVeryEffective_Ch8

@@ -7,7 +7,7 @@ ItemDescriptions:
 	dw PokeBallDesc
 	dw TeruSamaDesc
 	dw BicycleDesc
-	dw MoonStoneDesc
+	dw EvoStoneDesc
 	dw AntidoteDesc
 	dw BurnHealDesc
 	dw IceHealDesc
@@ -21,9 +21,9 @@ ItemDescriptions:
 	dw EscapeRopeDesc
 	dw RepelDesc
 	dw MaxElixerDesc
-	dw FireStoneDesc
-	dw ThunderStoneDesc
-	dw WaterStoneDesc
+	dw EvoStoneDesc
+	dw EvoStoneDesc
+	dw EvoStoneDesc
 	dw TeruSamaDesc
 	dw HPUpDesc
 	dw ProteinDesc
@@ -33,7 +33,7 @@ ItemDescriptions:
 	dw CalciumDesc
 	dw RareCandyDesc
 	dw XAccuracyDesc
-	dw LeafStoneDesc
+	dw EvoStoneDesc
 	dw MetalPowderDesc
 	dw NuggetDesc
 	dw PokeDollDesc
@@ -168,7 +168,7 @@ ItemDescriptions:
 	dw LoveBallDesc
 	dw NormalBoxDesc
 	dw GorgeousBoxDesc
-	dw SunStoneDesc
+	dw EvoStoneDesc
 	dw PolkadotBowDesc
 	dw TeruSamaDesc
 	dw UpGradeDesc
@@ -280,7 +280,7 @@ BicycleDesc:
 	db   "A collapsible bike"
 	next "for fast movement.@"
 
-MoonStoneDesc:
+EvoStoneDesc:
 	db   "Evolves certain"
 	next "kinds of #MON.@"
 
@@ -336,18 +336,6 @@ MaxElixerDesc:
 	db   "Fully restores the"
 	next "PP of one #MON.@"
 
-FireStoneDesc:
-	db   "Evolves certain"
-	next "kinds of #MON.@"
-
-ThunderStoneDesc:
-	db   "Evolves certain"
-	next "kinds of #MON.@"
-
-WaterStoneDesc:
-	db   "Evolves certain"
-	next "kinds of #MON.@"
-
 HPUpDesc:
 	db   "Raises the HP of"
 	next "one #MON.@"
@@ -379,10 +367,6 @@ RareCandyDesc:
 XAccuracyDesc:
 	db   "Raises accuracy."
 	next "(1 BTL)@"
-
-LeafStoneDesc:
-	db   "Evolves certain"
-	next "kinds of #MON.@"
 
 MetalPowderDesc:
 	db   "Raises DEFENSE of"
@@ -837,10 +821,6 @@ NormalBoxDesc:
 GorgeousBoxDesc:
 	db   "Open it and see"
 	next "what's inside.@"
-
-SunStoneDesc:
-	db   "Evolves certain"
-	next "kinds of #MON.@"
 
 PolkadotBowDesc:
 	db   "Powers up normal-"

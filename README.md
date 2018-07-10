@@ -19,6 +19,7 @@ Every single labelled but unused code and data has been removed.
 Unused maps have been removed.  
 Unused sprite animations have been removed.  
 Unused trainers have been removed.  
+Remnants of support for non-GBC consoles have been removed.  
 Probably more.
 
 There's a few exceptions to some of the rules:

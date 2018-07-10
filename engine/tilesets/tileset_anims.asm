@@ -565,12 +565,7 @@ AnimateFlowerTile: ; fc56d
 ; Alternate tile graphic every other frame
 	ld a, [wTileAnimationTimer]
 	and %10
-	ld e, a
-
-; CGB has different color mappings for flowers.
-	ld a, 1
-
-	add e
+	rrca
 	swap a
 	ld e, a
 	ld d, 0
@@ -584,9 +579,7 @@ AnimateFlowerTile: ; fc56d
 ; fc58c
 
 FlowerTileFrames: ; fc58c
-	INCBIN "gfx/tilesets/flower/dmg_1.2bpp"
 	INCBIN "gfx/tilesets/flower/cgb_1.2bpp"
-	INCBIN "gfx/tilesets/flower/dmg_2.2bpp"
 	INCBIN "gfx/tilesets/flower/cgb_2.2bpp"
 ; fc5cc
 

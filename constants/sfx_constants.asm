@@ -34,7 +34,6 @@
 	const SFX_EXIT_BUILDING               ; 23
 	const SFX_BUMP                        ; 24
 	const SFX_SAVE                        ; 25
-	const SFX_POKEFLUTE                   ; 26
 	const SFX_ELEVATOR_END                ; 27
 	const SFX_THROW_BALL                  ; 28
 	const SFX_BALL_POOF                   ; 29

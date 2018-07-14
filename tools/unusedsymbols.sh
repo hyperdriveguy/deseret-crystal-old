@@ -100,6 +100,10 @@ find unused.txt -empty -delete
 # Clean it up so a regular make won't mess up for the user
 rm -f $objs unused_ignore.txt
 
+##### Additional utilities to check for more unused things that a simple grep can't.
+python3 -u tools/unuseditemeffects.py | tee -a unused.txt
+find unused.txt -empty -delete
+
 ##### This is the end of regular unused symbol checking.
 ##### From here on out it's grep-based hacks for constants.
 

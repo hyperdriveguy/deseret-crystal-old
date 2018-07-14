@@ -145,10 +145,6 @@ Sfx_Save_Ch6: ; f09d5
 	endchannel
 ; f09f8
 
-Sfx_Pokeflute: ; f09f8
-	musicheader 1, 7, Sfx_Pokeflute_Ch7
-; f09fb
-
 Sfx_ElevatorEnd: ; f09fb
 	musicheader 1, 5, Sfx_ElevatorEnd_Ch5
 ; f09fe
@@ -3720,32 +3716,6 @@ Sfx_Menu_Ch8: ; f1cd3
 	noise __,  9, $e1, $22
 	endchannel
 ; f1cda
-
-Sfx_Pokeflute_Ch7: ; f1cda
-	tempo 256
-	volume $77
-	togglesfx
-	vibrato $10, $14
-	notetype $c, $10
-	octave 5
-	note E_, 2
-	note F_, 2
-	note G_, 4
-	note A_, 2
-	note G_, 2
-	octave 6
-	note C_, 4
-	note C_, 2
-	note D_, 2
-	note C_, 2
-	octave 5
-	note G_, 2
-	note A_, 2
-	note F_, 2
-	note G_, 8
-	note __, 12
-	endchannel
-; f1cf8
 
 Sfx_PlacePuzzlePieceDown_Ch8: ; f1cf8
 	noise __,  3, $f7, $24

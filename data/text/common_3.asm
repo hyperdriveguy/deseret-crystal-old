@@ -928,25 +928,6 @@ Text_RepelUsedEarlierIsStillInEffect::
 	cont "in effect."
 	prompt
 
-UnknownText_0x1c5bf9::
-	text "Played the #"
-	line "FLUTE."
-
-	para "Now, that's a"
-	line "catchy tune!"
-	prompt
-
-UnknownText_0x1c5c28::
-	text "All sleeping"
-	line "#MON woke up."
-	prompt
-
-UnknownText_0x1c5c44::
-	text "<PLAYER> played the"
-	line "# FLUTE.@"
-	text_waitbutton
-	db "@@"
-
 UnknownText_0x1c5c5e::
 	text "You now have"
 	line "@"

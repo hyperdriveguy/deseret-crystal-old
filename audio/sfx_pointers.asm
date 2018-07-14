@@ -34,7 +34,6 @@ SFX: ; e927c
 	dba Sfx_ExitBuilding
 	dba Sfx_Bump
 	dba Sfx_Save
-	dba Sfx_Pokeflute
 	dba Sfx_ElevatorEnd
 	dba Sfx_ThrowBall
 	dba Sfx_BallPoof

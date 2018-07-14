@@ -667,13 +667,6 @@ FarString:: ; 13d4
 	ret
 ; 13e0
 
-PokeFluteTerminatorCharacter:: ; 13e0
-	ld hl, .stop
-	ret
-
-.stop: db "@"
-; 13e5
-
 
 PlaceHLTextAtBC:: ; 13e5
 	ld a, [wTextBoxFlags]

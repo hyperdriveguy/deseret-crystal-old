@@ -19,7 +19,6 @@ Sfx_Menu: ; f094d
 ; f0950
 
 Sfx_ReadText2: ; f0950
-Sfx_ReadText: ; f0950
 	musicheader 1, 5, Sfx_ReadText2_Ch5
 ; f0953
 
@@ -47,10 +46,6 @@ Sfx_EscapeRope: ; f0962
 	musicheader 1, 5, Sfx_EscapeRope_Ch5
 ; f0965
 
-Sfx_PushButton: ; f0965
-	musicheader 1, 5, Sfx_PushButton_Ch5
-; f0968
-
 Sfx_SecondPartOfItemfinder: ; f0968
 	musicheader 1, 5, Sfx_SecondPartOfItemfinder_Ch5
 ; f096b
@@ -71,10 +66,6 @@ Sfx_JumpOverLedge: ; f0974
 	musicheader 1, 5, Sfx_JumpOverLedge_Ch5
 ; f0977
 
-Sfx_GrassRustle: ; f0977
-	musicheader 1, 8, Sfx_GrassRustle_Ch8
-; f097a
-
 Sfx_Fly: ; f097a
 	musicheader 1, 8, Sfx_Fly_Ch8
 ; f097d
@@ -84,10 +75,6 @@ Sfx_Wrong: ; f097d
 	musicheader 1, 6, Sfx_Wrong_Ch6
 ; f0983
 
-Sfx_Squeak: ; f0983
-	musicheader 1, 5, Sfx_Squeak_Ch5
-; f0986
-
 Sfx_Strength: ; f0986
 	musicheader 1, 8, Sfx_Strength_Ch8
 ; f0989
@@ -96,10 +83,6 @@ Sfx_Boat: ; f0989
 	musicheader 2, 5, Sfx_Boat_Ch5
 	musicheader 1, 6, Sfx_Boat_Ch6
 ; f098f
-
-Sfx_WallOpen: ; f098f
-	musicheader 1, 5, Sfx_WallOpen_Ch5
-; f0992
 
 Sfx_PlacePuzzlePieceDown: ; f0992
 	musicheader 1, 8, Sfx_PlacePuzzlePieceDown_Ch8
@@ -198,21 +181,9 @@ Sfx_Call: ; f0a19
 	musicheader 1, 5, Sfx_Call_Ch5
 ; f0a1c
 
-Sfx_Unknown60: ; f0a1c
-	musicheader 1, 8, Sfx_Unknown60_Ch8
-; f0a1f
-
-Sfx_Unknown61: ; f0a1f
-	musicheader 1, 8, Sfx_Unknown61_Ch8
-; f0a22
-
 Sfx_SwitchPockets: ; f0a22
 	musicheader 1, 8, Sfx_SwitchPockets_Ch8
 ; f0a25
-
-Sfx_Unknown63: ; f0a25
-	musicheader 1, 8, Sfx_Unknown63_Ch8
-; f0a28
 
 Sfx_Burn: ; f0a28
 	musicheader 1, 8, Sfx_Burn_Ch8
@@ -221,10 +192,6 @@ Sfx_Burn: ; f0a28
 Sfx_TitleScreenEntrance: ; f0a2b
 	musicheader 1, 8, Sfx_TitleScreenEntrance_Ch8
 ; f0a2e
-
-Sfx_Unknown66: ; f0a2e
-	musicheader 1, 5, Sfx_Unknown66_Ch5
-; f0a31
 
 Sfx_GetCoinFromSlots: ; f0a31
 	musicheader 1, 5, Sfx_GetCoinFromSlots_Ch5
@@ -463,9 +430,6 @@ Sfx_Shine: ; f0b21
 	musicheader 1, 5, Sfx_Shine_Ch5
 ; f0b24
 
-Sfx_Unknown5F: ; f0b24
-	musicheader 3, 5, Sfx_Unknown5F_Ch5
-	musicheader 1, 6, Sfx_Unknown5F_Ch6
 Sfx_Sandstorm: ; f0b2a
 	musicheader 1, 8, Sfx_Sandstorm_Ch8
 ; f0b2d
@@ -486,7 +450,6 @@ Sfx_Elevator: ; f0b33
 ; f0b3f
 
 Sfx_DexFanfare5079: ; f0b3f
-Sfx_LevelUp: ; f0b3f
 	musicheader 4, 5, Sfx_DexFanfare5079_Ch5
 	musicheader 1, 6, Sfx_DexFanfare5079_Ch6
 	musicheader 1, 7, Sfx_DexFanfare5079_Ch7
@@ -494,7 +457,6 @@ Sfx_LevelUp: ; f0b3f
 ; f0b4b
 
 Sfx_DexFanfare5079_Ch5: ; f0b4b
-Sfx_LevelUp_Ch5: ; f0b4b
 	togglesfx
 	tempo 120
 	volume $77
@@ -511,7 +473,6 @@ Sfx_LevelUp_Ch5: ; f0b4b
 ; f0b5f
 
 Sfx_DexFanfare5079_Ch6: ; f0b5f
-Sfx_LevelUp_Ch6: ; f0b5f
 	togglesfx
 	dutycycle $2
 	notetype $8, $c1
@@ -525,7 +486,6 @@ Sfx_LevelUp_Ch6: ; f0b5f
 ; f0b6d
 
 Sfx_DexFanfare5079_Ch7: ; f0b6d
-Sfx_LevelUp_Ch7: ; f0b6d
 	togglesfx
 	notetype $8, $25
 	octave 4
@@ -544,7 +504,6 @@ Sfx_LevelUp_Ch7: ; f0b6d
 ; f0b7f
 
 Sfx_DexFanfare5079_Ch8: ; f0b7f
-Sfx_LevelUp_Ch8: ; f0b7f
 	togglesfx
 	sfxtogglenoise $4
 	notetype $c
@@ -962,12 +921,6 @@ Sfx_DexFanfare80109_Ch8: ; f0d4e
 	endchannel
 ; f0d56
 
-Sfx_Fanfare2: ; f0d56
-	musicheader 3, 5, Sfx_Fanfare2_Ch5
-	musicheader 1, 6, Sfx_Fanfare2_Ch6
-	musicheader 1, 8, Sfx_Fanfare2_Ch8
-; f0d5f
-
 Sfx_Fanfare: ; f0dbe
 	musicheader 3, 5, Sfx_Fanfare_Ch5
 	musicheader 1, 6, Sfx_Fanfare_Ch6
@@ -1116,7 +1069,6 @@ Sfx_3RdPlace_Ch7: ; f0e56
 ; f0e65
 
 Sfx_GetEggFromDayCareLady: ; f0e66
-Sfx_GetEggFromDayCareMan: ; f0e66
 	musicheader 4, 5, Sfx_GetEggFromDayCareLady_Ch5
 	musicheader 1, 6, Sfx_GetEggFromDayCareLady_Ch6
 	musicheader 1, 7, Sfx_GetEggFromDayCareLady_Ch7
@@ -1124,7 +1076,6 @@ Sfx_GetEggFromDayCareMan: ; f0e66
 ; f0e72
 
 Sfx_GetEggFromDayCareLady_Ch5: ; f0e72
-Sfx_GetEggFromDayCareMan_Ch5: ; f0e72
 	togglesfx
 	tempo 120
 	volume $77
@@ -1156,7 +1107,6 @@ Sfx_GetEggFromDayCareMan_Ch5: ; f0e72
 ; f0e9a
 
 Sfx_GetEggFromDayCareLady_Ch6: ; f0e9b
-Sfx_GetEggFromDayCareMan_Ch6: ; f0e9b
 	togglesfx
 	vibrato $12, $34
 	dutycycle $3
@@ -1185,7 +1135,6 @@ Sfx_GetEggFromDayCareMan_Ch6: ; f0e9b
 ; f0ebd
 
 Sfx_GetEggFromDayCareLady_Ch7: ; f0ebe
-Sfx_GetEggFromDayCareMan_Ch7: ; f0ebe
 	togglesfx
 	notetype $8, $25
 	note __, 2
@@ -1204,7 +1153,6 @@ Sfx_GetEggFromDayCareMan_Ch7: ; f0ebe
 ; f0ecf
 
 Sfx_GetEggFromDayCareLady_Ch8: ; f0ed0
-Sfx_GetEggFromDayCareMan_Ch8: ; f0ed0
 	togglesfx
 	sfxtogglenoise $4
 	notetype $8
@@ -2913,41 +2861,6 @@ Sfx_EggHatch_Ch5: ; f17c3
 	endchannel
 ; f17d9
 
-Sfx_GsIntroCharizardFireball: ; f17d9
-	musicheader 1, 8, Sfx_GsIntroCharizardFireball_Ch8
-; f17dc
-
-Sfx_GsIntroCharizardFireball_Ch8: ; f17dc
-	noise __,  9, $cf, $4d
-	noise __,  9, $f1, $37
-.loop
-	noise __,  2, $f8, $4f
-	noise __,  1, $c8, $26
-	noise __,  2, $d8, $5f
-	noise __,  1, $a8, $37
-	loopchannel 12, .loop
-	noise __,  4, $f8, $6f
-	noise __,  5, $d8, $5f
-	noise __, 13, $d8, $5c
-	noise C#,  9, $d3, $4f
-	endchannel
-; f17ff
-
-Sfx_GsIntroPokemonAppears: ; f17ff
-	musicheader 1, 8, Sfx_GsIntroPokemonAppears_Ch8
-; f1802
-
-Sfx_GsIntroPokemonAppears_Ch8: ; f1802
-	noise __,  2, $88, $4f
-	noise __,  3, $8f, $2
-	noise __,  3, $5f, $12
-	noise __,  3, $3f, $22
-	noise __,  1, $f8, $27
-	noise __,  2, $f8, $4f
-	noise __,  9, $f1, $0
-	endchannel
-; f1818
-
 Sfx_Flash: ; f1818
 	musicheader 1, 5, Sfx_Flash_Ch5
 ; f181b
@@ -3928,7 +3841,6 @@ Sfx_ExitBuilding_Ch8: ; f1d7a
 ; f1d8a
 
 Sfx_ReadText2_Ch5: ; f1d8a
-Sfx_ReadText_Ch5: ; f1d8a
 	dutycycle $2
 	sound __,  1, $91, $07c0
 	sound __,  1, $81, $07d0
@@ -4021,16 +3933,6 @@ Sfx_EscapeRope_Ch5: ; f1e34
 	endchannel
 ; f1e4f
 
-Sfx_PushButton_Ch5: ; f1e4f
-	dutycycle $2
-	sound __,  5, $0, 0
-	sound __,  3, $f1, $0680
-	sound __,  2, $0, 0
-	sound __,  5, $f1, $0780
-	sound __,  5, $0, 0
-	endchannel
-; f1e66
-
 Sfx_SecondPartOfItemfinder_Ch5: ; f1e66
 	dutycycle $2
 	soundinput $2c
@@ -4082,14 +3984,6 @@ Sfx_JumpOverLedge_Ch5: ; f1ebc
 	endchannel
 ; f1ec7
 
-Sfx_GrassRustle_Ch8: ; f1ec7
-	noise __,  3, $f1, $32
-	noise __,  3, $0, $0
-	noise __,  3, $f1, $22
-	noise __,  2, $0, $0
-	endchannel
-; f1ed4
-
 Sfx_Fly_Ch8: ; f1ed4
 	noise __,  3, $f1, $12
 	noise __,  3, $0, $0
@@ -4130,14 +4024,6 @@ Sfx_Wrong_Ch6: ; f1f1c
 	endchannel
 ; f1f2f
 
-Sfx_Squeak_Ch5: ; f1f2f
-	dutycycle $0
-	soundinput $17
-	sound __, 16, $d2, $0700
-	soundinput $8
-	endchannel
-; f1f3a
-
 Sfx_Strength_Ch8: ; f1f3a
 	noise __,  5, $a2, $23
 	noise __,  9, $f1, $34
@@ -4173,20 +4059,6 @@ Sfx_Boat_Ch6: ; f1f72
 	sound __, 16, $f2, $0482
 	endchannel
 ; f1f91
-
-Sfx_WallOpen_Ch5: ; f1f91
-	dutycycle $1
-	soundinput $3a
-	sound __,  5, $f2, $0500
-	soundinput $22
-	sound __,  5, $e2, $0500
-	soundinput $3a
-	sound __,  5, $f2, $0700
-	soundinput $22
-	sound __, 16, $e2, $0700
-	soundinput $8
-	endchannel
-; f1fae
 
 Sfx_ElevatorEnd_Ch5: ; f1fae
 	dutycycle $2
@@ -4967,18 +4839,6 @@ Sfx_HyperBeam_Ch8: ; f2548
 	endchannel
 ; f2553
 
-Sfx_Unknown60_Ch8: ; f2553
-	noise __,  7, $20, $10
-	noise __,  7, $2f, $40
-	noise __,  7, $4f, $41
-	noise __,  7, $8f, $41
-	noise __,  7, $cf, $42
-	noise __,  9, $d7, $42
-	noise __, 16, $e7, $43
-	noise __, 16, $f2, $43
-	endchannel
-; f256c
-
 Sfx_UnknownCB_Ch8: ; f256c
 	noise __,  2, $10, $10
 	noise __,  3, $20, $10
@@ -4992,22 +4852,10 @@ Sfx_UnknownCB_Ch8: ; f256c
 	endchannel
 ; f2588
 
-Sfx_Unknown61_Ch8: ; f2588
-	noise __,  5, $d1, $41
-	endchannel
-; f258c
-
 Sfx_SwitchPockets_Ch8: ; f258c
 	noise __,  5, $c1, $42
 	endchannel
 ; f2590
-
-Sfx_Unknown63_Ch8: ; f2590
-	noise __,  3, $6f, $21
-	noise __,  3, $af, $31
-	noise __, 16, $f2, $41
-	endchannel
-; f259a
 
 Sfx_Burn_Ch8: ; f259a
 	noise __,  3, $d2, $32
@@ -5024,14 +4872,6 @@ Sfx_TitleScreenEntrance_Ch8: ; f25a1
 	noise __, 16, $c2, $26
 	endchannel
 ; f25b4
-
-Sfx_Unknown66_Ch5: ; f25b4
-	dutycycle $2
-	sound __,  2, $f2, $06a0
-	sound __,  2, $f2, $06e0
-	sound __,  9, $f1, $0700
-	endchannel
-; f25c3
 
 Sfx_GetCoinFromSlots_Ch5: ; f25c3
 	dutycycle $2
@@ -5071,89 +4911,6 @@ Sfx_Metronome_Ch5: ; f25ec
 	soundinput $8
 	endchannel
 ; f2617
-
-Sfx_Unknown5F_Ch5: ; f2617
-	sound __,  3, $f7, $0601
-	sound __,  3, $f7, $0701
-	loopchannel 8, Sfx_Unknown5F_Ch5
-	endchannel
-; f2624
-
-Sfx_Unknown5F_Ch6: ; f2624
-	sound __,  2, $f7, $ffff
-	sound __,  3, $f7, $0602
-	sound __,  3, $f7, $0702
-	loopchannel 8, Sfx_Unknown5F_Ch5
-	endchannel
-; f2635
-
-Sfx_Fanfare2_Ch5: ; f2635
-	togglesfx
-	sfxpriorityon
-	tempo 256
-	volume $77
-	tone $0001
-	dutycycle $3
-	notetype $6, $b5
-	octave 3
-	note G#, 4
-	notetype $4, $b2
-	note F_, 2
-	note G#, 2
-	note A_, 2
-	note A#, 2
-	note F#, 2
-	note A#, 2
-	octave 4
-	note C_, 4
-	note C_, 2
-	notetype $4, $b6
-	note C#, 12
-	sfxpriorityoff
-	endchannel
-; f2658
-
-Sfx_Fanfare2_Ch6: ; f2658
-	togglesfx
-	dutycycle $2
-	notetype $6, $c5
-	octave 4
-	note C#, 6
-	notetype $4, $c1
-	note C#, 1
-	note C#, 1
-	note C#, 1
-	notetype $4, $c2
-	note D#, 2
-	note C#, 2
-	note D#, 2
-	note E_, 4
-	note E_, 2
-	notetype $4, $c6
-	note F_, 12
-	endchannel
-; f2673
-
-Sfx_Fanfare2_Ch8: ; f2673
-	togglesfx
-	notetype $6
-	note C_, 1
-	octave 5
-	note C#, 2
-	note __, 2
-	note C#, 2
-	note __, 2
-	notetype $4
-	note C_, 1
-	note C#, 2
-	note __, 2
-	note C#, 2
-	note D#, 2
-	note __, 2
-	note F_, 2
-	note G#, 6
-	endchannel
-; f2687
 
 Sfx_Fanfare_Ch5: ; f2687
 	togglesfx
@@ -5263,7 +5020,6 @@ Sfx_NoSignal_Ch5: ; f26ff
 ; f270e
 
 Sfx_Sandstorm_Ch8: ; f270e
-Sfx_Unknown5F_Ch8: ; f270e
 	noise __,  2, $f8, $41
 	noise __,  3, $9c, $24
 	noise __,  1, $0, $0
@@ -5323,20 +5079,3 @@ Sfx_GlassTing_Ch5: ; f276c
 	sound C#,  1, $d1, $07dc
 	endchannel
 ; f2773
-
-Sfx_GlassTing2: ; f2773
-	musicheader 2, 5, Sfx_GlassTing2_Ch5
-	musicheader 1, 6, Sfx_GlassTing2_Ch6
-; f2779
-
-Sfx_GlassTing2_Ch5: ; f2779
-	dutycycle $2
-	sound C_,  1, $f1, $07dc
-	endchannel
-; f2780
-
-Sfx_GlassTing2_Ch6: ; f2780
-	dutycycle $2
-	sound C_,  1, $d1, $07dd
-	endchannel
-; f2787

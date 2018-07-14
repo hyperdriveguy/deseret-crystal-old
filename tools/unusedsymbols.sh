@@ -24,11 +24,6 @@ CheckPlayerMoveTypeMatchups.not_very_effective
 CheckPlayerTurn
 CheckShininess.Shiny
 Coord2Attr
-Cry_Teddiursa_branch_f3286
-Cry_Teddiursa_branch_f328e
-Cry_Teddiursa_branch_f3296
-Cry_Teddiursa_branch_f32a2
-Cry_Teddiursa_branch_f32ae
 Decompress.Literal
 Decompress.long
 Decompress.negative
@@ -69,18 +64,6 @@ PrintBCDNumber.numberEqualsZero
 RadioChannels.kanto
 RestorePPEffect.pp_is_maxed_out
 SetSeenMon
-Sfx_GetEggFromDayCareMan_Ch5
-Sfx_GetEggFromDayCareMan_Ch6
-Sfx_GetEggFromDayCareMan_Ch7
-Sfx_GetEggFromDayCareMan_Ch8
-Sfx_LevelUp_Ch5
-Sfx_LevelUp_Ch6
-Sfx_LevelUp_Ch7
-Sfx_LevelUp_Ch8
-Sfx_NoSignal_branch_f26ff
-Sfx_ReadText_Ch5
-Sfx_Unknown5F_Ch8
-Sfx_Unknown5F_branch_f270e
 SmallFarFlagAction.reset
 SwitchSpeed
 TileAnimationPalette.color1
@@ -136,6 +119,22 @@ sed -ne '/^KRIS/,/^NUM_TRAINER_CLASSES/s/^\tconst \(.*\)/\1/p' constants/trainer
     fi
 done
 
+# Check unused SFX
+sed -ne 's/^\tconst \(SFX_[^ ]*\).*/\1/p' constants/sfx_constants.asm \
+	| while read const; do
+	if ! fgrep -rw "$const" home engine data maps > /dev/null; then
+		echo "$const" | tee -a unused.txt
+	fi
+done
+
+# Check unused Songs
+sed -ne 's/^\tconst \(MUSIC_[^ ]*\).*/\1/p' constants/music_constants.asm \
+	| while read const; do
+	if ! fgrep -rw "$const" home engine data maps > /dev/null; then
+		echo "$const" | tee -a unused.txt
+	fi
+done
+
 # Sprite animation related things
 sed -ne 's/^\tconst \(SPRITE_ANIM_INDEX_[^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
     | while read const; do
@@ -149,13 +148,15 @@ sed -ne 's/^\tconst \(SPRITE_ANIM_SEQ_[^ ]*\).*/\1/p' constants/sprite_anim_cons
         echo "$const" | tee -a unused.txt
     fi
 done
-sed -ne 's/^\tconst \(SPRITE_ANIM_FRAMESET_ [^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
+# Ignoring _00 because it might be used implicitly (xor a) somewhere I'm not aware of.
+sed -ne 's/^\tconst \(SPRITE_ANIM_FRAMESET_[^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
+	| egrep -v '_(FAST|00)$' \
     | while read const; do
-    if ! fgrep -rw "$const" engine > /dev/null; then
+    if ! fgrep -rw "$const" engine data/sprite_anims/sequences.asm > /dev/null; then
         echo "$const" | tee -a unused.txt
     fi
 done
-sed -ne 's/^\tconst \(SPRITE_ANIM_OAMSET[^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
+sed -ne 's/^\tconst \(SPRITE_ANIM_OAMSET_[^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
     | while read const; do
     if ! fgrep -rw "$const" data/sprite_anims/framesets.asm > /dev/null; then
         echo "$const" | tee -a unused.txt

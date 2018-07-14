@@ -8,7 +8,6 @@
 	const SFX_POTION                      ; 04
 	const SFX_FULL_HEAL                   ; 05
 	const SFX_MENU                        ; 06
-	const SFX_READ_TEXT                   ; 07
 	const SFX_READ_TEXT_2                 ; 08
 	const SFX_DEX_FANFARE_20_49           ; 09
 	const SFX_DEX_FANFARE_80_109          ; 0a
@@ -18,19 +17,15 @@
 	const SFX_SHUT_DOWN_PC                ; 0e
 	const SFX_CHOOSE_PC_OPTION            ; 0f
 	const SFX_ESCAPE_ROPE                 ; 10
-	const SFX_PUSH_BUTTON                 ; 11
 	const SFX_SECOND_PART_OF_ITEMFINDER   ; 12
 	const SFX_WARP_TO                     ; 13
 	const SFX_WARP_FROM                   ; 14
 	const SFX_CHANGE_DEX_MODE             ; 15
 	const SFX_JUMP_OVER_LEDGE             ; 16
-	const SFX_GRASS_RUSTLE                ; 17
 	const SFX_FLY                         ; 18
 	const SFX_WRONG                       ; 19
-	const SFX_SQUEAK                      ; 1a
 	const SFX_STRENGTH                    ; 1b
 	const SFX_BOAT                        ; 1c
-	const SFX_WALL_OPEN                   ; 1d
 	const SFX_PLACE_PUZZLE_PIECE_DOWN     ; 1e
 	const SFX_ENTER_DOOR                  ; 1f
 	const SFX_SWITCH_POKEMON              ; 20
@@ -96,14 +91,9 @@
 	const SFX_SING                        ; 5c
 	const SFX_HYPER_BEAM                  ; 5d
 	const SFX_SHINE                       ; 5e
-	const SFX_UNKNOWN_5F                  ; 5f
-	const SFX_UNKNOWN_60                  ; 60
-	const SFX_UNKNOWN_61                  ; 61
 	const SFX_SWITCH_POCKETS              ; 62
-	const SFX_UNKNOWN_63                  ; 63
 	const SFX_BURN                        ; 64
 	const SFX_TITLE_SCREEN_ENTRANCE       ; 65
-	const SFX_UNKNOWN_66                  ; 66
 	const SFX_GET_COIN_FROM_SLOTS         ; 67
 	const SFX_PAY_DAY                     ; 68
 	const SFX_METRONOME                   ; 69
@@ -145,12 +135,9 @@
 	const SFX_MILK_DRINK                  ; 8d
 	const SFX_PRESENT                     ; 8e
 	const SFX_MORNING_SUN                 ; 8f
-	const SFX_LEVEL_UP                    ; 90
 	const SFX_KEY_ITEM                    ; 91
-	const SFX_FANFARE_2                   ; 92
 	const SFX_REGISTER_PHONE_NUMBER       ; 93
 	const SFX_3RD_PLACE                   ; 94
-	const SFX_GET_EGG_FROM_DAY_CARE_MAN   ; 95
 	const SFX_GET_EGG_FROM_DAY_CARE_LADY  ; 96
 	const SFX_MOVE_DELETED                ; 97
 	const SFX_2ND_PLACE                   ; 98
@@ -168,8 +155,6 @@
 	const SFX_EVOLVED                     ; a4
 	const SFX_MASTER_BALL                 ; a5
 	const SFX_EGG_HATCH                   ; a6
-	const SFX_GS_INTRO_CHARIZARD_FIREBALL ; a7
-	const SFX_GS_INTRO_POKEMON_APPEARS    ; a8
 	const SFX_FLASH                       ; a9
 	const SFX_GAME_FREAK_LOGO_GS          ; aa
 	const SFX_NOT_VERY_EFFECTIVE          ; ab
@@ -190,7 +175,6 @@
 	const SFX_STOP_SLOT                   ; ba
 	const SFX_2_BOOPS                     ; bb
 	const SFX_GLASS_TING                  ; bc
-	const SFX_GLASS_TING_2                ; bd
 
 ; new to Crystal
 	const SFX_INTRO_UNOWN_1               ; be
@@ -198,7 +182,6 @@
 	const SFX_INTRO_UNOWN_3               ; c0
 	const SFX_DITTO_POP_UP                ; c1
 	const SFX_DITTO_TRANSFORM             ; c2
-	const SFX_INTRO_SUICUNE_1             ; c3
 	const SFX_INTRO_PICHU                 ; c4
 	const SFX_INTRO_SUICUNE_2             ; c5
 	const SFX_INTRO_SUICUNE_3             ; c6
@@ -207,6 +190,3 @@
 	const SFX_GAME_FREAK_PRESENTS         ; c9
 	const SFX_TINGLE                      ; ca
 	const SFX_UNKNOWN_CB                  ; cb
-	const SFX_TWO_PC_BEEPS                ; cc
-	const SFX_4_NOTE_DITTY                ; cd
-	const SFX_TWINKLE                     ; ce

@@ -136,16 +136,6 @@ anim_minimizeopp: MACRO
 	db anim_minimizeopp_command
 ENDM
 
-	enum anim_oamon_command ; $e3
-anim_oamon: MACRO
-	db anim_oamon_command
-ENDM
-
-	enum anim_oamoff_command ; $e4
-anim_oamoff: MACRO
-	db anim_oamoff_command
-ENDM
-
 	enum anim_clearobjs_command ; $e5
 anim_clearobjs: MACRO
 	db anim_clearobjs_command
@@ -156,11 +146,6 @@ anim_beatup: MACRO
 	db anim_beatup_command
 ENDM
 
-	enum anim_0xe7_command ; $e7
-anim_0xe7: MACRO
-	db anim_0xe7_command
-ENDM
-
 	enum anim_updateactorpic_command ; $e8
 anim_updateactorpic: MACRO
 	db anim_updateactorpic_command
@@ -169,26 +154,6 @@ ENDM
 	enum anim_minimize_command ; $e9
 anim_minimize: MACRO
 	db anim_minimize_command
-ENDM
-
-	enum anim_0xea_command ; $ea
-anim_0xea: MACRO
-	db anim_0xea_command
-ENDM
-
-	enum anim_0xeb_command ; $eb
-anim_0xeb: MACRO
-	db anim_0xeb_command
-ENDM
-
-	enum anim_0xec_command ; $ec
-anim_0xec: MACRO
-	db anim_0xec_command
-ENDM
-
-	enum anim_0xed_command ; $ed
-anim_0xed: MACRO
-	db anim_0xed_command
 ENDM
 
 	enum anim_if_param_and_command ; $ee
@@ -236,21 +201,6 @@ anim_clearsprites: MACRO
 	db anim_clearsprites_command
 ENDM
 
-	enum anim_0xf5_command ; $f5
-anim_0xf5: MACRO
-	db anim_0xf5_command
-ENDM
-
-	enum anim_0xf6_command ; $f6
-anim_0xf6: MACRO
-	db anim_0xf6_command
-ENDM
-
-	enum anim_0xf7_command ; $f7
-anim_0xf7: MACRO
-	db anim_0xf7_command
-ENDM
-
 	enum anim_if_param_equal_command ; $f8
 anim_if_param_equal: MACRO
 	db anim_if_param_equal_command
@@ -295,7 +245,7 @@ anim_call: MACRO
 	dw \1 ; address
 ENDM
 
-	enum anim_ret_command ; $ff
+anim_ret_command EQU -1 ; $ff
 anim_ret: MACRO
 	db anim_ret_command
 ENDM

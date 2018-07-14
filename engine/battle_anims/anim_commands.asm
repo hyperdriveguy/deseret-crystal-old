@@ -348,17 +348,10 @@ BattleAnimCommands:: ; cc2a4 (33:42a4)
 	dw BattleAnimCmd_Sound
 	dw BattleAnimCmd_Cry
 	dw BattleAnimCmd_MinimizeOpp
-	dw BattleAnimCmd_OAMOn
-	dw BattleAnimCmd_OAMOff
 	dw BattleAnimCmd_ClearObjs
 	dw BattleAnimCmd_BeatUp
-	dw BattleAnimCmd_E7
 	dw BattleAnimCmd_UpdateActorPic
 	dw BattleAnimCmd_Minimize
-	dw BattleAnimCmd_EA ; dummy
-	dw BattleAnimCmd_EB ; dummy
-	dw BattleAnimCmd_EC ; dummy
-	dw BattleAnimCmd_ED ; dummy
 	dw BattleAnimCmd_IfParamAnd
 	dw BattleAnimCmd_JumpUntil
 	dw BattleAnimCmd_BGEffect
@@ -366,9 +359,6 @@ BattleAnimCommands:: ; cc2a4 (33:42a4)
 	dw BattleAnimCmd_OBP0
 	dw BattleAnimCmd_OBP1
 	dw BattleAnimCmd_ClearSprites
-	dw BattleAnimCmd_F5
-	dw BattleAnimCmd_F6
-	dw BattleAnimCmd_F7
 	dw BattleAnimCmd_IfParamEqual
 	dw BattleAnimCmd_SetVar
 	dw BattleAnimCmd_IncVar
@@ -378,12 +368,6 @@ BattleAnimCommands:: ; cc2a4 (33:42a4)
 	dw BattleAnimCmd_Call
 	dw BattleAnimCmd_Ret
 
-
-BattleAnimCmd_EA:
-BattleAnimCmd_EB:
-BattleAnimCmd_EC:
-BattleAnimCmd_ED: ; cc304 (33:4304)
-	ret
 
 BattleAnimCmd_Ret: ; cc305 (33:4305)
 	ld hl, wBattleAnimFlags
@@ -883,9 +867,6 @@ BattleAnimCmd_CheckPokeball: ; cc5d0 (33:45d0)
 	ld [wBattleAnimVar], a
 	ret
 
-BattleAnimCmd_E7: ; cc5db (33:45db)
-	ret
-
 BattleAnimCmd_Transform: ; cc5dc (33:45dc)
 	ld a, [rSVBK]
 	push af
@@ -1148,28 +1129,9 @@ BattleAnimCmd_BeatUp: ; cc776 (33:4776)
 	ld [rSVBK], a
 	ret
 
-BattleAnimCmd_OAMOn: ; cc7bb (33:47bb)
-	xor a
-	ld [hOAMUpdate], a
-	ret
-
-BattleAnimCmd_OAMOff: ; cc7bf (33:47bf)
-	ld a, $1
-	ld [hOAMUpdate], a
-	ret
-
 BattleAnimCmd_ClearSprites: ; cc7c4 (33:47c4)
 	ld hl, wBattleAnimFlags
 	set 3, [hl]
-	ret
-
-BattleAnimCmd_F5: ; cc7ca (33:47ca)
-	ret
-
-BattleAnimCmd_F6: ; cc7cb (33:47cb)
-	ret
-
-BattleAnimCmd_F7: ; cc7cc (33:47cc)
 	ret
 
 BattleAnimCmd_Sound: ; cc7cd (33:47cd)

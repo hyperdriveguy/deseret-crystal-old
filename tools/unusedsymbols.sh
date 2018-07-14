@@ -198,6 +198,9 @@ done
 
 # Check unused animation commands
 sed -ne 's/^\(.*\): MACRO$/\1/p' macros/scripts/battle_anims.asm \
+	| fgrep -xv 'anim_4gfx' \
+	| fgrep -xv 'anim_5gfx' \
+	| fgrep -xv 'anim_minimizeopp' \
 	| while read const; do
 	if ! fgrep -rw "$const" data/moves/animations.asm > /dev/null; then
 		echo "$const" | tee -a unused.txt

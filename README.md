@@ -26,6 +26,8 @@ There's a few exceptions to some of the rules:
 * The battle tower room menu code has been noticeably refactored, to remove the dependency on otherwise unused WRAM addresses, and remove the dependency on an entire jumptable.
 * The Celebi event will be kept, despite being inaccessible during normal gameplay, as it's fully functional and used in the VC releases.
 * All unused stat-altering move effects will be kept, because they're useful for implementing new moves.
+* Commands used in scripting of any kind that simply point to something that is otherwise used need not be removed. There's little point in doing so.
+* Commands used in scripting of any kind that "complete" an otherwise used set of commands may be kept. This is subjective and applied on a case-by-case basis.
 
 Notes
 -----

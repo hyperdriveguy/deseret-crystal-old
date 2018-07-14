@@ -107,12 +107,6 @@ ptcallasm: MACRO
 	dw \1 ; asm
 ENDM
 
-	enum checkmapscene_command ; $11
-checkmapscene: MACRO
-	db checkmapscene_command
-	map_id \1 ; map
-ENDM
-
 	enum setmapscene_command ; $12
 setmapscene: MACRO
 	db setmapscene_command
@@ -265,12 +259,6 @@ addcellnum: MACRO
 	db \1 ; person
 ENDM
 
-	enum delcellnum_command ; $29
-delcellnum: MACRO
-	db delcellnum_command
-	db \1 ; person
-ENDM
-
 	enum checkcellnum_command ; $2a
 checkcellnum: MACRO
 	db checkcellnum_command
@@ -361,29 +349,6 @@ ENDM
 setflag: MACRO
 	db setflag_command
 	dw \1 ; engine_flag
-ENDM
-
-	enum wildon_command ; $37
-wildon: MACRO
-	db wildon_command
-ENDM
-
-	enum wildoff_command ; $38
-wildoff: MACRO
-	db wildoff_command
-ENDM
-
-	enum xycompare_command ; $39
-xycompare: MACRO
-	db xycompare_command
-	dw \1 ; pointer
-ENDM
-
-	enum warpmod_command ; $3a
-warpmod: MACRO
-	db warpmod_command
-	db \1 ; warp_id
-	map_id \2 ; map
 ENDM
 
 	enum blackoutmod_command ; $3b
@@ -484,12 +449,6 @@ closetext: MACRO
 	db closetext_command
 ENDM
 
-	enum loadbytec2cf_command ; $4a
-loadbytec2cf: MACRO
-	db loadbytec2cf_command
-	db \1 ; byte
-ENDM
-
 	enum farwritetext_command ; $4b
 farwritetext: MACRO
 	db farwritetext_command
@@ -576,11 +535,6 @@ verticalmenu: MACRO
 	db verticalmenu_command
 ENDM
 
-	enum loadpikachudata_command ; $5a
-loadpikachudata: MACRO
-	db loadpikachudata_command
-ENDM
-
 	enum randomwildmon_command ; $5b
 randomwildmon: MACRO
 	db randomwildmon_command
@@ -648,11 +602,6 @@ ENDM
 	enum endifjustbattled_command ; $66
 endifjustbattled: MACRO
 	db endifjustbattled_command
-ENDM
-
-	enum checkjustbattled_command ; $67
-checkjustbattled: MACRO
-	db checkjustbattled_command
 ENDM
 
 	enum setlasttalked_command ; $68
@@ -752,24 +701,10 @@ turnobject: MACRO
 	db \2 ; facing
 ENDM
 
-	enum follownotexact_command ; $77
-follownotexact: MACRO
-	db follownotexact_command
-	db \1 ; object2
-	db \2 ; object1
-ENDM
-
 	enum earthquake_command ; $78
 earthquake: MACRO
 	db earthquake_command
 	db \1 ; param
-ENDM
-
-	enum changemap_command ; $79
-changemap: MACRO
-	db changemap_command
-	db \1 ; map_bank
-	dw \2 ; map_data_pointer
 ENDM
 
 	enum changeblock_command ; $7a
@@ -794,12 +729,6 @@ ENDM
 writecmdqueue: MACRO
 	db writecmdqueue_command
 	dw \1 ; queue_pointer
-ENDM
-
-	enum delcmdqueue_command ; $7e
-delcmdqueue: MACRO
-	db delcmdqueue_command
-	db \1 ; byte
 ENDM
 
 	enum playmusic_command ; $7f
@@ -857,12 +786,6 @@ specialsound: MACRO
 	db specialsound_command
 ENDM
 
-	enum passtoengine_command ; $89
-passtoengine: MACRO
-	db passtoengine_command
-	db \1 ; data_pointer
-ENDM
-
 	enum newloadmap_command ; $8a
 newloadmap: MACRO
 	db newloadmap_command
@@ -890,12 +813,6 @@ ENDM
 	enum warpcheck_command ; $8e
 warpcheck: MACRO
 	db warpcheck_command
-ENDM
-
-	enum ptpriorityjump_command ; $8f
-ptpriorityjump: MACRO
-	db ptpriorityjump_command
-	dw \1 ; pointer
 ENDM
 
 	enum return_command ; $90
@@ -942,17 +859,6 @@ ENDM
 askforphonenumber: MACRO
 	db askforphonenumber_command
 	db \1 ; number
-ENDM
-
-	enum phonecall_command ; $98
-phonecall: MACRO
-	db phonecall_command
-	dw \1 ; caller_name
-ENDM
-
-	enum hangup_command ; $99
-hangup: MACRO
-	db hangup_command
 ENDM
 
 	enum describedecoration_command ; $9a
@@ -1054,9 +960,4 @@ ENDM
 wait: MACRO
 	db wait_command
 	db \1 ; duration
-ENDM
-
-	enum checksave_command ; $a9
-checksave: MACRO
-	db checksave_command
 ENDM

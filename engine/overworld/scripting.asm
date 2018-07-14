@@ -82,7 +82,6 @@ ScriptCommandTable:
 	dw Script_callasm                    ; 0e
 	dw Script_special                    ; 0f
 	dw Script_ptcallasm                  ; 10
-	dw Script_checkmapscene              ; 11
 	dw Script_setmapscene                ; 12
 	dw Script_checkscene                 ; 13
 	dw Script_setscene                   ; 14
@@ -106,7 +105,6 @@ ScriptCommandTable:
 	dw Script_takecoins                  ; 26
 	dw Script_checkcoins                 ; 27
 	dw Script_addcellnum                 ; 28
-	dw Script_delcellnum                 ; 29
 	dw Script_checkcellnum               ; 2a
 	dw Script_checktime                  ; 2b
 	dw Script_checkpoke                  ; 2c
@@ -120,10 +118,6 @@ ScriptCommandTable:
 	dw Script_checkflag                  ; 34
 	dw Script_clearflag                  ; 35
 	dw Script_setflag                    ; 36
-	dw Script_wildon                     ; 37
-	dw Script_wildoff                    ; 38
-	dw Script_xycompare                  ; 39
-	dw Script_warpmod                    ; 3a
 	dw Script_blackoutmod                ; 3b
 	dw Script_warp                       ; 3c
 	dw Script_readmoney                  ; 3d
@@ -139,7 +133,6 @@ ScriptCommandTable:
 	dw Script_opentext                   ; 47
 	dw Script_refreshscreen              ; 48
 	dw Script_closetext                  ; 49
-	dw Script_loadbytec2cf               ; 4a
 	dw Script_farwritetext               ; 4b
 	dw Script_writetext                  ; 4c
 	dw Script_repeattext                 ; 4d
@@ -157,7 +150,6 @@ endc
 	dw Script_closepokepic               ; 57
 	dw Script__2dmenu                    ; 58
 	dw Script_verticalmenu               ; 59
-	dw Script_loadpikachudata            ; 5a
 	dw Script_randomwildmon              ; 5b
 	dw Script_loadmemtrainer             ; 5c
 	dw Script_loadwildmon                ; 5d
@@ -170,7 +162,6 @@ endc
 	dw Script_winlosstext                ; 64
 	dw Script_scripttalkafter            ; 65
 	dw Script_endifjustbattled           ; 66
-	dw Script_checkjustbattled           ; 67
 	dw Script_setlasttalked              ; 68
 	dw Script_applymovement              ; 69
 	dw Script_applymovement2             ; 6a
@@ -186,14 +177,11 @@ endc
 	dw Script_loademote                  ; 74
 	dw Script_showemote                  ; 75
 	dw Script_turnobject                 ; 76
-	dw Script_follownotexact             ; 77
 	dw Script_earthquake                 ; 78
-	dw Script_changemap                  ; 79
 	dw Script_changeblock                ; 7a
 	dw Script_reloadmap                  ; 7b
 	dw Script_reloadmappart              ; 7c
 	dw Script_writecmdqueue              ; 7d
-	dw Script_delcmdqueue                ; 7e
 	dw Script_playmusic                  ; 7f
 	dw Script_encountermusic             ; 80
 	dw Script_musicfadeout               ; 81
@@ -204,13 +192,11 @@ endc
 	dw Script_waitsfx                    ; 86
 	dw Script_warpsound                  ; 87
 	dw Script_specialsound               ; 88
-	dw Script_passtoengine               ; 89
 	dw Script_newloadmap                 ; 8a
 	dw Script_pause                      ; 8b
 	dw Script_deactivatefacing           ; 8c
 	dw Script_priorityjump               ; 8d
 	dw Script_warpcheck                  ; 8e
-	dw Script_ptpriorityjump             ; 8f
 	dw Script_return                     ; 90
 	dw Script_end                        ; 91
 	dw Script_reloadandreturn            ; 92
@@ -219,8 +205,6 @@ endc
 	dw Script_elevator                   ; 95
 	dw Script_trade                      ; 96
 	dw Script_askforphonenumber          ; 97
-	dw Script_phonecall                  ; 98
-	dw Script_hangup                     ; 99
 	dw Script_describedecoration         ; 9a
 	dw Script_fruittree                  ; 9b
 	dw Script_specialphonecall           ; 9c
@@ -236,7 +220,6 @@ endc
 	dw Script_trainerclassname           ; a6
 	dw Script_name                       ; a7
 	dw Script_wait                       ; a8
-	dw Script_checksave                  ; a9
 
 StartScript:
 	ld hl, wScriptFlags
@@ -686,25 +669,6 @@ Script_trade:
 	farcall NPCTrade
 	ret
 
-Script_phonecall:
-; script command 0x98
-; parameters: caller_name
-
-	call GetScriptByte
-	ld e, a
-	call GetScriptByte
-	ld d, a
-	ld a, [wScriptBank]
-	ld b, a
-	farcall PhoneCall
-	ret
-
-Script_hangup:
-; script command 0x99
-
-	farcall HangUp
-	ret
-
 Script_askforphonenumber:
 ; script command 0x97
 ; parameters: number
@@ -833,18 +797,6 @@ Script_endifjustbattled:
 	and a
 	ret z
 	jp Script_end
-
-Script_checkjustbattled:
-; script command 0x67
-
-	ld a, TRUE
-	ld [wScriptVar], a
-	ld a, [wRunningTrainerBattleScript]
-	and a
-	ret nz
-	xor a
-	ld [wScriptVar], a
-	ret
 
 Script_encountermusic:
 ; script command 0x80
@@ -1213,19 +1165,6 @@ Script_writeobjectxy:
 	farcall WriteObjectXY
 	ret
 
-Script_follownotexact:
-; script command 0x77
-; parameters: object2, object1
-
-	call GetScriptByte
-	call GetScriptObject
-	ld b, a
-	call GetScriptByte
-	call GetScriptObject
-	ld c, a
-	farcall FollowNotExact
-	ret
-
 Script_loademote:
 ; script command 0x74
 ; parameters: bubble
@@ -1301,15 +1240,6 @@ EarthquakeMovement:
 	step_end
 .End
 
-
-Script_loadpikachudata:
-; script command 0x5a
-
-	ld a, PIKACHU
-	ld [wTempWildMonSpecies], a
-	ld a, 5
-	ld [wCurPartyLevel], a
-	ret
 
 Script_randomwildmon:
 ; script command 0x5b
@@ -1656,27 +1586,6 @@ Script_checkscene:
 
 	call CheckScenes
 	jr z, .no_scene
-	ld [wScriptVar], a
-	ret
-
-.no_scene
-	ld a, $ff
-	ld [wScriptVar], a
-	ret
-
-Script_checkmapscene:
-; script command 0x11
-; parameters: map_group, map_id
-
-	call GetScriptByte
-	ld b, a
-	call GetScriptByte
-	ld c, a
-	call GetMapSceneID
-	ld a, d
-	or e
-	jr z, .no_scene
-	ld a, [de]
 	ld [wScriptVar], a
 	ret
 
@@ -2247,20 +2156,6 @@ Script_addcellnum:
 	ld [wScriptVar], a
 	ret
 
-Script_delcellnum:
-; script command 0x29
-; parameters: person
-
-	xor a
-	ld [wScriptVar], a
-	call GetScriptByte
-	ld c, a
-	farcall DelCellNum
-	ret nc
-	ld a, TRUE
-	ld [wScriptVar], a
-	ret
-
 Script_checkcellnum:
 ; script command 0x2a
 ; parameters: person
@@ -2432,30 +2327,6 @@ _EngineFlagAction:
 	farcall EngineFlagAction
 	ret
 
-Script_wildoff:
-; script command 0x38
-
-	ld hl, wStatusFlags
-	set STATUSFLAGS_NO_WILD_ENCOUNTERS_F, [hl]
-	ret
-
-Script_wildon:
-; script command 0x37
-
-	ld hl, wStatusFlags
-	res STATUSFLAGS_NO_WILD_ENCOUNTERS_F, [hl]
-	ret
-
-Script_xycompare:
-; script command 0x39
-; parameters: pointer
-
-	call GetScriptByte
-	ld [wXYComparePointer], a
-	call GetScriptByte
-	ld [wXYComparePointer + 1], a
-	ret
-
 Script_warpfacing:
 ; script command 0xa3
 ; parameters: facing, map_group, map_id, x, y
@@ -2506,18 +2377,6 @@ Script_warp:
 	call StopScript
 	ret
 
-Script_warpmod:
-; script command 0x3a
-; parameters: warp_id, map_group, map_id
-
-	call GetScriptByte
-	ld [wBackupWarpNumber], a
-	call GetScriptByte
-	ld [wBackupMapGroup], a
-	call GetScriptByte
-	ld [wBackupMapNumber], a
-	ret
-
 Script_blackoutmod:
 ; script command 0x3b
 ; parameters: map_group, map_id
@@ -2546,34 +2405,6 @@ Script_writecmdqueue:
 	ld a, [wScriptBank]
 	ld b, a
 	farcall WriteCmdQueue ; no need to farcall
-	ret
-
-Script_delcmdqueue:
-; script command 0x7e
-; parameters: byte
-
-	xor a
-	ld [wScriptVar], a
-	call GetScriptByte
-	ld b, a
-	farcall DelCmdQueue ; no need to farcall
-	ret c
-	ld a, 1
-	ld [wScriptVar], a
-	ret
-
-Script_changemap:
-; script command 0x79
-; parameters: map_data_pointer
-
-	call GetScriptByte
-	ld [wMapBlocksBank], a
-	call GetScriptByte
-	ld [wMapBlocksPointer], a
-	call GetScriptByte
-	ld [wMapBlocksPointer + 1], a
-	call ChangeMap
-	call BufferScreen
 	ret
 
 Script_changeblock:
@@ -2642,14 +2473,6 @@ Script_refreshscreen:
 	call GetScriptByte
 	ret
 
-Script_loadbytec2cf:
-; script command 0x4a
-; parameters: byte
-
-	call GetScriptByte
-	ld [wc2cf], a
-	ret
-
 Script_closetext:
 ; script command 0x49
 
@@ -2657,20 +2480,6 @@ Script_closetext:
 	call CloseText
 	ret
 
-
-Script_passtoengine:
-; script command 0x89
-; parameters: data_pointer
-
-	call GetScriptByte
-	push af
-	call GetScriptByte
-	ld l, a
-	call GetScriptByte
-	ld h, a
-	pop af
-	call StartAutoInput
-	ret
 
 Script_pause:
 ; script command 0x8b
@@ -2701,13 +2510,6 @@ Script_deactivatefacing:
 	ld [wScriptMode], a
 	call StopScript
 	ret
-
-Script_ptpriorityjump:
-; script command 0x8f
-; parameters: pointer
-
-	call StopScript
-	jp Script_jump
 
 Script_end:
 ; script command 0x91
@@ -2815,12 +2617,4 @@ Script_wait:
 	dec a
 	jr nz, .loop
 	pop bc
-	ret
-
-Script_checksave:
-; script command 0xa9
-
-	farcall CheckSave
-	ld a, c
-	ld [wScriptVar], a
 	ret

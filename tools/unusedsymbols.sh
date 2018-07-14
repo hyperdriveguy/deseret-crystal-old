@@ -167,6 +167,8 @@ sed -ne 's/^\tconst \(SPRITE_ANIM_OAMSET_[^ ]*\).*/\1/p' constants/sprite_anim_c
     fi
 done
 
+# TODO: Check unused spritemovedata and spritemovefn
+
 # Check unused move effects and commands
 sed -ne 's/^\tconst \(EFFECT_[^ ]*\).*/\1/p' constants/move_effect_constants.asm \
     | egrep -v '_(UP|DOWN)(_2|_HIT)?$' \
@@ -182,3 +184,31 @@ sed -ne 's/^\tcommand \([^ ]*\).*/\1/p' macros/scripts/battle_commands.asm \
         echo "$const" | tee -a unused.txt
     fi
 done
+
+# Check unused map commands
+sed -ne 's/^\(.*\): MACRO$/\1/p' macros/scripts/events.asm \
+	| fgrep -xv 'readcoins' \
+	| fgrep -xv 'givemoney' \
+	| fgrep -xv 'callstd' \
+	| while read const; do
+	if ! fgrep -rw "$const" maps engine > /dev/null; then
+		echo "$const" | tee -a unused.txt
+	fi
+done
+
+# Check unused animation commands
+sed -ne 's/^\(.*\): MACRO$/\1/p' macros/scripts/battle_anims.asm \
+	| while read const; do
+	if ! fgrep -rw "$const" data/moves/animations.asm > /dev/null; then
+		echo "$const" | tee -a unused.txt
+	fi
+done
+
+# Check unused text commands
+#sed -ne 's/^\(.*\): MACRO$/\1/p' macros/scripts/text.asm \
+	#| while read const; do
+	#if ! fgrep -rw "$const" data engine > /dev/null; then
+		#echo "$const" | tee -a unused.txt
+	#fi
+#done
+# TODO: Check unused special chars (in the home/text.asm:CheckDict array)

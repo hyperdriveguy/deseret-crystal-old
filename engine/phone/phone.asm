@@ -13,18 +13,6 @@ AddPhoneNumber:: ; 90000
 ; 9000f
 
 
-DelCellNum:: ; 9000f
-	call _CheckCellNum
-	jr nc, .not_in_list
-	xor a
-	ld [hl], a
-	ret
-
-.not_in_list
-	scf
-	ret
-; 90019
-
 CheckCellNum:: ; 90019
 	jp _CheckCellNum ; wtf
 ; 9001c
@@ -99,20 +87,6 @@ GetRemainingSpaceInPhoneList: ; 90040
 ; 90066
 
 INCLUDE "data/phone/permanent_numbers.asm"
-
-
-FarPlaceString: ; 90069
-	ld a, [hROMBank]
-	push af
-	ld a, b
-	rst Bankswitch
-
-	call PlaceString
-
-	pop af
-	rst Bankswitch
-	ret
-; 90074
 
 
 CheckPhoneCall:: ; 90074 (24:4074)
@@ -477,45 +451,6 @@ Phone_CallerTextboxWithName: ; 90292 (24:4292)
 	ld b, a
 	call Function90363
 	ret
-
-PhoneCall:: ; 9029a
-	ld a, b
-	ld [wPhoneScriptBank], a
-	ld a, e
-	ld [wPhoneCaller], a
-	ld a, d
-	ld [wPhoneCaller + 1], a
-	call Phone_FirstOfTwoRings
-	call Phone_FirstOfTwoRings
-	ret
-; 902b3
-
-Phone_FirstOfTwoRings: ; 902b3
-	call Phone_StartRinging
-	call Phone_Wait20Frames
-	call Phone_CallerTextboxWithName2
-	call Phone_Wait20Frames
-	call Phone_CallerTextbox
-	call Phone_Wait20Frames
-	call Phone_CallerTextboxWithName2
-	ret
-; 902c9
-
-Phone_CallerTextboxWithName2: ; 902c9
-	call Phone_CallerTextbox
-	hlcoord 1, 2
-	ld [hl], "☎"
-	inc hl
-	inc hl
-	ld a, [wPhoneScriptBank]
-	ld b, a
-	ld a, [wPhoneCaller]
-	ld e, a
-	ld a, [wPhoneCaller + 1]
-	ld d, a
-	call FarPlaceString
-	ret
-; 902e3
 
 
 Phone_NoSignal: ; 902e3 (24:42e3)

@@ -399,27 +399,6 @@ WriteCmdQueue:: ; 97e31
 	ret
 ; 97e5c
 
-DelCmdQueue:: ; 97e5c
-	ld hl, wCmdQueue
-	ld de, CMDQUEUE_ENTRY_SIZE
-	ld c, CMDQUEUE_CAPACITY
-.loop
-	ld a, [hl]
-	cp b
-	jr z, .done
-	add hl, de
-	dec c
-	jr nz, .loop
-	and a
-	ret
-
-.done
-	xor a
-	ld [hl], a
-	scf
-	ret
-; 97e72
-
 _DelCmdQueue: ; 97e72
 	ld hl, CMDQUEUE_TYPE
 	add hl, bc

@@ -61,11 +61,6 @@ xor_a_dec_a:: ; 2ec8
 INCLUDE "home/sprite_updates.asm"
 INCLUDE "home/string.asm"
 INCLUDE "home/region.asm"
-
-ret_2f3e:: ; 2f3e
-	ret
-; 2f3f
-
 INCLUDE "home/item.asm"
 INCLUDE "home/random.asm"
 INCLUDE "home/sram.asm"

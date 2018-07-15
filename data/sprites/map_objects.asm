@@ -97,62 +97,6 @@ SpriteMovementData:: ; 4273
 	db 0 ; flags2
 	db 0 ; palette flags
 
-; SPRITEMOVEDATA_0C
-	db SPRITEMOVEFN_08 ; movement function
-	db DOWN ; facing
-	db OBJECT_ACTION_STAND ; action
-	db 0 ; flags1
-	db 0 ; flags2
-	db 0 ; palette flags
-
-; SPRITEMOVEDATA_0D
-	db SPRITEMOVEFN_09 ; movement function
-	db DOWN ; facing
-	db OBJECT_ACTION_STAND ; action
-	db 0 ; flags1
-	db 0 ; flags2
-	db 0 ; palette flags
-
-; SPRITEMOVEDATA_0E
-	db SPRITEMOVEFN_0A ; movement function
-	db DOWN ; facing
-	db OBJECT_ACTION_STAND ; action
-	db 0 ; flags1
-	db 0 ; flags2
-	db 0 ; palette flags
-
-; SPRITEMOVEDATA_0F
-	db SPRITEMOVEFN_0B ; movement function
-	db DOWN ; facing
-	db OBJECT_ACTION_STAND ; action
-	db 0 ; flags1
-	db 0 ; flags2
-	db 0 ; palette flags
-
-; SPRITEMOVEDATA_10
-	db SPRITEMOVEFN_0C ; movement function
-	db DOWN ; facing
-	db OBJECT_ACTION_STAND ; action
-	db 0 ; flags1
-	db 0 ; flags2
-	db 0 ; palette flags
-
-; SPRITEMOVEDATA_11
-	db SPRITEMOVEFN_0D ; movement function
-	db DOWN ; facing
-	db OBJECT_ACTION_STAND ; action
-	db 0 ; flags1
-	db 0 ; flags2
-	db 0 ; palette flags
-
-; SPRITEMOVEDATA_12
-	db SPRITEMOVEFN_0E ; movement function
-	db DOWN ; facing
-	db OBJECT_ACTION_STAND ; action
-	db 0 ; flags1
-	db 0 ; flags2
-	db 0 ; palette flags
-
 ; SPRITEMOVEDATA_FOLLOWING
 	db SPRITEMOVEFN_FOLLOW ; movement function
 	db DOWN ; facing
@@ -209,14 +153,6 @@ SpriteMovementData:: ; 4273
 	db 0 ; flags2
 	db STRENGTH_BOULDER ; palette flags
 
-; SPRITEMOVEDATA_FOLLOWNOTEXACT
-	db SPRITEMOVEFN_FOLLOWNOTEXACT ; movement function
-	db DOWN ; facing
-	db OBJECT_ACTION_STAND ; action
-	db WONT_DELETE ; flags1
-	db 0 ; flags2
-	db 0 ; palette flags
-
 ; SPRITEMOVEDATA_SHADOW
 	db SPRITEMOVEFN_SHADOW ; movement function
 	db DOWN ; facing
@@ -257,14 +193,6 @@ SpriteMovementData:: ; 4273
 	db 0 ; flags2
 	db 0 ; palette flags
 
-; SPRITEMOVEDATA_BIGDOLLASYM
-	db SPRITEMOVEFN_STRENGTH ; movement function
-	db DOWN ; facing
-	db OBJECT_ACTION_BIG_DOLL_ASYM ; action
-	db WONT_DELETE | FIXED_FACING | SLIDING | MOVE_ANYWHERE ; flags1
-	db LOW_PRIORITY ; flags2
-	db STRENGTH_BOULDER | BIG_OBJECT ; palette flags
-
 ; SPRITEMOVEDATA_BIGDOLL
 	db SPRITEMOVEFN_STRENGTH ; movement function
 	db DOWN ; facing
@@ -296,13 +224,5 @@ SpriteMovementData:: ; 4273
 	db 0 ; flags1
 	db 0 ; flags2
 	db SWIMMING ; palette flags
-
-; 25
-	db SPRITEMOVEFN_00 ; movement function
-	db DOWN ; facing
-	db OBJECT_ACTION_STAND ; action
-	db 0 ; flags1
-	db 0 ; flags2
-	db 0 ; palette flags
 
 ; 4357

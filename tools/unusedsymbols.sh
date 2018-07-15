@@ -95,19 +95,20 @@ python3 -u tools/unusedsymbols.py -- $objs \
     | sed -u -e '/\.anon_dw$/d' \
     | fgrep --line-buffered -xvf unused_ignore.txt \
     | tee unused.txt
-find unused.txt -empty -delete
 
 # Clean it up so a regular make won't mess up for the user
 rm -f $objs unused_ignore.txt
 
 ##### Additional utilities to check for more unused things that a simple grep can't.
+echo 'Unused item effects:'
 python3 -u tools/unuseditemeffects.py | tee -a unused.txt
+
 find unused.txt -empty -delete
 
 ##### This is the end of regular unused symbol checking.
 ##### From here on out it's grep-based hacks for constants.
 
-# Check BATTLETOWERACTION_
+echo 'Unused BATTLETOWERACTION:'
 sed -ne 's/^\tconst \(BATTLETOWERACTION_[^ ]*\).*/\1/p' constants/battle_tower_constants.asm \
     | while read const; do
     if ! fgrep -rw "$const" maps > /dev/null; then
@@ -115,7 +116,7 @@ sed -ne 's/^\tconst \(BATTLETOWERACTION_[^ ]*\).*/\1/p' constants/battle_tower_c
     fi
 done
 
-# Check unused trainers
+echo 'Unused trainers:'
 sed -ne '/^KRIS/,/^NUM_TRAINER_CLASSES/s/^\tconst \(.*\)/\1/p' constants/trainer_constants.asm \
     | while read const; do
     if ! fgrep -rw "$const" maps > /dev/null; then
@@ -123,7 +124,7 @@ sed -ne '/^KRIS/,/^NUM_TRAINER_CLASSES/s/^\tconst \(.*\)/\1/p' constants/trainer
     fi
 done
 
-# Check unused SFX
+echo 'Unused SFX:'
 sed -ne 's/^\tconst \(SFX_[^ ]*\).*/\1/p' constants/sfx_constants.asm \
 	| while read const; do
 	if ! fgrep -rw "$const" home engine data maps > /dev/null; then
@@ -131,7 +132,7 @@ sed -ne 's/^\tconst \(SFX_[^ ]*\).*/\1/p' constants/sfx_constants.asm \
 	fi
 done
 
-# Check unused Songs
+echo 'Unused MUSIC:'
 sed -ne 's/^\tconst \(MUSIC_[^ ]*\).*/\1/p' constants/music_constants.asm \
 	| while read const; do
 	if ! fgrep -rw "$const" home engine data maps > /dev/null; then
@@ -139,20 +140,21 @@ sed -ne 's/^\tconst \(MUSIC_[^ ]*\).*/\1/p' constants/music_constants.asm \
 	fi
 done
 
-# Sprite animation related things
+echo 'Unused SPRITE_ANIM_INDEX:'
 sed -ne 's/^\tconst \(SPRITE_ANIM_INDEX_[^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
     | while read const; do
     if ! fgrep -rw "$const" engine > /dev/null; then
         echo "$const" | tee -a unused.txt
     fi
 done
+echo 'Unused SPRITE_ANIM_SEQ:'
 sed -ne 's/^\tconst \(SPRITE_ANIM_SEQ_[^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
     | while read const; do
     if ! fgrep -rw "$const" engine data/sprite_anims/sequences.asm > /dev/null; then
         echo "$const" | tee -a unused.txt
     fi
 done
-# Ignoring _00 because it might be used implicitly (xor a) somewhere I'm not aware of.
+echo 'Unused SPRITE_ANIM_FRAMESET:'
 sed -ne 's/^\tconst \(SPRITE_ANIM_FRAMESET_[^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
 	| egrep -v '_(FAST|00)$' \
     | while read const; do
@@ -160,6 +162,7 @@ sed -ne 's/^\tconst \(SPRITE_ANIM_FRAMESET_[^ ]*\).*/\1/p' constants/sprite_anim
         echo "$const" | tee -a unused.txt
     fi
 done
+echo 'Unused SPRITE_ANIM_OAMSET:'
 sed -ne 's/^\tconst \(SPRITE_ANIM_OAMSET_[^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
     | while read const; do
     if ! fgrep -rw "$const" data/sprite_anims/framesets.asm > /dev/null; then
@@ -167,9 +170,38 @@ sed -ne 's/^\tconst \(SPRITE_ANIM_OAMSET_[^ ]*\).*/\1/p' constants/sprite_anim_c
     fi
 done
 
-# TODO: Check unused spritemovedata and spritemovefn
+echo 'Unused SPRITEMOVEDATA:'
+sed -ne 's/^\tconst \(SPRITEMOVEDATA_[^ ]*\).*/\1/p' constants/map_object_constants.asm \
+    | fgrep -xv 'SPRITEMOVEDATA_00' \
+    | while read const; do
+    if ! fgrep -rw "$const" home engine maps > /dev/null; then
+        echo "$const" | tee -a unused.txt
+    fi
+done
+echo 'Unused SPRITEMOVEFN:'
+sed -ne 's/^\tconst \(SPRITEMOVEFN_[^ ]*\).*/\1/p' constants/map_object_constants.asm \
+    | while read const; do
+    if ! fgrep -rw "$const" data/sprites/map_objects.asm > /dev/null; then
+        echo "$const" | tee -a unused.txt
+    fi
+done
+echo 'Unused STEP_TYPE:'
+sed -ne 's/^\tconst \(STEP_TYPE_[^ ]*\).*/\1/p' constants/map_object_constants.asm \
+    | while read const; do
+    if ! fgrep -rw "$const" engine > /dev/null; then
+        echo "$const" | tee -a unused.txt
+    fi
+done
+echo 'Unused OBJECT_ACTION:'
+sed -ne 's/^\tconst \(OBJECT_ACTION_[^ ]*\).*/\1/p' constants/map_object_constants.asm \
+    | fgrep -xv 'OBJECT_ACTION_00' \
+    | while read const; do
+    if ! fgrep -rw "$const" engine data/sprites/map_objects.asm > /dev/null; then
+        echo "$const" | tee -a unused.txt
+    fi
+done
 
-# Check unused move effects and commands
+echo 'Unused EFFECT:'
 sed -ne 's/^\tconst \(EFFECT_[^ ]*\).*/\1/p' constants/move_effect_constants.asm \
     | egrep -v '_(UP|DOWN)(_2|_HIT)?$' \
     | while read const; do
@@ -177,6 +209,7 @@ sed -ne 's/^\tconst \(EFFECT_[^ ]*\).*/\1/p' constants/move_effect_constants.asm
         echo "$const" | tee -a unused.txt
     fi
 done
+echo 'Unused battle commands:'
 sed -ne 's/^\tcommand \([^ ]*\).*/\1/p' macros/scripts/battle_commands.asm \
     | fgrep -xv 'raisesubnoanim' \
     | while read const; do
@@ -185,7 +218,7 @@ sed -ne 's/^\tcommand \([^ ]*\).*/\1/p' macros/scripts/battle_commands.asm \
     fi
 done
 
-# Check unused map commands
+echo 'Unused event commands:'
 sed -ne 's/^\(.*\): MACRO$/\1/p' macros/scripts/events.asm \
 	| fgrep -xv 'readcoins' \
 	| fgrep -xv 'givemoney' \
@@ -196,7 +229,7 @@ sed -ne 's/^\(.*\): MACRO$/\1/p' macros/scripts/events.asm \
 	fi
 done
 
-# Check unused animation commands
+echo 'Unused battle animation commands:'
 sed -ne 's/^\(.*\): MACRO$/\1/p' macros/scripts/battle_anims.asm \
 	| fgrep -xv 'anim_4gfx' \
 	| fgrep -xv 'anim_5gfx' \

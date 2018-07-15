@@ -12,7 +12,6 @@ ObjectActionPairPointers: ; 445f
 	dw SetFacingBigDollSym,            SetFacingBigDollSym
 	dw SetFacingBounce,                SetFacingFreezeBounce
 	dw SetFacingWeirdTree,             SetFacingCurrent
-	dw SetFacingBigDollAsym,           SetFacingBigDollAsym
 	dw SetFacingBigDoll,               SetFacingBigDoll
 	dw SetFacingBoulderDust,           SetFacingStanding
 	dw SetFacingGrassShake,            SetFacingStanding
@@ -254,13 +253,6 @@ SetFacingWeirdTree: ; 45ab
 	ld [hl], a
 	ret
 ; 45be
-
-SetFacingBigDollAsym: ; 45be
-	ld hl, OBJECT_FACING_STEP
-	add hl, bc
-	ld [hl], FACING_BIG_DOLL_ASYM
-	ret
-; 45c5
 
 SetFacingBigDoll: ; 45c5
 	ld a, [wVariableSprites + SPRITE_BIG_DOLL - SPRITE_VARS]

@@ -524,17 +524,9 @@ MapObjectMovementPattern: ; 47dd
 	dw .RandomSpin2 ; 05
 	dw .Standing ; 06
 	dw .ObeyDPad ; 07
-	dw .Movement08 ; 08
-	dw .Movement09 ; 09
-	dw .Movement0a ; 0a
-	dw .Movement0b ; 0b
-	dw .Movement0c ; 0c
-	dw .Movement0d ; 0d
-	dw .Movement0e ; 0e
 	dw .Follow ; 0f
 	dw .Script ; 10
 	dw .Strength ; 11
-	dw .FollowNotExact ; 12
 	dw .MovementShadow ; 13
 	dw .MovementEmote ; 14
 	dw .MovementBigStanding ; 15
@@ -607,30 +599,6 @@ MapObjectMovementPattern: ; 47dd
 	ld hl, Function5000
 	jp HandleMovementData
 
-.Movement08:
-	ld hl, Function5015
-	jp HandleMovementData
-
-.Movement09:
-	ld hl, Function5026
-	jp HandleMovementData
-
-.Movement0a:
-	jp _GetMovementObject
-
-.Movement0b:
-	jp _GetMovementObject
-
-.Movement0c:
-	jp _GetMovementObject
-
-.Movement0d:
-	ld hl, Function5000
-	jp HandleMovementData
-
-.Movement0e:
-	jp _GetMovementObject
-
 .Follow:
 	ld hl, GetFollowerNextMovementByte
 	jp HandleMovementData
@@ -686,68 +654,6 @@ MapObjectMovementPattern: ; 47dd
 	ld hl, OBJECT_DIRECTION_WALKING
 	add hl, bc
 	ld [hl], STANDING
-	ret
-
-.FollowNotExact:
-	ld hl, OBJECT_NEXT_MAP_X
-	add hl, bc
-	ld d, [hl]
-	ld hl, OBJECT_NEXT_MAP_Y
-	add hl, bc
-	ld e, [hl]
-	ld hl, OBJECT_RANGE
-	add hl, bc
-	ld a, [hl]
-	push bc
-	call GetObjectStruct
-	ld hl, OBJECT_DIRECTION_WALKING
-	add hl, bc
-	ld a, [hl]
-	cp STANDING
-	jr z, .standing
-	ld hl, OBJECT_MAP_X
-	add hl, bc
-	ld a, [hl]
-	cp d
-	jr z, .equal
-	jr c, .less
-	ld a, 3
-	jr .done
-
-.less
-	ld a, 2
-	jr .done
-
-.equal
-	ld hl, OBJECT_MAP_Y
-	add hl, bc
-	ld a, [hl]
-	cp e
-	jr z, .standing
-	jr c, .less2
-	ld a, 0
-	jr .done
-
-.less2
-	ld a, 1
-.done
-	ld d, a
-	ld hl, OBJECT_DIRECTION_WALKING
-	add hl, bc
-	ld a, [hl]
-	and %00001100
-	or d
-	pop bc
-	jp NormalStep
-
-.standing
-	pop bc
-	ld hl, OBJECT_DIRECTION_WALKING
-	add hl, bc
-	ld [hl], STANDING
-	ld hl, OBJECT_ACTION
-	add hl, bc
-	ld [hl], OBJECT_ACTION_STAND
 	ret
 
 .MovementBigStanding:
@@ -1087,11 +993,7 @@ StepTypesJumptable: ; 4b45
 	dw RockSmashStep ; 11
 	dw ReturnDigStep ; 12
 	dw StepTypeTrackingObject ; 13
-	dw StepType14 ; 14
 	dw StepType15 ; 15
-	dw StepType16 ; 16
-	dw StepType17 ; 17
-	dw StepType18 ; 18
 	dw SkyfallTop ; 19
 ; 4b79
 
@@ -1501,17 +1403,6 @@ StepType03: ; 4ddd
 	ret
 ; 4df0
 
-StepType18: ; 4df0
-	ld hl, OBJECT_DIRECTION_WALKING
-	add hl, bc
-	ld [hl], STANDING
-	ld hl, OBJECT_STEP_DURATION
-	add hl, bc
-	dec [hl]
-	ret nz
-	jp DeleteMapObject
-; 4dff
-
 StepTypeBump: ; 4dff
 	ld hl, OBJECT_STEP_DURATION
 	add hl, bc
@@ -1712,7 +1603,6 @@ StepTypeTrackingObject: ; 4f04
 	jp DeleteMapObject
 ; 4f33
 
-StepType14: ; 4f33
 StepType15: ; 4f33
 	call Field1cAnonymousJumptable
 ; anonymous dw
@@ -1761,18 +1651,6 @@ StepType15: ; 4f33
 	inc a
 	ret
 ; 4f77
-
-StepType16: ; 4f77
-	call Field1cAnonymousJumptable ; ????
-; 4f7a
-StepType17: ; 4f7a
-	call Field1cAnonymousJumptable
-; anonymous dw
-	dw .null
-	dw .null
-	dw .null
-.null
-; 4f83
 
 SkyfallTop: ; 4f83
 	call Field1cAnonymousJumptable
@@ -1847,46 +1725,6 @@ GetMovementByte:
 	call _GetMovementByte
 	ret
 ; 5015
-
-Function5015: ; 5015
-	ld hl, OBJECT_MOVEMENT_BYTE_INDEX
-	add hl, bc
-	ld e, [hl]
-	inc [hl]
-	ld d, 0
-	ld hl, wc2e2
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-	add hl, de
-	ld a, [hl]
-	ret
-; 5026
-
-Function5026: ; 5026
-	ld hl, OBJECT_MOVEMENT_BYTE_INDEX
-	add hl, bc
-	ld e, [hl]
-	inc [hl]
-	ld d, 0
-	ld hl, wc2e6
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-	add hl, de
-	ld a, [hl]
-	ret
-; 5037
-
-_GetMovementObject: ; 5037
-	ld hl, GetMovementObject
-	jp HandleMovementData
-; 503d
-
-GetMovementObject: ; 503d
-	ld a, [wMovementObject]
-	ret
-; 5041
 
 HandleMovementData: ; 5041
 	call .StorePointer

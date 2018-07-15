@@ -141,13 +141,6 @@ MAPOBJECT_SCREEN_HEIGHT EQU (SCREEN_HEIGHT / 2) + 2
 	const SPRITEMOVEDATA_STANDING_RIGHT       ; 09
 	const SPRITEMOVEDATA_SPINRANDOM_FAST      ; 0a
 	const SPRITEMOVEDATA_PLAYER               ; 0b
-	const SPRITEMOVEDATA_0C                   ; 0c
-	const SPRITEMOVEDATA_0D                   ; 0d
-	const SPRITEMOVEDATA_0E                   ; 0e
-	const SPRITEMOVEDATA_0F                   ; 0f
-	const SPRITEMOVEDATA_10                   ; 10
-	const SPRITEMOVEDATA_11                   ; 11
-	const SPRITEMOVEDATA_12                   ; 12
 	const SPRITEMOVEDATA_FOLLOWING            ; 13
 	const SPRITEMOVEDATA_SCRIPTED             ; 14
 	const SPRITEMOVEDATA_BIGDOLLSYM           ; 15
@@ -155,13 +148,11 @@ MAPOBJECT_SCREEN_HEIGHT EQU (SCREEN_HEIGHT / 2) + 2
 	const SPRITEMOVEDATA_SUDOWOODO            ; 17
 	const SPRITEMOVEDATA_SMASHABLE_ROCK       ; 18
 	const SPRITEMOVEDATA_STRENGTH_BOULDER     ; 19
-	const SPRITEMOVEDATA_FOLLOWNOTEXACT       ; 1a
 	const SPRITEMOVEDATA_SHADOW               ; 1b
 	const SPRITEMOVEDATA_EMOTE                ; 1c
 	const SPRITEMOVEDATA_SCREENSHAKE          ; 1d
 	const SPRITEMOVEDATA_SPINCOUNTERCLOCKWISE ; 1e
 	const SPRITEMOVEDATA_SPINCLOCKWISE        ; 1f
-	const SPRITEMOVEDATA_BIGDOLLASYM          ; 20
 	const SPRITEMOVEDATA_BIGDOLL              ; 21
 	const SPRITEMOVEDATA_BOULDERDUST          ; 22
 	const SPRITEMOVEDATA_GRASS                ; 23
@@ -178,17 +169,9 @@ NUM_SPRITEMOVEDATA EQU const_value
 	const SPRITEMOVEFN_FAST_RANDOM_SPIN      ; 05
 	const SPRITEMOVEFN_STANDING              ; 06
 	const SPRITEMOVEFN_OBEY_DPAD             ; 07
-	const SPRITEMOVEFN_08                    ; 08
-	const SPRITEMOVEFN_09                    ; 09
-	const SPRITEMOVEFN_0A                    ; 0a
-	const SPRITEMOVEFN_0B                    ; 0b
-	const SPRITEMOVEFN_0C                    ; 0c
-	const SPRITEMOVEFN_0D                    ; 0d
-	const SPRITEMOVEFN_0E                    ; 0e
 	const SPRITEMOVEFN_FOLLOW                ; 0f
 	const SPRITEMOVEFN_SCRIPTED              ; 10
 	const SPRITEMOVEFN_STRENGTH              ; 11
-	const SPRITEMOVEFN_FOLLOWNOTEXACT        ; 12
 	const SPRITEMOVEFN_SHADOW                ; 13
 	const SPRITEMOVEFN_EMOTE                 ; 14
 	const SPRITEMOVEFN_BIG_SNORLAX           ; 15
@@ -221,11 +204,7 @@ NUM_SPRITEMOVEDATA EQU const_value
 	const STEP_TYPE_ROCK_SMASH      ; 11
 	const STEP_TYPE_RETURN_DIG      ; 12
 	const STEP_TYPE_TRACKING_OBJECT ; 13
-	const STEP_TYPE_14              ; 14
 	const STEP_TYPE_15              ; 15
-	const STEP_TYPE_16              ; 16
-	const STEP_TYPE_17              ; 17
-	const STEP_TYPE_18              ; 18
 	const STEP_TYPE_SKYFALL_TOP     ; 19
 
 ; ObjectActionPairPointers indexes (see engine/overworld/map_object_action.asm)
@@ -242,7 +221,6 @@ NUM_SPRITEMOVEDATA EQU const_value
 	const OBJECT_ACTION_BIG_DOLL_SYM  ; 09
 	const OBJECT_ACTION_BOUNCE        ; 0a
 	const OBJECT_ACTION_WEIRD_TREE    ; 0b
-	const OBJECT_ACTION_BIG_DOLL_ASYM ; 0c
 	const OBJECT_ACTION_BIG_DOLL      ; 0d
 	const OBJECT_ACTION_BOULDER_DUST  ; 0e
 	const OBJECT_ACTION_GRASS_SHAKE   ; 0f

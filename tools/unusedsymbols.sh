@@ -140,6 +140,14 @@ sed -ne 's/^\tconst \(MUSIC_[^ ]*\).*/\1/p' constants/music_constants.asm \
 	fi
 done
 
+echo 'Unused SCGB:'
+sed -ne 's/^\tconst \(SCGB_[^ ]*\).*/\1/p' constants/scgb_constants.asm \
+    | while read const; do
+    if ! fgrep -rw "$const" engine > /dev/null; then
+        echo "$const" | tee -a unused.txt
+    fi
+done
+
 echo 'Unused SPRITE_ANIM_INDEX:'
 sed -ne 's/^\tconst \(SPRITE_ANIM_INDEX_[^ ]*\).*/\1/p' constants/sprite_anim_constants.asm \
     | while read const; do

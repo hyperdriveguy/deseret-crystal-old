@@ -1,6 +1,5 @@
 ; Event scripting commands.
 
-
 EnableScriptMode::
 	push af
 	ld a, SCRIPT_READ
@@ -61,7 +60,6 @@ RunScriptCommand:
 	ld hl, ScriptCommandTable
 	rst JumpTable
 	ret
-
 
 ScriptCommandTable:
 ; entries correspond to macros/scripts/events.asm enumeration
@@ -315,7 +313,6 @@ JumpTextScript:
 	closetext
 	end
 
-
 if _CRYSTAL
 
 Script_farjumptext:
@@ -333,7 +330,6 @@ Script_farjumptext:
 	jp ScriptJump
 
 endc
-
 
 Script_writetext:
 ; script command 0x4c
@@ -504,7 +500,6 @@ Script_verbosegiveitem:
 	ld de, GiveItemScript
 	jp ScriptCall
 
-
 ret_96f76:
 	ret
 
@@ -526,7 +521,6 @@ GiveItemScript:
 ReceivedItemText:
 	text_jump UnknownText_0x1c4719
 	db "@"
-
 
 Script_verbosegiveitem2:
 ; script command 0x9f
@@ -591,7 +585,6 @@ Script_specialsound:
 	call WaitSFX
 	ret
 
-
 GetPocketName:
 	farcall CheckItemPocket
 	ld a, [wItemAttributeParamBuffer]
@@ -617,7 +610,6 @@ CurItemName:
 	call GetItemName
 	ret
 
-
 PutItemInPocketText:
 	text_jump UnknownText_0x1c472c
 	db "@"
@@ -625,7 +617,6 @@ PutItemInPocketText:
 PocketIsFullText:
 	text_jump UnknownText_0x1c474b
 	db "@"
-
 
 Script_pokemart:
 ; script command 0x94
@@ -1212,7 +1203,6 @@ ShowEmoteScript:
 	hide_emote
 	step_sleep 1
 	step_end
-
 
 Script_earthquake:
 ; script command 0x78
@@ -2479,7 +2469,6 @@ Script_closetext:
 	call _OpenAndCloseMenu_HDMATransferTileMapAndAttrMap
 	call CloseText
 	ret
-
 
 Script_pause:
 ; script command 0x8b

@@ -2,14 +2,12 @@
 PLAYER      EQU  0
 LAST_TALKED EQU -2
 
-
 ; memory constants
 	const_def
 	const MEM_BUFFER_0 ; use wStringBuffer3
 	const MEM_BUFFER_1 ; use wStringBuffer4
 	const MEM_BUFFER_2 ; use wStringBuffer5
 NUM_MEM_BUFFERS EQU const_value
-
 
 ; checkmoney/takemoney accounts
 	const_def
@@ -35,7 +33,6 @@ NUM_MEM_BUFFERS EQU const_value
 	const PHONE_CONTACT_GOT     ; 0
 	const PHONE_CONTACTS_FULL   ; 1
 	const PHONE_CONTACT_REFUSED ; 2
-
 
 ; writecode/checkcode arguments
 ; _GetVarAction.VarActionTable indexes (see engine/overworld/variables.asm)
@@ -74,7 +71,6 @@ RETVAR_STRBUF2 EQU (0 << 6)
 RETVAR_ADDR_DE EQU (1 << 6)
 RETVAR_EXECUTE EQU (2 << 6)
 
-
 ; PlayerEventScriptPointers indexes (see engine/overworld/events.asm)
 	const_def -1
 	const PLAYEREVENT_MAPSCRIPT
@@ -89,7 +85,6 @@ RETVAR_EXECUTE EQU (2 << 6)
 	const PLAYEREVENT_HATCH
 	const PLAYEREVENT_JOYCHANGEFACING
 NUM_PLAYER_EVENTS EQU const_value
-
 
 ; bg_event types
 ; TryBGEvent arguments (see engine/overworld/events.asm)
@@ -111,7 +106,6 @@ NUM_PLAYER_EVENTS EQU const_value
 	const OBJECTTYPE_ITEMBALL
 	const OBJECTTYPE_TRAINER
 
-
 ; command queue members
 CMDQUEUE_TYPE  EQU 0
 CMDQUEUE_ADDR  EQU 1
@@ -123,7 +117,6 @@ CMDQUEUE_CAPACITY EQU 4
 
 ; command queue types
 CMDQUEUE_STONETABLE EQU 1
-
 
 ; elevfloor macro values
 ; ElevatorFloorNames indexes (see data/events/elevator_floors.asm)
@@ -144,7 +137,6 @@ CMDQUEUE_STONETABLE EQU 1
 	const FLOOR_10F
 	const FLOOR_11F
 	const FLOOR_ROOF
-
 
 ; showemote arguments
 ; Emotes indexes (see data/sprites/emotes.asm)
@@ -212,7 +204,6 @@ NUM_FRUIT_TREES EQU const_value + -1
 	const_def
 	const SWARM_DUNSPARCE ; 0
 	const SWARM_YANMA     ; 1
-
 
 ; ActivateFishingSwarm writebyte arguments
 	const_def

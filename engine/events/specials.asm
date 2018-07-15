@@ -1,4 +1,4 @@
-Special:: ; c01b
+Special::
 ; Run script special de.
 	ld hl, SpecialsPointers
 	add hl, de
@@ -12,18 +12,16 @@ Special:: ; c01b
 	ld a, b
 	rst FarCall
 	ret
-; c029
 
 INCLUDE "data/special_pointers.asm"
 
-SetPlayerPalette: ; c225
+SetPlayerPalette:
 	ld a, [wScriptVar]
 	ld d, a
 	farcall _SetPlayerPalette
 	ret
-; c230
 
-GameCornerPrizeMonCheckDex: ; c230
+GameCornerPrizeMonCheckDex:
 	ld a, [wScriptVar]
 	dec a
 	call CheckCaughtMon
@@ -37,34 +35,32 @@ GameCornerPrizeMonCheckDex: ; c230
 	farcall NewPokedexEntry
 	call ExitAllMenus
 	ret
-; c252
 
-FindPartyMonThatSpecies: ; c276
+FindPartyMonThatSpecies:
 	ld a, [wScriptVar]
 	ld b, a
 	farcall _FindPartyMonThatSpecies
 	jr z, FoundNone
 	jr FoundOne
 
-FindPartyMonThatSpeciesYourTrainerID: ; c284
+FindPartyMonThatSpeciesYourTrainerID:
 	ld a, [wScriptVar]
 	ld b, a
 	farcall _FindPartyMonThatSpeciesYourTrainerID
 	jr z, FoundNone
 	jr FoundOne
 
-FoundOne: ; c292
+FoundOne:
 	ld a, TRUE
 	ld [wScriptVar], a
 	ret
 
-FoundNone: ; c298
+FoundNone:
 	xor a
 	ld [wScriptVar], a
 	ret
-; c29d
 
-NameRival: ; 0xc29d
+NameRival:
 	ld b, $2 ; rival
 	ld de, wRivalName
 	farcall _NamingScreen
@@ -76,44 +72,38 @@ NameRival: ; 0xc29d
 
 .default
 	db "SILVER@"
-; 0xc2b9
 
-NameRater: ; c2b9
+NameRater:
 	farcall _NameRater
 	ret
-; c2c0
 
-OverworldTownMap: ; c2c0
+OverworldTownMap:
 	call FadeToMenu
 	farcall _TownMap
 	call ExitAllMenus
 	ret
-; c2cd
 
-UnownPrinter: ; c2cd
+UnownPrinter:
 	call FadeToMenu
 	farcall _UnownPrinter
 	call ExitAllMenus
 	ret
-; c2da
 
-DisplayLinkRecord: ; c2da
+DisplayLinkRecord:
 	call FadeToMenu
 	farcall _DisplayLinkRecord
 	call ExitAllMenus
 	ret
-; c2e7
 
-PlayersHousePC: ; c2e7
+PlayersHousePC:
 	xor a
 	ld [wScriptVar], a
 	farcall _PlayersHousePC
 	ld a, c
 	ld [wScriptVar], a
 	ret
-; c2f6
 
-CheckMysteryGift: ; c2f6
+CheckMysteryGift:
 	ld a, BANK(sMysteryGiftItem)
 	call GetSRAMBank
 	ld a, [sMysteryGiftItem]
@@ -125,9 +115,8 @@ CheckMysteryGift: ; c2f6
 	ld [wScriptVar], a
 	call CloseSRAM
 	ret
-; c309
 
-GetMysteryGiftItem: ; c309
+GetMysteryGiftItem:
 	ld a, BANK(sMysteryGiftItem)
 	call GetSRAMBank
 	ld a, [sMysteryGiftItem]
@@ -154,56 +143,49 @@ GetMysteryGiftItem: ; c309
 	xor a
 	ld [wScriptVar], a
 	ret
-; c345
 
-.ReceiveItemText: ; 0xc345
+.ReceiveItemText:
 	; received item
 	text_jump UnknownText_0x1bd3be
 	db "@"
-; 0xc34a
 
-BugContestJudging: ; c34a
+BugContestJudging:
 	farcall _BugContestJudging
 	ld a, b
 	ld [wScriptVar], a
 	ret
-; c355
 
-MapRadio: ; c355
+MapRadio:
 	ld a, [wScriptVar]
 	ld e, a
 	farcall PlayRadio
 	ret
-; c360
 
-UnownPuzzle: ; c360
+UnownPuzzle:
 	call FadeToMenu
 	farcall _UnownPuzzle
 	ld a, [wSolvedUnownPuzzle]
 	ld [wScriptVar], a
 	call ExitAllMenus
 	ret
-; c373
 
-SlotMachine: ; c373
+SlotMachine:
 	call CheckCoinsAndCoinCase
 	ret c
 	ld a, BANK(_SlotMachine)
 	ld hl, _SlotMachine
 	call StartGameCornerGame
 	ret
-; c380
 
-CardFlip: ; c380
+CardFlip:
 	call CheckCoinsAndCoinCase
 	ret c
 	ld a, BANK(_CardFlip)
 	ld hl, _CardFlip
 	call StartGameCornerGame
 	ret
-; c38d
 
-StartGameCornerGame: ; c39a
+StartGameCornerGame:
 	call FarQueueScript
 	call FadeToMenu
 	ld hl, wQueuedScriptBank
@@ -216,9 +198,8 @@ StartGameCornerGame: ; c39a
 	rst FarCall
 	call ExitAllMenus
 	ret
-; c3ae
 
-CheckCoinsAndCoinCase: ; c3ae
+CheckCoinsAndCoinCase:
 	ld hl, wCoins
 	ld a, [hli]
 	or [hl]
@@ -242,21 +223,18 @@ CheckCoinsAndCoinCase: ; c3ae
 	call PrintText
 	scf
 	ret
-; c3d1
 
-.NoCoinsText: ; 0xc3d1
+.NoCoinsText:
 	; You have no coins.
 	text_jump UnknownText_0x1bd3d7
 	db "@"
-; 0xc3d6
 
-.NoCoinCaseText: ; 0xc3d6
+.NoCoinCaseText:
 	; You don't have a COIN CASE.
 	text_jump UnknownText_0x1bd3eb
 	db "@"
-; 0xc3db
 
-ScriptReturnCarry: ; c3e2
+ScriptReturnCarry:
 	jr c, .carry
 	xor a
 	ld [wScriptVar], a
@@ -265,16 +243,13 @@ ScriptReturnCarry: ; c3e2
 	ld a, 1
 	ld [wScriptVar], a
 	ret
-; c3ef
 
-ActivateFishingSwarm: ; c3fc
+ActivateFishingSwarm:
 	ld a, [wScriptVar]
 	ld [wFishingSwarmFlag], a
 	ret
-; c403
 
-
-StoreSwarmMapIndices:: ; c403
+StoreSwarmMapIndices::
 	ld a, c
 	and a
 	jr nz, .yanma
@@ -291,29 +266,24 @@ StoreSwarmMapIndices:: ; c403
 	ld a, e
 	ld [wYanmaMapNumber], a
 	ret
-; c419
 
-
-CheckPokerus: ; c419
+CheckPokerus:
 ; Check if a monster in your party has Pokerus
 	farcall _CheckPokerus
 	jp ScriptReturnCarry
-; c422
 
-ResetLuckyNumberShowFlag: ; c422
+ResetLuckyNumberShowFlag:
 	farcall RestartLuckyNumberCountdown
 	ld hl, wLuckyNumberShowFlag
 	res LUCKYNUMBERSHOW_GAME_OVER_F, [hl]
 	farcall LoadOrRegenerateLuckyIDNumber
 	ret
-; c434
 
-CheckLuckyNumberShowFlag: ; c434
+CheckLuckyNumberShowFlag:
 	farcall _CheckLuckyNumberShowFlag
 	jp ScriptReturnCarry
-; c43d
 
-SnorlaxAwake: ; 0xc43d
+SnorlaxAwake:
 ; Check if the Poké Flute channel is playing, and if the player is standing
 ; next to Snorlax.
 
@@ -363,14 +333,11 @@ SnorlaxAwake: ; 0xc43d
 	db 36,  9 ; right
 	db -1
 
-
-PlayCurMonCry: ; c472
+PlayCurMonCry:
 	ld a, [wCurPartySpecies]
 	jp PlayMonCry
-; c478
 
-
-FadeOutMusic: ; c48f
+FadeOutMusic:
 	ld a, LOW(MUSIC_NONE)
 	ld [wMusicFadeID], a
 	ld a, HIGH(MUSIC_NONE)
@@ -378,23 +345,20 @@ FadeOutMusic: ; c48f
 	ld a, $2
 	ld [wMusicFade], a
 	ret
-; c49f
 
-Diploma: ; c49f
+Diploma:
 	call FadeToMenu
 	farcall _Diploma
 	call ExitAllMenus
 	ret
-; c4ac
 
-PrintDiploma: ; c4ac
+PrintDiploma:
 	call FadeToMenu
 	farcall _PrintDiploma
 	call ExitAllMenus
 	ret
-; c4b9
 
-TrainerHouse: ; 0xc4b9
+TrainerHouse:
 	ld a, BANK(sMysteryGiftTrainerHouseFlag)
 	call GetSRAMBank
 	ld a, [sMysteryGiftTrainerHouseFlag]

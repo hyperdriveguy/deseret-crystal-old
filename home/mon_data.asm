@@ -1,4 +1,4 @@
-GetBaseData:: ; 3856
+GetBaseData::
 	push bc
 	push de
 	push hl
@@ -39,13 +39,12 @@ GetBaseData:: ; 3856
 	pop de
 	pop bc
 	ret
-; 389c
 
-GetCurNick:: ; 389c
+GetCurNick::
 	ld a, [wCurPartyMon]
 	ld hl, wPartyMonNicknames
 
-GetNick:: ; 38a2
+GetNick::
 ; Get nickname a from list hl.
 
 	push hl
@@ -64,4 +63,3 @@ GetNick:: ; 38a2
 	pop bc
 	pop hl
 	ret
-; 38bb

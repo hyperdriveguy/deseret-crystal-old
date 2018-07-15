@@ -1,4 +1,4 @@
-StartRTC: ; 14019
+StartRTC:
 	ld a, SRAM_ENABLE
 	ld [MBC3SRamEnable], a
 	call LatchClock
@@ -9,9 +9,8 @@ StartRTC: ; 14019
 	ld [MBC3RTC], a
 	call CloseSRAM
 	ret
-; 14032
 
-GetTimeOfDay:: ; 14032
+GetTimeOfDay::
 ; get time of day based on the current hour
 	ld a, [hHours] ; hour
 	ld hl, TimesOfDay
@@ -33,9 +32,8 @@ GetTimeOfDay:: ; 14032
 	ld a, [hl]
 	ld [wTimeOfDay], a
 	ret
-; 14044
 
-TimesOfDay: ; 14044
+TimesOfDay:
 ; hours for the time of day
 ; 0400-0959 morn | 1000-1759 day | 1800-0359 nite
 	db MORN_HOUR, NITE_F
@@ -43,9 +41,8 @@ TimesOfDay: ; 14044
 	db NITE_HOUR, DAY_F
 	db MAX_HOUR,  NITE_F
 	db -1, MORN_F
-; 1404e
 
-StageRTCTimeForSave: ; 14056
+StageRTCTimeForSave:
 	call UpdateTime
 	ld hl, wRTC
 	ld a, [wCurDay]
@@ -57,9 +54,8 @@ StageRTCTimeForSave: ; 14056
 	ld a, [hSeconds]
 	ld [hli], a
 	ret
-; 1406a
 
-SaveRTC: ; 1406a
+SaveRTC:
 	ld a, $a
 	ld [MBC3SRamEnable], a
 	call LatchClock
@@ -73,9 +69,8 @@ SaveRTC: ; 1406a
 	ld [sRTCStatusFlags], a
 	call CloseSRAM
 	ret
-; 14089
 
-StartClock:: ; 14089
+StartClock::
 	call GetClock
 	call Function1409b
 	call FixDays
@@ -87,9 +82,8 @@ StartClock:: ; 14089
 .skip_set
 	call StartRTC
 	ret
-; 1409b
 
-Function1409b: ; 1409b
+Function1409b:
 	ld hl, hRTCDayHi
 	bit 7, [hl]
 	jr nz, .set_bit_7
@@ -103,9 +97,8 @@ Function1409b: ; 1409b
 	ld a, %10000000
 	call RecordRTCStatus ; set bit 7 on sRTCStatusFlags
 	ret
-; 140ae
 
-Function140ae: ; 140ae
+Function140ae:
 	call CheckRTCStatus
 	ld c, a
 	and %11000000 ; Day count exceeded 255 or 16383
@@ -130,9 +123,8 @@ Function140ae: ; 140ae
 .dont_update
 	xor a
 	ret
-; 140ed
 
-_InitTime:: ; 140ed
+_InitTime::
 	call GetClock
 	call FixDays
 	ld hl, hRTCSeconds
@@ -176,4 +168,3 @@ _InitTime:: ; 140ed
 .okay_days
 	ld [de], a
 	ret
-; 1412a

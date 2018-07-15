@@ -1,4 +1,4 @@
-MG_Mobile_Layout_FillBox: ; 49336
+MG_Mobile_Layout_FillBox:
 .row
 	push bc
 	push hl
@@ -13,24 +13,21 @@ MG_Mobile_Layout_FillBox: ; 49336
 	dec b
 	jr nz, .row
 	ret
-; 49346
 
-LoadOW_BGPal7:: ; 49409
+LoadOW_BGPal7::
 	ld hl, Palette_TextBG7
 	ld de, wBGPals1 palette PAL_BG_TEXT
 	ld bc, 1 palettes
 	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 	ret
-; 49418
 
-Palette_TextBG7: ; 49418
+Palette_TextBG7:
 INCLUDE "gfx/font/bg_text.pal"
-; 49420
 
 INCLUDE "engine/tilesets/tileset_palettes.asm"
 
-_InitMG_Mobile_LinkTradePalMap: ; 49797
+_InitMG_Mobile_LinkTradePalMap:
 	hlcoord 0, 0, wAttrMap
 	lb bc, 16, 2
 	ld a, $4
@@ -80,9 +77,8 @@ _InitMG_Mobile_LinkTradePalMap: ; 49797
 	ld bc, 6
 	call ByteFill
 	ret
-; 49811
 
-LoadTradeRoomBGPals: ; 49811
+LoadTradeRoomBGPals:
 	ld hl, TradeRoomPalette
 	ld de, wBGPals1 palette PAL_BG_GREEN
 	ld bc, 6 palettes
@@ -90,13 +86,10 @@ LoadTradeRoomBGPals: ; 49811
 	call FarCopyWRAM
 	farcall ApplyPals
 	ret
-; 49826
 
-TradeRoomPalette: ; 49826
+TradeRoomPalette:
 INCLUDE "gfx/trade/border.pal"
-; 49856
 
-InitMG_Mobile_LinkTradePalMap: ; 49856
+InitMG_Mobile_LinkTradePalMap:
 	call _InitMG_Mobile_LinkTradePalMap
 	ret
-; 4985a

@@ -6,7 +6,7 @@ add_predef: MACRO
 	dab \1
 ENDM
 
-PredefPointers:: ; 856b
+PredefPointers::
 	add_predef LearnMove ; $0
 	add_predef HealParty ; this is both a special and a predef
 	add_predef SmallFarFlagAction
@@ -60,4 +60,3 @@ PredefPointers:: ; 856b
 	add_predef LoadMonAnimation
 	add_predef AnimateFrontpic
 	add_predef HOF_AnimateFrontpic
-; 864c

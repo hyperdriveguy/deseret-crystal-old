@@ -1,27 +1,24 @@
-BattleTowerRoomMenu: ; 1700b0
+BattleTowerRoomMenu:
 ; special
 	call InitBattleTowerChallengeRAM
 	farcall _BattleTowerRoomMenu
 	ret
-; 1700ba
 
-BattleTowerBattle: ; 170215
+BattleTowerBattle:
 	xor a
 	ld [wBattleTowerBattleEnded], a
 	call _BattleTowerBattle
 	ret
-; 17021d
 
-InitBattleTowerChallengeRAM: ; 17021e
+InitBattleTowerChallengeRAM:
 	xor a
 	ld [wBattleTowerBattleEnded], a
 	ld [wNrOfBeatenBattleTowerTrainers], a
 	ld [wcf65], a
 	ld [wcf66], a
 	ret
-; 17022c
 
-_BattleTowerBattle: ; 17022c
+_BattleTowerBattle:
 .loop
 	call .do_dw
 	call DelayFrame
@@ -29,9 +26,8 @@ _BattleTowerBattle: ; 17022c
 	cp $1
 	jr nz, .loop
 	ret
-; 17023a
 
-.do_dw ; 17023a
+.do_dw
 	ld a, [wBattleTowerBattleEnded]
 	ld e, a
 	ld d, 0
@@ -42,14 +38,12 @@ _BattleTowerBattle: ; 17022c
 	ld h, [hl]
 	ld l, a
 	jp hl
-; 170249
 
-.dw ; 170249
+.dw
 	dw RunBattleTowerTrainer
 	dw SkipBattleTowerTrainer
-; 17024d
 
-RunBattleTowerTrainer: ; 17024d
+RunBattleTowerTrainer:
 	ld a, [wOptions]
 	push af
 	ld hl, wOptions
@@ -94,12 +88,11 @@ RunBattleTowerTrainer: ; 17024d
 	ld [wBattleTowerBattleEnded], a
 	ret
 
-
-ReadBTTrainerParty: ; 1702b7
+ReadBTTrainerParty:
 ; Initialise the BattleTower-Trainer and his mon
 	call CopyBTTrainer_FromBT_OT_TowBT_OTTemp
 
-	ld hl, wBT_OTTempName ; 0xc608
+	ld hl, wBT_OTTempName
 	ld de, wOTPlayerName
 	ld bc, NAME_LENGTH - 1
 	call CopyBytes
@@ -148,10 +141,8 @@ ReadBTTrainerParty: ; 1702b7
 	ld a, -1
 	ld [bc], a
 	ret
-; 170394
 
-
-CopyBTTrainer_FromBT_OT_TowBT_OTTemp: ; 1704a2
+CopyBTTrainer_FromBT_OT_TowBT_OTTemp:
 ; copy the BattleTower-Trainer data that lies at 'wBT_OTTrainer' to 'wBT_OTTemp'
 	ld a, [rSVBK]
 	push af
@@ -173,11 +164,10 @@ CopyBTTrainer_FromBT_OT_TowBT_OTTemp: ; 1704a2
 	ld hl, sNrOfBeatenBattleTowerTrainers
 	inc [hl]
 	call CloseSRAM
-SkipBattleTowerTrainer: ; 1704c9
+SkipBattleTowerTrainer:
 	ret
-; 1704ca
 
-BattleTowerAction: ; 170687
+BattleTowerAction:
 	ld a, [wScriptVar]
 	ld e, a
 	ld d, 0
@@ -188,10 +178,8 @@ BattleTowerAction: ; 170687
 	ld h, [hl]
 	ld l, a
 	jp hl
-; 170696
 
-
-.dw ; 170696 (5c:4696)
+.dw
 	dw BattleTowerAction_CheckExplanationRead ; 0x00
 	dw BattleTowerAction_SetExplanationRead ; 0x01
 	dw BattleTowerAction_GetChallengeState ; 0x02
@@ -209,9 +197,8 @@ BattleTowerAction: ; 170687
 	dw BattleTower_RandomlyChooseReward ; 0x1e
 	dw BattleTower_SaveOptions ; 0x1f
 
-
 ; Reset the save memory for BattleTower-Trainers (Counter and all 7 TrainerBytes)
-ResetBattleTowerTrainersSRAM: ; 1706d6 (5c:46d6) BattleTowerAction $1a
+ResetBattleTowerTrainersSRAM: ; BattleTowerAction $1a
 	ld a, BANK(sBTTrainers)
 	call GetSRAMBank
 
@@ -227,7 +214,7 @@ ResetBattleTowerTrainersSRAM: ; 1706d6 (5c:46d6) BattleTowerAction $1a
 
 	ret
 
-BattleTower_GiveReward: ; 1706ee (5c:46ee) BattleTowerAction $1b
+BattleTower_GiveReward: ; BattleTowerAction $1b
 	ld a, BANK(sBattleTowerReward)
 	call GetSRAMBank
 
@@ -256,7 +243,7 @@ BattleTower_GiveReward: ; 1706ee (5c:46ee) BattleTowerAction $1b
 	ld [wScriptVar], a
 	ret
 
-Function17071b: ; 17071b (5c:471b) BattleTowerAction $1c
+Function17071b: ; BattleTowerAction $1c
 	ld a, BANK(sBattleTowerChallengeState)
 	call GetSRAMBank
 	ld a, BATTLETOWER_WON_CHALLENGE
@@ -264,7 +251,7 @@ Function17071b: ; 17071b (5c:471b) BattleTowerAction $1c
 	call CloseSRAM
 	ret
 
-Function170729: ; 170729 (5c:4729) BattleTowerAction $1d
+Function170729: ; BattleTowerAction $1d
 	ld a, BANK(sBattleTowerChallengeState)
 	call GetSRAMBank
 	ld a, BATTLETOWER_RECEIVED_REWARD
@@ -272,11 +259,11 @@ Function170729: ; 170729 (5c:4729) BattleTowerAction $1d
 	call CloseSRAM
 	ret
 
-BattleTower_SaveOptions: ; 170737 (5c:4737) BattleTowerAction $1f
+BattleTower_SaveOptions: ; BattleTowerAction $1f
 	farcall SaveOptions
 	ret
 
-BattleTower_RandomlyChooseReward: ; 17073e (5c:473e) BattleTowerAction $1e
+BattleTower_RandomlyChooseReward: ; BattleTowerAction $1e
 ; Generate a random stat boosting item.
 .loop
 	call Random
@@ -297,7 +284,7 @@ BattleTower_RandomlyChooseReward: ; 17073e (5c:473e) BattleTowerAction $1e
 	call CloseSRAM
 	ret
 
-BattleTowerAction_CheckExplanationRead: ; 17075f (5c:475f) BattleTowerAction $00
+BattleTowerAction_CheckExplanationRead: ; BattleTowerAction $00
 	call BattleTower_CheckSaveFileExistsAndIsYours
 	ld a, [wScriptVar]
 	and a
@@ -311,7 +298,7 @@ BattleTowerAction_CheckExplanationRead: ; 17075f (5c:475f) BattleTowerAction $00
 	call CloseSRAM
 	ret
 
-BattleTowerAction_GetChallengeState: ; 170778 (5c:4778) BattleTowerAction $02
+BattleTowerAction_GetChallengeState: ; BattleTowerAction $02
 	ld hl, sBattleTowerChallengeState
 	ld a, BANK(sBattleTowerChallengeState)
 	call GetSRAMBank
@@ -320,7 +307,7 @@ BattleTowerAction_GetChallengeState: ; 170778 (5c:4778) BattleTowerAction $02
 	call CloseSRAM
 	ret
 
-BattleTowerAction_SetExplanationRead: ; 170788 (5c:4788) BattleTowerAction $01
+BattleTowerAction_SetExplanationRead: ; BattleTowerAction $01
 	ld a, BANK(sBattleTowerSaveFileFlags)
 	call GetSRAMBank
 	ld a, [sBattleTowerSaveFileFlags]
@@ -329,13 +316,13 @@ BattleTowerAction_SetExplanationRead: ; 170788 (5c:4788) BattleTowerAction $01
 	call CloseSRAM
 	ret
 
-BattleTowerAction_SetByteToQuickSaveChallenge: ; 170799 (5c:4799) BattleTowerAction $03
+BattleTowerAction_SetByteToQuickSaveChallenge: ; BattleTowerAction $03
 	ld c, BATTLETOWER_SAVED_AND_LEFT
 	jr asm_17079f
 
-BattleTowerAction_SetByteToCancelChallenge: ; 17079d (5c:479d) BattleTowerAction $04
+BattleTowerAction_SetByteToCancelChallenge: ; BattleTowerAction $04
 	ld c, BATTLETOWER_NO_CHALLENGE
-asm_17079f: ; 17079f (5c:479f)
+asm_17079f:
 	ld a, BANK(sBattleTowerChallengeState)
 	call GetSRAMBank
 	ld a, c
@@ -343,7 +330,7 @@ asm_17079f: ; 17079f (5c:479f)
 	call CloseSRAM
 	ret
 
-SaveBattleTowerLevelGroup: ; 170868 (5c:4868) BattleTowerAction $07
+SaveBattleTowerLevelGroup: ; BattleTowerAction $07
 	ld a, BANK(sBTChoiceOfLevelGroup)
 	call GetSRAMBank
 	ld a, [rSVBK]
@@ -357,7 +344,7 @@ SaveBattleTowerLevelGroup: ; 170868 (5c:4868) BattleTowerAction $07
 	call CloseSRAM
 	ret
 
-LoadBattleTowerLevelGroup: ; 170881 (5c:4881) BattleTowerAction $08 ; Load level group choice
+LoadBattleTowerLevelGroup: ; BattleTowerAction $08 ; Load level group choice
 	ld a, BANK(sBTChoiceOfLevelGroup)
 	call GetSRAMBank
 	ld a, [rSVBK]
@@ -371,7 +358,7 @@ LoadBattleTowerLevelGroup: ; 170881 (5c:4881) BattleTowerAction $08 ; Load level
 	call CloseSRAM
 	ret
 
-BattleTower_CheckSaveFileExistsAndIsYours: ; 17089a BattleTowerAction $09
+BattleTower_CheckSaveFileExistsAndIsYours: ; BattleTowerAction $09
 	ld a, [wSaveFileExists]
 	and a
 	jr z, .nope
@@ -386,16 +373,14 @@ BattleTower_CheckSaveFileExistsAndIsYours: ; 17089a BattleTowerAction $09
 .nope
 	ld [wScriptVar], a
 	ret
-; 1708b1
 
-
-Function1708b1: ; 1708b1 (5c:48b1) BattleTowerAction $0a
+Function1708b1: ; BattleTowerAction $0a
 	xor a
 	ld [wMusicFade], a
 	call MaxVolume
 	ret
 
-CheckMobileEventIndex: ; 1708b9 (5c:48b9) BattleTowerAction $0b something to do with GS Ball
+CheckMobileEventIndex: ; BattleTowerAction $0b something to do with GS Ball
 	ld a, BANK(sMobileEventIndex)
 	call GetSRAMBank
 	ld a, [sMobileEventIndex]
@@ -403,7 +388,7 @@ CheckMobileEventIndex: ; 1708b9 (5c:48b9) BattleTowerAction $0b something to do 
 	call CloseSRAM
 	ret
 
-Function170923: ; 170923
+Function170923:
 	ld a, $5
 	call GetSRAMBank
 	xor a
@@ -414,10 +399,8 @@ Function170923: ; 170923
 	call ByteFill
 	call CloseSRAM
 	ret
-; 17093c
 
-
-LoadOpponentTrainerAndPokemonWithOTSprite: ; 0x170b44
+LoadOpponentTrainerAndPokemonWithOTSprite:
 	farcall Function_LoadOpponentTrainerAndPokemons
 	ld a, [rSVBK]
 	push af
@@ -460,11 +443,10 @@ LoadOpponentTrainerAndPokemonWithOTSprite: ; 0x170b44
 	ld [hUsedSpriteTile], a
 	farcall GetUsedSprite
 	ret
-; 170b90
 
 INCLUDE "data/trainers/sprites.asm"
 
-CheckForBattleTowerRules: ; 170bd3
+CheckForBattleTowerRules:
 	farcall _CheckForBattleTowerRules
 	jr c, .asm_170bde
 	xor a ; FALSE
@@ -476,4 +458,3 @@ CheckForBattleTowerRules: ; 170bd3
 .asm_170be0
 	ld [wScriptVar], a
 	ret
-; 170be4

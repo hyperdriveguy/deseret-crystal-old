@@ -1,4 +1,4 @@
-BattleCommand_Selfdestruct: ; 37380
+BattleCommand_Selfdestruct:
 	ld a, BATTLEANIM_PLAYER_DAMAGE
 	ld [wNumHits], a
 	ld c, 3
@@ -26,5 +26,3 @@ BattleCommand_Selfdestruct: ; 37380
 	farcall DrawEnemyHUD
 	call WaitBGMap
 	jp RefreshBattleHuds
-
-; 373c9

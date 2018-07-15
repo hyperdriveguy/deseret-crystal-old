@@ -1,8 +1,8 @@
-_FindPartyMonThatSpecies: ; 4dbe0
+_FindPartyMonThatSpecies:
 	ld hl, wPartyMon1Species
 	jp FindThatSpecies
 
-_FindPartyMonThatSpeciesYourTrainerID: ; 4dbe6
+_FindPartyMonThatSpeciesYourTrainerID:
 	ld hl, wPartyMon1Species
 	call FindThatSpecies
 	ret z
@@ -25,7 +25,7 @@ _FindPartyMonThatSpeciesYourTrainerID: ; 4dbe6
 	xor a
 	ret
 
-FindThatSpecies: ; 4dc56
+FindThatSpecies:
 ; Find species b in your party.
 ; If you have no Pokemon, returns c = -1 and z.
 ; If that species is in your party, returns its location in c, and nz.

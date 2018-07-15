@@ -1,4 +1,4 @@
-_HandlePlayerStep:: ; d497 (3:5497)
+_HandlePlayerStep::
 	ld a, [wPlayerStepFlags]
 	and a
 	ret z
@@ -34,7 +34,7 @@ _HandlePlayerStep:: ; d497 (3:5497)
 	ld [wPlayerBGMapOffsetY], a
 	ret
 
-ScrollScreen:: ; d4d2 (3:54d2)
+ScrollScreen::
 	ld a, [wPlayerStepVectorX]
 	ld d, a
 	ld a, [wPlayerStepVectorY]
@@ -47,7 +47,7 @@ ScrollScreen:: ; d4d2 (3:54d2)
 	ld [hSCY], a
 	ret
 
-HandlePlayerStep: ; d4e5 (3:54e5)
+HandlePlayerStep:
 	ld hl, wHandlePlayerStep
 	ld a, [hl]
 	and a
@@ -58,11 +58,11 @@ HandlePlayerStep: ; d4e5 (3:54e5)
 	rst JumpTable
 	ret
 
-.Jumptable: ; d4f2 (3:54f2)
+.Jumptable:
 	dw GetMovementPermissions
 	dw BufferScreen
 
-UpdatePlayerCoords: ; d511 (3:5511)
+UpdatePlayerCoords:
 	ld a, [wPlayerStepDirection]
 	and a
 	jr nz, .check_step_down
@@ -91,7 +91,7 @@ UpdatePlayerCoords: ; d511 (3:5511)
 	inc [hl]
 	ret
 
-UpdateOverworldMap: ; d536 (3:5536)
+UpdateOverworldMap:
 	ld a, [wPlayerStepDirection]
 	and a
 	jr z, .step_down
@@ -127,7 +127,7 @@ UpdateOverworldMap: ; d536 (3:5536)
 	call ScrollMapLeft
 	ret
 
-.ScrollOverworldMapDown: ; d571 (3:5571)
+.ScrollOverworldMapDown:
 	ld a, [wBGMapAnchor]
 	add 2 * BG_MAP_WIDTH
 	ld [wBGMapAnchor], a
@@ -148,7 +148,7 @@ UpdateOverworldMap: ; d536 (3:5536)
 .done_down
 	ret
 
-.Add6ToOverworldMapAnchor: ; d595 (3:5595)
+.Add6ToOverworldMapAnchor:
 	ld hl, wOverworldMapAnchor
 	ld a, [wMapWidth]
 	add 6
@@ -158,7 +158,7 @@ UpdateOverworldMap: ; d536 (3:5536)
 	inc [hl]
 	ret
 
-.ScrollOverworldMapUp: ; d5a2 (3:55a2)
+.ScrollOverworldMapUp:
 	ld a, [wBGMapAnchor]
 	sub 2 * BG_MAP_WIDTH
 	ld [wBGMapAnchor], a
@@ -179,7 +179,7 @@ UpdateOverworldMap: ; d536 (3:5536)
 .done_up
 	ret
 
-.Sub6FromOverworldMapAnchor: ; d5c6 (3:55c6)
+.Sub6FromOverworldMapAnchor:
 	ld hl, wOverworldMapAnchor
 	ld a, [wMapWidth]
 	add 6
@@ -191,7 +191,7 @@ UpdateOverworldMap: ; d536 (3:5536)
 	dec [hl]
 	ret
 
-.ScrollOverworldMapLeft: ; d5d5 (3:55d5)
+.ScrollOverworldMapLeft:
 	ld a, [wBGMapAnchor]
 	ld e, a
 	and $e0
@@ -211,7 +211,7 @@ UpdateOverworldMap: ; d536 (3:5536)
 .done_left
 	ret
 
-.DecrementwOverworldMapAnchor: ; d5f4 (3:55f4)
+.DecrementwOverworldMapAnchor:
 	ld hl, wOverworldMapAnchor
 	ld a, [hl]
 	sub 1
@@ -220,7 +220,7 @@ UpdateOverworldMap: ; d536 (3:5536)
 	dec [hl]
 	ret
 
-.ScrollOverworldMapRight: ; d5fe (3:55fe)
+.ScrollOverworldMapRight:
 	ld a, [wBGMapAnchor]
 	ld e, a
 	and $e0
@@ -240,7 +240,7 @@ UpdateOverworldMap: ; d536 (3:5536)
 .done_right
 	ret
 
-.IncrementwOverworldMapAnchor: ; d61d (3:561d)
+.IncrementwOverworldMapAnchor:
 	ld hl, wOverworldMapAnchor
 	ld a, [hl]
 	add 1

@@ -1,4 +1,4 @@
-LoadPoisonBGPals: ; cbcdd
+LoadPoisonBGPals:
 	ld a, [rSVBK]
 	push af
 	ld a, BANK(wBGPals2)

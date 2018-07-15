@@ -1,4 +1,5 @@
 INCLUDE "constants.asm"
+
 INCLUDE "macros/wram.asm"
 
 
@@ -1629,7 +1630,6 @@ wMartItem7BCD:: ds 3
 wMartItem8BCD:: ds 3
 wMartItem9BCD:: ds 3
 wMartItem10BCD:: ds 3
-wMartItemBCDEnd::
 
 NEXTU ; d002
 ; town map data
@@ -2112,7 +2112,6 @@ wEnemyMonCatchRate:: db ; d22b
 wEnemyMonBaseExp::   db ; d22c
 wEnemyMonEnd::
 
-
 wBattleMode:: ; d22d
 ; 0: overworld
 ; 1: wild battle
@@ -2361,7 +2360,7 @@ wDST:: ; d4c2
 ; bit 7: dst
 	db
 
-wGameTime::
+wGameTime:: ; used only for BANK(wGameTime)
 wGameTimeCap::     db ; d4c3
 wGameTimeHours::   dw ; d4c4
 wGameTimeMinutes:: db ; d4c6
@@ -2471,7 +2470,6 @@ wCoins:: dw ; d855
 wBadges::
 wJohtoBadges:: flag_array NUM_JOHTO_BADGES ; d857
 wKantoBadges:: flag_array NUM_KANTO_BADGES ; d858
-
 
 wTMsHMs:: ds NUM_TMS + NUM_HMS ; d859
 wTMsHMsEnd::
@@ -2751,7 +2749,6 @@ wKurtApricornQuantity:: db
 
 wPlayerDataEnd::
 
-
 wCurrMapData::
 
 wVisitedSpawns:: flag_array NUM_SPAWNS ; dca5
@@ -2972,7 +2969,7 @@ w3_dffc:: ds 4
 SECTION "GBC Video", WRAMX
 
 ; eight 4-color palettes each
-wGBCPalettes::
+wGBCPalettes:: ; used only for BANK(wGBCPalettes)
 wBGPals1:: ds 8 palettes ; d000
 wOBPals1:: ds 8 palettes ; d040
 wBGPals2:: ds 8 palettes ; d080
@@ -2983,7 +2980,7 @@ wLYOverridesEnd:: ; d190
 
 	ds 1
 
-wMagnetTrain::
+wMagnetTrain:: ; used only for BANK(wMagnetTrain)
 wMagnetTrainDirection:: db
 wMagnetTrainInitPosition:: db
 wMagnetTrainHoldPosition:: db

@@ -1,4 +1,4 @@
-SpriteAnimOAMData: ; 8d94d
+SpriteAnimOAMData:
 ; entries correspond to SPRITE_ANIM_OAMSET_* constants
 	; vtile offset, pointer
 	dbw $00, .OAMData_RedWalk                  ; SPRITE_ANIM_OAMSET_RED_WALK_1
@@ -616,4 +616,3 @@ SpriteAnimOAMData: ; 8d94d
 	dsprite  0,  0, -1,  4, $51, 1
 	dsprite  0,  0,  0,  4, $52, 1
 	dsprite  0,  0,  1,  4, $53, 1
-; 8e706

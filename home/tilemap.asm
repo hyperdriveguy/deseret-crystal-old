@@ -1,6 +1,6 @@
-ClearBGPalettes:: ; 31f3
+ClearBGPalettes::
 	call ClearPalettes
-WaitBGMap:: ; 31f6
+WaitBGMap::
 ; Tell VBlank to update BG Map
 	ld a, 1 ; BG Map 0 tiles
 	ld [hBGMapMode], a
@@ -8,9 +8,8 @@ WaitBGMap:: ; 31f6
 	ld c, 4
 	call DelayFrames
 	ret
-; 3200
 
-WaitBGMap2:: ; 0x3200
+WaitBGMap2::
 	ld a, 2
 	ld [hBGMapMode], a
 	ld c, 4
@@ -21,9 +20,8 @@ WaitBGMap2:: ; 0x3200
 	ld c, 4
 	call DelayFrames
 	ret
-; 0x3218
 
-ApplyTilemap:: ; 321c
+ApplyTilemap::
 	ld a, [wSpriteUpdatesEnabled]
 	cp 0
 	jr z, .dmg
@@ -39,10 +37,9 @@ ApplyTilemap:: ; 321c
 	ld c, 4
 	call DelayFrames
 	ret
-; 3238
 
-CGBOnly_CopyTilemapAtOnce:: ; 3238
-CopyTilemapAtOnce:: ; 323d
+CGBOnly_CopyTilemapAtOnce::
+CopyTilemapAtOnce::
 	ld a, [hBGMapMode]
 	push af
 	xor a
@@ -79,9 +76,8 @@ CopyTilemapAtOnce:: ; 323d
 	pop af
 	ld [hBGMapMode], a
 	ret
-; 327b
 
-.StackPointerMagic: ; 327b
+.StackPointerMagic:
 ; Copy all tiles to vBGMap
 	ld [hSPBuffer], sp
 	ld sp, hl
@@ -121,9 +117,8 @@ endr
 	ld h, a
 	ld sp, hl
 	ret
-; 32f9
 
-SetPalettes:: ; 32f9
+SetPalettes::
 ; Inits the Palettes
 	push de
 	ld a, %11100100
@@ -132,9 +127,8 @@ SetPalettes:: ; 32f9
 	call DmgToCgbObjPals
 	pop de
 	ret
-; 3317
 
-ClearPalettes:: ; 3317
+ClearPalettes::
 ; Make all palettes white
 
 	ld a, [rSVBK]
@@ -156,10 +150,8 @@ ClearPalettes:: ; 3317
 	ld a, 1
 	ld [hCGBPalUpdate], a
 	ret
-; 333e
 
-GetMemSGBLayout:: ; 333e
+GetMemSGBLayout::
 	ld b, SCGB_RAM
-GetSGBLayout:: ; 3340
+GetSGBLayout::
 	predef_jump LoadSGBLayoutCGB
-; 334e

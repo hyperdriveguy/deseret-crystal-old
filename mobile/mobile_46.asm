@@ -1,6 +1,6 @@
 SECTION "Mobile 46", ROMX
 
-_BattleTowerRoomMenu: ; 118121
+_BattleTowerRoomMenu:
 	xor a
 	ld [wc300], a
 	ld [$c31a], a
@@ -22,17 +22,15 @@ _BattleTowerRoomMenu: ; 118121
 	ld a, [wc300]
 	ld [wScriptVar], a
 	jp ReturnToMapFromSubmenu
-; 118180
 
-BattleTowerRoomMenu_Jumptable: ; 11854d
+BattleTowerRoomMenu_Jumptable:
 	jumptable .Jumptable, wcf66
-; 11855c
 
-.Jumptable: ; 11855c
+.Jumptable:
 	dw BattleTowerRoomMenu_PickLevelMessage
 	dw BattleTowerRoomMenu_PlacePickLevelMenu
 	dw BattleTowerRoomMenu_UpdatePickLevelMenu
-	dw 0
+	dw NULL
 	dw BattleTowerRoomMenu_PartyMonTopsThisLevelMessage
 	dw BattleTowerRoomMenu_WaitForMessage
 	dw BattleTowerRoomMenu_DelayRestartMenu
@@ -42,10 +40,8 @@ BattleTowerRoomMenu_Jumptable: ; 11854d
 	dw BattleTowerRoomMenu_UberRestrictionMessage
 	dw BattleTowerRoomMenu_WaitForMessage
 	dw BattleTowerRoomMenu_DelayRestartMenu
-; 11857c
 
-
-BattleTowerRoomMenu_PickLevelMessage: ; 118922
+BattleTowerRoomMenu_PickLevelMessage:
 	ld hl, Text_WhatLevelDoYouWantToChallenge
 	call BattleTowerRoomMenu_SetMessage
 	call BattleTowerRoomMenu_IncrementJumptable
@@ -217,7 +213,7 @@ BattleTowerRoomMenu_UpdatePickLevelMenu:
 SECTION "Mobile 46 ASCII", ROMX
 ; A hack to use ascii above.
 
-BattleTowerRoomMenu_UberRestrictionMessage: ; 119c97
+BattleTowerRoomMenu_UberRestrictionMessage:
 	ld hl, Text_UberRestriction
 	call BattleTowerRoomMenu_SetMessage
 	call BattleTowerRoomMenu_IncrementJumptable
@@ -246,9 +242,8 @@ BattleTowerRoomMenu_DelayRestartMenu:
 	ld a, $0
 	ld [wcf66], a
 	ret
-; 119cc3
 
-BattleTowerRoomMenu_QuitMessage: ; 119cc3
+BattleTowerRoomMenu_QuitMessage:
 	ld hl, Text_CancelBattleRoomChallenge
 	call BattleTowerRoomMenu_SetMessage
 	call BattleTowerRoomMenu_IncrementJumptable
@@ -266,19 +261,17 @@ BattleTowerRoomMenu_UpdateYesNoMenu:
 	ld a, [wMobileInactivityTimerFrames]
 	ld [wcf66], a
 	ret
-; 119cf7
 
-MenuHeader_119cf7: ; 119cf7
+MenuHeader_119cf7:
 	db MENU_BACKUP_TILES ; flags
 	menu_coords 12, 7, SCREEN_WIDTH - 1, TEXTBOX_Y - 1
 	dw NULL
 	db 0 ; default option
-; 119cff
 
 String_119d07:
 	db "   ▼@"
 
-Strings_L10ToL100: ; 119d0c
+Strings_L10ToL100:
 	db " L:10 @@"
 	db " L:20 @@"
 	db " L:30 @@"
@@ -291,14 +284,14 @@ Strings_L10ToL100: ; 119d0c
 	db " L:100@@"
 	db "CANCEL@@"
 
-Strings_Ll0ToL40: ; 119d64
+Strings_Ll0ToL40:
 	db " L:10 @@"
 	db " L:20 @@"
 	db " L:30 @@"
 	db " L:40 @@"
 	db "CANCEL@@"
 
-BattleTower_LevelCheck: ; 119d93 (46:5d93)
+BattleTower_LevelCheck:
 	ld a, [rSVBK]
 	push af
 	ld a, $1
@@ -342,7 +335,7 @@ BattleTower_LevelCheck: ; 119d93 (46:5d93)
 	scf
 	ret
 
-BattleTower_UbersCheck: ; 119dd1 (46:5dd1)
+BattleTower_UbersCheck:
 	ld a, [rSVBK]
 	push af
 	ld a, [wcd4f]
@@ -396,15 +389,13 @@ BattleTower_UbersCheck: ; 119dd1 (46:5dd1)
 	ld [rSVBK], a
 	scf
 	ret
-; 119e2b (46:5e2b)
 
-BattleTowerRoomMenu_IncrementJumptable: ; 119e2e (46:5e2e)
+BattleTowerRoomMenu_IncrementJumptable:
 	ld hl, wcf66
 	inc [hl]
 	ret
-; 119e33 (46:5e33)
 
-BattleTowerRoomMenu2_PlaceYesNoMenu: ; 11a207
+BattleTowerRoomMenu2_PlaceYesNoMenu:
 	ld hl, MenuHeader_11a2de
 	call LoadMenuHeader
 	call MenuBox
@@ -422,9 +413,8 @@ BattleTowerRoomMenu2_PlaceYesNoMenu: ; 11a207
 	xor a
 	ld [wMobileInactivityTimerMinutes], a
 	ret
-; 11a235
 
-BattleTowerRoomMenu2_UpdateYesNoMenu: ; 11a235
+BattleTowerRoomMenu2_UpdateYesNoMenu:
 	ld hl, hJoyPressed
 	ld a, [hl]
 	and A_BUTTON
@@ -502,34 +492,28 @@ BattleTowerRoomMenu2_UpdateYesNoMenu: ; 11a235
 	farcall ReloadMapPart
 	and a
 	ret
-; 11a2cf
 
-String_11a2cf: ; 11a2cf
+String_11a2cf:
 	db "YES@"
-; 11a2d3
 
-String_11a2d3: ; 11a2d3
+String_11a2d3:
 	db "NO@"
-; 11a2d6
 
-MenuHeader_11a2de: ; 11a2de
+MenuHeader_11a2de:
 	db MENU_BACKUP_TILES ; flags
 	menu_coords 14, 7, SCREEN_WIDTH - 1, TEXTBOX_Y - 1
 	dw NULL
 	db 0 ; default option
-; 11a2e6
 
-BattleTowerRoomMenu_WriteMessage: ; 11a8fa
+BattleTowerRoomMenu_WriteMessage:
 	jumptable .Jumptable, $c31a
-; 11a909
 
-.Jumptable: ; 11a909
+.Jumptable:
 	dw BattleTowerRoomMenu_WriteMessage_DoNothing
 	dw Function11a90f
 	dw Function11a971
-; 11a90f
 
-Function11a90f: ; 11a90f
+Function11a90f:
 	ld a, $1
 	ld [rSVBK], a
 	call SpeechTextBox
@@ -589,9 +573,8 @@ Function11a90f: ; 11a90f
 
 BattleTowerRoomMenu_WriteMessage_DoNothing:
 	ret
-; 11a971
 
-Function11a971: ; 11a971
+Function11a971:
 	ld hl, $c31f
 	ld a, [hJoyDown]
 	and a
@@ -638,9 +621,8 @@ Function11a971: ; 11a971
 
 .asm_11a9bf
 	ret
-; 11a9c0
 
-BattleTowerRoomMenu_SetMessage: ; 11a9c0
+BattleTowerRoomMenu_SetMessage:
 	ld a, l
 	ld [$c31b], a
 	ld a, h
@@ -648,21 +630,18 @@ BattleTowerRoomMenu_SetMessage: ; 11a9c0
 	ld a, $1
 	ld [$c31a], a
 	ret
-; 11a9ce
 
-Function11a9f0: ; 11a9f0
+Function11a9f0:
 	ld a, $1
 	and a
 	ret
-; 11a9f4
 
-Text_PartyMonTopsThisLevel: ; 0x11aaf0
+Text_PartyMonTopsThisLevel:
 	text "A party #MON"
 	line "tops this level."
 	done
-; 0x11ab0f
 
-Text_UberRestriction: ; 0x11ab0f
+Text_UberRestriction:
 	text_from_ram wcd49
 	text " may go"
 	line "only to BATTLE"
@@ -670,21 +649,18 @@ Text_UberRestriction: ; 0x11ab0f
 	para "ROOMS that are"
 	line "Lv.70 or higher."
 	done
-; 0x11ab4a
 
-Text_CancelBattleRoomChallenge: ; 0x11ab4a
+Text_CancelBattleRoomChallenge:
 	text "Cancel your BATTLE"
 	line "ROOM challenge?"
 	done
-; 0x11ab6e
 
-Text_WhatLevelDoYouWantToChallenge: ; 0x11aba5
+Text_WhatLevelDoYouWantToChallenge:
 	text "What level do you"
 	line "want to challenge?"
 	done
-; 0x11abcb
 
-AddMobileMonToParty: ; 11b98f
+AddMobileMonToParty:
 	ld hl, wPartyCount
 	ld a, [hl]
 	ld e, a
@@ -786,4 +762,3 @@ AddMobileMonToParty: ; 11b98f
 
 	call CloseSRAM
 	ret
-; 11ba38

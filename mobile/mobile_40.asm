@@ -1,13 +1,12 @@
 SECTION "mobile_40", ROMX
 
-_LinkBattleSendReceiveAction: ; 100a09
+_LinkBattleSendReceiveAction:
 	call .StageForSend
 	ld [wd431], a
 	farcall PlaceWaitingText
 	jp .LinkBattle_SendReceiveAction
-; 100a2e
 
-.StageForSend: ; 100a2e
+.StageForSend:
 	ld a, [wBattlePlayerAction]
 	and a
 	jr nz, .switch
@@ -32,9 +31,8 @@ _LinkBattleSendReceiveAction: ; 100a09
 .use_move
 	and $0f
 	ret
-; 100a53
 
-.LinkBattle_SendReceiveAction: ; 100a53
+.LinkBattle_SendReceiveAction:
 	ld a, [wd431]
 	ld [wPlayerLinkAction], a
 	ld a, $ff
@@ -63,4 +61,3 @@ _LinkBattleSendReceiveAction: ; 100a09
 	ld a, [wOtherPlayerLinkAction]
 	ld [wBattleAction], a
 	ret
-; 100a87

@@ -1,6 +1,6 @@
 ; Held item effects that are consumed on use
 
-ConsumableEffects: ; 271de
+ConsumableEffects:
 	db HELD_BERRY
 	db HELD_HEAL_POISON
 	db HELD_HEAL_FREEZE
@@ -18,4 +18,3 @@ ConsumableEffects: ; 271de
 	db HELD_ESCAPE
 	db HELD_CRITICAL_UP
 	db -1
-; 271f4

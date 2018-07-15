@@ -1,4 +1,4 @@
-RunMapSetupScript:: ; 15363
+RunMapSetupScript::
 	ld a, [hMapEntryMethod]
 	and $f
 	dec a
@@ -12,11 +12,10 @@ RunMapSetupScript:: ; 15363
 	ld l, a
 	call ReadMapSetupScript
 	ret
-; 15377
 
 INCLUDE "data/maps/setup_scripts.asm"
 
-ReadMapSetupScript: ; 1541d
+ReadMapSetupScript:
 .loop
 	ld a, [hli]
 	cp -1
@@ -58,9 +57,8 @@ ReadMapSetupScript: ; 1541d
 
 	pop hl
 	jr .loop
-; 15440
 
-MapSetupCommands: ; 15440
+MapSetupCommands:
 ; entries correspond to command indexes in constants/map_setup_constants.asm
 	dba EnableLCD ; 00
 	dba DisableLCD ; 01
@@ -108,47 +106,40 @@ MapSetupCommands: ; 15440
 	dba RetainOldPalettes ; 2b
 	dba DontScrollText ; 2c
 	dba ReturnFromMapSetupScript ; 2d
-; 154ca
 
-
-DontScrollText: ; 154ca
+DontScrollText:
 	xor a
 	ld [wDisableTextAcceleration], a
 	ret
-; 154cf
 
-ActivateMapAnims: ; 154cf
+ActivateMapAnims:
 	ld a, $1
 	ld [hMapAnims], a
 	ret
-; 154d3
 
-SuspendMapAnims: ; 154d3
+SuspendMapAnims:
 	xor a
 	ld [hMapAnims], a
 	ret
-; 154d7
 
-LoadObjectsRunCallback_02: ; 154d7
+LoadObjectsRunCallback_02:
 	ld a, MAPCALLBACK_OBJECTS
 	call RunMapCallback
 	farcall LoadObjectMasks
 	farcall InitializeVisibleSprites
 	ret
-; 154ea (5:54ea)
 
-DelayClearingOldSprites: ; 154eb
+DelayClearingOldSprites:
 	ld hl, wPlayerSpriteSetupFlags
 	set PLAYERSPRITESETUP_RESET_ACTION_F, [hl]
 	ret
-; 154f1
 
-DelayLoadingNewSprites: ; 154f1
+DelayLoadingNewSprites:
 	ld hl, wPlayerSpriteSetupFlags
 	set PLAYERSPRITESETUP_SKIP_RELOAD_GFX_F, [hl]
 	ret
 
-CheckReplaceKrisSprite: ; 154f7
+CheckReplaceKrisSprite:
 	nop
 	call .CheckBiking
 	jr c, .ok
@@ -162,7 +153,7 @@ CheckReplaceKrisSprite: ; 154f7
 	call ReplaceKrisSprite
 	ret
 
-.CheckBiking: ; 1550c (5:550c)
+.CheckBiking:
 	and a
 	ld hl, wBikeFlags
 	bit BIKEFLAGS_ALWAYS_ON_BIKE_F, [hl]
@@ -172,7 +163,7 @@ CheckReplaceKrisSprite: ; 154f7
 	scf
 	ret
 
-.CheckSurfing2: ; 1551a (5:551a)
+.CheckSurfing2:
 	ld a, [wPlayerState]
 	cp PLAYER_NORMAL
 	jr z, .nope
@@ -204,7 +195,7 @@ CheckReplaceKrisSprite: ; 154f7
 	and a
 	ret
 
-.CheckSurfing: ; 1554e (5:554e)
+.CheckSurfing:
 	call CheckOnWater
 	jr nz, .ret_nc
 	ld a, [wPlayerState]
@@ -220,19 +211,17 @@ CheckReplaceKrisSprite: ; 154f7
 .ret_nc
 	and a
 	ret
-; 15567
 
-FadeOldMapMusic: ; 15567
+FadeOldMapMusic:
 	ld a, 6
 	call SkipMusic
 	ret
-; 1556d
 
-RetainOldPalettes: ; 1556d
+RetainOldPalettes:
 	farcall _UpdateTimePals
 	ret
 
-RotatePalettesRightMapAndMusic: ; 15574
+RotatePalettesRightMapAndMusic:
 	ld e, 0
 	ld a, [wMusicFadeID]
 	ld d, 0
@@ -241,9 +230,8 @@ RotatePalettesRightMapAndMusic: ; 15574
 	ld [wMusicFade], a
 	call RotateThreePalettesRight
 	ret
-; 15587
 
-ForceMapMusic: ; 15587
+ForceMapMusic:
 	ld a, [wPlayerState]
 	cp PLAYER_BIKE
 	jr nz, .notbiking
@@ -253,4 +241,3 @@ ForceMapMusic: ; 15587
 .notbiking
 	call TryRestartMapMusic
 	ret
-; 1559a

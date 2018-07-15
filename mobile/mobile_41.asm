@@ -1,4 +1,4 @@
-BackupMobileEventIndex: ; 106187
+BackupMobileEventIndex:
 	ld a, BANK(sMobileEventIndex)
 	call GetSRAMBank
 	ld a, [sMobileEventIndex]
@@ -9,10 +9,8 @@ BackupMobileEventIndex: ; 106187
 	ld [sMobileEventIndexBackup], a
 	call CloseSRAM
 	ret
-; 10619d
 
-
-RestoreMobileEventIndex: ; 10619d (41:619d)
+RestoreMobileEventIndex:
 	ld a, BANK(sMobileEventIndexBackup)
 	call GetSRAMBank
 	ld a, [sMobileEventIndexBackup]
@@ -23,13 +21,11 @@ RestoreMobileEventIndex: ; 10619d (41:619d)
 	ld [sMobileEventIndex], a
 	call CloseSRAM
 	ret
-; 1061b3 (41:61b3)
 
-DeleteMobileEventIndex: ; 1061c0 (41:61c0)
+DeleteMobileEventIndex:
 	ld a, BANK(sMobileEventIndex)
 	call GetSRAMBank
 	xor a
 	ld [sMobileEventIndex], a
 	call CloseSRAM
 	ret
-; 1061cd (41:61cd)

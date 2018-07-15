@@ -1,5 +1,3 @@
-BattleCommand_Splash: ; 36fe1
+BattleCommand_Splash:
 	call AnimateCurrentMove
 	jp PrintNothingHappened
-
-; 36fed

@@ -1,4 +1,4 @@
-Serial:: ; 6ef
+Serial::
 ; The serial interrupt.
 
 	push af
@@ -79,9 +79,8 @@ Serial:: ; 6ef
 	pop bc
 	pop af
 	reti
-; 75f
 
-Serial_ExchangeBytes:: ; 75f
+Serial_ExchangeBytes::
 	ld a, $1
 	ld [hSerialIgnoringInitialData], a
 .loop
@@ -115,9 +114,8 @@ Serial_ExchangeBytes:: ; 75f
 	or c
 	jr nz, .loop
 	ret
-; 78a
 
-Serial_ExchangeByte:: ; 78a
+Serial_ExchangeByte::
 .loop
 	xor a
 	ld [hSerialReceivedNewData], a
@@ -224,27 +222,24 @@ Serial_ExchangeByte:: ; 78a
 	dec a
 	jr nz, .delay_cycles
 	ret
-; 82b
 
-CheckwLinkTimeoutFramesNonzero:: ; 82b
+CheckwLinkTimeoutFramesNonzero::
 	push hl
 	ld hl, wLinkTimeoutFrames
 	ld a, [hli]
 	or [hl]
 	pop hl
 	ret
-; 833
 
-SerialDisconnected:: ; 833
+SerialDisconnected::
 	dec a ; a is always 0 when this is called
 	ld [wLinkTimeoutFrames], a
 	ld [wLinkTimeoutFrames + 1], a
 	ret
-; 83b
 
 ; This is used to exchange the button press and selected menu item on the link menu.
 ; The data is sent thrice and read twice to increase reliability.
-Serial_ExchangeLinkMenuSelection:: ; 83b
+Serial_ExchangeLinkMenuSelection::
 	ld hl, wPlayerLinkAction
 	ld de, wOtherPlayerLinkMode
 	ld c, 2
@@ -268,18 +263,16 @@ Serial_ExchangeLinkMenuSelection:: ; 83b
 	dec c
 	jr nz, .asm_847
 	ret
-; 862
 
-Serial_PrintWaitingTextAndSyncAndExchangeNybble:: ; 862
+Serial_PrintWaitingTextAndSyncAndExchangeNybble::
 	call LoadTileMapToTempTileMap
 	callfar PlaceWaitingText
 	call WaitLinkTransfer
 	jp Call_LoadTempTileMapToTileMap
-; 871
 
 ; One "giant" leap for machinekind
 
-WaitLinkTransfer:: ; 87d
+WaitLinkTransfer::
 	ld a, $ff
 	ld [wOtherPlayerLinkAction], a
 .loop
@@ -324,9 +317,8 @@ WaitLinkTransfer:: ; 87d
 	ld a, [wOtherPlayerLinkAction]
 	ld [wOtherPlayerLinkMode], a
 	ret
-; 8c1
 
-LinkTransfer:: ; 8c1
+LinkTransfer::
 	push bc
 	ld b, SERIAL_TIMECAPSULE
 	ld a, [wLinkMode]
@@ -356,9 +348,8 @@ LinkTransfer:: ; 8c1
 	call .Receive
 	pop bc
 	ret
-; 8f3
 
-.Receive: ; 8f3
+.Receive:
 	ld a, [hSerialReceive]
 	ld [wOtherPlayerLinkMode], a
 	and $f0
@@ -370,9 +361,8 @@ LinkTransfer:: ; 8c1
 	and $f
 	ld [wOtherPlayerLinkAction], a
 	ret
-; 908
 
-LinkDataReceived:: ; 908
+LinkDataReceived::
 ; Let the other system know that the data has been received.
 	xor a
 	ld [hSerialSend], a
@@ -384,4 +374,3 @@ LinkDataReceived:: ; 908
 	ld a, (1 << rSC_ON) | 1
 	ld [rSC], a
 	ret
-; 919

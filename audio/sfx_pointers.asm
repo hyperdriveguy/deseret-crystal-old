@@ -1,6 +1,5 @@
-SFX: ; e927c
+SFX:
 ; entries correspond to SFX_* constants
-
 	dba Sfx_DexFanfare5079
 	dba Sfx_Item
 	dba Sfx_CaughtMon
@@ -174,9 +173,7 @@ SFX: ; e927c
 	dba Sfx_StopSlot
 	dba Sfx_2Boops
 	dba Sfx_GlassTing
-
-; Crystal adds the following SFX:
-
+; new to Crystal
 	dba Sfx_IntroUnown1
 	dba Sfx_IntroUnown2
 	dba Sfx_IntroUnown3
@@ -190,4 +187,3 @@ SFX: ; e927c
 	dba Sfx_GameFreakPresents
 	dba Sfx_Tingle
 	dba Sfx_UnknownCB
-; e94e9

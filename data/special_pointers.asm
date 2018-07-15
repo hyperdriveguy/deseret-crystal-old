@@ -6,7 +6,7 @@ add_special: MACRO
 	dba \1
 ENDM
 
-SpecialsPointers:: ; c029
+SpecialsPointers::
 	add_special WarpToSpawnPoint ; $0
 
 ; Communications
@@ -141,4 +141,3 @@ SpecialsPointers:: ; c029
 	add_special LoadMapPalettes
 	add_special InitialSetDSTFlag
 	add_special InitialClearDSTFlag
-; c224

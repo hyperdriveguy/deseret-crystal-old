@@ -1,4 +1,4 @@
-GetPartyParamLocation:: ; 3917
+GetPartyParamLocation::
 ; Get the location of parameter a from wCurPartyMon in hl
 	push bc
 	ld hl, wPartyMons
@@ -9,10 +9,8 @@ GetPartyParamLocation:: ; 3917
 	call GetPartyLocation
 	pop bc
 	ret
-; 3927
 
-GetPartyLocation:: ; 3927
+GetPartyLocation::
 ; Add the length of a PartyMon struct to hl a times.
 	ld bc, PARTYMON_STRUCT_LENGTH
 	jp AddNTimes
-; 392d

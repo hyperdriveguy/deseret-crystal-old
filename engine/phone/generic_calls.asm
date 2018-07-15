@@ -1249,8 +1249,6 @@ PhoneScript_MonFlavorText:
 	farwritetext UnknownText_0x1b522b
 	buttonsound
 	farjump PhoneScript_HangupText_Male
-; be643
-
 
 GrandmaString: db "Grandma@"
 GrandpaString: db "Grandpa@"
@@ -1258,4 +1256,3 @@ MomString: db "Mom@"
 DadString: db "Dad@"
 SisterString: db "Sister@"
 BrotherString: db "Brother@"
-

@@ -1,4 +1,4 @@
-PhoneRing_CopyTilemapAtOnce: ; 4d188
+PhoneRing_CopyTilemapAtOnce:
 	ld a, [wSpriteUpdatesEnabled]
 	cp $0
 	jp z, WaitBGMap
@@ -38,7 +38,7 @@ PhoneRing_CopyTilemapAtOnce: ; 4d188
 	ld [hBGMapMode], a
 	ret
 
-.CopyTilemapAtOnce: ; 4d1cb
+.CopyTilemapAtOnce:
 	ld [hSPBuffer], sp
 	ld sp, hl
 	ld a, [hBGMapAddress + 1]

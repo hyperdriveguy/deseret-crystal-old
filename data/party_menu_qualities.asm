@@ -17,8 +17,7 @@ endr
 	db -1 ; end
 ENDM
 
-
-PartyMenuQualityPointers: ; 503b2
+PartyMenuQualityPointers:
 ; entries correspond to PARTYMENUACTION_* constants
 	dw .Default  ; PARTYMENUACTION_CHOOSE_POKEMON
 	dw .Default  ; PARTYMENUACTION_HEALING_ITEM
@@ -28,10 +27,8 @@ PartyMenuQualityPointers: ; 503b2
 	dw .EvoStone ; PARTYMENUACTION_EVO_STONE
 	dw .Gender   ; PARTYMENUACTION_GIVE_MON
 	dw .Default  ; PARTYMENUACTION_GIVE_ITEM
-; 503c6
 
 .Default:  partymenuqualities NICKNAMES, HP_BAR, HP_DIGITS, LEVEL, STATUS
 .TMHM:     partymenuqualities NICKNAMES, TMHM_COMPAT,       LEVEL, STATUS
 .EvoStone: partymenuqualities NICKNAMES, EVO_STONE_COMPAT,  LEVEL, STATUS
 .Gender:   partymenuqualities NICKNAMES, GENDER,            LEVEL, STATUS
-; 503e0

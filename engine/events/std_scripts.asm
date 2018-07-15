@@ -182,7 +182,7 @@ Radio2Script:
 	closetext
 	end
 
-TrashCanScript: ; 0xbc1a5
+TrashCanScript:
 	farjumptext TrashCanText
 
 PCScript:
@@ -301,9 +301,8 @@ BugContestResults_DidNotWin:
 	farwritetext ContestResults_DidNotWinText
 	buttonsound
 	jump BugContestResults_FinishUp
-; 0xbc2b1
 
-BugContestResults_ReturnAfterWinnersPrize: ; 0xbc2b1
+BugContestResults_ReturnAfterWinnersPrize:
 	farwritetext ContestResults_JoinUsNextTimeText
 	buttonsound
 
@@ -347,9 +346,8 @@ BugContestResults_CleanUp:
 	setflag ENGINE_DAILY_BUG_CONTEST
 	special PlayMapMusic
 	end
-; 0xbc31e
 
-BugContestResults_FirstPlace: ; 0xbc31e
+BugContestResults_FirstPlace:
 	setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
 	itemtotext SUN_STONE, MEM_BUFFER_1
 	farwritetext ContestResults_PlayerWonAPrizeText
@@ -357,55 +355,48 @@ BugContestResults_FirstPlace: ; 0xbc31e
 	verbosegiveitem SUN_STONE
 	iffalse BugContestResults_NoRoomForSunStone
 	jump BugContestResults_ReturnAfterWinnersPrize
-; 0xbc332
 
-BugContestResults_SecondPlace: ; 0xbc332
+BugContestResults_SecondPlace:
 	itemtotext EVERSTONE, MEM_BUFFER_1
 	farwritetext ContestResults_PlayerWonAPrizeText
 	waitbutton
 	verbosegiveitem EVERSTONE
 	iffalse BugContestResults_NoRoomForEverstone
 	jump BugContestResults_ReturnAfterWinnersPrize
-; 0xbc343
 
-BugContestResults_ThirdPlace: ; 0xbc343
+BugContestResults_ThirdPlace:
 	itemtotext GOLD_BERRY, MEM_BUFFER_1
 	farwritetext ContestResults_PlayerWonAPrizeText
 	waitbutton
 	verbosegiveitem GOLD_BERRY
 	iffalse BugContestResults_NoRoomForGoldBerry
 	jump BugContestResults_ReturnAfterWinnersPrize
-; 0xbc354
 
-BugContestResults_NoRoomForSunStone: ; 0xbc354
+BugContestResults_NoRoomForSunStone:
 	farwritetext BugContestPrizeNoRoomText
 	buttonsound
 	setevent EVENT_CONTEST_OFFICER_HAS_SUN_STONE
 	jump BugContestResults_ReturnAfterWinnersPrize
-; 0xbc35f
 
-BugContestResults_NoRoomForEverstone: ; 0xbc35f
+BugContestResults_NoRoomForEverstone:
 	farwritetext BugContestPrizeNoRoomText
 	buttonsound
 	setevent EVENT_CONTEST_OFFICER_HAS_EVERSTONE
 	jump BugContestResults_ReturnAfterWinnersPrize
-; 0xbc36a
 
-BugContestResults_NoRoomForGoldBerry: ; 0xbc36a
+BugContestResults_NoRoomForGoldBerry:
 	farwritetext BugContestPrizeNoRoomText
 	buttonsound
 	setevent EVENT_CONTEST_OFFICER_HAS_GOLD_BERRY
 	jump BugContestResults_ReturnAfterWinnersPrize
-; 0xbc375
 
-BugContestResults_NoRoomForBerry: ; 0xbc375
+BugContestResults_NoRoomForBerry:
 	farwritetext BugContestPrizeNoRoomText
 	buttonsound
 	setevent EVENT_CONTEST_OFFICER_HAS_BERRY
 	jump BugContestResults_DidNotWin
-; 0xbc380
 
-BugContestResults_CopyContestantsToResults: ; 0xbc380
+BugContestResults_CopyContestantsToResults:
 	checkevent EVENT_BUG_CATCHING_CONTESTANT_1A
 	iftrue .skip1
 	clearevent EVENT_BUG_CATCHING_CONTESTANT_1B
@@ -1455,7 +1446,7 @@ RegisteredNumberFScript:
 	buttonsound
 	end
 
-NumberAcceptedFScript: ; 0xbcbd3
+NumberAcceptedFScript:
 	checkcode VAR_CALLERID
 	ifequal PHONE_POKEFAN_BEVERLY, .Beverly
 	ifequal PHONE_COOLTRAINERF_BETH, .Beth
@@ -1743,23 +1734,21 @@ GymStatue2Script:
 	closetext
 	end
 
-ReceiveItemScript: ; 0xbcdb9
+ReceiveItemScript:
 	waitsfx
 	farwritetext ReceivedItemText
 	playsound SFX_ITEM
 	waitsfx
 	end
-; 0xbcdc3
 
-ReceiveTogepiEggScript: ; 0xbcdc3
+ReceiveTogepiEggScript:
 	waitsfx
 	farwritetext ReceivedItemText
 	playsound SFX_GET_EGG_FROM_DAY_CARE_LADY
 	waitsfx
 	end
-; 0xbcdcd
 
-GameCornerCoinVendorScript: ; 0xbcdcd
+GameCornerCoinVendorScript:
 	faceplayer
 	opentext
 	farwritetext CoinVendor_WelcomeText
@@ -1770,12 +1759,11 @@ GameCornerCoinVendorScript: ; 0xbcdcd
 	waitbutton
 	closetext
 	end
-; 0xbcde0
 
-CoinVendor_IntroScript: ; 0xbcde0
+CoinVendor_IntroScript:
 	farwritetext CoinVendor_IntroText
 
-.loop ; 0xbcde4
+.loop
 	special DisplayMoneyAndCoinBalance
 	loadmenu .MenuHeader
 	verticalmenu
@@ -1783,9 +1771,8 @@ CoinVendor_IntroScript: ; 0xbcde0
 	ifequal 1, .Buy50
 	ifequal 2, .Buy500
 	jump .Cancel
-; 0xbcdf7
 
-.Buy50: ; 0xbcdf7
+.Buy50:
 	checkcoins MAX_COINS - 50
 	ifequal HAVE_MORE, .CoinCaseFull
 	checkmoney YOUR_MONEY, 1000
@@ -1797,9 +1784,8 @@ CoinVendor_IntroScript: ; 0xbcde0
 	farwritetext CoinVendor_Buy50CoinsText
 	waitbutton
 	jump .loop
-; 0xbce1b
 
-.Buy500: ; 0xbce1b
+.Buy500:
 	checkcoins MAX_COINS - 500
 	ifequal HAVE_MORE, .CoinCaseFull
 	checkmoney YOUR_MONEY, 10000
@@ -1811,29 +1797,24 @@ CoinVendor_IntroScript: ; 0xbcde0
 	farwritetext CoinVendor_Buy500CoinsText
 	waitbutton
 	jump .loop
-; 0xbce3f
 
-.NotEnoughMoney: ; 0xbce3f
+.NotEnoughMoney:
 	farwritetext CoinVendor_NotEnoughMoneyText
 	waitbutton
 	closetext
 	end
-; 0xbce46
 
-.CoinCaseFull: ; 0xbce46
+.CoinCaseFull:
 	farwritetext CoinVendor_CoinCaseFullText
 	waitbutton
 	closetext
 	end
-; 0xbce4d
 
-.Cancel: ; 0xbce4d
+.Cancel:
 	farwritetext CoinVendor_CancelText
 	waitbutton
 	closetext
 	end
-; 0xbce54
-
 
 .MenuHeader:
 	db MENU_BACKUP_TILES ; flags
@@ -1847,8 +1828,6 @@ CoinVendor_IntroScript: ; 0xbcde0
 	db " 50 :  ¥1000@"
 	db "500 : ¥10000@"
 	db "CANCEL@"
-; 0xbce7f
-
 
 HappinessCheckScript:
 	faceplayer
@@ -1873,9 +1852,8 @@ HappinessCheckScript:
 	closetext
 	end
 
-Movement_ContestResults_WalkAfterWarp: ; bcea1
+Movement_ContestResults_WalkAfterWarp:
 	step RIGHT
 	step DOWN
 	turn_head UP
 	step_end
-; bcea5

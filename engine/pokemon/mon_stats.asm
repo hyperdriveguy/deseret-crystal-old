@@ -1,7 +1,7 @@
-DrawPlayerHP: ; 50b0a
+DrawPlayerHP:
 	ld a, $1
 
-DrawHP: ; 50b10
+DrawHP:
 	ld [wWhichHPBar], a
 	push hl
 	push bc
@@ -78,7 +78,7 @@ DrawHP: ; 50b10
 	pop de
 	ret
 
-PrintTempMonStats: ; 50b7b
+PrintTempMonStats:
 ; Print wTempMon's stats at hl, with spacing bc.
 	push bc
 	push hl
@@ -101,7 +101,7 @@ PrintTempMonStats: ; 50b7b
 	ld de, wTempMonSpeed
 	jp PrintNum
 
-.PrintStat: ; 50bab
+.PrintStat:
 	push hl
 	call PrintNum
 	pop hl
@@ -109,7 +109,7 @@ PrintTempMonStats: ; 50b7b
 	add hl, de
 	ret
 
-.StatNames: ; 50bb5
+.StatNames:
 	db   "ATTACK"
 	next "DEFENSE"
 	next "SPCL.ATK"
@@ -117,7 +117,7 @@ PrintTempMonStats: ; 50b7b
 	next "SPEED"
 	next "@"
 
-GetGender: ; 50bdd
+GetGender:
 ; Return the gender of a given monster (wCurPartyMon/wCurOTMon/wCurWildMon).
 ; When calling this function, a should be set to an appropriate wMonType value.
 
@@ -166,7 +166,6 @@ GetGender: ; 50bdd
 	call AddNTimes
 
 .DVs:
-
 ; sBoxMon data is read directly from SRAM.
 	ld a, [wMonType]
 	cp BOXMON
@@ -231,7 +230,7 @@ GetGender: ; 50bdd
 	scf
 	ret
 
-ListMovePP: ; 50c50
+ListMovePP:
 	ld a, [wNumMoves]
 	inc a
 	ld c, a
@@ -312,7 +311,7 @@ ListMovePP: ; 50c50
 .done
 	ret
 
-.load_loop ; 50cc9
+.load_loop
 	ld [hli], a
 	ld [hld], a
 	add hl, de
@@ -320,7 +319,7 @@ ListMovePP: ; 50c50
 	jr nz, .load_loop
 	ret
 
-PlaceStatusString: ; 50d0a
+PlaceStatusString:
 	push de
 	inc de
 	inc de
@@ -339,10 +338,10 @@ PlaceStatusString: ; 50d0a
 	and a
 	ret
 
-FntString: ; 50d22
+FntString:
 	db "FNT@"
 
-CopyStatusString: ; 50d25
+CopyStatusString:
 	ld a, [de]
 	inc de
 	ld [hli], a
@@ -353,7 +352,7 @@ CopyStatusString: ; 50d25
 	ld [hl], a
 	ret
 
-PlaceNonFaintStatus: ; 50d2e
+PlaceNonFaintStatus:
 	push de
 	ld a, [de]
 	ld de, PsnString
@@ -387,7 +386,7 @@ BrnString: db "BRN@"
 FrzString: db "FRZ@"
 ParString: db "PAR@"
 
-ListMoves: ; 50d6f
+ListMoves:
 ; List moves at hl, spaced every [wBuffer1] tiles.
 	ld de, wListMoves_MoveIndicesBuffer
 	ld b, $0

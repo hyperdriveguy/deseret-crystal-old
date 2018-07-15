@@ -4,7 +4,7 @@ scene_var: MACRO
 	dw \2
 ENDM
 
-MapScenes:: ; 4d01e
+MapScenes::
 	scene_var POKECENTER_2F,                               wPokecenter2FSceneID
 	scene_var TRADE_CENTER,                                wTradeCenterSceneID
 	scene_var COLOSSEUM,                                   wColosseumSceneID
@@ -83,4 +83,3 @@ MapScenes:: ; 4d01e
 	scene_var FAST_SHIP_B1F,                               wFastShipB1FSceneID
 	scene_var MOUNT_MOON_SQUARE,                           wMountMoonSquareSceneID
 	db -1
-; 4d15b

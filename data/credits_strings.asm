@@ -159,7 +159,7 @@ CreditsStrings:
 .MonsterDesign:       db "   MONSTER DESIGN@"         ; "#　デザイン@"
 .GraphicsDesign:      db "  GRAPHICS DESIGN@"         ; "グラフィック　デザイン@"
 .Music:               db "       MUSIC@"              ; "おんがく@"
-.SoundEffects:        db "   SOUND EFFECTS@"          ; "サウンド　エフ→クト@"
+.SoundEffects:        db "   SOUND EFFECTS@"          ; "サウンド　エフェクト@"
 .GameDesign:          db "    GAME DESIGN@"           ; "ゲームデザイン@"
 .GameScenario:        db "   GAME SCENARIO@"          ; "シナりオ@"
 .ToolProgramming:     db "  TOOL PROGRAMMING@"        ; "ツール　プログラム@"

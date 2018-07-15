@@ -1,13 +1,13 @@
-LoadQuestionMarkPic: ; 1de0d7
+LoadQuestionMarkPic:
 	ld hl, .QuestionMarkLZ
 	ld de, sScratch
 	call Decompress
 	ret
 
-.QuestionMarkLZ: ; 1de0e1
+.QuestionMarkLZ:
 INCBIN "gfx/pokedex/question_mark.2bpp.lz"
 
-DrawPokedexListWindow: ; 1de171 (77:6171)
+DrawPokedexListWindow:
 	ld a, $32
 	hlcoord 0, 17
 	ld bc, 12
@@ -52,7 +52,7 @@ DrawPokedexListWindow: ; 1de171 (77:6171)
 .Done:
 	ret
 
-DrawPokedexSearchResultsWindow: ; 1de1d1 (77:61d1)
+DrawPokedexSearchResultsWindow:
 	ld a, $34
 	hlcoord 0, 0
 	ld bc, 11
@@ -95,14 +95,14 @@ DrawPokedexSearchResultsWindow: ; 1de1d1 (77:61d1)
 	call PlaceString
 	ret
 
-.esults_D ; 1de23c
+.esults_D
 ; (SEARCH R)
 	db   "ESULTS"
 	next ""
 ; (### FOUN)
 	next "D!@"
 
-DrawDexEntryScreenRightEdge: ; 1de247
+DrawDexEntryScreenRightEdge:
 	ld a, [hBGMapAddress]
 	ld l, a
 	ld a, [hBGMapAddress + 1]
@@ -134,7 +134,7 @@ DrawDexEntryScreenRightEdge: ; 1de247
 	ld [hBGMapAddress + 1], a
 	ret
 
-Bank77_FillColumn: ; 1de27f
+Bank77_FillColumn:
 	push de
 	ld de, SCREEN_WIDTH
 .loop

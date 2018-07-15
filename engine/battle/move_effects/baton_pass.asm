@@ -1,10 +1,9 @@
-BattleCommand_BatonPass: ; 379c9
+BattleCommand_BatonPass:
 ; batonpass
 
 	ld a, [hBattleTurn]
 	and a
 	jp nz, .Enemy
-
 
 ; Need something to switch to
 	call CheckAnyOtherAlivePartyMons
@@ -41,9 +40,7 @@ BattleCommand_BatonPass: ; 379c9
 	call ResetBatonPassStatus
 	ret
 
-
 .Enemy:
-
 ; Wildmons don't have anything to switch to
 	ld a, [wBattleMode]
 	dec a ; WILDMON
@@ -73,10 +70,7 @@ BattleCommand_BatonPass: ; 379c9
 
 	jr ResetBatonPassStatus
 
-; 37a67
-
-
-BatonPass_LinkPlayerSwitch: ; 37a67
+BatonPass_LinkPlayerSwitch:
 	ld a, [wLinkMode]
 	and a
 	ret z
@@ -93,10 +87,7 @@ BatonPass_LinkPlayerSwitch: ; 37a67
 	ld [wBattlePlayerAction], a
 	ret
 
-; 37a82
-
-
-BatonPass_LinkEnemySwitch: ; 37a82
+BatonPass_LinkEnemySwitch:
 	ld a, [wLinkMode]
 	and a
 	ret z
@@ -121,17 +112,11 @@ BatonPass_LinkEnemySwitch: ; 37a82
 .switch
 	jp CloseWindow
 
-; 37aab
-
-
-FailedBatonPass: ; 37aab
+FailedBatonPass:
 	call AnimateFailedMove
 	jp PrintButItFailed
 
-; 37ab1
-
-
-ResetBatonPassStatus: ; 37ab1
+ResetBatonPassStatus:
 ; Reset status changes that aren't passed by Baton Pass.
 
 	; Nightmare isn't passed.
@@ -170,10 +155,7 @@ ResetBatonPassStatus: ; 37ab1
 	ld [wEnemyWrapCount], a
 	ret
 
-; 37ae9
-
-
-CheckAnyOtherAlivePartyMons: ; 37ae9
+CheckAnyOtherAlivePartyMons:
 	ld hl, wPartyMon1HP
 	ld a, [wPartyCount]
 	ld d, a
@@ -181,10 +163,7 @@ CheckAnyOtherAlivePartyMons: ; 37ae9
 	ld e, a
 	jr CheckAnyOtherAliveMons
 
-; 37af6
-
-
-CheckAnyOtherAliveEnemyMons: ; 37af6
+CheckAnyOtherAliveEnemyMons:
 	ld hl, wOTPartyMon1HP
 	ld a, [wOTPartyCount]
 	ld d, a
@@ -192,9 +171,8 @@ CheckAnyOtherAliveEnemyMons: ; 37af6
 	ld e, a
 
 	; fallthrough
-; 37b01
 
-CheckAnyOtherAliveMons: ; 37b01
+CheckAnyOtherAliveMons:
 ; Check for nonzero HP starting from partymon
 ; HP at hl for d partymons, besides current mon e.
 
@@ -229,5 +207,3 @@ CheckAnyOtherAliveMons: ; 37b01
 	ld a, b
 	and a
 	ret
-
-; 37b1d

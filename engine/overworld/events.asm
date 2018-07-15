@@ -3,7 +3,7 @@ INCLUDE "constants.asm"
 
 SECTION "Events", ROMX
 
-OverworldLoop:: ; 966b0
+OverworldLoop::
 	xor a
 	ld [wMapStatus], a
 .loop
@@ -21,51 +21,43 @@ OverworldLoop:: ; 966b0
 	dw EnterMap
 	dw HandleMap
 	dw .done
-; 966cb
 
-DisableEvents: ; 966cb
+DisableEvents:
 	xor a
 	ld [wScriptFlags3], a
 	ret
-; 966d0
 
-EnableEvents:: ; 966d0
+EnableEvents::
 	ld a, $ff
 	ld [wScriptFlags3], a
 	ret
-; 966d6
 
-EnableWildEncounters: ; 96706
+EnableWildEncounters:
 	ld hl, wScriptFlags3
 	set 4, [hl]
 	ret
-; 9670c
 
-CheckWarpConnxnScriptFlag: ; 9670c
+CheckWarpConnxnScriptFlag:
 	ld hl, wScriptFlags3
 	bit 2, [hl]
 	ret
-; 96712
 
-CheckCoordEventScriptFlag: ; 96712
+CheckCoordEventScriptFlag:
 	ld hl, wScriptFlags3
 	bit 1, [hl]
 	ret
-; 96718
 
-CheckStepCountScriptFlag: ; 96718
+CheckStepCountScriptFlag:
 	ld hl, wScriptFlags3
 	bit 0, [hl]
 	ret
-; 9671e
 
-CheckWildEncountersScriptFlag: ; 9671e
+CheckWildEncountersScriptFlag:
 	ld hl, wScriptFlags3
 	bit 4, [hl]
 	ret
-; 96724
 
-StartMap: ; 96724
+StartMap:
 	xor a
 	ld [wScriptVar], a
 	xor a
@@ -75,7 +67,7 @@ StartMap: ; 96724
 	call ByteFill
 	farcall InitCallReceiveDelay
 	call ClearJoypad
-EnterMap: ; 9673e
+EnterMap:
 	xor a
 	ld [wXYComparePointer], a
 	ld [wXYComparePointer + 1], a
@@ -101,9 +93,8 @@ EnterMap: ; 9673e
 	ld a, 2 ; HandleMap
 	ld [wMapStatus], a
 	ret
-; 9676d
 
-HandleMap: ; 96773
+HandleMap:
 	call ResetOverworldDelay
 	call HandleMapTimeAndJoypad
 	farcall HandleCmdQueue ; no need to farcall
@@ -119,9 +110,8 @@ HandleMap: ; 96773
 	call HandleMapBackground
 	call CheckPlayerState
 	ret
-; 96795
 
-MapEvents: ; 96795
+MapEvents:
 	ld a, [wMapEventStatus]
 	ld hl, .jumps
 	rst JumpTable
@@ -130,39 +120,33 @@ MapEvents: ; 96795
 .jumps
 	dw .events
 	dw .no_events
-; 967a1
 
-.events ; 967a1
+.events
 	call PlayerEvents
 	call DisableEvents
 	farcall ScriptEvents
 	ret
-; 967ae
 
-.no_events ; 967ae
+.no_events
 	ret
-; 967af
 
-MaxOverworldDelay: ; 967af
+MaxOverworldDelay:
 	db 2
-; 967b0
 
-ResetOverworldDelay: ; 967b0
+ResetOverworldDelay:
 	ld a, [MaxOverworldDelay]
 	ld [wOverworldDelay], a
 	ret
-; 967b7
 
-NextOverworldFrame: ; 967b7
+NextOverworldFrame:
 	ld a, [wOverworldDelay]
 	and a
 	ret z
 	ld c, a
 	call DelayFrames
 	ret
-; 967c1
 
-HandleMapTimeAndJoypad: ; 967c1
+HandleMapTimeAndJoypad:
 	ld a, [wMapEventStatus]
 	cp 1 ; no events
 	ret z
@@ -171,23 +155,20 @@ HandleMapTimeAndJoypad: ; 967c1
 	call GetJoypad
 	call TimeOfDayPals
 	ret
-; 967d1
 
-HandleMapObjects: ; 967d1
+HandleMapObjects:
 	farcall HandleNPCStep ; engine/map_objects.asm
 	farcall _HandlePlayerStep
 	call _CheckObjectEnteringVisibleRange
 	ret
-; 967e1
 
-HandleMapBackground: ; 967e1
+HandleMapBackground:
 	farcall _UpdateSprites
 	farcall ScrollScreen
 	farcall PlaceMapNameSign
 	ret
-; 967f4
 
-CheckPlayerState: ; 967f4
+CheckPlayerState:
 	ld a, [wPlayerStepFlags]
 	bit 5, a ; in the middle of step
 	jr z, .events
@@ -205,17 +186,15 @@ CheckPlayerState: ; 967f4
 	ld a, 1 ; no events
 	ld [wMapEventStatus], a
 	ret
-; 96812
 
-_CheckObjectEnteringVisibleRange: ; 96812
+_CheckObjectEnteringVisibleRange:
 	ld hl, wPlayerStepFlags
 	bit 6, [hl]
 	ret z
 	farcall CheckObjectEnteringVisibleRange
 	ret
-; 9681f
 
-PlayerEvents: ; 9681f
+PlayerEvents:
 	xor a
 ; If there's already a player event, don't interrupt it.
 	ld a, [wScriptRunning]
@@ -262,9 +241,8 @@ PlayerEvents: ; 9681f
 .ok2
 	scf
 	ret
-; 96867
 
-CheckTrainerBattle3: ; 96867
+CheckTrainerBattle3:
 	nop
 	nop
 	call CheckTrainerBattle2
@@ -277,9 +255,8 @@ CheckTrainerBattle3: ; 96867
 .nope
 	xor a
 	ret
-; 96874
 
-CheckTileEvent: ; 96874
+CheckTileEvent:
 ; Check for warps, coord events, or wild battles.
 
 	call CheckWarpConnxnScriptFlag
@@ -343,9 +320,8 @@ CheckTileEvent: ; 96874
 	call GetMapScriptsBank
 	call CallScript
 	ret
-; 968c7
 
-CheckWildEncounterCooldown:: ; 968c7
+CheckWildEncounterCooldown::
 	ld hl, wWildEncounterCooldown
 	ld a, [hl]
 	and a
@@ -354,15 +330,13 @@ CheckWildEncounterCooldown:: ; 968c7
 	ret z
 	scf
 	ret
-; 968d1
 
-SetUpFiveStepWildEncounterCooldown: ; 968d1
+SetUpFiveStepWildEncounterCooldown:
 	ld a, 5
 	ld [wWildEncounterCooldown], a
 	ret
-; 968d7
 
-RunSceneScript: ; 968ec
+RunSceneScript:
 	ld a, [wCurrMapSceneScriptCount]
 	and a
 	jr z, .nope
@@ -409,9 +383,8 @@ endr
 .nope
 	xor a
 	ret
-; 9693a
 
-CheckTimeEvents: ; 9693a
+CheckTimeEvents:
 	ld a, [wLinkMode]
 	and a
 	jr nz, .nothing
@@ -441,10 +414,8 @@ CheckTimeEvents: ; 9693a
 	call CallScript
 	scf
 	ret
-; 96970
 
-OWPlayerInput: ; 96974
-
+OWPlayerInput:
 	call PlayerMovement
 	ret c
 	and a
@@ -470,9 +441,8 @@ OWPlayerInput: ; 96974
 	pop af
 	scf
 	ret
-; 96999
 
-CheckAPressOW: ; 96999
+CheckAPressOW:
 	ld a, [hJoyPressed]
 	and A_BUTTON
 	ret z
@@ -484,17 +454,15 @@ CheckAPressOW: ; 96999
 	ret c
 	xor a
 	ret
-; 969ac
 
-PlayTalkObject: ; 969ac
+PlayTalkObject:
 	push de
 	ld de, SFX_READ_TEXT_2
 	call PlaySFX
 	pop de
 	ret
-; 969b5
 
-TryObjectEvent: ; 969b5
+TryObjectEvent:
 	farcall CheckFacingObject
 	jr c, .IsObject
 	xor a
@@ -540,9 +508,8 @@ TryObjectEvent: ; 969b5
 	dbw OBJECTTYPE_ITEMBALL, .itemball
 	dbw OBJECTTYPE_TRAINER, .trainer
 	db -1
-; 96a04
 
-.script ; 96a04
+.script
 	ld hl, MAPOBJECT_SCRIPT_POINTER
 	add hl, bc
 	ld a, [hli]
@@ -551,9 +518,8 @@ TryObjectEvent: ; 969b5
 	call GetMapScriptsBank
 	call CallScript
 	ret
-; 96a12
 
-.itemball ; 96a12
+.itemball
 	ld hl, MAPOBJECT_SCRIPT_POINTER
 	add hl, bc
 	ld a, [hli]
@@ -566,16 +532,14 @@ TryObjectEvent: ; 969b5
 	ld a, PLAYEREVENT_ITEMBALL
 	scf
 	ret
-; 96a29
 
-.trainer ; 96a29
+.trainer
 	call TalkToTrainer
 	ld a, PLAYEREVENT_TALKTOTRAINER
 	scf
 	ret
-; 96a30
 
-TryBGEvent: ; 96a38
+TryBGEvent:
 	call CheckFacingBGEvent
 	jr c, .is_bg_event
 	xor a
@@ -597,7 +561,6 @@ TryBGEvent: ; 96a38
 	dw .ifnotset
 	dw .itemifset
 	dw .copy
-; 96a59
 
 .up
 	ld b, OW_UP
@@ -677,9 +640,8 @@ TryBGEvent: ; 96a38
 .dontread
 	xor a
 	ret
-; 96ad8
 
-CheckBGEventFlag: ; 96ad8
+CheckBGEventFlag:
 	ld hl, wEngineBuffer4
 	ld a, [hli]
 	ld h, [hl]
@@ -695,16 +657,14 @@ CheckBGEventFlag: ; 96ad8
 	and a
 	pop hl
 	ret
-; 96af0
 
-PlayerMovement: ; 96af0
+PlayerMovement:
 	farcall DoPlayerMovement
 	ld a, c
 	ld hl, .pointers
 	rst JumpTable
 	ld a, c
 	ret
-; 96afd
 
 .pointers
 	dw .zero
@@ -717,33 +677,29 @@ PlayerMovement: ; 96af0
 	dw .seven
 
 .zero
-.four ; 96b0d
+.four
 	xor a
 	ld c, a
 	ret
-; 96b10
 
-.seven ; 96b10
+.seven
 	xor a
 	ld c, a
 	ret
-; 96b16
 
-.one ; 96b16
+.one
 	ld a, 5
 	ld c, a
 	scf
 	ret
-; 96b1b
 
-.two ; 96b1b
+.two
 	ld a, 9
 	ld c, a
 	scf
 	ret
-; 96b20
 
-.three ; 96b20
+.three
 ; force the player to move in some direction
 	ld a, BANK(Script_ForcedMovement)
 	ld hl, Script_ForcedMovement
@@ -752,17 +708,15 @@ PlayerMovement: ; 96af0
 	ld c, a
 	scf
 	ret
-; 96b2b
 
 .five
-.six ; 96b2b
+.six
 	ld a, -1
 	ld c, a
 	and a
 	ret
-; 96b30
 
-CheckMenuOW: ; 96b30
+CheckMenuOW:
 	xor a
 	ld [hMenuReturn], a
 	ld [hMenuReturn + 1], a
@@ -791,36 +745,30 @@ CheckMenuOW: ; 96b30
 	call CallScript
 	scf
 	ret
-; 96b58
 
-StartMenuScript: ; 96b58
+StartMenuScript:
 	callasm StartMenu
 	jump StartMenuCallback
-; 96b5f
 
-SelectMenuScript: ; 96b5f
+SelectMenuScript:
 	callasm SelectMenu
 	jump SelectMenuCallback
-; 96b66
 
 StartMenuCallback:
-SelectMenuCallback: ; 96b66
+SelectMenuCallback:
 	copybytetovar hMenuReturn
 	ifequal HMENURETURN_SCRIPT, .Script
 	ifequal HMENURETURN_ASM, .Asm
 	end
-; 96b72
 
-.Script: ; 96b72
+.Script:
 	ptjump wQueuedScriptBank
-; 96b75
 
-.Asm: ; 96b75
+.Asm:
 	ptcallasm wQueuedScriptBank
 	end
-; 96b79
 
-CountStep: ; 96b79
+CountStep:
 	; Don't count steps in link communication rooms.
 	ld a, [wLinkMode]
 	and a
@@ -885,9 +833,8 @@ CountStep: ; 96b79
 	ld a, 8
 	scf
 	ret
-; 96bd3
 
-DoRepelStep: ; 96bd7
+DoRepelStep:
 	ld a, [wRepelEffect]
 	and a
 	ret z
@@ -901,9 +848,8 @@ DoRepelStep: ; 96bd7
 	call CallScript
 	scf
 	ret
-; 96beb
 
-DoPlayerEvent: ; 96beb
+DoPlayerEvent:
 	ld a, [wScriptRunning]
 	and a
 	ret z
@@ -927,9 +873,8 @@ DoPlayerEvent: ; 96beb
 	ld a, [hl]
 	ld [wScriptPos + 1], a
 	ret
-; 96c0c
 
-PlayerEventScriptPointers: ; 96c0c
+PlayerEventScriptPointers:
 	dba Invalid_0x96c2d          ; 0
 	dba SeenByTrainerScript      ; 1
 	dba TalkToTrainerScript      ; 2
@@ -941,52 +886,496 @@ PlayerEventScriptPointers: ; 96c0c
 	dba HatchEggScript           ; 8
 	dba ChangeDirectionScript    ; 9
 	dba Invalid_0x96c2d          ; 10
-; 96c2d
 
-Invalid_0x96c2d: ; 96c2d
+Invalid_0x96c2d:
 	end
-; 96c2e
 
-HatchEggScript: ; 96c2f
+HatchEggScript:
 	callasm OverworldHatchEgg
 	end
-; 96c34
 
-WarpToNewMapScript: ; 96c34
+WarpToNewMapScript:
 	warpsound
 	newloadmap MAPSETUP_DOOR
 	end
-; 96c38
 
-FallIntoMapScript: ; 96c38
+FallIntoMapScript:
 	newloadmap MAPSETUP_FALL
 	playsound SFX_KINESIS
 	applymovement PLAYER, MovementData_0x96c48
 	playsound SFX_STRENGTH
 	scall LandAfterPitfallScript
 	end
-; 96c48
 
-MovementData_0x96c48: ; 96c48
+MovementData_0x96c48:
 	skyfall
 	step_end
-; 96c4a
 
-LandAfterPitfallScript: ; 96c4a
+LandAfterPitfallScript:
 	earthquake 16
 	end
-; 96c4d
 
 EdgeWarpScript: ; 4
 	reloadandreturn MAPSETUP_CONNECTION
-; 96c4f
 
 ChangeDirectionScript: ; 9
 	deactivatefacing 3
 	callasm EnableWildEncounters
 	end
-; 96c56
 
 INCLUDE "engine/overworld/scripting.asm"
 
-INCLUDE "engine/overworld/events_2.asm"
+WarpToSpawnPoint::
+	ld hl, wStatusFlags2
+	res STATUSFLAGS2_SAFARI_GAME_F, [hl]
+	res STATUSFLAGS2_BUG_CONTEST_TIMER_F, [hl]
+	ret
+
+RunMemScript::
+; If there is no script here, we don't need to be here.
+	ld a, [wMapReentryScriptQueueFlag]
+	and a
+	ret z
+; Execute the script at (wMapReentryScriptBank):(wMapReentryScriptAddress).
+	ld hl, wMapReentryScriptAddress
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	ld a, [wMapReentryScriptBank]
+	call CallScript
+	scf
+; Clear the buffer for the next script.
+	push af
+	xor a
+	ld hl, wMapReentryScriptQueueFlag
+	ld bc, 8
+	call ByteFill
+	pop af
+	ret
+
+LoadScriptBDE::
+; If there's already a script here, don't overwrite.
+	ld hl, wMapReentryScriptQueueFlag
+	ld a, [hl]
+	and a
+	ret nz
+; Set the flag
+	ld [hl], 1
+	inc hl
+; Load the script pointer b:de into (wMapReentryScriptBank):(wMapReentryScriptAddress)
+	ld [hl], b
+	inc hl
+	ld [hl], e
+	inc hl
+	ld [hl], d
+	scf
+	ret
+
+TryTileCollisionEvent::
+	call GetFacingTileCoord
+	ld [wEngineBuffer1], a
+	ld c, a
+	farcall CheckFacingTileForStdScript
+	jr c, .done
+
+	call CheckCutTreeTile
+	jr nz, .whirlpool
+	farcall TryCutOW
+	jr .done
+
+.whirlpool
+	ld a, [wEngineBuffer1]
+	call CheckWhirlpoolTile
+	jr nz, .waterfall
+	farcall TryWhirlpoolOW
+	jr .done
+
+.waterfall
+	ld a, [wEngineBuffer1]
+	call CheckWaterfallTile
+	jr nz, .headbutt
+	farcall TryWaterfallOW
+	jr .done
+
+.headbutt
+	ld a, [wEngineBuffer1]
+	call CheckHeadbuttTreeTile
+	jr nz, .surf
+	farcall TryHeadbuttOW
+	jr c, .done
+	jr .noevent
+
+.surf
+	farcall TrySurfOW
+	jr nc, .noevent
+	jr .done
+
+.noevent
+	xor a
+	ret
+
+.done
+	call PlayClickSFX
+	ld a, $ff
+	scf
+	ret
+
+RandomEncounter::
+; Random encounter
+
+	call CheckWildEncounterCooldown
+	jr c, .nope
+	call CanUseSweetScent
+	jr nc, .nope
+	ld hl, wStatusFlags2
+	bit STATUSFLAGS2_BUG_CONTEST_TIMER_F, [hl]
+	jr nz, .bug_contest
+	farcall TryWildEncounter
+	jr nz, .nope
+	jr .ok
+
+.bug_contest
+	call _TryWildEncounter_BugContest
+	jr nc, .nope
+	jr .ok_bug_contest
+
+.nope
+	ld a, 1
+	and a
+	ret
+
+.ok
+	ld a, BANK(WildBattleScript)
+	ld hl, WildBattleScript
+	jr .done
+
+.ok_bug_contest
+	ld a, BANK(BugCatchingContestBattleScript)
+	ld hl, BugCatchingContestBattleScript
+	jr .done
+
+.done
+	call CallScript
+	scf
+	ret
+
+WildBattleScript:
+	randomwildmon
+	startbattle
+	reloadmapafterbattle
+	end
+
+CanUseSweetScent::
+	ld hl, wStatusFlags
+	bit STATUSFLAGS_NO_WILD_ENCOUNTERS_F, [hl]
+	jr nz, .no
+	ld a, [wEnvironment]
+	cp CAVE
+	jr z, .ice_check
+	cp DUNGEON
+	jr z, .ice_check
+	farcall CheckGrassCollision
+	jr nc, .no
+
+.ice_check
+	ld a, [wPlayerStandingTile]
+	call CheckIceTile
+	jr z, .no
+	scf
+	ret
+
+.no
+	and a
+	ret
+
+_TryWildEncounter_BugContest:
+	call TryWildEncounter_BugContest
+	ret nc
+	call ChooseWildEncounter_BugContest
+	farcall CheckRepelEffect
+	ret
+
+ChooseWildEncounter_BugContest::
+; Pick a random mon out of ContestMons.
+
+.loop
+	call Random
+	cp 100 << 1
+	jr nc, .loop
+	srl a
+
+	ld hl, ContestMons
+	ld de, 4
+.CheckMon:
+	sub [hl]
+	jr c, .GotMon
+	add hl, de
+	jr .CheckMon
+
+.GotMon:
+	inc hl
+
+; Species
+	ld a, [hli]
+	ld [wTempWildMonSpecies], a
+
+; Min level
+	ld a, [hli]
+	ld d, a
+
+; Max level
+	ld a, [hl]
+
+	sub d
+	jr nz, .RandomLevel
+
+; If min and max are the same.
+	ld a, d
+	jr .GotLevel
+
+.RandomLevel:
+; Get a random level between the min and max.
+	ld c, a
+	inc c
+	call Random
+	ld a, [hRandomAdd]
+	call SimpleDivide
+	add d
+
+.GotLevel:
+	ld [wCurPartyLevel], a
+
+	xor a
+	ret
+
+TryWildEncounter_BugContest:
+	ld a, [wPlayerStandingTile]
+	call CheckSuperTallGrassTile
+	ld b, 40 percent
+	jr z, .ok
+	ld b, 20 percent
+
+.ok
+	farcall ApplyMusicEffectOnEncounterRate
+	farcall ApplyCleanseTagEffectOnEncounterRate
+	call Random
+	ld a, [hRandomAdd]
+	cp b
+	ret c
+	ld a, 1
+	and a
+	ret
+
+INCLUDE "data/wild/bug_contest_mons.asm"
+
+DoBikeStep::
+	nop
+	nop
+	; If the bike shop owner doesn't have our number, or
+	; if we've already gotten the call, we don't have to
+	; be here.
+	ld hl, wStatusFlags2
+	bit STATUSFLAGS2_BIKE_SHOP_CALL_F, [hl]
+	jr z, .NoCall
+
+	; If we're not on the bike, we don't have to be here.
+	ld a, [wPlayerState]
+	cp PLAYER_BIKE
+	jr nz, .NoCall
+
+	; If we're not in an area of phone service, we don't
+	; have to be here.
+	call GetMapPhoneService
+	and a
+	jr nz, .NoCall
+
+	; Check the bike step count and check whether we've
+	; taken 65536 of them yet.
+	ld hl, wBikeStep
+	ld a, [hli]
+	ld d, a
+	ld e, [hl]
+	cp 255
+	jr nz, .increment
+	ld a, e
+	cp 255
+	jr z, .dont_increment
+
+.increment
+	inc de
+	ld [hl], e
+	dec hl
+	ld [hl], d
+
+.dont_increment
+	; If we've taken at least 1024 steps, have the bike
+	;  shop owner try to call us.
+	ld a, d
+	cp HIGH(1024)
+	jr c, .NoCall
+
+	; If a call has already been queued, don't overwrite
+	; that call.
+	ld a, [wSpecialPhoneCallID]
+	and a
+	jr nz, .NoCall
+
+	; Queue the call.
+	ld a, SPECIALCALL_BIKESHOP
+	ld [wSpecialPhoneCallID], a
+	xor a
+	ld [wSpecialPhoneCallID + 1], a
+	ld hl, wStatusFlags2
+	res STATUSFLAGS2_BIKE_SHOP_CALL_F, [hl]
+	scf
+	ret
+
+.NoCall:
+	xor a
+	ret
+
+ClearCmdQueue::
+	ld hl, wCmdQueue
+	ld de, 6
+	ld c, 4
+	xor a
+.loop
+	ld [hl], a
+	add hl, de
+	dec c
+	jr nz, .loop
+	ret
+
+HandleCmdQueue::
+	ld hl, wCmdQueue
+	xor a
+.loop
+	ld [hMapObjectIndexBuffer], a
+	ld a, [hl]
+	and a
+	jr z, .skip
+	push hl
+	ld b, h
+	ld c, l
+	call HandleQueuedCommand
+	pop hl
+
+.skip
+	ld de, CMDQUEUE_ENTRY_SIZE
+	add hl, de
+	ld a, [hMapObjectIndexBuffer]
+	inc a
+	cp CMDQUEUE_CAPACITY
+	jr nz, .loop
+	ret
+
+WriteCmdQueue::
+	push bc
+	push de
+	call .GetNextEmptyEntry
+	ld d, h
+	ld e, l
+	pop hl
+	pop bc
+	ret c
+	ld a, b
+	ld bc, CMDQUEUE_ENTRY_SIZE - 1
+	call FarCopyBytes
+	xor a
+	ld [hl], a
+	ret
+
+.GetNextEmptyEntry:
+	ld hl, wCmdQueue
+	ld de, CMDQUEUE_ENTRY_SIZE
+	ld c, CMDQUEUE_CAPACITY
+.loop
+	ld a, [hl]
+	and a
+	jr z, .done
+	add hl, de
+	dec c
+	jr nz, .loop
+	scf
+	ret
+
+.done
+	ld a, CMDQUEUE_CAPACITY
+	sub c
+	and a
+	ret
+
+HandleQueuedCommand:
+	ld hl, CMDQUEUE_TYPE
+	add hl, bc
+	ld a, [hl]
+	cp 5
+	jr c, .okay
+	xor a
+
+.okay
+	ld e, a
+	ld d, 0
+	ld hl, .Jumptable
+	add hl, de
+	add hl, de
+	add hl, de
+	ld a, [hli]
+	push af
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+	pop af
+	rst FarCall
+	ret
+
+.Jumptable:
+	dba NULL
+	dba CmdQueue_StoneTable
+
+CmdQueue_StoneTable:
+	ld de, wPlayerStruct
+	ld a, NUM_OBJECT_STRUCTS
+.loop
+	push af
+
+	ld hl, OBJECT_SPRITE
+	add hl, de
+	ld a, [hl]
+	and a
+	jr z, .next
+
+	ld hl, OBJECT_MOVEMENTTYPE
+	add hl, de
+	ld a, [hl]
+	cp SPRITEMOVEDATA_STRENGTH_BOULDER
+	jr nz, .next
+
+	ld hl, OBJECT_NEXT_TILE
+	add hl, de
+	ld a, [hl]
+	call CheckPitTile
+	jr nz, .next
+
+	ld hl, OBJECT_DIRECTION_WALKING
+	add hl, de
+	ld a, [hl]
+	cp STANDING
+	jr nz, .next
+	call HandleStoneQueue
+	jr c, .fall_down_hole
+
+.next
+	ld hl, OBJECT_STRUCT_LENGTH
+	add hl, de
+	ld d, h
+	ld e, l
+
+	pop af
+	dec a
+	jr nz, .loop
+	ret
+
+.fall_down_hole
+	pop af
+	ret

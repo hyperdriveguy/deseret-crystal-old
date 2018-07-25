@@ -10,6 +10,7 @@ The Goals
 * Remove as much as possible
 * Keep the regular gameplay and logic intact, don't remove working features
 * Keep link compatibility with the original games intact
+* Keep save file compatibility with the original games intact
 * Don't stray from pokecrystal, don't rename or reorganize things, keep the added line counter as close to 0 as possible
 
 Current status
@@ -23,6 +24,7 @@ Remnants of support for non-GBC consoles have been removed.
 Probably more.
 
 There's a few exceptions to some of the rules:
+* Save file compatibility won't be kept for map IDs and anything else related to maps, as it heavily hinders the cleanup of those.
 * The battle tower room menu code has been noticeably refactored, to remove the dependency on otherwise unused WRAM addresses, and remove the dependency on an entire jumptable.
 * The Celebi event will be kept, despite being inaccessible during normal gameplay, as it's fully functional and used in the VC releases.
 * All unused stat-altering move effects will be kept, because they're useful for implementing new moves.

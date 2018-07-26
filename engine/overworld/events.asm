@@ -1309,7 +1309,7 @@ HandleQueuedCommand:
 	ld hl, CMDQUEUE_TYPE
 	add hl, bc
 	ld a, [hl]
-	cp 5 ;NUM_CMDQUEUE_TYPES
+	cp NUM_CMDQUEUE_TYPES
 	jr c, .okay
 	xor a
 

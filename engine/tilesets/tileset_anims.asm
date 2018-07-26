@@ -40,7 +40,7 @@ TilesetKantoAnim:
 	dw NULL,  WaitTileAnimation
 	dw NULL,  WaitTileAnimation
 	dw NULL,  WaitTileAnimation
-	dw NULL,  TileAnimationPalette
+	dw NULL,  AnimateWaterPalette
 	dw NULL,  WaitTileAnimation
 	dw NULL,  AnimateFlowerTile
 	dw NULL,  WaitTileAnimation
@@ -53,7 +53,7 @@ TilesetParkAnim:
 	dw NULL,  WaitTileAnimation
 	dw vTiles2 tile $5f, AnimateFountain
 	dw NULL,  WaitTileAnimation
-	dw NULL,  TileAnimationPalette
+	dw NULL,  AnimateWaterPalette
 	dw NULL,  WaitTileAnimation
 	dw NULL,  AnimateFlowerTile
 	dw NULL,  WaitTileAnimation
@@ -71,7 +71,7 @@ TilesetForestAnim:
 	dw NULL,  ForestTreeRightAnimation2
 	dw NULL,  AnimateFlowerTile
 	dw vTiles2 tile $14, AnimateWaterTile
-	dw NULL,  TileAnimationPalette
+	dw NULL,  AnimateWaterPalette
 	dw NULL,  StandingTileFrame8
 	dw NULL,  DoneTileAnimation
 
@@ -79,7 +79,7 @@ TilesetJohtoAnim:
 	dw vTiles2 tile $14, AnimateWaterTile
 	dw NULL,  WaitTileAnimation
 	dw NULL,  WaitTileAnimation
-	dw NULL,  TileAnimationPalette
+	dw NULL,  AnimateWaterPalette
 	dw NULL,  WaitTileAnimation
 	dw NULL,  AnimateFlowerTile
 	dw WhirlpoolFrames1, AnimateWhirlpoolTile
@@ -96,7 +96,7 @@ TilesetPortAnim:
 	dw NULL,  WaitTileAnimation
 	dw NULL,  WaitTileAnimation
 	dw NULL,  WaitTileAnimation
-	dw NULL,  TileAnimationPalette
+	dw NULL,  AnimateWaterPalette
 	dw NULL,  WaitTileAnimation
 	dw NULL,  WaitTileAnimation
 	dw NULL,  WaitTileAnimation
@@ -122,7 +122,7 @@ TilesetDarkCaveAnim:
 	dw NULL,  FlickeringCaveEntrancePalette
 	dw vTiles2 tile $14, WriteTileFromBuffer
 	dw NULL,  FlickeringCaveEntrancePalette
-	dw NULL,  TileAnimationPalette
+	dw NULL,  AnimateWaterPalette
 	dw NULL,  FlickeringCaveEntrancePalette
 	dw vTiles2 tile $40, WriteTileToBuffer
 	dw NULL,  FlickeringCaveEntrancePalette
@@ -143,7 +143,7 @@ TilesetIcePathAnim:
 	dw NULL,  FlickeringCaveEntrancePalette
 	dw vTiles2 tile $35, WriteTileFromBuffer
 	dw NULL,  FlickeringCaveEntrancePalette
-	dw NULL,  TileAnimationPalette
+	dw NULL,  AnimateWaterPalette
 	dw NULL,  FlickeringCaveEntrancePalette
 	dw vTiles2 tile $31, WriteTileToBuffer
 	dw NULL,  FlickeringCaveEntrancePalette
@@ -739,7 +739,7 @@ endr
 	ld sp, hl
 	ret
 
-TileAnimationPalette:
+AnimateWaterPalette:
 ; Transition between color values 0-2 for color 0 in palette 3.
 
 ; We don't want to mess with non-standard palettes.

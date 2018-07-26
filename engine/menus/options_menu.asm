@@ -61,20 +61,20 @@ _OptionsMenu:
 	ret
 
 StringOptions:
-	db "TEXT SPEED<LNBRK>"
-	db "        :<LNBRK>"
-	db "BATTLE SCENE<LNBRK>"
-	db "        :<LNBRK>"
-	db "BATTLE STYLE<LNBRK>"
-	db "        :<LNBRK>"
-	db "SOUND<LNBRK>"
-	db "        :<LNBRK>"
-	db "PRINT<LNBRK>"
-	db "        :<LNBRK>"
-	db "MENU ACCOUNT<LNBRK>"
-	db "        :<LNBRK>"
-	db "FRAME<LNBRK>"
-	db "        :TYPE<LNBRK>"
+	db "TEXT SPEED<LF>"
+	db "        :<LF>"
+	db "BATTLE SCENE<LF>"
+	db "        :<LF>"
+	db "BATTLE STYLE<LF>"
+	db "        :<LF>"
+	db "SOUND<LF>"
+	db "        :<LF>"
+	db "PRINT<LF>"
+	db "        :<LF>"
+	db "MENU ACCOUNT<LF>"
+	db "        :<LF>"
+	db "FRAME<LF>"
+	db "        :TYPE<LF>"
 	db "CANCEL@"
 
 GetOptionPointer:
@@ -165,7 +165,7 @@ GetTextSpeed:
 ; converts TEXT_DELAY_* value in a to OPT_TEXT_SPEED_* value in c,
 ; with previous/next TEXT_DELAY_* values in d/e
 	ld a, [wOptions]
-	and $7
+	and TEXT_DELAY_MASK
 	cp TEXT_DELAY_SLOW
 	jr z, .slow
 	cp TEXT_DELAY_FAST
@@ -467,7 +467,7 @@ Options_Frame:
 	dec a
 
 .Save:
-	and $7
+	maskbits NUM_FRAMES
 	ld [hl], a
 UpdateFrame:
 	ld a, [wTextBoxFrame]

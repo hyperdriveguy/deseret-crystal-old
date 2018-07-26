@@ -3380,8 +3380,8 @@ Sfx_2Boops_Ch5:
 	soundinput $8
 	endchannel
 
-Sfx_UnknownCB:
-	musicheader 1, 8, Sfx_UnknownCB_Ch8
+Sfx_IntroWhoosh:
+	musicheader 1, 8, Sfx_IntroWhoosh_Ch8
 
 Sfx_Menu_Ch8:
 	noise __,  2, $e2, $33
@@ -4360,7 +4360,7 @@ Sfx_HyperBeam_Ch8:
 	loopchannel 26, Sfx_HyperBeam_Ch8
 	endchannel
 
-Sfx_UnknownCB_Ch8:
+Sfx_IntroWhoosh_Ch8:
 	noise __,  2, $10, $10
 	noise __,  3, $20, $10
 	noise __,  3, $30, $20

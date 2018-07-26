@@ -115,8 +115,11 @@ CMDQUEUE_05    EQU 5
 CMDQUEUE_ENTRY_SIZE EQU 6
 CMDQUEUE_CAPACITY EQU 4
 
-; command queue types
-CMDQUEUE_STONETABLE EQU 1
+; HandleQueuedCommand.Jumptable indexes (see engine/overworld/events.asm)
+	const_def
+	const CMDQUEUE_NULL
+	const CMDQUEUE_STONETABLE
+NUM_CMDQUEUE_TYPES EQU const_value
 
 ; elevfloor macro values
 ; ElevatorFloorNames indexes (see data/events/elevator_floors.asm)

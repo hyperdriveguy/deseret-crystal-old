@@ -3478,10 +3478,10 @@ CheckPlayerPartyForFitMon:
 	ld e, a
 	xor a
 	ld hl, wPartyMon1HP
-	ld bc, wPartyMon2 - (wPartyMon1 + 1)
+	ld bc, PARTYMON_STRUCT_LENGTH - 1
 .loop
 	or [hl]
-	inc hl
+	inc hl ; + 1
 	or [hl]
 	add hl, bc
 	dec e
@@ -6768,7 +6768,7 @@ GiveExperiencePoints:
 	ld a, [wCurPartyMon]
 	ld c, a
 	ld b, CHECK_FLAG
-	ld d, $0
+	ld d, FALSE
 	predef SmallFarFlagAction
 	ld a, c
 	and a
@@ -6782,7 +6782,7 @@ GiveExperiencePoints:
 	ld e, l
 	ld hl, wEnemyMonBaseStats - 1
 	push bc
-	ld c, $5
+	ld c, NUM_EXP_STATS
 .loop1
 	inc hl
 	ld a, [de]
@@ -7062,13 +7062,13 @@ GiveExperiencePoints:
 	ld [wMonType], a
 	predef CopyMonToTempMon
 	hlcoord 9, 0
-	ld b, $a
-	ld c, $9
+	ld b, 10
+	ld c, 9
 	call TextBox
 	hlcoord 11, 1
 	ld bc, 4
 	predef PrintTempMonStats
-	ld c, $1e
+	ld c, 30
 	call DelayFrames
 	call WaitPressAorB_BlinkCursor
 	call Call_LoadTempTileMapToTileMap
@@ -8218,7 +8218,7 @@ ReadAndPrintLinkBattleRecord:
 	db "   0    0    0@"
 
 .Format:
-	db "  ---  <LNBRK>"
+	db "  ---  <LF>"
 	db "         -    -    -@"
 .Record:
 	db "<PLAYER>'s RECORD@"

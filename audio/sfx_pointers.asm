@@ -186,4 +186,4 @@ SFX:
 	dba Sfx_IntroSuicune4
 	dba Sfx_GameFreakPresents
 	dba Sfx_Tingle
-	dba Sfx_UnknownCB
+	dba Sfx_IntroWhoosh

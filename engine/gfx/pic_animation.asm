@@ -13,13 +13,14 @@ endr
 ENDM
 
 PokeAnims:
+; entries correspond to ANIM_MON_* constants
 	dw .Slow
 	dw .Normal
 	dw .Menu
 	dw .Trade
 	dw .Evolve
 	dw .Hatch
-	dw .Unused ; same as .Menu
+	dw .HOF
 	dw .Egg1
 	dw .Egg2
 
@@ -29,7 +30,7 @@ PokeAnims:
 .Trade:  pokeanim Idle, Play2, Idle, Play, SetWait, Wait, Cry, Setup, Play
 .Evolve: pokeanim Idle, Play, SetWait, Wait, CryNoWait, Setup, Play
 .Hatch:  pokeanim Idle, Play, CryNoWait, Setup, Play, SetWait, Wait, Idle, Play
-.Unused: pokeanim CryNoWait, Setup, Play, SetWait, Wait, Idle, Play
+.HOF:    pokeanim CryNoWait, Setup, Play, SetWait, Wait, Idle, Play
 .Egg1:   pokeanim Setup, Play
 .Egg2:   pokeanim Idle, Play
 
@@ -62,7 +63,7 @@ LoadMonAnimation:
 SetUpPokeAnim:
 	ld a, [rSVBK]
 	push af
-	ld a, BANK(wPokeAnimSceneIndex)
+	ld a, BANK(wPokeAnimStruct)
 	ld [rSVBK], a
 	ld a, [wPokeAnimSceneIndex]
 	ld c, a
@@ -229,14 +230,14 @@ AnimateMon_CheckIfPokemon:
 PokeAnim_InitPicAttributes:
 	ld a, [rSVBK]
 	push af
-	ld a, BANK(wPokeAnimSceneIndex)
+	ld a, BANK(wPokeAnimStruct)
 	ld [rSVBK], a
 
 	push bc
 	push de
 	push hl
-	ld hl, wPokeAnimSceneIndex
-	ld bc, wPokeAnimStructEnd - wPokeAnimSceneIndex
+	ld hl, wPokeAnimStruct
+	ld bc, wPokeAnimStructEnd - wPokeAnimStruct
 	xor a
 	call ByteFill
 	pop hl

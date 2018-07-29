@@ -170,7 +170,7 @@ DetermineContestWinners:
 	ld de, wBugContestTempScore
 	ld hl, wBugContestFirstPlaceScore
 	ld c, 2
-	call StringCmp
+	call CompareBytes
 	jr c, .not_first_place
 	ld hl, wBugContestSecondPlaceWinnerID
 	ld de, wBugContestThirdPlaceWinnerID
@@ -188,7 +188,7 @@ DetermineContestWinners:
 	ld de, wBugContestTempScore
 	ld hl, wBugContestSecondPlaceScore
 	ld c, 2
-	call StringCmp
+	call CompareBytes
 	jr c, .not_second_place
 	ld hl, wBugContestSecondPlaceWinnerID
 	ld de, wBugContestThirdPlaceWinnerID
@@ -202,7 +202,7 @@ DetermineContestWinners:
 	ld de, wBugContestTempScore
 	ld hl, wBugContestThirdPlaceScore
 	ld c, 2
-	call StringCmp
+	call CompareBytes
 	jr c, .done
 	ld hl, wBugContestThirdPlaceWinnerID
 	call CopyTempContestant

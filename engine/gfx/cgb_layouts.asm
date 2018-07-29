@@ -244,7 +244,7 @@ _CGB_Pokedex:
 	jr .got_palette
 
 .is_pokemon
-	call GetMonPalettePointer_
+	call GetMonPalettePointer
 	call LoadPalette_White_Col1_Col2_Black ; mon palette
 .got_palette
 	call WipeAttrMap
@@ -308,7 +308,7 @@ _CGB_PokedexUnownMode:
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
 	ld a, [wCurPartySpecies]
-	call GetMonPalettePointer_
+	call GetMonPalettePointer
 	call LoadPalette_White_Col1_Col2_Black
 	call WipeAttrMap
 	hlcoord 7, 5, wAttrMap

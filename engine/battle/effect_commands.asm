@@ -2675,7 +2675,7 @@ TruncateHL_BC:
 
 .finish
 	ld a, [wLinkMode]
-	cp 3
+	cp LINK_COLOSSEUM
 	jr z, .done
 ; If we go back to the loop point,
 ; it's the same as doing this exact
@@ -6099,7 +6099,7 @@ BattleCommand_Heal:
 	push de
 	push bc
 	ld c, 2
-	call StringCmp
+	call CompareBytes
 	pop bc
 	pop de
 	pop hl
@@ -6514,7 +6514,7 @@ BattleCommand_TimeBasedHealContinue:
 
 ; Don't bother healing if HP is already full.
 	push bc
-	call StringCmp
+	call CompareBytes
 	pop bc
 	jr z, .Full
 
@@ -6625,7 +6625,7 @@ INCLUDE "engine/battle/move_effects/future_sight.asm"
 INCLUDE "engine/battle/move_effects/thunder.asm"
 
 CheckHiddenOpponent:
-; BUG: This routine should account for Lock-On and Mind Reader.
+; BUG: This routine is completely redundant and introduces a bug, since BattleCommand_CheckHit does these checks properly.
 	ld a, BATTLE_VARS_SUBSTATUS3_OPP
 	call GetBattleVar
 	and 1 << SUBSTATUS_FLYING | 1 << SUBSTATUS_UNDERGROUND

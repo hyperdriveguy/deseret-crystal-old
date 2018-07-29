@@ -53,7 +53,7 @@ ApplyMonOrTrainerPals:
 	and a
 	jr z, .get_trainer
 	ld a, [wCurPartySpecies]
-	call GetMonPalettePointer_
+	call GetMonPalettePointer
 	jr .load_palettes
 
 .get_trainer
@@ -432,14 +432,14 @@ GetTrainerPalettePointer:
 	add hl, bc
 	ret
 
-GetMonPalettePointer_:
-	call GetMonPalettePointer
+GetMonPalettePointer:
+	call _GetMonPalettePointer
 	ret
 
 BattleObjectPals:
 INCLUDE "gfx/battle_anims/battle_anims.pal"
 
-GetMonPalettePointer:
+_GetMonPalettePointer:
 	ld l, a
 	ld h, $0
 	add hl, hl
@@ -451,7 +451,7 @@ GetMonPalettePointer:
 
 GetMonNormalOrShinyPalettePointer:
 	push bc
-	call GetMonPalettePointer
+	call _GetMonPalettePointer
 	pop bc
 	push hl
 	call CheckShininess

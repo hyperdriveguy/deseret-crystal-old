@@ -377,7 +377,7 @@ BattleTower_UbersCheck:
 .uber_under_70
 	pop af
 	ld a, [de]
-	ld [wd265], a
+	ld [wNamedObjectIndexBuffer], a
 	call GetPokemonName
 	ld hl, wStringBuffer1
 	ld de, wcd49

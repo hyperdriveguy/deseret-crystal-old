@@ -171,10 +171,10 @@ AI_Types:
 	pop bc
 	pop hl
 
-	ld a, [wd265]
+	ld a, [wTypeMatchup]
 	and a
 	jr z, .immune
-	cp 10 ; 1.0
+	cp EFFECTIVE
 	jr z, .checkmove
 	jr c, .noteffective
 
@@ -413,8 +413,8 @@ AI_Smart_LeechHit:
 	pop hl
 
 ; 60% chance to discourage this move if not very effective.
-	ld a, [wd265]
-	cp 10 ; 1.0
+	ld a, [wTypeMatchup]
+	cp EFFECTIVE
 	jr c, .asm_38815
 
 ; Do nothing if effectiveness is neutral.
@@ -489,8 +489,8 @@ AI_Smart_LockOn:
 	push hl
 	push bc
 	farcall BattleCheckTypeMatchup
-	ld a, [wd265]
-	cp $a
+	ld a, [wTypeMatchup]
+	cp EFFECTIVE
 	pop bc
 	pop hl
 	jr c, .asm_3884f
@@ -1289,8 +1289,8 @@ AI_Smart_Mimic:
 	ld [hBattleTurn], a
 	callfar BattleCheckTypeMatchup
 
-	ld a, [wd265]
-	cp $a
+	ld a, [wTypeMatchup]
+	cp EFFECTIVE
 	pop hl
 	jr c, .asm_38bef
 	jr z, .asm_38bd4
@@ -1405,8 +1405,8 @@ AI_Smart_Encore:
 	predef CheckTypeMatchup
 
 	pop hl
-	ld a, [wd265]
-	cp $a
+	ld a, [wTypeMatchup]
+	cp EFFECTIVE
 	jr nc, .asm_38c68
 
 	and a
@@ -1661,8 +1661,8 @@ AI_Smart_Conversion2:
 
 	callfar BattleCheckTypeMatchup
 
-	ld a, [wd265]
-	cp $a
+	ld a, [wTypeMatchup]
+	cp EFFECTIVE
 	pop hl
 	jr c, .asm_38dc9
 	ret z
@@ -2275,8 +2275,8 @@ AI_Smart_HiddenPower:
 	pop hl
 
 ; Discourage Hidden Power if not very effective.
-	ld a, [wd265]
-	cp 10
+	ld a, [wTypeMatchup]
+	cp EFFECTIVE
 	jr c, .bad
 
 ; Discourage Hidden Power if its base power	is lower than 50.
@@ -2285,8 +2285,8 @@ AI_Smart_HiddenPower:
 	jr c, .bad
 
 ; Encourage Hidden Power if super-effective.
-	ld a, [wd265]
-	cp 11
+	ld a, [wTypeMatchup]
+	cp EFFECTIVE + 1
 	jr nc, .good
 
 ; Encourage Hidden Power if its base power is 70.
@@ -3107,7 +3107,7 @@ AI_Status:
 	pop bc
 	pop hl
 
-	ld a, [wd265]
+	ld a, [wTypeMatchup]
 	and a
 	jr nz, .checkmove
 

@@ -1,6 +1,6 @@
 _DoItemEffect::
 	ld a, [wCurItem]
-	ld [wd265], a
+	ld [wNamedObjectIndexBuffer], a
 	call GetItemName
 	call CopyName1
 	ld a, 1
@@ -489,7 +489,7 @@ PokeBallEffect:
 	ld a, [wEnemyMonSpecies]
 	ld [wWildMon], a
 	ld [wCurPartySpecies], a
-	ld [wd265], a
+	ld [wTempSpecies], a
 	ld a, [wBattleType]
 	cp BATTLETYPE_TUTORIAL
 	jp z, .FinishTutorial
@@ -499,13 +499,13 @@ PokeBallEffect:
 
 	call ClearSprites
 
-	ld a, [wd265]
+	ld a, [wTempSpecies]
 	dec a
 	call CheckCaughtMon
 
 	ld a, c
 	push af
-	ld a, [wd265]
+	ld a, [wTempSpecies]
 	dec a
 	call SetSeenAndCaughtMon
 	pop af
@@ -521,7 +521,7 @@ PokeBallEffect:
 	call ClearSprites
 
 	ld a, [wEnemyMonSpecies]
-	ld [wd265], a
+	ld [wTempSpecies], a
 	predef NewPokedexEntry
 
 .skip_pokedex
@@ -564,7 +564,7 @@ PokeBallEffect:
 	call PrintText
 
 	ld a, [wCurPartySpecies]
-	ld [wd265], a
+	ld [wNamedObjectIndexBuffer], a
 	call GetPokemonName
 
 	call YesNoBox
@@ -624,7 +624,7 @@ PokeBallEffect:
 	call PrintText
 
 	ld a, [wCurPartySpecies]
-	ld [wd265], a
+	ld [wNamedObjectIndexBuffer], a
 	call GetPokemonName
 
 	call YesNoBox
@@ -1257,7 +1257,7 @@ Table_eeeb:
 RareCandy_StatBooster_GetParameters:
 	ld a, [wCurPartySpecies]
 	ld [wCurSpecies], a
-	ld [wd265], a
+	ld [wTempSpecies], a
 	ld a, MON_LEVEL
 	call GetPartyParamLocation
 	ld a, [hl]
@@ -1349,7 +1349,7 @@ RareCandyEffect:
 	xor a ; PARTYMON
 	ld [wMonType], a
 	ld a, [wCurPartySpecies]
-	ld [wd265], a
+	ld [wTempSpecies], a
 	predef LearnLevelMoves
 
 	xor a
@@ -2220,7 +2220,7 @@ RestorePPEffect:
 
 	push hl
 	ld a, [hl]
-	ld [wd265], a
+	ld [wNamedObjectIndexBuffer], a
 	call GetMoveName
 	call CopyName1
 	pop hl
@@ -2249,8 +2249,8 @@ RestorePPEffect:
 	ld a, [hl]
 	add PP_UP_ONE
 	ld [hl], a
-	ld a, $1
-	ld [wd265], a
+	ld a, TRUE
+	ld [wUsePPUp], a
 	call ApplyPPUp
 	call Play_SFX_FULL_HEAL
 
@@ -2368,7 +2368,7 @@ RestorePP:
 	ld hl, wPartyMon1PP
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call GetMthMoveOfNthPartymon
-	ld a, [wd265]
+	ld a, [wTempPP]
 	ld b, a
 	ld a, [hl]
 	and PP_MASK
@@ -2605,8 +2605,8 @@ ApplyPPUp:
 	ld a, b
 	cp NUM_MOVES + 1
 	ret z
-	ld a, [wd265]
-	dec a
+	ld a, [wUsePPUp]
+	dec a ; FALSE?
 	jr nz, .use
 	ld a, [wMenuCursorY]
 	inc a
@@ -2662,7 +2662,7 @@ ComputeMaxPP:
 .okay
 	add b
 	ld b, a
-	ld a, [wd265]
+	ld a, [wTempPP]
 	dec a
 	jr z, .NoPPUp
 	dec c
@@ -2697,7 +2697,7 @@ RestoreAllPP:
 	ld a, [de]
 	and PP_UP_MASK
 	ld b, a
-	ld a, [wd265]
+	ld a, [wTempPP]
 	add b
 	ld [de], a
 	inc de
@@ -2773,12 +2773,12 @@ GetMaxPPOfMove:
 	ld hl, wStringBuffer1 + 1
 	ld [hl], a
 	xor a
-	ld [wd265], a
+	ld [wTempPP], a
 	ld a, b ; this gets lost anyway
 	call ComputeMaxPP
 	ld a, [hl]
 	and PP_MASK
-	ld [wd265], a
+	ld [wTempPP], a
 
 	pop af
 	ld [wStringBuffer1 + 1], a

@@ -8,7 +8,7 @@ _LinkBattleSendReceiveAction:
 
 .StageForSend:
 	ld a, [wBattlePlayerAction]
-	and a
+	and a ; BATTLEPLAYERACTION_USEMOVE?
 	jr nz, .switch
 	ld a, [wCurPlayerMove]
 	ld b, BATTLEACTION_E

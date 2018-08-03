@@ -81,7 +81,7 @@ CheckBreedmonCompatibility:
 
 .done
 	ld a, c
-	ld [wd265], a
+	ld [wBreedingCompatibility], a
 	ret
 
 .CheckDVs:
@@ -249,7 +249,7 @@ HatchEggs:
 	ld a, [wCurPartySpecies]
 	dec de
 	ld [de], a
-	ld [wd265], a
+	ld [wNamedObjectIndexBuffer], a
 	ld [wCurSpecies], a
 	call GetPokemonName
 	xor a
@@ -675,7 +675,7 @@ EggHatch_DoAnimFrame:
 	ret
 
 EggHatch_AnimationSequence:
-	ld a, [wd265]
+	ld a, [wNamedObjectIndexBuffer]
 	ld [wJumptableIndex], a
 	ld a, [wCurSpecies]
 	push af
@@ -909,7 +909,7 @@ DayCareMonCompatibilityText:
 	call CopyBytes
 	call CheckBreedmonCompatibility
 	pop bc
-	ld a, [wd265]
+	ld a, [wBreedingCompatibility]
 	ld hl, .AllAlone
 	cp -1
 	jr z, .done

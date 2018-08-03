@@ -41,7 +41,7 @@ UnknownText_0x1bc0a2::
 	text_from_ram wStringBuffer1
 	text_start
 	line "recovered @"
-	deciram wd1f3, 2, 3
+	deciram wCurHPAnimDeltaHP, 2, 3
 	text "HP!"
 	done
 

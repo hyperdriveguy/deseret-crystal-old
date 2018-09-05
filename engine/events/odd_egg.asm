@@ -1,4 +1,4 @@
-_GiveOddEgg:
+GiveOddEgg:
 	; Figure out which egg to give.
 
 	; Compare a random word to

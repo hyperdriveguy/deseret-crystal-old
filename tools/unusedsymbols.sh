@@ -14,6 +14,7 @@ sed -n -e 's/^\([A-Za-z]*Menu\):.*/\1/p' engine/menus/main_menu.asm | grep -xv M
 cat >> unused_ignore.txt << EOF
 AI_TryItem.no
 AI_TryItem.used_item
+AnimateWaterPalette.color1
 BattleBGEffect_1c.DMG_PlayerData
 BattleTowerTrainerDataEnd
 BoxNameInputUpper
@@ -36,7 +37,6 @@ FlinchTarget
 FlyMap.JohtoFlyMap
 ForcePlayerMonChoice.enemy_fainted_mobile_error
 Function24f19
-GetDamageStats
 GetIcon
 GetNumberedTMHM.skip_two
 GetTreeScore.bad
@@ -66,7 +66,6 @@ RestorePPEffect.pp_is_maxed_out
 SetSeenMon
 SmallFarFlagAction.reset
 SwitchSpeed
-TileAnimationPalette.color1
 UpdateBGMap.bottom
 WaitDMATransfer
 _CalcHoursDaysSince
@@ -85,8 +84,10 @@ python3 -u tools/unusedsymbols.py -D $objs | fgrep --line-buffered -xvf - unused
 find unused_ignore_gone.txt -empty -delete
 
 # Check if any of the ignored labels are actually used
-#python3 -u tools/unusedsymbols.py $objs | fgrep --line-buffered -xvf - unused_ignore.txt | tee unused_ignore_used.txt
-#find unused_ignore_used.txt -empty -delete
+python3 -u tools/unusedsymbols.py $objs | fgrep --line-buffered -xvf - unused_ignore.txt \
+	| grep -xv 'BattleTowerMons[12]' | grep -xv 'IncGradGBPalTable_0[0457]' \
+	| tee unused_ignore_used.txt
+find unused_ignore_used.txt -empty -delete
 
 # Run the program to generate a list of unreferenced labels
 # All the labels in unused_ignore.txt are filtered out,

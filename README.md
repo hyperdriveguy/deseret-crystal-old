@@ -4,6 +4,23 @@ Optimized Pokémon Crystal
 This is an optimization of pokecrystal, in the sense that all of the unused code and data is removed from the game.  
 This means that you have a lot more free space to work with, and don't have to wade through piles of unused mobile features.
 
+The Eye-catcher
+---------------
+
+Probably the first thing you want to know when looking at this is "what are the savings?"
+
+```
+# Original game:
+$ tools/free_space.awk pokecrystal11.map
+Free space: 454922/2097152 (21.69%)
+
+# Optimized version:
+$ tools/free_space.awk pokecrystal11.map
+Free space: 691134/2097152 (32.96%)
+```
+
+All of this space saved, without actually modifying the game!
+
 The Goals
 ---------
 
@@ -13,8 +30,8 @@ The Goals
 * Keep save file compatibility with the original games intact
 * Don't stray from pokecrystal, don't rename or reorganize things, keep the added line counter as close to 0 as possible
 
-Current status
---------------
+The Current Status
+------------------
 
 Every single labelled but unused code and data has been removed.  
 Unused maps have been removed.  
@@ -31,8 +48,8 @@ There's a few exceptions to some of the rules:
 * Commands used in scripting of any kind that simply point to something that is otherwise used need not be removed. There's little point in doing so.
 * Commands used in scripting of any kind that "complete" an otherwise used set of commands may be kept. This is subjective and applied on a case-by-case basis.
 
-Notes
------
+The Notes
+---------
 
 This project adds a tool, called `tools/unusedsymbols.py`, to scan the built object files for symbols and find unused ones.  
 This tool requires `python3` to run, and is most conveniently used through `tools/unusedsymbols.sh`, a wrapper that takes care of (re)building the objects properly, filtering and saving the output.

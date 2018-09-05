@@ -1,8 +1,8 @@
 LoadPoisonBGPals:
-	ld a, [rSVBK]
+	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wBGPals2)
-	ld [rSVBK], a
+	ldh [rSVBK], a
 	ld hl, wBGPals2
 	ld c, 4 palettes
 .loop
@@ -13,9 +13,9 @@ LoadPoisonBGPals:
 	dec c
 	jr nz, .loop
 	pop af
-	ld [rSVBK], a
+	ldh [rSVBK], a
 	ld a, $1
-	ld [hCGBPalUpdate], a
+	ldh [hCGBPalUpdate], a
 	ld c, 4
 	call DelayFrames
 	farcall _UpdateTimePals

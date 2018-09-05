@@ -48,7 +48,7 @@ TrainerGuitaristClyde:
 .Script:
 	endifjustbattled
 	opentext
-	writetext UnknownText_0x75d65
+	writetext GuitaristClydeAfterBattleText
 	waitbutton
 	closetext
 	end
@@ -170,7 +170,7 @@ GuitaristClydeBeatenText:
 	line "Total distortion!"
 	done
 
-UnknownText_0x75d65:
+GuitaristClydeAfterBattleText:
 	text "Speaking of the"
 	line "RADIO STATION,"
 

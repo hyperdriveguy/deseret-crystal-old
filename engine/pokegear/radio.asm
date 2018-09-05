@@ -1512,15 +1512,15 @@ BuenasPassword1:
 
 .PlayPassword:
 	call StartRadioStation
-	ld a, [hBGMapMode]
+	ldh a, [hBGMapMode]
 	push af
 	xor a
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ld de, BuenasPasswordChannelName
 	hlcoord 2, 9
 	call PlaceString
 	pop af
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ld hl, BuenaRadioText1
 	ld a, BUENAS_PASSWORD_2
 	jp NextRadioLine
@@ -1542,8 +1542,8 @@ BuenasPassword4:
 	jp c, BuenasPassword8
 	ld a, [wBuenasPassword]
 ; If we already generated the password today, we don't need to generate a new one.
-	ld hl, wWeeklyFlags
-	bit WEEKLYFLAGS_BUENAS_PASSWORD_F, [hl]
+	ld hl, wDailyFlags2
+	bit DAILYFLAGS2_BUENAS_PASSWORD_F, [hl]
 	jr nz, .AlreadyGotIt
 ; There are only 11 groups to choose from.
 .greater_than_11
@@ -1564,8 +1564,8 @@ BuenasPassword4:
 	add e
 	ld [wBuenasPassword], a
 ; Set the flag so that we don't generate a new password this week.
-	ld hl, wWeeklyFlags
-	set WEEKLYFLAGS_BUENAS_PASSWORD_F, [hl]
+	ld hl, wDailyFlags2
+	set DAILYFLAGS2_BUENAS_PASSWORD_F, [hl]
 .AlreadyGotIt:
 	ld c, a
 	call GetBuenasPassword
@@ -1685,15 +1685,15 @@ BuenasPassword7:
 
 BuenasPasswordAfterMidnight:
 	push hl
-	ld hl, wWeeklyFlags
-	res WEEKLYFLAGS_BUENAS_PASSWORD_F, [hl]
+	ld hl, wDailyFlags2
+	res DAILYFLAGS2_BUENAS_PASSWORD_F, [hl]
 	pop hl
 	ld a, BUENAS_PASSWORD_8
 	jp NextRadioLine
 
 BuenasPassword8:
-	ld hl, wWeeklyFlags
-	res WEEKLYFLAGS_BUENAS_PASSWORD_F, [hl]
+	ld hl, wDailyFlags2
+	res DAILYFLAGS2_BUENAS_PASSWORD_F, [hl]
 	ld hl, BuenaRadioMidnightText10
 	ld a, BUENAS_PASSWORD_9
 	jp NextRadioLine
@@ -1754,14 +1754,14 @@ BuenasPassword19:
 	jp NextRadioLine
 
 BuenasPassword20:
-	ld a, [hBGMapMode]
+	ldh a, [hBGMapMode]
 	push af
 	farcall NoRadioMusic
 	farcall NoRadioName
 	pop af
-	ld [hBGMapMode], a
-	ld hl, wWeeklyFlags
-	res WEEKLYFLAGS_BUENAS_PASSWORD_F, [hl]
+	ldh [hBGMapMode], a
+	ld hl, wDailyFlags2
+	res DAILYFLAGS2_BUENAS_PASSWORD_F, [hl]
 	ld a, BUENAS_PASSWORD
 	ld [wCurrentRadioLine], a
 	xor a
@@ -1783,7 +1783,7 @@ BuenasPassword21:
 
 BuenasPasswordCheckTime:
 	call UpdateTime
-	ld a, [hHours]
+	ldh a, [hHours]
 	cp NITE_HOUR
 	ret
 

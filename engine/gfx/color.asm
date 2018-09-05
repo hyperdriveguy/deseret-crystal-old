@@ -96,7 +96,7 @@ ApplyHPBarPals:
 	ld a, BANK(wBGPals2)
 	call FarCopyWRAM
 	ld a, $1
-	ld [hCGBPalUpdate], a
+	ldh [hCGBPalUpdate], a
 	ret
 
 .PartyMenu:
@@ -124,10 +124,10 @@ LoadStatsScreenPals:
 	dec c
 	add hl, bc
 	add hl, bc
-	ld a, [rSVBK]
+	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wBGPals1)
-	ld [rSVBK], a
+	ldh [rSVBK], a
 	ld a, [hli]
 	ld [wBGPals1 palette 0], a
 	ld [wBGPals1 palette 2], a
@@ -135,7 +135,7 @@ LoadStatsScreenPals:
 	ld [wBGPals1 palette 0 + 1], a
 	ld [wBGPals1 palette 2 + 1], a
 	pop af
-	ld [rSVBK], a
+	ldh [rSVBK], a
 	call ApplyPals
 	ld a, $1
 	ret
@@ -192,10 +192,10 @@ GetPredefPal:
 	ret
 
 LoadHLPaletteIntoDE:
-	ld a, [rSVBK]
+	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wOBPals1)
-	ld [rSVBK], a
+	ldh [rSVBK], a
 	ld c, 1 palettes
 .loop
 	ld a, [hli]
@@ -204,14 +204,14 @@ LoadHLPaletteIntoDE:
 	dec c
 	jr nz, .loop
 	pop af
-	ld [rSVBK], a
+	ldh [rSVBK], a
 	ret
 
 LoadPalette_White_Col1_Col2_Black:
-	ld a, [rSVBK]
+	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wBGPals1)
-	ld [rSVBK], a
+	ldh [rSVBK], a
 
 	ld a, LOW(PALRGB_WHITE)
 	ld [de], a
@@ -235,7 +235,7 @@ LoadPalette_White_Col1_Col2_Black:
 	inc de
 
 	pop af
-	ld [rSVBK], a
+	ldh [rSVBK], a
 	ret
 
 FillBoxCGB:
@@ -260,10 +260,10 @@ ResetBGPals:
 	push de
 	push hl
 
-	ld a, [rSVBK]
+	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wBGPals1)
-	ld [rSVBK], a
+	ldh [rSVBK], a
 
 	ld hl, wBGPals1
 	ld c, 1 palettes
@@ -282,7 +282,7 @@ ResetBGPals:
 	jr nz, .loop
 
 	pop af
-	ld [rSVBK], a
+	ldh [rSVBK], a
 
 	pop hl
 	pop de
@@ -306,19 +306,19 @@ ApplyPals:
 	ret
 
 ApplyAttrMap:
-	ld a, [rLCDC]
+	ldh a, [rLCDC]
 	bit rLCDC_ENABLE, a
 	jr z, .UpdateVBank1
-	ld a, [hBGMapMode]
+	ldh a, [hBGMapMode]
 	push af
 	ld a, $2
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	call DelayFrame
 	call DelayFrame
 	call DelayFrame
 	call DelayFrame
 	pop af
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ret
 
 .UpdateVBank1:
@@ -326,7 +326,7 @@ ApplyAttrMap:
 	debgcoord 0, 0
 	ld b, SCREEN_HEIGHT
 	ld a, $1
-	ld [rVBK], a
+	ldh [rVBK], a
 .row
 	ld c, SCREEN_WIDTH
 .col
@@ -344,7 +344,7 @@ ApplyAttrMap:
 	dec b
 	jr nz, .row
 	ld a, $0
-	ld [rVBK], a
+	ldh [rVBK], a
 	ret
 
 ; CGB layout for SCGB_PARTY_MENU_HP_PALS
@@ -464,43 +464,43 @@ endr
 
 InitCGBPals::
 	ld a, BANK(vTiles3)
-	ld [rVBK], a
+	ldh [rVBK], a
 	ld hl, vTiles3
 	ld bc, $200 tiles
 	xor a
 	call ByteFill
 	ld a, BANK(vTiles0)
-	ld [rVBK], a
+	ldh [rVBK], a
 	ld a, 1 << rBGPI_AUTO_INCREMENT
-	ld [rBGPI], a
+	ldh [rBGPI], a
 	ld c, 4 * 8
 .bgpals_loop
 	ld a, LOW(PALRGB_WHITE)
-	ld [rBGPD], a
+	ldh [rBGPD], a
 	ld a, HIGH(PALRGB_WHITE)
-	ld [rBGPD], a
+	ldh [rBGPD], a
 	dec c
 	jr nz, .bgpals_loop
 	ld a, 1 << rOBPI_AUTO_INCREMENT
-	ld [rOBPI], a
+	ldh [rOBPI], a
 	ld c, 4 * 8
 .obpals_loop
 	ld a, LOW(PALRGB_WHITE)
-	ld [rOBPD], a
+	ldh [rOBPD], a
 	ld a, HIGH(PALRGB_WHITE)
-	ld [rOBPD], a
+	ldh [rOBPD], a
 	dec c
 	jr nz, .obpals_loop
-	ld a, [rSVBK]
+	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wBGPals1)
-	ld [rSVBK], a
+	ldh [rSVBK], a
 	ld hl, wBGPals1
 	call .LoadWhitePals
 	ld hl, wBGPals2
 	call .LoadWhitePals
 	pop af
-	ld [rSVBK], a
+	ldh [rSVBK], a
 	ret
 
 .LoadWhitePals:
@@ -556,10 +556,10 @@ LoadMapPals:
 	ld e, l
 	ld d, h
 	; Switch to palettes WRAM bank
-	ld a, [rSVBK]
+	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wBGPals1)
-	ld [rSVBK], a
+	ldh [rSVBK], a
 	ld hl, wBGPals1
 	ld b, 8
 .outer_loop
@@ -588,7 +588,7 @@ LoadMapPals:
 	dec b
 	jr nz, .outer_loop
 	pop af
-	ld [rSVBK], a
+	ldh [rSVBK], a
 
 .got_pals
 	ld a, [wTimeOfDayPal]

@@ -305,15 +305,15 @@ HPBarAnim_BGMapUpdate:
 	cp $5
 	jr z, .skip_delay
 	ld a, $2
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ld a, c
-	ld [hBGMapThird], a
+	ldh [hBGMapThird], a
 	call DelayFrame
 .skip_delay
 	ld a, $1
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ld a, c
-	ld [hBGMapThird], a
+	ldh [hBGMapThird], a
 	call DelayFrame
 	pop af
 	cp $2
@@ -325,14 +325,14 @@ HPBarAnim_BGMapUpdate:
 .two_frames
 	inc c
 	ld a, $2
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ld a, c
-	ld [hBGMapThird], a
+	ldh [hBGMapThird], a
 	call DelayFrame
 	ld a, $1
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ld a, c
-	ld [hBGMapThird], a
+	ldh [hBGMapThird], a
 	call DelayFrame
 	ret
 
@@ -345,7 +345,7 @@ HPBarAnim_BGMapUpdate:
 .finish
 	call DelayFrame
 	ld a, c
-	ld [hBGMapThird], a
+	ldh [hBGMapThird], a
 	call DelayFrame
 	ret
 

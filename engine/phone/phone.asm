@@ -147,7 +147,7 @@ ChooseRandomCaller:
 ; Sample a random number between 0 and 31.
 	ld c, a
 	call Random
-	ld a, [hRandomAdd]
+	ldh a, [hRandomAdd]
 	swap a
 	and $1f
 ; Compute that number modulo the number of available callers.

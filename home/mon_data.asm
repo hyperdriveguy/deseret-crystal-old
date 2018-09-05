@@ -2,7 +2,7 @@ GetBaseData::
 	push bc
 	push de
 	push hl
-	ld a, [hROMBank]
+	ldh a, [hROMBank]
 	push af
 	ld a, BANK(BaseData)
 	rst Bankswitch

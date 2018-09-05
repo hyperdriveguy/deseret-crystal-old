@@ -22,7 +22,7 @@ _InterpretBattleMenu::
 
 Draw2DMenu:
 	xor a
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	call MenuBox
 	call Place2DMenuItemStrings
 	ret
@@ -214,13 +214,12 @@ _StaticMenuJoypad::
 _ScrollingMenuJoypad::
 	ld hl, w2DMenuFlags2
 	res 7, [hl]
-	ld a, [hBGMapMode]
+	ldh a, [hBGMapMode]
 	push af
 	call MenuJoypadLoop
 	pop af
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ret
-
 
 MenuJoypadLoop:
 .loop
@@ -243,15 +242,15 @@ MenuJoypadLoop:
 	ret
 
 .BGMap_OAM:
-	ld a, [hOAMUpdate]
+	ldh a, [hOAMUpdate]
 	push af
 	ld a, $1
-	ld [hOAMUpdate], a
+	ldh [hOAMUpdate], a
 	call WaitBGMap
 	pop af
-	ld [hOAMUpdate], a
+	ldh [hOAMUpdate], a
 	xor a
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ret
 
 Do2DMenuRTCJoypad:
@@ -467,10 +466,10 @@ Place2DMenuCursor:
 	ret
 
 _PushWindow::
-	ld a, [rSVBK]
+	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wWindowStack)
-	ld [rSVBK], a
+	ldh [rSVBK], a
 
 	ld hl, wWindowStackPointer
 	ld e, [hl]
@@ -531,7 +530,7 @@ _PushWindow::
 	ld [hl], d
 
 	pop af
-	ld [rSVBK], a
+	ldh [rSVBK], a
 	ld hl, wWindowStackSize
 	inc [hl]
 	ret
@@ -567,12 +566,12 @@ _PushWindow::
 
 _ExitMenu::
 	xor a
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 
-	ld a, [rSVBK]
+	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wWindowStack)
-	ld [rSVBK], a
+	ldh [rSVBK], a
 
 	call GetWindowStackTop
 	ld a, l
@@ -599,7 +598,7 @@ _ExitMenu::
 
 .done
 	pop af
-	ld [rSVBK], a
+	ldh [rSVBK], a
 	ld hl, wWindowStackSize
 	dec [hl]
 	ret

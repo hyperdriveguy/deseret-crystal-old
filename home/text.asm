@@ -28,7 +28,7 @@ ClearTileMap::
 	call ByteFill
 
 	; Update the BG Map.
-	ld a, [rLCDC]
+	ldh a, [rLCDC]
 	bit rLCDC_ENABLE, a
 	ret z
 	jp WaitBGMap
@@ -298,12 +298,12 @@ PlaceWatashi: print_name PlaceWatashiText
 PlaceKokoWa:  print_name PlaceKokoWaText
 
 PlaceMoveTargetsName::
-	ld a, [hBattleTurn]
+	ldh a, [hBattleTurn]
 	xor 1
 	jr PlaceMoveUsersName.place
 
 PlaceMoveUsersName::
-	ld a, [hBattleTurn]
+	ldh a, [hBattleTurn]
 
 .place:
 	push de
@@ -582,15 +582,15 @@ TextScroll::
 
 Text_WaitBGMap::
 	push bc
-	ld a, [hOAMUpdate]
+	ldh a, [hOAMUpdate]
 	push af
 	ld a, 1
-	ld [hOAMUpdate], a
+	ldh [hOAMUpdate], a
 
 	call WaitBGMap
 
 	pop af
-	ld [hOAMUpdate], a
+	ldh [hOAMUpdate], a
 	pop bc
 	ret
 
@@ -609,7 +609,7 @@ UnloadBlinkingCursor::
 
 FarString::
 	ld b, a
-	ld a, [hROMBank]
+	ldh a, [hROMBank]
 	push af
 
 	ld a, b
@@ -721,7 +721,7 @@ TextCommand_FAR::
 ; little endian
 ; [$16][addr][bank]
 
-	ld a, [hROMBank]
+	ldh a, [hROMBank]
 	push af
 
 	ld a, [hli]
@@ -730,7 +730,7 @@ TextCommand_FAR::
 	ld d, a
 	ld a, [hli]
 
-	ld [hROMBank], a
+	ldh [hROMBank], a
 	ld [MBC3RomBank], a
 
 	push hl
@@ -740,7 +740,7 @@ TextCommand_FAR::
 	pop hl
 
 	pop af
-	ld [hROMBank], a
+	ldh [hROMBank], a
 	ld [MBC3RomBank], a
 	ret
 
@@ -880,7 +880,7 @@ TextCommand_EXIT::
 	push hl
 	push bc
 	call GetJoypad
-	ld a, [hJoyDown]
+	ldh a, [hJoyDown]
 	and A_BUTTON | B_BUTTON
 	jr nz, .done
 	ld c, 30
@@ -949,7 +949,7 @@ TextCommand_DOTS::
 	ld a, "…"
 	ld [hli], a
 	call GetJoypad
-	ld a, [hJoyDown]
+	ldh a, [hJoyDown]
 	and A_BUTTON | B_BUTTON
 	jr nz, .next
 	ld c, 10

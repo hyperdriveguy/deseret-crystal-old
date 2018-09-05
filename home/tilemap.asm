@@ -3,7 +3,7 @@ ClearBGPalettes::
 WaitBGMap::
 ; Tell VBlank to update BG Map
 	ld a, 1 ; BG Map 0 tiles
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 ; Wait for it to do its magic
 	ld c, 4
 	call DelayFrames
@@ -11,12 +11,12 @@ WaitBGMap::
 
 WaitBGMap2::
 	ld a, 2
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ld c, 4
 	call DelayFrames
 
 	ld a, 1
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ld c, 4
 	call DelayFrames
 	ret
@@ -27,65 +27,65 @@ ApplyTilemap::
 	jr z, .dmg
 
 	ld a, 1
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	jr CopyTilemapAtOnce
 
 .dmg
 ; WaitBGMap
 	ld a, 1
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ld c, 4
 	call DelayFrames
 	ret
 
 CGBOnly_CopyTilemapAtOnce::
 CopyTilemapAtOnce::
-	ld a, [hBGMapMode]
+	ldh a, [hBGMapMode]
 	push af
 	xor a
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 
-	ld a, [hMapAnims]
+	ldh a, [hMapAnims]
 	push af
 	xor a
-	ld [hMapAnims], a
+	ldh [hMapAnims], a
 
 .wait
-	ld a, [rLY]
+	ldh a, [rLY]
 	cp $7f
 	jr c, .wait
 
 	di
 	ld a, BANK(vTiles3)
-	ld [rVBK], a
+	ldh [rVBK], a
 	hlcoord 0, 0, wAttrMap
 	call .StackPointerMagic
 	ld a, BANK(vTiles0)
-	ld [rVBK], a
+	ldh [rVBK], a
 	hlcoord 0, 0
 	call .StackPointerMagic
 
 .wait2
-	ld a, [rLY]
+	ldh a, [rLY]
 	cp $7f
 	jr c, .wait2
 	ei
 
 	pop af
-	ld [hMapAnims], a
+	ldh [hMapAnims], a
 	pop af
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ret
 
 .StackPointerMagic:
 ; Copy all tiles to vBGMap
 	ld [hSPBuffer], sp
 	ld sp, hl
-	ld a, [hBGMapAddress + 1]
+	ldh a, [hBGMapAddress + 1]
 	ld h, a
 	ld l, 0
 	ld a, SCREEN_HEIGHT
-	ld [hTilesPerCycle], a
+	ldh [hTilesPerCycle], a
 	ld b, 1 << 1 ; not in v/hblank
 	ld c, LOW(rSTAT)
 
@@ -106,14 +106,14 @@ endr
 
 	ld de, BG_MAP_WIDTH - SCREEN_WIDTH
 	add hl, de
-	ld a, [hTilesPerCycle]
+	ldh a, [hTilesPerCycle]
 	dec a
-	ld [hTilesPerCycle], a
+	ldh [hTilesPerCycle], a
 	jr nz, .loop
 
-	ld a, [hSPBuffer]
+	ldh a, [hSPBuffer]
 	ld l, a
-	ld a, [hSPBuffer + 1]
+	ldh a, [hSPBuffer + 1]
 	ld h, a
 	ld sp, hl
 	ret
@@ -131,11 +131,11 @@ SetPalettes::
 ClearPalettes::
 ; Make all palettes white
 
-	ld a, [rSVBK]
+	ldh a, [rSVBK]
 	push af
 
 	ld a, BANK(wBGPals2)
-	ld [rSVBK], a
+	ldh [rSVBK], a
 
 ; Fill wBGPals2 and wOBPals2 with $ffff (white)
 	ld hl, wBGPals2
@@ -144,11 +144,11 @@ ClearPalettes::
 	call ByteFill
 
 	pop af
-	ld [rSVBK], a
+	ldh [rSVBK], a
 
 ; Request palette update
 	ld a, 1
-	ld [hCGBPalUpdate], a
+	ldh [hCGBPalUpdate], a
 	ret
 
 GetMemSGBLayout::

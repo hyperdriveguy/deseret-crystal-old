@@ -472,7 +472,7 @@ AIUpdateHUD:
 	call UpdateEnemyMonInParty
 	farcall UpdateEnemyHUD
 	ld a, $1
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ld hl, wEnemyItemState
 	dec [hl]
 	scf
@@ -623,7 +623,7 @@ AI_Switch:
 	ld hl, wEnemySubStatus4
 	res SUBSTATUS_RAGE, [hl]
 	xor a
-	ld [hBattleTurn], a
+	ldh [hBattleTurn], a
 	callfar PursuitSwitch
 
 	push af
@@ -727,7 +727,7 @@ EnemyUsedXItem:
 	push bc
 	call PrintText_UsedItemOn
 	pop bc
-	farcall CheckIfStatCanBeRaised
+	farcall RaiseStat
 	jp AIUpdateHUD
 
 ; Parameter

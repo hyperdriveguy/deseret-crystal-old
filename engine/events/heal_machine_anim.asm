@@ -18,7 +18,7 @@ HealMachineAnim:
 	; 2: Up (Hall of Fame)
 	ld a, [wScriptVar]
 	ld [wBuffer1], a
-	ld a, [rOBP1]
+	ldh a, [rOBP1]
 	ld [wBuffer2], a
 	call .DoJumptableFunctions
 	ld a, [wBuffer2]
@@ -161,7 +161,7 @@ INCBIN "gfx/overworld/heal_machine.2bpp"
 	ld a, BANK(wOBPals2)
 	call FarCopyWRAM
 	ld a, $1
-	ld [hCGBPalUpdate], a
+	ldh [hCGBPalUpdate], a
 	ret
 
 .palettes
@@ -180,10 +180,10 @@ INCLUDE "gfx/overworld/heal_machine.pal"
 	ret
 
 .FlashPalettes:
-	ld a, [rSVBK]
+	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wOBPals2)
-	ld [rSVBK], a
+	ldh [rSVBK], a
 
 	ld hl, wOBPals2 palette PAL_OW_TREE
 	ld a, [hli]
@@ -215,9 +215,9 @@ INCLUDE "gfx/overworld/heal_machine.pal"
 	ld [hl], a
 
 	pop af
-	ld [rSVBK], a
+	ldh [rSVBK], a
 	ld a, $1
-	ld [hCGBPalUpdate], a
+	ldh [hCGBPalUpdate], a
 	ret
 
 .PlaceHealingMachineTile:

@@ -208,7 +208,7 @@ SlotsLoop:
 	ld a, [wTextDelayFrames]
 	and $7
 	ret nz
-	ld a, [rBGP]
+	ldh a, [rBGP]
 	xor %00001100
 	call DmgToCgbBGPals
 	ret
@@ -299,7 +299,7 @@ SlotsAction_WaitStart:
 .proceed
 	call SlotsAction_Next
 	xor a
-	ld [hJoypadSum], a
+	ldh [hJoypadSum], a
 	ret
 
 SlotsAction_WaitReel1:
@@ -321,7 +321,7 @@ SlotsAction_WaitStopReel1:
 	call Slots_LoadReelState
 	call SlotsAction_Next
 	xor a
-	ld [hJoypadSum], a
+	ldh [hJoypadSum], a
 SlotsAction_WaitReel2:
 	ld hl, hJoypadSum
 	ld a, [hl]
@@ -341,7 +341,7 @@ SlotsAction_WaitStopReel2:
 	call Slots_LoadReelState
 	call SlotsAction_Next
 	xor a
-	ld [hJoypadSum], a
+	ldh [hJoypadSum], a
 SlotsAction_WaitReel3:
 	ld hl, hJoypadSum
 	ld a, [hl]
@@ -361,7 +361,7 @@ SlotsAction_WaitStopReel3:
 	call Slots_LoadReelState
 	call SlotsAction_Next
 	xor a
-	ld [hJoypadSum], a
+	ldh [hJoypadSum], a
 	ret
 
 SlotsAction_FlashIfWin:
@@ -385,7 +385,7 @@ SlotsAction_FlashScreen:
 	srl a
 	ret z
 
-	ld a, [rOBP0]
+	ldh a, [rOBP0]
 	xor $ff
 	ld e, a
 	ld d, a
@@ -1979,7 +1979,7 @@ Slots_AnimateGolem:
 	xor $ff
 	inc a
 	ld [hl], a
-	ld [hSCY], a
+	ldh [hSCY], a
 	ret
 
 .restart
@@ -1987,7 +1987,7 @@ Slots_AnimateGolem:
 	add hl, bc
 	xor a
 	ld [hl], a
-	ld [hSCY], a
+	ldh [hSCY], a
 	ret
 
 Slots_AnimateChansey:

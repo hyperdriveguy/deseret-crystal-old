@@ -39,11 +39,11 @@ _TimeOfDayPals::
 	ld hl, wBGPals1 palette PAL_BG_TEXT
 
 ; save wram bank
-	ld a, [rSVBK]
+	ldh a, [rSVBK]
 	ld b, a
 
 	ld a, BANK(wBGPals1)
-	ld [rSVBK], a
+	ldh [rSVBK], a
 
 ; push palette
 	ld c, NUM_PAL_COLORS
@@ -58,7 +58,7 @@ _TimeOfDayPals::
 
 ; restore wram bank
 	ld a, b
-	ld [rSVBK], a
+	ldh [rSVBK], a
 
 ; update sgb pals
 	ld b, SCGB_MAPPALS
@@ -68,11 +68,11 @@ _TimeOfDayPals::
 	ld hl, wOBPals1 - 1 ; last byte in wBGPals1
 
 ; save wram bank
-	ld a, [rSVBK]
+	ldh a, [rSVBK]
 	ld d, a
 
 	ld a, BANK(wOBPals1)
-	ld [rSVBK], a
+	ldh [rSVBK], a
 
 ; pop palette
 	ld e, NUM_PAL_COLORS
@@ -87,7 +87,7 @@ _TimeOfDayPals::
 
 ; restore wram bank
 	ld a, d
-	ld [rSVBK], a
+	ldh [rSVBK], a
 
 ; update palettes
 	call _UpdateTimePals
@@ -154,10 +154,10 @@ FadeBlackQuickly:
 	ret
 
 FillWhiteBGColor:
-	ld a, [rSVBK]
+	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wBGPals1)
-	ld [rSVBK], a
+	ldh [rSVBK], a
 
 	ld hl, wBGPals1
 	ld a, [hli]
@@ -178,7 +178,7 @@ endr
 	jr nz, .loop
 
 	pop af
-	ld [rSVBK], a
+	ldh [rSVBK], a
 	ret
 
 ReplaceTimeOfDayPals:

@@ -13,20 +13,20 @@ SaffronPokecenter1FNurseScript:
 	jumpstd pokecenternurse
 
 SaffronPokecenter1FTeacherScript:
-	jumptextfaceplayer UnknownText_0x18a4a3
+	jumptextfaceplayer SaffronPokecenter1FTeacherText
 
 SaffronPokecenter1FFisherScript:
 	faceplayer
 	opentext
 	checkevent EVENT_RETURNED_MACHINE_PART
 	iftrue .SolvedKantoPowerCrisis
-	writetext UnknownText_0x18a5d3
+	writetext SaffronPokecenter1FFisherText
 	waitbutton
 	closetext
 	end
 
 .SolvedKantoPowerCrisis:
-	writetext UnknownText_0x18a62e
+	writetext SaffronPokecenter1FFisherReturnedMachinePartText
 	waitbutton
 	closetext
 	end
@@ -34,7 +34,7 @@ SaffronPokecenter1FFisherScript:
 SaffronPokecenter1FYoungsterScript:
 	jumptextfaceplayer SaffronPokecenter1FYoungsterText
 
-UnknownText_0x18a4a3:
+SaffronPokecenter1FTeacherText:
 	text "What are JOHTO's"
 	line "#MON CENTERS"
 	cont "like?"
@@ -50,7 +50,7 @@ UnknownText_0x18a4a3:
 	cont "then!"
 	done
 
-UnknownText_0x18a5d3:
+SaffronPokecenter1FFisherText:
 	text "I just happened to"
 	line "come through ROCK"
 
@@ -59,7 +59,7 @@ UnknownText_0x18a5d3:
 	cont "the POWER PLANT."
 	done
 
-UnknownText_0x18a62e:
+SaffronPokecenter1FFisherReturnedMachinePartText:
 	text "Caves collapse"
 	line "easily."
 

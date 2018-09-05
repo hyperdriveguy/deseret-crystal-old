@@ -226,7 +226,7 @@ CutDownTreeOrGrass:
 	ld a, [wBuffer5] ; ReplacementTile
 	ld [hl], a
 	xor a
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	call OverworldTextModeSwitch
 	call UpdateSprites
 	call DelayFrame
@@ -569,7 +569,7 @@ FlyFunction:
 
 .outdoors
 	xor a
-	ld [hMapAnims], a
+	ldh [hMapAnims], a
 	call LoadStandardMenuHeader
 	call ClearSprites
 	farcall _FlyMap
@@ -1182,7 +1182,7 @@ DisappearWhirlpool:
 	ld a, [wBuffer5]
 	ld [hl], a
 	xor a
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	call OverworldTextModeSwitch
 	ld a, [wBuffer6]
 	ld e, a
@@ -1343,12 +1343,12 @@ GetFacingObject:
 	farcall CheckFacingObject
 	jr nc, .fail
 
-	ld a, [hObjectStructIndexBuffer]
+	ldh a, [hObjectStructIndexBuffer]
 	call GetObjectStruct
 	ld hl, OBJECT_MAP_OBJECT_INDEX
 	add hl, bc
 	ld a, [hl]
-	ld [hLastTalked], a
+	ldh [hLastTalked], a
 	call GetMapObject
 	ld hl, MAPOBJECT_MOVEMENT
 	add hl, bc
@@ -1606,7 +1606,7 @@ MovementData_0xd093:
 
 PutTheRodAway:
 	xor a
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ld a, $1
 	ld [wPlayerAction], a
 	call UpdateSprites

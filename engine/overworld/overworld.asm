@@ -1,17 +1,17 @@
 GetEmote2bpp:
 	ld a, $1
-	ld [rVBK], a
+	ldh [rVBK], a
 	call Get2bpp
 	xor a
-	ld [rVBK], a
+	ldh [rVBK], a
 	ret
 
 _ReplaceKrisSprite::
 	call GetPlayerSprite
 	ld a, [wUsedSprites]
-	ld [hUsedSpriteIndex], a
+	ldh [hUsedSpriteIndex], a
 	ld a, [wUsedSprites + 1]
-	ld [hUsedSpriteTile], a
+	ldh [hUsedSpriteTile], a
 	call GetUsedSprite
 	ret
 
@@ -511,10 +511,10 @@ GetUsedSprites:
 	ld a, [hli]
 	and a
 	jr z, .done
-	ld [hUsedSpriteIndex], a
+	ldh [hUsedSpriteIndex], a
 
 	ld a, [hli]
-	ld [hUsedSpriteTile], a
+	ldh [hUsedSpriteTile], a
 
 	bit 7, a
 	jr z, .dont_set
@@ -536,9 +536,9 @@ GetUsedSprites:
 	ret
 
 GetUsedSprite:
-	ld a, [hUsedSpriteIndex]
+	ldh a, [hUsedSpriteIndex]
 	call SafeGetSprite
-	ld a, [hUsedSpriteTile]
+	ldh a, [hUsedSpriteTile]
 	call .GetTileAddr
 	push hl
 	push de
@@ -567,7 +567,7 @@ endr
 	bit 6, a
 	jr nz, .done
 
-	ld a, [hUsedSpriteIndex]
+	ldh a, [hUsedSpriteIndex]
 	call _DoesSpriteHaveFacings
 	jr c, .done
 
@@ -596,7 +596,7 @@ endr
 	ret
 
 .CopyToVram:
-	ld a, [rVBK]
+	ldh a, [rVBK]
 	push af
 	ld a, [wSpriteFlags]
 	bit 5, a
@@ -605,10 +605,10 @@ endr
 	ld a, $0
 
 .bankswitch
-	ld [rVBK], a
+	ldh [rVBK], a
 	call Get2bpp
 	pop af
-	ld [rVBK], a
+	ldh [rVBK], a
 	ret
 
 LoadEmote::

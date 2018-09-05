@@ -116,7 +116,7 @@ INCLUDE "home/math.asm"
 INCLUDE "home/print_text.asm"
 
 CallPointerAt::
-	ld a, [hROMBank]
+	ldh a, [hROMBank]
 	push af
 	ld a, [hli]
 	rst Bankswitch

@@ -226,7 +226,7 @@ This bug affects Acid, Iron Tail, and Rock Smash.
  	checkfaint
  	criticaltext
  	supereffectivetext
- 	checkdestinybond
+ 	checkfaint
  	buildopponentrage
 -	effectchance ; bug: duplicate effectchance shouldn't be here
  	defensedown
@@ -485,7 +485,7 @@ In [engine/battle/effect_commands.asm](/engine/battle/effect_commands.asm).
 ```asm
 BattleCheckTypeMatchup:
 	ld hl, wEnemyMonType1
-	ld a, [hBattleTurn]
+	ldh a, [hBattleTurn]
 	and a
 	jr z, CheckTypeMatchup
 	ld hl, wBattleMonType1
@@ -962,7 +962,7 @@ Then edit [engine/battle/start_battle.asm](/engine/battle/start_battle.asm):
 ```diff
  FindFirstAliveMonAndStartBattle:
  	xor a
- 	ld [hMapAnims], a
+ 	ldh [hMapAnims], a
  	call DelayFrame
 -	ld b, 6
 -	ld hl, wPartyMon1HP
@@ -986,7 +986,7 @@ Then edit [engine/battle/start_battle.asm](/engine/battle/start_battle.asm):
 
 Finally, edit [engine/battle/read_trainer_party.asm](/engine/battle/read_trainer_party.asm):
 
-```asm
+```diff
  INCLUDE "data/trainers/parties.asm"
 +
 +SetTrainerBattleLevel:
@@ -1370,7 +1370,7 @@ This supports up to six entries.
 
 **Fix:** Edit `PlacePartyMonEvoStoneCompatibility.DetermineCompatibility` in [engine/pokemon/party_menu.asm](/engine/pokemon/party_menu.asm):
 
-```asm
+```diff
  .loop2
  	ld a, [hli]
  	and a
@@ -1520,7 +1520,7 @@ ScriptCall:
  	ld a, 1
  .bank_loop
  	push af
- 	ld [rSVBK], a
+ 	ldh [rSVBK], a
  	xor a
  	ld hl, WRAM1_Begin
  	ld bc, WRAM1_End - WRAM1_Begin

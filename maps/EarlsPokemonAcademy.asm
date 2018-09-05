@@ -15,23 +15,23 @@ AcademyEarl:
 	applymovement EARLSPOKEMONACADEMY_EARL, AcademyEarlSpinMovement
 	faceplayer
 	opentext
-	writetext UnknownText_0x68b3b
+	writetext AcademyEarlIntroText
 	yesorno
 	iffalse .Part1
-	writetext UnknownText_0x68bbd
+	writetext AcademyEarlTeachHowToWinText
 	yesorno
 	iffalse .Done
 .Part1:
-	writetext UnknownText_0x68c51
+	writetext AcademyEarlTeachMoreText
 	yesorno
 	iffalse .Done
-	writetext UnknownText_0x68c7b
+	writetext AcademyEarlTeachHowToRaiseWellText
 	waitbutton
 	closetext
 	end
 
 .Done:
-	writetext UnknownText_0x68d31
+	writetext AcademyEarlNoMoreToTeachText
 	waitbutton
 	closetext
 	end
@@ -157,7 +157,7 @@ AcademyEarlSpinMovement:
 	turn_head DOWN
 	step_end
 
-UnknownText_0x68b3b:
+AcademyEarlIntroText:
 	text "EARL, I am!"
 
 	para "Wonderful are"
@@ -172,7 +172,7 @@ UnknownText_0x68b3b:
 	cont "a winner is you?"
 	done
 
-UnknownText_0x68bbd:
+AcademyEarlTeachHowToWinText:
 	text "Good! Teach you,"
 	line "I will!"
 
@@ -188,13 +188,13 @@ UnknownText_0x68bbd:
 	line "want to hear?"
 	done
 
-UnknownText_0x68c51:
+AcademyEarlTeachMoreText:
 	text "So, want to know"
 	line "how to raise"
 	cont "#MON well?"
 	done
 
-UnknownText_0x68c7b:
+AcademyEarlTeachHowToRaiseWellText:
 	text "Fine! Teach you,"
 	line "I will!"
 
@@ -215,7 +215,7 @@ UnknownText_0x68c7b:
 	cont "become!"
 	done
 
-UnknownText_0x68d31:
+AcademyEarlNoMoreToTeachText:
 	text "Oh! Smart student"
 	line "you are! Nothing"
 	cont "more do I teach!"

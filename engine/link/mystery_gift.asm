@@ -13,16 +13,16 @@ DoMysteryGift:
 	ld [wca01], a
 	ld a, $14
 	ld [wca02], a
-	ld a, [rIE]
+	ldh a, [rIE]
 	push af
 
 	call Function104a95
 
 	ld d, a
 	xor a
-	ld [rIF], a
+	ldh [rIF], a
 	pop af
-	ld [rIE], a
+	ldh [rIE], a
 	push de
 	call ClearTileMap
 	call EnableLCD
@@ -116,7 +116,7 @@ DoMysteryGift:
 .PrintTextAndExit:
 	call PrintText
 	ld a, LCDC_DEFAULT
-	ld [rLCDC], a
+	ldh [rLCDC], a
 	ret
 
 .String_PressAToLink_BToCancel:
@@ -232,16 +232,16 @@ Function104a95:
 .loop2
 	call Function104d96
 	call Function104ddd
-	ld a, [hMGStatusFlags]
+	ldh a, [hMGStatusFlags]
 	cp $10
 	jp z, Function104bd0
 	cp $6c
 	jr nz, .loop2
 
-	ld a, [hPrintNum9]
+	ldh a, [hPrintNumBuffer + 8]
 	cp $2
 	jr z, Function104b22
-	ld hl, hPrintNum1
+	ld hl, hPrintNumBuffer
 	ld b, $1
 	call Function104d56
 	jr nz, .ly_loop
@@ -250,7 +250,7 @@ Function104a95:
 	jr Function104b0a
 	; Delay frame
 .ly_loop
-	ld a, [rLY]
+	ldh a, [rLY]
 	cp LY_VBLANK
 	jr c, .ly_loop
 	ld c, LOW(rRP)
@@ -269,14 +269,14 @@ Function104a95:
 	ld a, [$ff00+c]
 	and b
 	ld b, a
-	ld a, [rLY]
+	ldh a, [rLY]
 	cp LY_VBLANK
 	jr nc, .ly_loop2
 .ly_loop3
 	ld a, [$ff00+c]
 	and b
 	ld b, a
-	ld a, [rLY]
+	ldh a, [rLY]
 	cp LY_VBLANK
 	jr c, .ly_loop3
 
@@ -287,11 +287,11 @@ Function104a95:
 	or a
 	jr nz, .loop2
 	; Check if we've pressed the B button
-	ld a, [hMGJoypadReleased]
+	ldh a, [hMGJoypadReleased]
 	bit B_BUTTON_F, a
 	jr z, .loop3
 	ld a, $10
-	ld [hMGStatusFlags], a
+	ldh [hMGStatusFlags], a
 	jp Function104bd0
 
 Function104b04:
@@ -320,29 +320,29 @@ Function104b22:
 	jp Function104bd0
 
 Function104b40:
-	ld hl, hPrintNum1
+	ld hl, hPrintNumBuffer
 	ld b, $1
 	call Function104d56
 	ret nz
 
 Function104b49:
 	call Function105033
-	ld a, [hMGStatusFlags]
+	ldh a, [hMGStatusFlags]
 	cp $6c
 	ret nz
-	ld a, [hPrintNum1]
+	ldh a, [hPrintNumBuffer]
 	cp $96
 	jp nz, Function104d32
 	ld a, $90
-	ld [hPrintNum1], a
+	ldh [hPrintNumBuffer], a
 	call Function104d38
 	ret nz
-	ld hl, hPrintNum1
+	ld hl, hPrintNumBuffer
 	ld b, $1
 	call Function104d4e
 	ret nz
 	call Function10502e
-	ld a, [hMGStatusFlags]
+	ldh a, [hMGStatusFlags]
 	cp $6c
 	ret nz
 	call Function104d43
@@ -353,32 +353,32 @@ Function104b49:
 	call Function104d56
 	ret nz
 	call Function105033
-	ld a, [hMGStatusFlags]
+	ldh a, [hMGStatusFlags]
 	cp $6c
 	ret
 
 Function104b88:
 	ld a, $96
-	ld [hPrintNum1], a
-	ld hl, hPrintNum1
+	ldh [hPrintNumBuffer], a
+	ld hl, hPrintNumBuffer
 	ld b, $1
 	call Function104d4e
 	ret nz
 	call Function10502e
-	ld a, [hMGStatusFlags]
+	ldh a, [hMGStatusFlags]
 	cp $6c
 	ret nz
 	call Function104d43
 	ret nz
-	ld hl, hPrintNum1
+	ld hl, hPrintNumBuffer
 	ld b, $1
 	call Function104d56
 	ret nz
 	call Function105033
-	ld a, [hMGStatusFlags]
+	ldh a, [hMGStatusFlags]
 	cp $6c
 	ret nz
-	ld a, [hPrintNum1]
+	ldh a, [hPrintNumBuffer]
 	cp $90
 	jp nz, Function104d32
 	call Function104d38
@@ -389,13 +389,13 @@ Function104b88:
 	call Function104d4e
 	ret nz
 	call Function10502e
-	ld a, [hMGStatusFlags]
+	ldh a, [hMGStatusFlags]
 	cp $6c
 	ret
 
 Function104bd0:
 	nop
-	ld a, [hMGStatusFlags]
+	ldh a, [hMGStatusFlags]
 	cp $10
 	jr z, .quit
 	cp $6c
@@ -414,7 +414,7 @@ Function104bd0:
 	call MysteryGift_ClearTrainerData
 	ld a, $26
 	ld [wca02], a
-	ld a, [hPrintNum9]
+	ldh a, [hPrintNumBuffer + 8]
 	cp $2
 	jr z, .asm_104c10
 	call Function104d43
@@ -427,14 +427,14 @@ Function104bd0:
 	jp Function104b22
 
 .quit
-	ld a, [hMGStatusFlags]
+	ldh a, [hMGStatusFlags]
 	push af
 	call Function104da0
 	xor a
-	ld [rIF], a
-	ld a, [rIE]
+	ldh [rIF], a
+	ldh a, [rIE]
 	or $1
-	ld [rIE], a
+	ldh [rIE], a
 	ei
 	call DelayFrame
 	pop af
@@ -442,42 +442,42 @@ Function104bd0:
 
 Function104d32:
 	ld a, $80
-	ld [hMGStatusFlags], a
+	ldh [hMGStatusFlags], a
 	and a
 	ret
 
 Function104d38:
 	call Function104d96
 	call Function104e46
-	ld a, [hMGStatusFlags]
+	ldh a, [hMGStatusFlags]
 	cp $6c
 	ret
 
 Function104d43:
 	call Function104d96
 	call Function104dfe
-	ld a, [hMGStatusFlags]
+	ldh a, [hMGStatusFlags]
 	cp $6c
 	ret
 
 Function104d4e:
 	call Function104e93
-	ld a, [hMGStatusFlags]
+	ldh a, [hMGStatusFlags]
 	cp $6c
 	ret
 
 Function104d56:
 	call Function104f57
-	ld a, [hMGStatusFlags]
+	ldh a, [hMGStatusFlags]
 	cp $6c
 	ret
 
 Function104d5e:
 	call Function104d74
 	ld a, $4
-	ld [rIE], a
+	ldh [rIE], a
 	xor a
-	ld [rIF], a
+	ldh [rIF], a
 	call Function104d96
 	xor a
 	ld b, a
@@ -490,46 +490,46 @@ Function104d5e:
 
 Function104d74:
 	xor a
-	ld [rTAC], a
+	ldh [rTAC], a
 	ld a, $fe
-	ld [rTMA], a
-	ld [rTIMA], a
+	ldh [rTMA], a
+	ldh [rTIMA], a
 	ld a, $2
-	ld [rTAC], a
+	ldh [rTAC], a
 	or $4
-	ld [rTAC], a
+	ldh [rTAC], a
 	ret
 
 Function104d86:
 	xor a
-	ld [rTAC], a
-	ld [rTMA], a
-	ld [rTIMA], a
+	ldh [rTAC], a
+	ldh [rTMA], a
+	ldh [rTIMA], a
 	ld a, $2
-	ld [rTAC], a
+	ldh [rTAC], a
 	or $4
-	ld [rTAC], a
+	ldh [rTAC], a
 	ret
 
 Function104d96:
 	ld a, $c0
 	call Function104e8c
 	ld a, $1
-	ld [hPrintNum9], a
+	ldh [hPrintNumBuffer + 8], a
 	ret
 
 Function104da0:
 	xor a
 	call Function104e8c
 	ld a, $2
-	ld [rTAC], a
+	ldh [rTAC], a
 	ret
 
 Function104da9:
 	inc d
 	ret z
 	xor a
-	ld [rIF], a
+	ldh [rIF], a
 	halt
 	ld a, [$ff00+c]
 	bit 1, a
@@ -541,7 +541,7 @@ Function104db7:
 	inc d
 	ret z
 	xor a
-	ld [rIF], a
+	ldh [rIF], a
 	halt
 	ld a, [$ff00+c]
 	bit 1, a
@@ -556,7 +556,7 @@ Function104dc5:
 	dec d
 	ret z
 	xor a
-	ld [rIF], a
+	ldh [rIF], a
 	halt
 	jr .wait
 
@@ -567,7 +567,7 @@ Function104dd1:
 	dec d
 	ret z
 	xor a
-	ld [rIF], a
+	ldh [rIF], a
 	halt
 	jr .wait
 
@@ -575,16 +575,16 @@ Function104ddd:
 	ld d, $0
 	ld e, d
 	ld a, $1
-	ld [hPrintNum9], a
+	ldh [hPrintNumBuffer + 8], a
 .loop
 	call MysteryGift_ReadJoypad
 	ld b, $2
 	ld c, LOW(rRP)
-	ld a, [hMGJoypadReleased]
+	ldh a, [hMGJoypadReleased]
 	bit B_BUTTON_F, a
 	jr z, .next
 	ld a, $10
-	ld [hMGStatusFlags], a
+	ldh [hMGStatusFlags], a
 	ret
 
 .next
@@ -608,7 +608,7 @@ Function104dfe:
 	call Function104da9
 	jp z, Function104f42
 	ld a, $6c
-	ld [hMGStatusFlags], a
+	ldh [hMGStatusFlags], a
 	ld d, $3d
 	call Function104dd1
 	ld d, $5
@@ -634,7 +634,7 @@ Function104e3a:
 	jr nz, .loop
 Function104e46:
 	ld a, $2
-	ld [hPrintNum9], a
+	ldh [hPrintNumBuffer + 8], a
 	ld c, LOW(rRP)
 	ld d, $0
 	ld e, d
@@ -661,25 +661,25 @@ Function104e46:
 	ld d, $3d
 	call Function104dd1
 	ld a, $6c
-	ld [hMGStatusFlags], a
+	ldh [hMGStatusFlags], a
 	ret
 
 Function104e8c:
-	ld [rRP], a
+	ldh [rRP], a
 	ld a, $ff
-	ld [hMGStatusFlags], a
+	ldh [hMGStatusFlags], a
 	ret
 
 Function104e93:
 	xor a
-	ld [hPrintNum5], a
-	ld [hPrintNum6], a
+	ldh [hPrintNumBuffer + 4], a
+	ldh [hPrintNumBuffer + 5], a
 	push hl
 	push bc
 	ld c, LOW(rRP)
 	ld d, $3d
 	call Function104dd1
-	ld hl, hPrintNum2
+	ld hl, hPrintNumBuffer + 1
 	ld a, $5a
 	ld [hli], a
 	ld [hl], b
@@ -689,21 +689,21 @@ Function104e93:
 	pop bc
 	pop hl
 	call Function104ed6
-	ld a, [hPrintNum5]
-	ld [hPrintNum2], a
-	ld a, [hPrintNum6]
-	ld [hPrintNum3], a
+	ldh a, [hPrintNumBuffer + 4]
+	ldh [hPrintNumBuffer + 1], a
+	ldh a, [hPrintNumBuffer + 5]
+	ldh [hPrintNumBuffer + 2], a
 	push hl
-	ld hl, hPrintNum2
+	ld hl, hPrintNumBuffer + 1
 	ld b, $2
 	call Function104ed6
 	ld hl, hMGStatusFlags
 	ld b, $1
 	call Function104faf
-	ld a, [hPrintNum2]
-	ld [hPrintNum5], a
-	ld a, [hPrintNum3]
-	ld [hPrintNum6], a
+	ldh a, [hPrintNumBuffer + 1]
+	ldh [hPrintNumBuffer + 4], a
+	ldh a, [hPrintNumBuffer + 2]
+	ldh [hPrintNumBuffer + 5], a
 	pop hl
 	ret
 
@@ -719,26 +719,26 @@ Function104ed6:
 	cpl
 	ld b, a
 	ld a, $f4
-	ld [rTMA], a
+	ldh [rTMA], a
 .asm_104eee
 	inc b
 	jr z, .asm_104f2e
 	ld a, $8
-	ld [hPrintNum4], a
+	ldh [hPrintNumBuffer + 3], a
 	ld a, [hli]
 	ld e, a
-	ld a, [hPrintNum5]
+	ldh a, [hPrintNumBuffer + 4]
 	add e
-	ld [hPrintNum5], a
-	ld a, [hPrintNum6]
+	ldh [hPrintNumBuffer + 4], a
+	ldh a, [hPrintNumBuffer + 5]
 	adc 0
-	ld [hPrintNum6], a
+	ldh [hPrintNumBuffer + 5], a
 .asm_104f02
 	xor a
-	ld [rIF], a
+	ldh [rIF], a
 	halt
 	ld a, $c1
-	ld [rRP], a
+	ldh [rRP], a
 	ld d, $1
 	ld a, e
 	rlca
@@ -746,27 +746,27 @@ Function104ed6:
 	jr nc, .asm_104f13
 	inc d
 .asm_104f13
-	ld a, [rTIMA]
+	ldh a, [rTIMA]
 	cp $f8
 	jr c, .asm_104f13
 	ld a, $c0
-	ld [rRP], a
+	ldh [rRP], a
 	dec d
 	jr z, .asm_104f25
 	xor a
-	ld [rIF], a
+	ldh [rIF], a
 	halt
 .asm_104f25
-	ld a, [hPrintNum4]
+	ldh a, [hPrintNumBuffer + 3]
 	dec a
 	jr z, .asm_104eee
-	ld [hPrintNum4], a
+	ldh [hPrintNumBuffer + 3], a
 	jr .asm_104f02
 .asm_104f2e
 	ld a, $fe
-	ld [rTMA], a
+	ldh [rTMA], a
 	xor a
-	ld [rIF], a
+	ldh [rIF], a
 	halt
 	ld d, $5
 	call Function104dc5
@@ -775,54 +775,54 @@ Function104ed6:
 	ret
 
 Function104f42:
-	ld a, [hMGStatusFlags]
+	ldh a, [hMGStatusFlags]
 	or $2
-	ld [hMGStatusFlags], a
+	ldh [hMGStatusFlags], a
 	ret
 
 Function104f49:
-	ld a, [hMGStatusFlags]
+	ldh a, [hMGStatusFlags]
 	or $1
-	ld [hMGStatusFlags], a
+	ldh [hMGStatusFlags], a
 	ret
 
 Function104f50:
-	ld a, [hMGStatusFlags]
+	ldh a, [hMGStatusFlags]
 	or $80
-	ld [hMGStatusFlags], a
+	ldh [hMGStatusFlags], a
 	ret
 
 Function104f57:
 	xor a
-	ld [hPrintNum5], a
-	ld [hPrintNum6], a
+	ldh [hPrintNumBuffer + 4], a
+	ldh [hPrintNumBuffer + 5], a
 	push bc
 	push hl
-	ld hl, hPrintNum2
+	ld hl, hPrintNumBuffer + 1
 	ld b, $2
 	call Function104faf
-	ld a, [hPrintNum3]
-	ld [hPrintNum8], a
+	ldh a, [hPrintNumBuffer + 2]
+	ldh [hPrintNumBuffer + 7], a
 	ld b, a
 	pop hl
 	pop af
 	cp b
 	jp c, Function104f50
-	ld a, [hPrintNum2]
+	ldh a, [hPrintNumBuffer + 1]
 	cp $5a
 	jp nz, Function104f50
 	call Function104faf
-	ld a, [hPrintNum5]
+	ldh a, [hPrintNumBuffer + 4]
 	ld d, a
-	ld a, [hPrintNum6]
+	ldh a, [hPrintNumBuffer + 5]
 	ld e, a
 	push hl
 	push de
-	ld hl, hPrintNum2
+	ld hl, hPrintNumBuffer + 1
 	ld b, $2
 	call Function104faf
 	pop de
-	ld hl, hPrintNum2
+	ld hl, hPrintNumBuffer + 1
 	ld a, [hli]
 	xor d
 	ld b, a
@@ -839,9 +839,9 @@ Function104f57:
 	pop de
 	pop hl
 	ld a, d
-	ld [hPrintNum5], a
+	ldh [hPrintNumBuffer + 4], a
 	ld a, e
-	ld [hPrintNum6], a
+	ldh [hPrintNumBuffer + 5], a
 	ret
 
 Function104faf:
@@ -859,13 +859,13 @@ Function104faf:
 	cpl
 	ld b, a
 	xor a
-	ld [hMGJoypadPressed + 2], a
+	ldh [hMGJoypadPressed + 2], a
 	call Function104d86
 .asm_104fd2
 	inc b
 	jr z, .asm_10501a
 	ld a, $8
-	ld [hPrintNum4], a
+	ldh [hPrintNumBuffer + 3], a
 .asm_104fd9
 	ld d, $0
 .asm_104fdb
@@ -882,10 +882,10 @@ Function104faf:
 	bit 1, a
 	jr nz, .asm_104fe5
 .asm_104fed
-	ld a, [hMGJoypadPressed + 2]
+	ldh a, [hMGJoypadPressed + 2]
 	ld d, a
-	ld a, [rTIMA]
-	ld [hMGJoypadPressed + 2], a
+	ldh a, [rTIMA]
+	ldh [hMGJoypadPressed + 2], a
 	sub d
 	cp $12
 	jr c, .asm_104ffd
@@ -894,9 +894,9 @@ Function104faf:
 .asm_104ffd
 	res 0, e
 .asm_104fff
-	ld a, [hPrintNum4]
+	ldh a, [hPrintNumBuffer + 3]
 	dec a
-	ld [hPrintNum4], a
+	ldh [hPrintNumBuffer + 3], a
 	jr z, .asm_10500b
 	ld a, e
 	rlca
@@ -905,17 +905,17 @@ Function104faf:
 .asm_10500b
 	ld a, e
 	ld [hli], a
-	ld a, [hPrintNum5]
+	ldh a, [hPrintNumBuffer + 4]
 	add e
-	ld [hPrintNum5], a
-	ld a, [hPrintNum6]
+	ldh [hPrintNumBuffer + 4], a
+	ldh a, [hPrintNumBuffer + 5]
 	adc 0
-	ld [hPrintNum6], a
+	ldh [hPrintNumBuffer + 5], a
 	jr .asm_104fd2
 .asm_10501a
 	call Function104d74
 	xor a
-	ld [rIF], a
+	ldh [rIF], a
 	ld d, $0
 	call Function104da9
 	jp z, Function104f42
@@ -935,10 +935,10 @@ MysteryGift_ReadJoypad:
 ; We can only get four inputs at a time.
 ; We take d-pad first for no particular reason.
 	ld a, R_DPAD
-	ld [rJOYP], a
+	ldh [rJOYP], a
 ; Read twice to give the request time to take.
-	ld a, [rJOYP]
-	ld a, [rJOYP]
+	ldh a, [rJOYP]
+	ldh a, [rJOYP]
 
 ; The Joypad register output is in the lo nybble (inversed).
 ; We make the hi nybble of our new container d-pad input.
@@ -952,10 +952,10 @@ MysteryGift_ReadJoypad:
 ; Buttons make 8 total inputs (A, B, Select, Start).
 ; We can fit this into one byte.
 	ld a, R_BUTTONS
-	ld [rJOYP], a
+	ldh [rJOYP], a
 ; Wait for input to stabilize.
 rept 6
-	ld a, [rJOYP]
+	ldh a, [rJOYP]
 endr
 ; Buttons take the lo nybble.
 	cpl
@@ -963,17 +963,17 @@ endr
 	or b
 	ld c, a
 ; To get the delta we xor the last frame's input with the new one.
-	ld a, [hMGJoypadPressed]
+	ldh a, [hMGJoypadPressed]
 	xor c
 ; Released this frame:
 	and c
-	ld [hMGJoypadReleased], a
+	ldh [hMGJoypadReleased], a
 ; Pressed this frame:
 	ld a, c
-	ld [hMGJoypadPressed], a
+	ldh [hMGJoypadPressed], a
 	ld a, $30
 ; Reset the joypad register since we're done with it.
-	ld [rJOYP], a
+	ldh [rJOYP], a
 	ret
 
 MysteryGift_CheckAndSetDecorationAlreadyReceived:

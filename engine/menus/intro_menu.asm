@@ -38,7 +38,7 @@ PrintDayOfWeek:
 
 NewGame_ClearTileMapEtc:
 	xor a
-	ld [hMapAnims], a
+	ldh [hMapAnims], a
 	call ClearTileMap
 	call LoadFontsExtra
 	call LoadStandardFont
@@ -70,12 +70,12 @@ NewGame:
 	ld [wDefaultSpawnpoint], a
 
 	ld a, MAPSETUP_WARP
-	ld [hMapEntryMethod], a
+	ldh [hMapEntryMethod], a
 	jp FinishContinueFunction
 
 ResetWRAM:
 	xor a
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	call _ResetWRAM
 	ret
 
@@ -95,16 +95,16 @@ _ResetWRAM:
 	xor a
 	call ByteFill
 
-	ld a, [rLY]
-	ld [hSecondsBackup], a
+	ldh a, [rLY]
+	ldh [hSecondsBackup], a
 	call DelayFrame
-	ld a, [hRandomSub]
+	ldh a, [hRandomSub]
 	ld [wPlayerID], a
 
-	ld a, [rLY]
-	ld [hSecondsBackup], a
+	ldh a, [rLY]
+	ldh [hSecondsBackup], a
 	call DelayFrame
-	ld a, [hRandomAdd]
+	ldh a, [hRandomAdd]
 	ld [wPlayerID + 1], a
 
 	call Random
@@ -321,7 +321,7 @@ Continue:
 	call LoadStandardMenuHeader
 	call DisplaySaveInfoOnContinue
 	ld a, $1
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ld c, 20
 	call DelayFrames
 	call ConfirmContinue
@@ -354,7 +354,7 @@ Continue:
 	cp SPAWN_LANCE
 	jr z, .SpawnAfterE4
 	ld a, MAPSETUP_CONTINUE
-	ld [hMapEntryMethod], a
+	ldh [hMapEntryMethod], a
 	jp FinishContinueFunction
 
 .FailToLoad:
@@ -374,7 +374,7 @@ PostCreditsSpawn:
 	xor a
 	ld [wSpawnAfterChampion], a
 	ld a, MAPSETUP_WARP
-	ld [hMapEntryMethod], a
+	ldh [hMapEntryMethod], a
 	ret
 
 ConfirmContinue:
@@ -462,7 +462,7 @@ DisplayContinueDataWithRTCError:
 
 Continue_LoadMenuHeader:
 	xor a
-	ld [hBGMapMode], a
+	ldh [hBGMapMode], a
 	ld hl, .MenuHeader_Dex
 	ld a, [wStatusFlags]
 	bit STATUSFLAGS_POKEDEX_F, a
@@ -746,7 +746,7 @@ StorePlayerName:
 	ret
 
 ShrinkPlayer:
-	ld a, [hROMBank]
+	ldh a, [hROMBank]
 	push af
 
 	ld a, 32 ; fade time
@@ -820,24 +820,24 @@ IntroFadePalettes:
 
 Intro_WipeInFrontpic:
 	ld a, $77
-	ld [hWX], a
+	ldh [hWX], a
 	call DelayFrame
 	ld a, %11100100
 	call DmgToCgbBGPals
 .loop
 	call DelayFrame
-	ld a, [hWX]
+	ldh a, [hWX]
 	sub $8
 	cp -1
 	ret z
-	ld [hWX], a
+	ldh [hWX], a
 	jr .loop
 
 Intro_PrepTrainerPic:
 	ld de, vTiles2
 	farcall GetTrainerPic
 	xor a
-	ld [hGraphicStartTile], a
+	ldh [hGraphicStartTile], a
 	hlcoord 6, 4
 	lb bc, 7, 7
 	predef PlaceGraphic
@@ -848,7 +848,7 @@ ShrinkFrame:
 	ld c, 7 * 7
 	predef DecompressGet2bpp
 	xor a
-	ld [hGraphicStartTile], a
+	ldh [hGraphicStartTile], a
 	hlcoord 6, 4
 	lb bc, 7, 7
 	predef PlaceGraphic
@@ -904,10 +904,10 @@ CrystalIntroSequence:
 	farcall CrystalIntro
 
 StartTitleScreen:
-	ld a, [rSVBK]
+	ldh a, [rSVBK]
 	push af
 	ld a, BANK(wBGPals1)
-	ld [rSVBK], a
+	ldh [rSVBK], a
 
 	call .TitleScreen
 	call DelayFrame
@@ -919,20 +919,20 @@ StartTitleScreen:
 	call ClearBGPalettes
 
 	pop af
-	ld [rSVBK], a
+	ldh [rSVBK], a
 
 	ld hl, rLCDC
 	res rLCDC_SPRITE_SIZE, [hl] ; 8x8
 	call ClearScreen
 	call WaitBGMap2
 	xor a
-	ld [hLCDCPointer], a
-	ld [hSCX], a
-	ld [hSCY], a
+	ldh [hLCDCPointer], a
+	ldh [hSCX], a
+	ldh [hSCY], a
 	ld a, $7
-	ld [hWX], a
+	ldh [hWX], a
 	ld a, $90
-	ld [hWY], a
+	ldh [hWY], a
 	ld b, SCGB_DIPLOMA
 	call GetSGBLayout
 	call UpdateTimePals
@@ -996,11 +996,11 @@ TitleScreenScene:
 TitleScreenEntrance:
 ; Animate the logo:
 ; Move each line by 4 pixels until our count hits 0.
-	ld a, [hSCX]
+	ldh a, [hSCX]
 	and a
 	jr z, .done
 	sub 4
-	ld [hSCX], a
+	ldh [hSCX], a
 
 ; Lay out a base (all lines scrolling together).
 	ld e, a
@@ -1030,14 +1030,14 @@ TitleScreenEntrance:
 	ld hl, wJumptableIndex
 	inc [hl]
 	xor a
-	ld [hLCDCPointer], a
+	ldh [hLCDCPointer], a
 
 ; Play the title screen music.
 	ld de, MUSIC_TITLE
 	call PlayMusic
 
 	ld a, $88
-	ld [hWY], a
+	ldh [hWY], a
 	ret
 
 TitleScreenTimer:
@@ -1079,7 +1079,7 @@ TitleScreenMain:
 ; To bring up the clock reset dialog:
 
 ; Hold Down + B + Select to initiate the sequence.
-	ld a, [hClockResetTrigger]
+	ldh a, [hClockResetTrigger]
 	cp $34
 	jr z, .check_clock_reset
 
@@ -1089,7 +1089,7 @@ TitleScreenMain:
 	jr nz, .check_start
 
 	ld a, $34
-	ld [hClockResetTrigger], a
+	ldh [hClockResetTrigger], a
 	jr .check_start
 
 ; Keep Select pressed, and hold Left + Up.
@@ -1099,7 +1099,7 @@ TitleScreenMain:
 	jr nz, .check_start
 
 	xor a
-	ld [hClockResetTrigger], a
+	ldh [hClockResetTrigger], a
 
 	ld a, [hl]
 	and D_LEFT + D_UP
@@ -1211,13 +1211,13 @@ GameInit::
 	call ClearBGPalettes
 	call ClearTileMap
 	ld a, HIGH(vBGMap0)
-	ld [hBGMapAddress + 1], a
+	ldh [hBGMapAddress + 1], a
 	xor a ; LOW(vBGMap0)
-	ld [hBGMapAddress], a
-	ld [hJoyDown], a
-	ld [hSCX], a
-	ld [hSCY], a
+	ldh [hBGMapAddress], a
+	ldh [hJoyDown], a
+	ldh [hSCX], a
+	ldh [hSCY], a
 	ld a, $90
-	ld [hWY], a
+	ldh [hWY], a
 	call WaitBGMap
 	jp CrystalIntroSequence

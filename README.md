@@ -52,5 +52,13 @@ The Notes
 ---------
 
 This project adds a tool, called `tools/unusedsymbols.py`, to scan the built object files for symbols and find unused ones.  
-This tool requires `python3` to run, and is most conveniently used through `tools/unusedsymbols.sh`, a wrapper that takes care of (re)building the objects properly, filtering and saving the output.
-It is adviseable to run `tools/unusedsymbols.sh` and removing (or ignoring) any unused symbols before commiting.
+This tool requires `python3` to run, and is most conveniently used through `tools/unusedsymbols.sh`, a wrapper that takes care of (re)building the objects properly, filtering and saving the output. It is adviseable to run `tools/unusedsymbols.sh` and removing (or ignoring) any unused symbols before commiting.
+
+This project is kept up-to-date with all new upstream pokecrystal changes. It is merged with it every once when I feel like it, usually a month or two, or when "big" changes happen. I always make sure the output ROM stays the same before and after the merge. This makes it easy to check if you messed up anything when you merge it with your downstream hack (by comparing your ROM pre-perge and post-merge). As such, the recommended merge process for each new merge commit is as follows:
+* Merge the last commit before the merge commit
+* Build the ROM and back it up
+* Merge the merge commit
+* Compare the ROM with your previous ROM, fix what doesn't match.
+* Merge up to master, as I usually do a "Post-merge fixes" commit that _may_ alter the contents of the ROM.
+
+The exact commit hashes for these can be found more easily by pressing the "compare" button on the github page, below the green "clone and download" button. I hope this helps keep your hack up-to-date. It definitely helps with mine.

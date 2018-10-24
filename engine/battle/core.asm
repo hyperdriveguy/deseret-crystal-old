@@ -398,9 +398,9 @@ DetermineMoveOrder:
 	and a
 	jr z, .use_move
 	ld a, [wBattleAction]
-	cp BATTLEACTION_E
+	cp BATTLEACTION_STRUGGLE
 	jr z, .use_move
-	cp BATTLEACTION_D
+	cp BATTLEACTION_SKIPTURN
 	jr z, .use_move
 	sub BATTLEACTION_SWITCH1
 	jr c, .use_move
@@ -2298,8 +2298,8 @@ WinTrainerBattle:
 	jr nz, .skip_heal
 	predef HealParty
 .skip_heal
-	ld a, [wMonStatusFlags]
-	bit 0, a
+	ld a, [wDebugFlags]
+	bit DEBUG_BATTLE_F, a
 	jr nz, .skip_win_loss_text
 	call PrintWinLossText
 
@@ -2797,8 +2797,8 @@ LostBattle:
 	ld c, 40
 	call DelayFrames
 
-	ld a, [wMonStatusFlags]
-	bit 0, a
+	ld a, [wDebugFlags]
+	bit DEBUG_BATTLE_F, a
 	jr nz, .skip_win_loss_text
 	call PrintWinLossText
 .skip_win_loss_text
@@ -5004,9 +5004,9 @@ PlayerSwitch:
 
 .linked
 	ld a, [wBattleAction]
-	cp BATTLEACTION_E
+	cp BATTLEACTION_STRUGGLE
 	jp z, .switch
-	cp BATTLEACTION_D
+	cp BATTLEACTION_SKIPTURN
 	jp z, .switch
 	cp BATTLEACTION_SWITCH1
 	jp c, .switch
@@ -5575,10 +5575,10 @@ ParseEnemyAction:
 	call z, LinkBattleSendReceiveAction
 	call Call_LoadTempTileMapToTileMap
 	ld a, [wBattleAction]
-	cp BATTLEACTION_E
+	cp BATTLEACTION_STRUGGLE
 	jp z, .struggle
-	cp BATTLEACTION_D
-	jp z, .battle_action_d
+	cp BATTLEACTION_SKIPTURN
+	jp z, .skip_turn
 	cp BATTLEACTION_SWITCH1
 	jp nc, ResetVarsForSubstatusRage
 	ld [wCurEnemyMoveNum], a
@@ -5612,7 +5612,7 @@ ParseEnemyAction:
 	jp nz, ResetVarsForSubstatusRage
 	jr .continue
 
-.battle_action_d
+.skip_turn
 	ld a, $ff
 	jr .finish
 

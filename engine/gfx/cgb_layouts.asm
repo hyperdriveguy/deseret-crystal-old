@@ -690,7 +690,7 @@ _CGB_Pokepic:
 
 _CGB_GamefreakLogo:
 	ld de, wBGPals1
-	ld a, PREDEFPAL_GAMEFREAK_LOGO
+	ld a, PREDEFPAL_GAMEFREAK_LOGO_BG
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
 	ld hl, .Palette

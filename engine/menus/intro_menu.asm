@@ -57,14 +57,14 @@ OptionsMenu:
 
 NewGame:
 	xor a
-	ld [wMonStatusFlags], a
+	ld [wDebugFlags], a
 	call ResetWRAM
 	call NewGame_ClearTileMapEtc
 	farcall InitGender
 	call OakSpeech
 	call InitializeWorld
 	ld a, 1
-	ld [wPreviousLandmark], a
+	ld [wPrevLandmark], a
 
 	ld a, SPAWN_HOME
 	ld [wDefaultSpawnpoint], a
@@ -702,7 +702,7 @@ NamePlayer:
 	ret
 
 .NewName:
-	ld b, 1
+	ld b, NAME_PLAYER
 	ld de, wPlayerName
 	farcall NamingScreen
 
@@ -810,12 +810,12 @@ Intro_RotatePalettesLeftFrontpic:
 	ret
 
 IntroFadePalettes:
-	db %01010100
-	db %10101000
-	db %11111100
-	db %11111000
-	db %11110100
-	db %11100100
+	dc 1, 1, 1, 0
+	dc 2, 2, 2, 0
+	dc 3, 3, 3, 0
+	dc 3, 3, 2, 0
+	dc 3, 3, 1, 0
+	dc 3, 2, 1, 0
 .End
 
 Intro_WipeInFrontpic:

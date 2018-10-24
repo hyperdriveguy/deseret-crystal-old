@@ -26,7 +26,7 @@ Pack:
 	jr .loop
 
 .done
-	ld a, [wCurrPocket]
+	ld a, [wCurPocket]
 	ld [wLastPocket], a
 	ld hl, wOptions
 	res NO_TEXT_SCROLL, [hl]
@@ -63,7 +63,7 @@ Pack:
 
 .InitItemsPocket:
 	xor a ; ITEM_POCKET
-	ld [wCurrPocket], a
+	ld [wCurPocket], a
 	call ClearPocketList
 	call DrawPocketName
 	call WaitBGMap_DrawPackGFX
@@ -91,7 +91,7 @@ Pack:
 
 .InitKeyItemsPocket:
 	ld a, KEY_ITEM_POCKET
-	ld [wCurrPocket], a
+	ld [wCurPocket], a
 	call ClearPocketList
 	call DrawPocketName
 	call WaitBGMap_DrawPackGFX
@@ -119,7 +119,7 @@ Pack:
 
 .InitTMHMPocket:
 	ld a, TM_HM_POCKET
-	ld [wCurrPocket], a
+	ld [wCurPocket], a
 	call ClearPocketList
 	call DrawPocketName
 	xor a
@@ -213,7 +213,7 @@ Pack:
 
 .InitBallsPocket:
 	ld a, BALL_POCKET
-	ld [wCurrPocket], a
+	ld [wCurPocket], a
 	call ClearPocketList
 	call DrawPocketName
 	call WaitBGMap_DrawPackGFX
@@ -504,7 +504,7 @@ RegisterItem:
 	ld a, [wItemAttributeParamBuffer]
 	and a
 	jr nz, .cant_register
-	ld a, [wCurrPocket]
+	ld a, [wCurPocket]
 	rrca
 	rrca
 	and REGISTERED_POCKET
@@ -608,7 +608,7 @@ BattlePack:
 	jr .loop
 
 .end
-	ld a, [wCurrPocket]
+	ld a, [wCurPocket]
 	ld [wLastPocket], a
 	ld hl, wOptions
 	res NO_TEXT_SCROLL, [hl]
@@ -645,7 +645,7 @@ BattlePack:
 
 .InitItemsPocket:
 	xor a ; ITEM_POCKET
-	ld [wCurrPocket], a
+	ld [wCurPocket], a
 	call ClearPocketList
 	call DrawPocketName
 	call WaitBGMap_DrawPackGFX
@@ -673,7 +673,7 @@ BattlePack:
 
 .InitKeyItemsPocket:
 	ld a, KEY_ITEM_POCKET
-	ld [wCurrPocket], a
+	ld [wCurPocket], a
 	call ClearPocketList
 	call DrawPocketName
 	call WaitBGMap_DrawPackGFX
@@ -701,7 +701,7 @@ BattlePack:
 
 .InitTMHMPocket:
 	ld a, TM_HM_POCKET
-	ld [wCurrPocket], a
+	ld [wCurPocket], a
 	call ClearPocketList
 	call DrawPocketName
 	xor a
@@ -724,7 +724,7 @@ BattlePack:
 
 .InitBallsPocket:
 	ld a, BALL_POCKET
-	ld [wCurrPocket], a
+	ld [wCurPocket], a
 	call ClearPocketList
 	call DrawPocketName
 	call WaitBGMap_DrawPackGFX
@@ -875,7 +875,7 @@ InitPackBuffers:
 	; pocket id -> jumptable index
 	ld a, [wLastPocket]
 	maskbits NUM_POCKETS
-	ld [wCurrPocket], a
+	ld [wCurPocket], a
 	inc a
 	add a
 	dec a
@@ -891,7 +891,7 @@ DepositSellInitPackBuffers:
 	ldh [hBGMapMode], a
 	ld [wJumptableIndex], a ; PACKSTATE_INITGFX
 	ld [wPackJumptableIndex], a ; PACKSTATE_INITGFX
-	ld [wCurrPocket], a ; ITEM_POCKET
+	ld [wCurPocket], a ; ITEM_POCKET
 	ld [wPackUsedItem], a
 	ld [wSwitchItem], a
 	call Pack_InitGFX
@@ -976,7 +976,7 @@ DepositSellPack:
 	ret
 
 InitPocket:
-	ld [wCurrPocket], a
+	ld [wCurPocket], a
 	call ClearPocketList
 	call DrawPocketName
 	call WaitBGMap_DrawPackGFX
@@ -1181,7 +1181,7 @@ Pack_PrintTextNoScroll:
 WaitBGMap_DrawPackGFX:
 	call WaitBGMap
 DrawPackGFX:
-	ld a, [wCurrPocket]
+	ld a, [wCurPocket]
 	maskbits NUM_POCKETS
 	ld e, a
 	ld d, 0
@@ -1353,7 +1353,7 @@ PlacePackGFX:
 	ret
 
 DrawPocketName:
-	ld a, [wCurrPocket]
+	ld a, [wCurPocket]
 	; * 15
 	ld d, a
 	swap a

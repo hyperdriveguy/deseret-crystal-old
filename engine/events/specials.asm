@@ -61,7 +61,7 @@ FoundNone:
 	ret
 
 NameRival:
-	ld b, $2 ; rival
+	ld b, NAME_RIVAL
 	ld de, wRivalName
 	farcall _NamingScreen
 	; default to "SILVER"

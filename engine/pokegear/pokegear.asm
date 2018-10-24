@@ -1541,7 +1541,7 @@ RadioChannels:
 
 LoadStation_OaksPokemonTalk:
 	xor a ; OAKS_POKEMON_TALK
-	ld [wCurrentRadioLine], a
+	ld [wCurRadioLine], a
 	ld [wNumRadioLinesPrinted], a
 	ld a, BANK(PlayRadioShow)
 	ld hl, PlayRadioShow
@@ -1551,7 +1551,7 @@ LoadStation_OaksPokemonTalk:
 
 LoadStation_PokedexShow:
 	ld a, POKEDEX_SHOW
-	ld [wCurrentRadioLine], a
+	ld [wCurRadioLine], a
 	xor a
 	ld [wNumRadioLinesPrinted], a
 	ld a, BANK(PlayRadioShow)
@@ -1562,7 +1562,7 @@ LoadStation_PokedexShow:
 
 LoadStation_PokemonMusic:
 	ld a, POKEMON_MUSIC
-	ld [wCurrentRadioLine], a
+	ld [wCurRadioLine], a
 	xor a
 	ld [wNumRadioLinesPrinted], a
 	ld a, BANK(PlayRadioShow)
@@ -1573,7 +1573,7 @@ LoadStation_PokemonMusic:
 
 LoadStation_LuckyChannel:
 	ld a, LUCKY_CHANNEL
-	ld [wCurrentRadioLine], a
+	ld [wCurRadioLine], a
 	xor a
 	ld [wNumRadioLinesPrinted], a
 	ld a, BANK(PlayRadioShow)
@@ -1584,7 +1584,7 @@ LoadStation_LuckyChannel:
 
 LoadStation_BuenasPassword:
 	ld a, BUENAS_PASSWORD
-	ld [wCurrentRadioLine], a
+	ld [wCurRadioLine], a
 	xor a
 	ld [wNumRadioLinesPrinted], a
 	ld a, BANK(PlayRadioShow)
@@ -1602,7 +1602,7 @@ NotBuenasPasswordName: db "@"
 
 LoadStation_UnownRadio:
 	ld a, UNOWN_RADIO
-	ld [wCurrentRadioLine], a
+	ld [wCurRadioLine], a
 	xor a
 	ld [wNumRadioLinesPrinted], a
 	ld a, BANK(PlayRadioShow)
@@ -1613,7 +1613,7 @@ LoadStation_UnownRadio:
 
 LoadStation_PlacesAndPeople:
 	ld a, PLACES_AND_PEOPLE
-	ld [wCurrentRadioLine], a
+	ld [wCurRadioLine], a
 	xor a
 	ld [wNumRadioLinesPrinted], a
 	ld a, BANK(PlayRadioShow)
@@ -1624,7 +1624,7 @@ LoadStation_PlacesAndPeople:
 
 LoadStation_LetsAllSing:
 	ld a, LETS_ALL_SING
-	ld [wCurrentRadioLine], a
+	ld [wCurRadioLine], a
 	xor a
 	ld [wNumRadioLinesPrinted], a
 	ld a, BANK(PlayRadioShow)
@@ -1635,7 +1635,7 @@ LoadStation_LetsAllSing:
 
 LoadStation_RocketRadio:
 	ld a, ROCKET_RADIO
-	ld [wCurrentRadioLine], a
+	ld [wCurRadioLine], a
 	xor a
 	ld [wNumRadioLinesPrinted], a
 	ld a, BANK(PlayRadioShow)
@@ -1646,7 +1646,7 @@ LoadStation_RocketRadio:
 
 LoadStation_PokeFluteRadio:
 	ld a, POKE_FLUTE_RADIO
-	ld [wCurrentRadioLine], a
+	ld [wCurRadioLine], a
 	xor a
 	ld [wNumRadioLinesPrinted], a
 	ld a, BANK(PlayRadioShow)
@@ -1657,7 +1657,7 @@ LoadStation_PokeFluteRadio:
 
 LoadStation_EvolutionRadio:
 	ld a, EVOLUTION_RADIO
-	ld [wCurrentRadioLine], a
+	ld [wCurRadioLine], a
 	xor a
 	ld [wNumRadioLinesPrinted], a
 	ld a, BANK(PlayRadioShow)

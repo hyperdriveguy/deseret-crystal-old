@@ -32,7 +32,7 @@ crystal11_obj := $(crystal_obj:.o=11.o)
 ### Build targets
 
 .SUFFIXES:
-.PHONY: all crystal crystal11 clean compare tools
+.PHONY: all crystal crystal11 clean compare tools tidy
 .SECONDEXPANSION:
 .PRECIOUS:
 .SECONDARY:
@@ -42,6 +42,12 @@ crystal: pokecrystal.gbc
 crystal11: pokecrystal11.gbc
 
 clean:
+	rm -f $(roms) $(crystal_obj) $(crystal11_obj) $(roms:.gbc=.map) $(roms:.gbc=.sym)
+	find gfx \( -name "*.[12]bpp" -o -name "*.lz" -o -name "*.gbcpal" \) -delete
+	find gfx/pokemon -mindepth 1 ! -path "gfx/pokemon/unown/*" \( -name "bitmask.asm" -o -name "frames.asm" -o -name "front.animated.tilemap" -o -name "front.dimensions" \) -delete
+	$(MAKE) clean -C tools/
+
+tidy:
 	rm -f $(roms) $(crystal_obj) $(crystal11_obj) $(roms:.gbc=.map) $(roms:.gbc=.sym)
 	$(MAKE) clean -C tools/
 
@@ -214,9 +220,6 @@ gfx/unknown/unknown_egg.2bpp: rgbgfx += -h
 
 ### Catch-all graphics rules
 
-%.bin: ;
-%.blk: ;
-
 %.2bpp: %.png
 	$(RGBGFX) $(rgbgfx) -o $@ $<
 	$(if $(tools/gfx),\
@@ -229,5 +232,6 @@ gfx/unknown/unknown_egg.2bpp: rgbgfx += -h
 
 %.gbcpal: %.png
 	$(RGBGFX) -p $@ $<
+
 %.dimensions: %.png
 	tools/png_dimensions $< $@

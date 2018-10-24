@@ -176,7 +176,7 @@ SlotsLoop:
 	call SlotsJumptable
 	call Slots_SpinReels
 	xor a
-	ld [wCurrSpriteOAMAddr], a
+	ld [wCurSpriteOAMAddr], a
 	callfar DoNextFrameForFirst16Sprites
 	call .PrintCoinsAndPayout
 	call .Stubbed_Function927d3
@@ -734,9 +734,9 @@ Slots_UpdateReelPositionAndOAM:
 	ld hl, REEL_X_COORD
 	add hl, bc
 	ld a, [hl]
-	ld [wCurrReelXCoord], a
+	ld [wCurReelXCoord], a
 	ld a, 10 * 8
-	ld [wCurrReelYCoord], a
+	ld [wCurReelYCoord], a
 	ld hl, REEL_POSITION
 	add hl, bc
 	ld e, [hl]
@@ -769,9 +769,9 @@ Slots_UpdateReelPositionAndOAM:
 	ld h, [hl]
 	ld l, a
 .loop
-	ld a, [wCurrReelYCoord]
+	ld a, [wCurReelYCoord]
 	ld [hli], a ; y
-	ld a, [wCurrReelXCoord]
+	ld a, [wCurReelXCoord]
 	ld [hli], a ; x
 	ld a, [de]
 	ld [hli], a ; tile id
@@ -780,9 +780,9 @@ Slots_UpdateReelPositionAndOAM:
 	set OAM_PRIORITY, a
 	ld [hli], a ; attributes
 
-	ld a, [wCurrReelYCoord]
+	ld a, [wCurReelYCoord]
 	ld [hli], a ; y
-	ld a, [wCurrReelXCoord]
+	ld a, [wCurReelXCoord]
 	add 1 * TILE_WIDTH
 	ld [hli], a ; x
 	ld a, [de]
@@ -794,9 +794,9 @@ Slots_UpdateReelPositionAndOAM:
 	set OAM_PRIORITY, a
 	ld [hli], a ; attributes
 	inc de
-	ld a, [wCurrReelYCoord]
+	ld a, [wCurReelYCoord]
 	sub 2 * TILE_WIDTH
-	ld [wCurrReelYCoord], a
+	ld [wCurReelYCoord], a
 	cp 2 * TILE_WIDTH
 	jr nz, .loop
 	ret
@@ -1352,35 +1352,35 @@ Slots_CheckMatchedFirstTwoReels:
 	ret
 
 .CheckBottomRow:
-	ld hl, wCurrReelStopped
+	ld hl, wCurReelStopped
 	ld a, [wReel1Stopped]
 	cp [hl]
 	call z, .StoreResult
 	ret
 
 .CheckUpwardsDiag:
-	ld hl, wCurrReelStopped + 1
+	ld hl, wCurReelStopped + 1
 	ld a, [wReel1Stopped]
 	cp [hl]
 	call z, .StoreResult
 	ret
 
 .CheckMiddleRow:
-	ld hl, wCurrReelStopped + 1
+	ld hl, wCurReelStopped + 1
 	ld a, [wReel1Stopped + 1]
 	cp [hl]
 	call z, .StoreResult
 	ret
 
 .CheckDownwardsDiag:
-	ld hl, wCurrReelStopped + 1
+	ld hl, wCurReelStopped + 1
 	ld a, [wReel1Stopped + 2]
 	cp [hl]
 	call z, .StoreResult
 	ret
 
 .CheckTopRow:
-	ld hl, wCurrReelStopped + 2
+	ld hl, wCurReelStopped + 2
 	ld a, [wReel1Stopped + 2]
 	cp [hl]
 	call z, .StoreResult
@@ -1449,7 +1449,7 @@ Slots_CheckMatchedAllThreeReels:
 	ret
 
 .CheckBottomRow:
-	ld hl, wCurrReelStopped
+	ld hl, wCurReelStopped
 	ld a, [wReel1Stopped]
 	cp [hl]
 	ret nz
@@ -1459,7 +1459,7 @@ Slots_CheckMatchedAllThreeReels:
 	ret
 
 .CheckUpwardsDiag:
-	ld hl, wCurrReelStopped + 2
+	ld hl, wCurReelStopped + 2
 	ld a, [wReel1Stopped]
 	cp [hl]
 	ret nz
@@ -1469,7 +1469,7 @@ Slots_CheckMatchedAllThreeReels:
 	ret
 
 .CheckMiddleRow:
-	ld hl, wCurrReelStopped + 1
+	ld hl, wCurReelStopped + 1
 	ld a, [wReel1Stopped + 1]
 	cp [hl]
 	ret nz
@@ -1479,7 +1479,7 @@ Slots_CheckMatchedAllThreeReels:
 	ret
 
 .CheckDownwardsDiag:
-	ld hl, wCurrReelStopped
+	ld hl, wCurReelStopped
 	ld a, [wReel1Stopped + 2]
 	cp [hl]
 	ret nz
@@ -1489,7 +1489,7 @@ Slots_CheckMatchedAllThreeReels:
 	ret
 
 .CheckTopRow:
-	ld hl, wCurrReelStopped + 2
+	ld hl, wCurReelStopped + 2
 	ld a, [wReel1Stopped + 2]
 	cp [hl]
 	ret nz
@@ -1503,7 +1503,7 @@ Slots_CheckMatchedAllThreeReels:
 	ret
 
 Slots_CopyReelState:
-	ld de, wCurrReelStopped
+	ld de, wCurReelStopped
 	ld a, [hli]
 	ld [de], a
 	inc de

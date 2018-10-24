@@ -201,7 +201,7 @@ PlayerEvents:
 	and a
 	ret nz
 
-	call CheckTrainerBattle3
+	call CheckTrainerBattle_GetPlayerEvent
 	jr c, .ok
 
 	call CheckTileEvent
@@ -242,10 +242,10 @@ PlayerEvents:
 	scf
 	ret
 
-CheckTrainerBattle3:
+CheckTrainerBattle_GetPlayerEvent:
 	nop
 	nop
-	call CheckTrainerBattle2
+	call CheckTrainerBattle
 	jr nc, .nope
 
 	ld a, PLAYEREVENT_SEENBYTRAINER
@@ -337,7 +337,7 @@ SetUpFiveStepWildEncounterCooldown:
 	ret
 
 RunSceneScript:
-	ld a, [wCurrMapSceneScriptCount]
+	ld a, [wCurMapSceneScriptCount]
 	and a
 	jr z, .nope
 
@@ -348,7 +348,7 @@ RunSceneScript:
 
 	ld e, a
 	ld d, 0
-	ld hl, wCurrMapSceneScriptsPointer
+	ld hl, wCurMapSceneScriptsPointer
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a

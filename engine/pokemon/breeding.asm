@@ -329,7 +329,7 @@ HatchEggs:
 	xor a
 	ld [wMonType], a
 	push de
-	ld b, $0
+	ld b, NAME_MON
 	farcall NamingScreen
 	pop hl
 	ld de, wStringBuffer1

@@ -131,7 +131,9 @@ SpeechTextBox::
 RadioTerminator::
 	ld hl, .stop
 	ret
-.stop	db "@"
+
+.stop:
+	text_end
 
 PrintText::
 	call SetUpTextBox
@@ -540,7 +542,8 @@ DoneText::
 	dec de
 	ret
 
-.stop: db "@"
+.stop:
+	text_end
 
 NullChar::
 	ld a, "?"
@@ -634,7 +637,7 @@ PlaceHLTextAtBC::
 
 DoTextUntilTerminator::
 	ld a, [hli]
-	cp "@"
+	cp TX_END
 	ret z
 	call .TextCommand
 	jr DoTextUntilTerminator
@@ -669,7 +672,7 @@ TextCommands::
 	dw TextCommand_SCROLL           ; TX_SCROLL
 	dw TextCommand_START_ASM        ; TX_START_ASM
 	dw TextCommand_NUM              ; TX_NUM
-	dw TextCommand_EXIT             ; TX_EXIT
+	dw TextCommand_PAUSE            ; TX_PAUSE
 	dw TextCommand_SOUND            ; TX_SOUND_DEX_FANFARE_50_79
 	dw TextCommand_DOTS             ; TX_DOTS
 	dw TextCommand_LINK_WAIT_BUTTON ; TX_LINK_WAIT_BUTTON
@@ -699,7 +702,7 @@ TextCommand_START::
 	ret
 
 TextCommand_RAM::
-; text_from_ram
+; text_ram
 ; write text from a ram address
 ; little endian
 ; [$01][addr]
@@ -716,7 +719,7 @@ TextCommand_RAM::
 	ret
 
 TextCommand_FAR::
-; text_jump
+; text_far
 ; write text from a different bank
 ; little endian
 ; [$16][addr][bank]
@@ -839,19 +842,19 @@ TextCommand_SCROLL::
 	ret
 
 TextCommand_START_ASM::
-; start_asm
+; text_asm
 
 	bit 7, h
 	jr nz, .not_rom
 	jp hl
 
 .not_rom
-	ld a, "@"
+	ld a, TX_END
 	ld [hl], a
 	ret
 
 TextCommand_NUM::
-; deciram
+; text_decimal
 ; [$09][addr][hi:bytes lo:digits]
 	ld a, [hli]
 	ld e, a
@@ -875,8 +878,8 @@ TextCommand_NUM::
 	pop hl
 	ret
 
-TextCommand_EXIT::
-; interpret_data
+TextCommand_PAUSE::
+; text_pause
 	push hl
 	push bc
 	call GetJoypad
@@ -936,7 +939,7 @@ TextSFX::
 	db -1
 
 TextCommand_DOTS::
-; limited_interpret_data
+; text_dots
 ; [$0C][num]
 	ld a, [hli]
 	ld d, a
@@ -965,7 +968,7 @@ TextCommand_DOTS::
 	ret
 
 TextCommand_LINK_WAIT_BUTTON::
-; link_wait_button
+; text_linkwaitbutton
 ; wait for key down
 ; display arrow
 	push hl
@@ -1005,7 +1008,7 @@ TextCommand_STRINGBUFFER::
 	ret
 
 TextCommand_DAY::
-; current_day
+; text_today
 
 	call GetWeekday
 	push hl

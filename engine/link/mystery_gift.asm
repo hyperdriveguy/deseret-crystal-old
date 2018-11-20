@@ -127,36 +127,36 @@ DoMysteryGift:
 	db   "@"
 
 .Text_LinkCanceled:
-	text_jump UnknownText_0x1c0436
-	db "@"
+	text_far UnknownText_0x1c0436
+	text_end
 
 .Text_CommunicationError:
-	text_jump UnknownText_0x1c0454
-	db "@"
+	text_far UnknownText_0x1c0454
+	text_end
 
 .Text_ReceiveGiftAtCounter:
-	text_jump UnknownText_0x1c046a
-	db "@"
+	text_far UnknownText_0x1c046a
+	text_end
 
 .Text_FriendNotReady:
-	text_jump UnknownText_0x1c048e
-	db "@"
+	text_far UnknownText_0x1c048e
+	text_end
 
 .Text_MaxFiveGifts:
-	text_jump UnknownText_0x1c04a7
-	db "@"
+	text_far UnknownText_0x1c04a7
+	text_end
 
 .Text_MaxOneGiftPerPerson:
-	text_jump UnknownText_0x1c04c6
-	db "@"
+	text_far UnknownText_0x1c04c6
+	text_end
 
 .Text_Sent:
-	text_jump UnknownText_0x1c04e9
-	db "@"
+	text_far UnknownText_0x1c04e9
+	text_end
 
 .Text_SentToHome:
-	text_jump UnknownText_0x1c04fa
-	db "@"
+	text_far UnknownText_0x1c04fa
+	text_end
 
 .CheckAlreadyGotFiveGiftsToday:
 	call GetMysteryGiftBank

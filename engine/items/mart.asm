@@ -581,13 +581,13 @@ RooftopSaleAskPurchaseQuantity:
 
 Text_Mart_HowMany:
 	; How many?
-	text_jump UnknownText_0x1c4bfd
-	db "@"
+	text_far UnknownText_0x1c4bfd
+	text_end
 
 Text_Mart_CostsThisMuch:
 	; @ (S) will be ¥@ .
-	text_jump UnknownText_0x1c4c08
-	db "@"
+	text_far UnknownText_0x1c4c08
+	text_end
 
 MenuHeader_Buy:
 	db MENU_BACKUP_TILES ; flags
@@ -624,108 +624,108 @@ MenuHeader_Buy:
 
 Text_HerbShop_Intro:
 	; Hello, dear. I sell inexpensive herbal medicine. They're good, but a trifle bitter. Your #MON may not like them. Hehehehe…
-	text_jump UnknownText_0x1c4c28
-	db "@"
+	text_far UnknownText_0x1c4c28
+	text_end
 
 Text_HerbShop_HowMany:
 	; How many?
-	text_jump UnknownText_0x1c4ca3
-	db "@"
+	text_far UnknownText_0x1c4ca3
+	text_end
 
 Text_HerbShop_CostsThisMuch:
 	; @ (S) will be ¥@ .
-	text_jump UnknownText_0x1c4cae
-	db "@"
+	text_far UnknownText_0x1c4cae
+	text_end
 
 Text_HerbShop_HereYouGo:
 	; Thank you, dear. Hehehehe…
-	text_jump UnknownText_0x1c4cce
-	db "@"
+	text_far UnknownText_0x1c4cce
+	text_end
 
 Text_HerbShop_BagFull:
 	; Oh? Your PACK is full, dear.
-	text_jump UnknownText_0x1c4cea
-	db "@"
+	text_far UnknownText_0x1c4cea
+	text_end
 
 Text_HerbShop_InsufficientFunds:
 	; Hehehe… You don't have the money.
-	text_jump UnknownText_0x1c4d08
-	db "@"
+	text_far UnknownText_0x1c4d08
+	text_end
 
 Text_HerbShop_ComeAgain:
 	; Come again, dear. Hehehehe…
-	text_jump UnknownText_0x1c4d2a
-	db "@"
+	text_far UnknownText_0x1c4d2a
+	text_end
 
 Text_BargainShop_Intro:
 	; Hiya! Care to see some bargains? I sell rare items that nobody else carries--but only one of each item.
-	text_jump UnknownText_0x1c4d47
-	db "@"
+	text_far UnknownText_0x1c4d47
+	text_end
 
 Text_BargainShop_CostsThisMuch:
 	; costs ¥@ . Want it?
-	text_jump UnknownText_0x1c4db0
-	db "@"
+	text_far UnknownText_0x1c4db0
+	text_end
 
 Text_BargainShop_HereYouGo:
 	; Thanks.
-	text_jump UnknownText_0x1c4dcd
-	db "@"
+	text_far UnknownText_0x1c4dcd
+	text_end
 
 Text_BargainShop_BagFull:
 	; Uh-oh, your PACK is chock-full.
-	text_jump UnknownText_0x1c4dd6
-	db "@"
+	text_far UnknownText_0x1c4dd6
+	text_end
 
 Text_BargainShop_SoldOut:
 	; You bought that already. I'm all sold out of it.
-	text_jump UnknownText_0x1c4df7
-	db "@"
+	text_far UnknownText_0x1c4df7
+	text_end
 
 Text_BargainShop_InsufficientFunds:
 	; Uh-oh, you're short on funds.
-	text_jump UnknownText_0x1c4e28
-	db "@"
+	text_far UnknownText_0x1c4e28
+	text_end
 
 Text_BargainShop_ComeAgain:
 	; Come by again sometime.
-	text_jump UnknownText_0x1c4e46
-	db "@"
+	text_far UnknownText_0x1c4e46
+	text_end
 
 Text_Pharmacist_Intro:
 	; What's up? Need some medicine?
-	text_jump UnknownText_0x1c4e5f
-	db "@"
+	text_far UnknownText_0x1c4e5f
+	text_end
 
 Text_Pharmacy_HowMany:
 	; How many?
-	text_jump UnknownText_0x1c4e7e
-	db "@"
+	text_far UnknownText_0x1c4e7e
+	text_end
 
 Text_Pharmacy_CostsThisMuch:
 	; @ (S) will cost ¥@ .
-	text_jump UnknownText_0x1c4e89
-	db "@"
+	text_far UnknownText_0x1c4e89
+	text_end
 
 Text_Pharmacy_HereYouGo:
 	; Thanks much!
-	text_jump UnknownText_0x1c4eab
-	db "@"
+	text_far UnknownText_0x1c4eab
+	text_end
 
 Text_Pharmacy_BagFull:
 	; You don't have any more space.
-	text_jump UnknownText_0x1c4eb9
-	db "@"
+	text_far UnknownText_0x1c4eb9
+	text_end
 
 Text_Pharmacy_InsufficientFunds:
 	; Huh? That's not enough money.
-	text_jump UnknownText_0x1c4ed8
-	db "@"
+	text_far UnknownText_0x1c4ed8
+	text_end
 
 Text_Pharmacist_ComeAgain:
 	; All right. See you around.
-	text_jump UnknownText_0x1c4ef6
-	db "@"
+	text_far UnknownText_0x1c4ef6
+	text_end
 
 SellMenu:
 	call DisableSpriteUpdates
@@ -810,18 +810,18 @@ SellMenu:
 
 Text_Mart_SellHowMany:
 	; How many?
-	text_jump UnknownText_0x1c4f33
-	db "@"
+	text_far UnknownText_0x1c4f33
+	text_end
 
 Text_Mart_ICanPayThisMuch:
 	; I can pay you ¥@ . Is that OK?
-	text_jump UnknownText_0x1c4f3e
-	db "@"
+	text_far UnknownText_0x1c4f3e
+	text_end
 
 Text_Mart_HowMayIHelpYou:
 	; Welcome! How may I help you?
-	text_jump UnknownText_0x1c4f62
-	db "@"
+	text_far UnknownText_0x1c4f62
+	text_end
 
 MenuHeader_BuySell:
 	db MENU_BACKUP_TILES ; flags
@@ -838,36 +838,36 @@ MenuHeader_BuySell:
 
 Text_Mart_HereYouGo:
 	; Here you are. Thank you!
-	text_jump UnknownText_0x1c4f80
-	db "@"
+	text_far UnknownText_0x1c4f80
+	text_end
 
 Text_Mart_InsufficientFunds:
 	; You don't have enough money.
-	text_jump UnknownText_0x1c4f9a
-	db "@"
+	text_far UnknownText_0x1c4f9a
+	text_end
 
 Text_Mart_BagFull:
 	; You can't carry any more items.
-	text_jump UnknownText_0x1c4fb7
-	db "@"
+	text_far UnknownText_0x1c4fb7
+	text_end
 
 TextMart_CantBuyFromYou:
 	; Sorry, I can't buy that from you.
-	text_jump UnknownText_0x1c4fd7
-	db "@"
+	text_far UnknownText_0x1c4fd7
+	text_end
 
 Text_Mart_ComeAgain:
 	; Please come again!
-	text_jump UnknownText_0x1c4ff9
-	db "@"
+	text_far UnknownText_0x1c4ff9
+	text_end
 
 Text_Mart_AnythingElse:
-	text_jump UnknownText_0x1c500d
-	db "@"
+	text_far UnknownText_0x1c500d
+	text_end
 
 Text_Mart_SoldForAmount:
-	text_jump UnknownText_0x1c502e
-	db "@"
+	text_far UnknownText_0x1c502e
+	text_end
 
 PlayTransactionSound:
 	call WaitSFX

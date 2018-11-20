@@ -146,8 +146,8 @@ GetMysteryGiftItem:
 
 .ReceiveItemText:
 	; received item
-	text_jump UnknownText_0x1bd3be
-	db "@"
+	text_far UnknownText_0x1bd3be
+	text_end
 
 BugContestJudging:
 	farcall _BugContestJudging
@@ -226,13 +226,13 @@ CheckCoinsAndCoinCase:
 
 .NoCoinsText:
 	; You have no coins.
-	text_jump UnknownText_0x1bd3d7
-	db "@"
+	text_far UnknownText_0x1bd3d7
+	text_end
 
 .NoCoinCaseText:
 	; You don't have a COIN CASE.
-	text_jump UnknownText_0x1bd3eb
-	db "@"
+	text_far UnknownText_0x1bd3eb
+	text_end
 
 ScriptReturnCarry:
 	jr c, .carry

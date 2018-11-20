@@ -1099,8 +1099,8 @@ ObjectEvent::
 	jumptextfaceplayer ObjectEventText
 
 ObjectEventText::
-	text_jump _ObjectEventText
-	db "@"
+	text_far _ObjectEventText
+	text_end
 
 CheckObjectMask::
 	ldh a, [hMapObjectIndexBuffer]

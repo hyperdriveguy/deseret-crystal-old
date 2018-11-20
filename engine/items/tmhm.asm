@@ -164,23 +164,23 @@ TeachTMHM:
 
 Text_BootedTM:
 	; Booted up a TM.
-	text_jump UnknownText_0x1c0373
-	db "@"
+	text_far UnknownText_0x1c0373
+	text_end
 
 Text_BootedHM:
 	; Booted up an HM.
-	text_jump UnknownText_0x1c0384
-	db "@"
+	text_far UnknownText_0x1c0384
+	text_end
 
 Text_ItContained:
 	; It contained @ . Teach @ to a #MON?
-	text_jump UnknownText_0x1c0396
-	db "@"
+	text_far UnknownText_0x1c0396
+	text_end
 
 Text_TMHMNotCompatible:
 	; is not compatible with @ . It can't learn @ .
-	text_jump UnknownText_0x1c03c2
-	db "@"
+	text_far UnknownText_0x1c03c2
+	text_end
 
 TMHM_PocketLoop:
 	xor a

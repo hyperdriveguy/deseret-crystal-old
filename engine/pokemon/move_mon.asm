@@ -1800,8 +1800,8 @@ GivePoke::
 
 TextJump_WasSentToBillsPC:
 	; was sent to BILL's PC.
-	text_jump Text_WasSentToBillsPC
-	db "@"
+	text_far Text_WasSentToBillsPC
+	text_end
 
 InitNickname:
 	push de

@@ -1196,7 +1196,7 @@ Pokedex_DrawOptionScreenBG:
 	db   "NEW #DEX MODE"
 	next "OLD #DEX MODE"
 	next "A to Z MODE"
-	db "@"
+	db   "@"
 
 .UnownMode:
 	db "UNOWN MODE@"

@@ -522,8 +522,8 @@ Pokegear_UpdateClock:
 	ret
 
 .DayText:
-	text_jump UnknownText_0x1c5821
-	db "@"
+	text_far UnknownText_0x1c5821
+	text_end
 
 PokegearMap_CheckRegion:
 	ld a, [wPokegearMapPlayerIconLandmark]
@@ -926,13 +926,13 @@ PokegearPhone_MakePhoneCall:
 
 .dotdotdot
 	;
-	text_jump UnknownText_0x1c5824
-	db "@"
+	text_far UnknownText_0x1c5824
+	text_end
 
 .OutOfServiceArea:
 	; You're out of the service area.
-	text_jump UnknownText_0x1c5827
-	db "@"
+	text_far UnknownText_0x1c5827
+	text_end
 
 PokegearPhone_FinishPhoneCall:
 	ldh a, [hJoyPressed]
@@ -1329,18 +1329,18 @@ Pokegear_LoadTilemapRLE:
 
 PokegearText_WhomToCall:
 	; Whom do you want to call?
-	text_jump UnknownText_0x1c5847
-	db "@"
+	text_far UnknownText_0x1c5847
+	text_end
 
 PokegearText_PressAnyButtonToExit:
 	; Press any button to exit.
-	text_jump UnknownText_0x1c5862
-	db "@"
+	text_far UnknownText_0x1c5862
+	text_end
 
 PokegearText_DeleteStoredNumber:
 	; Delete this stored phone number?
-	text_jump UnknownText_0x1c587d
-	db "@"
+	text_far UnknownText_0x1c587d
+	text_end
 
 PokegearSpritesGFX:
 INCBIN "gfx/pokegear/pokegear_sprites.2bpp.lz"

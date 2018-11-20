@@ -642,7 +642,7 @@ Text_PartyMonTopsThisLevel:
 	done
 
 Text_UberRestriction:
-	text_from_ram wcd49
+	text_ram wcd49
 	text " may go"
 	line "only to BATTLE"
 

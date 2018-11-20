@@ -56,7 +56,7 @@ MenuData_0x24f91:
 
 Strings24f9a:
 	db "FIGHT@"
-	db "<PKMN>", "@"
+	db "<PKMN>@"
 	db "PARKBALL×  @"
 	db "RUN@"
 

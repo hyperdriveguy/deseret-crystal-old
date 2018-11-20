@@ -519,8 +519,8 @@ GiveItemScript:
 	end
 
 ReceivedItemText:
-	text_jump UnknownText_0x1c4719
-	db "@"
+	text_far UnknownText_0x1c4719
+	text_end
 
 Script_verbosegiveitem2:
 ; script command 0x9f
@@ -611,12 +611,12 @@ CurItemName:
 	ret
 
 PutItemInPocketText:
-	text_jump UnknownText_0x1c472c
-	db "@"
+	text_far UnknownText_0x1c472c
+	text_end
 
 PocketIsFullText:
-	text_jump UnknownText_0x1c474b
-	db "@"
+	text_far UnknownText_0x1c474b
+	text_end
 
 Script_pokemart:
 ; script command 0x94

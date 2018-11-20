@@ -30,8 +30,8 @@ _CheckForBattleTowerRules:
 
 JumpText_ExcuseMeYoureNotReady:
 	; Excuse me. You're not ready.
-	text_jump Text_ExcuseMeYoureNotReady
-	db "@"
+	text_far Text_ExcuseMeYoureNotReady
+	text_end
 
 BattleTower_PleaseReturnWhenReady:
 	ld hl, .PleaseReturnWhenReady
@@ -40,28 +40,28 @@ BattleTower_PleaseReturnWhenReady:
 
 .PleaseReturnWhenReady:
 	; Please return when you're ready.
-	text_jump UnknownText_0x1c5962
-	db "@"
+	text_far UnknownText_0x1c5962
+	text_end
 
 JumpText_OnlyThreeMonMayBeEntered:
 	; Only three #MON may be entered.
-	text_jump Text_OnlyThreeMonMayBeEntered
-	db "@"
+	text_far Text_OnlyThreeMonMayBeEntered
+	text_end
 
 JumpText_TheMonMustAllBeDifferentKinds:
 	; The @  #MON must all be different kinds.
-	text_jump Text_TheMonMustAllBeDifferentKinds
-	db "@"
+	text_far Text_TheMonMustAllBeDifferentKinds
+	text_end
 
 JumpText_TheMonMustNotHoldTheSameItems:
 	; The @  #MON must not hold the same items.
-	text_jump Text_TheMonMustNotHoldTheSameItems
-	db "@"
+	text_far Text_TheMonMustNotHoldTheSameItems
+	text_end
 
 JumpText_YouCantTakeAnEgg:
 	; You can't take an EGG!
-	text_jump Text_YouCantTakeAnEgg
-	db "@"
+	text_far Text_YouCantTakeAnEgg
+	text_end
 
 BattleTower_ExecuteJumptable:
 	ld bc, 0

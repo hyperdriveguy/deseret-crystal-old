@@ -278,7 +278,9 @@ TrainerCard_Page1_PrintDexCaught_GameTime:
 
 .Dex_PlayTime:
 	db   "#DEX"
-	next "PLAY TIME@@"
+	next "PLAY TIME@"
+
+	db "@" ; unused
 
 .Badges:
 	db "  BADGES▶@"

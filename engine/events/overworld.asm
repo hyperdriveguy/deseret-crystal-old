@@ -60,8 +60,8 @@ CheckBadge:
 .BadgeRequiredText:
 	; Sorry! A new BADGE
 	; is required.
-	text_jump _BadgeRequiredText
-	db "@"
+	text_far _BadgeRequiredText
+	text_end
 
 CheckPartyMove:
 ; Check if a monster in your party has move d.
@@ -114,8 +114,8 @@ FieldMoveFailed:
 
 .CantUseHere:
 	; Can't use that here.
-	text_jump UnknownText_0x1c05c8
-	db "@"
+	text_far UnknownText_0x1c05c8
+	text_end
 
 CutFunction:
 	call FieldMoveJumptableReset
@@ -163,13 +163,13 @@ CutFunction:
 
 Text_UsedCut:
 	; used CUT!
-	text_jump UnknownText_0x1c05dd
-	db "@"
+	text_far UnknownText_0x1c05dd
+	text_end
 
 Text_NothingToCut:
 	; There's nothing to CUT here.
-	text_jump UnknownText_0x1c05ec
-	db "@"
+	text_far UnknownText_0x1c05ec
+	text_end
 
 CheckMapForSomethingToCut:
 	; Does the collision data of the facing tile permit cutting?
@@ -323,8 +323,8 @@ Script_UseFlash:
 	end
 
 UnknownText_0xc8f3:
-	text_jump UnknownText_0x1c0609
-	start_asm
+	text_far UnknownText_0x1c0609
+	text_asm
 	call WaitSFX
 	ld de, SFX_FLASH
 	call PlaySFX
@@ -333,7 +333,7 @@ UnknownText_0xc8f3:
 	ret
 
 .BlankText:
-	db "@"
+	text_end
 
 SurfFunction:
 	call FieldMoveJumptableReset
@@ -423,16 +423,16 @@ UsedSurfScript:
 	end
 
 UsedSurfText:
-	text_jump _UsedSurfText
-	db "@"
+	text_far _UsedSurfText
+	text_end
 
 CantSurfText:
-	text_jump _CantSurfText
-	db "@"
+	text_far _CantSurfText
+	text_end
 
 AlreadySurfingText:
-	text_jump _AlreadySurfingText
-	db "@"
+	text_far _AlreadySurfingText
+	text_end
 
 GetSurfType:
 ; Surfing on Pikachu uses an alternate sprite.
@@ -539,8 +539,9 @@ AskSurfScript:
 	end
 
 AskSurfText:
-	text_jump _AskSurfText ; The water is calm.
-	db "@"              ; Want to SURF?
+	; The water is calm. Want to SURF?
+	text_far _AskSurfText
+	text_end
 
 FlyFunction:
 	call FieldMoveJumptableReset
@@ -702,8 +703,8 @@ Script_UsedWaterfall:
 
 .Text_UsedWaterfall:
 	; used WATERFALL!
-	text_jump UnknownText_0x1c068e
-	db "@"
+	text_far UnknownText_0x1c068e
+	text_end
 
 TryWaterfallOW::
 	ld d, WATERFALL
@@ -732,8 +733,8 @@ Script_CantDoWaterfall:
 
 .Text_CantDoWaterfall:
 	; Wow, it's a huge waterfall.
-	text_jump UnknownText_0x1c06a3
-	db "@"
+	text_far UnknownText_0x1c06a3
+	text_end
 
 Script_AskWaterfall:
 	opentext
@@ -745,8 +746,8 @@ Script_AskWaterfall:
 
 .AskUseWaterfall:
 	; Do you want to use WATERFALL?
-	text_jump UnknownText_0x1c06bf
-	db "@"
+	text_far UnknownText_0x1c06bf
+	text_end
 
 EscapeRopeFunction:
 	call FieldMoveJumptableReset
@@ -832,18 +833,18 @@ dig_incave
 
 .Text_UsedDig:
 	; used DIG!
-	text_jump UnknownText_0x1c06de
-	db "@"
+	text_far UnknownText_0x1c06de
+	text_end
 
 .Text_UsedEscapeRope:
 	; used an ESCAPE ROPE.
-	text_jump UnknownText_0x1c06ed
-	db "@"
+	text_far UnknownText_0x1c06ed
+	text_end
 
 .Text_CantUseHere:
 	; Can't use that here.
-	text_jump UnknownText_0x1c0705
-	db "@"
+	text_far UnknownText_0x1c0705
+	text_end
 
 .UsedEscapeRopeScript:
 	reloadmappart
@@ -931,13 +932,13 @@ TeleportFunction:
 
 .Text_ReturnToLastMonCenter:
 	; Return to the last #MON CENTER.
-	text_jump UnknownText_0x1c071a
-	db "@"
+	text_far UnknownText_0x1c071a
+	text_end
 
 .Text_CantUseHere:
 	; Can't use that here.
-	text_jump UnknownText_0x1c073b
-	db "@"
+	text_far UnknownText_0x1c073b
+	text_end
 
 .TeleportScript:
 	reloadmappart
@@ -1015,12 +1016,12 @@ Script_UsedStrength:
 	end
 
 .UsedStrength:
-	text_jump UnknownText_0x1c0774
-	db "@"
+	text_far UnknownText_0x1c0774
+	text_end
 
 .StrengthAllowedItToMoveBoulders:
-	text_jump UnknownText_0x1c0788
-	db "@"
+	text_far UnknownText_0x1c0788
+	text_end
 
 AskStrengthScript:
 	callasm TryStrengthOW
@@ -1044,18 +1045,18 @@ AskStrengthScript:
 
 UnknownText_0xcd69:
 	; A #MON may be able to move this. Want to use STRENGTH?
-	text_jump UnknownText_0x1c07a0
-	db "@"
+	text_far UnknownText_0x1c07a0
+	text_end
 
 UnknownText_0xcd6e:
 	; Boulders may now be moved!
-	text_jump UnknownText_0x1c07d8
-	db "@"
+	text_far UnknownText_0x1c07d8
+	text_end
 
 UnknownText_0xcd73:
 	; A #MON may be able to move this.
-	text_jump UnknownText_0x1c07f4
-	db "@"
+	text_far UnknownText_0x1c07f4
+	text_end
 
 TryStrengthOW:
 	ld d, STRENGTH
@@ -1130,8 +1131,8 @@ Jumptable_cdae:
 
 Text_UsedWhirlpool:
 	; used WHIRLPOOL!
-	text_jump UnknownText_0x1c0816
-	db "@"
+	text_far UnknownText_0x1c0816
+	text_end
 
 TryWhirlpoolMenu:
 	call GetFacingTileCoord
@@ -1217,8 +1218,8 @@ Script_MightyWhirlpool:
 	jumptext .MightyWhirlpoolText
 
 .MightyWhirlpoolText:
-	text_jump UnknownText_0x1c082b
-	db "@"
+	text_far UnknownText_0x1c082b
+	text_end
 
 Script_AskWhirlpoolOW:
 	opentext
@@ -1229,8 +1230,8 @@ Script_AskWhirlpoolOW:
 	end
 
 UnknownText_0xce78:
-	text_jump UnknownText_0x1c0864
-	db "@"
+	text_far UnknownText_0x1c0864
+	text_end
 
 HeadbuttFunction:
 	call TryHeadbuttFromMenu
@@ -1255,13 +1256,13 @@ TryHeadbuttFromMenu:
 
 UnknownText_0xce9d:
 	; did a HEADBUTT!
-	text_jump UnknownText_0x1c0897
-	db "@"
+	text_far UnknownText_0x1c0897
+	text_end
 
 UnknownText_0xcea2:
 	; Nope. Nothing…
-	text_jump UnknownText_0x1c08ac
-	db "@"
+	text_far UnknownText_0x1c08ac
+	text_end
 
 HeadbuttFromMenuScript:
 	reloadmappart
@@ -1313,8 +1314,8 @@ AskHeadbuttScript:
 
 UnknownText_0xcee6:
 	; A #MON could be in this tree. Want to HEADBUTT it?
-	text_jump UnknownText_0x1c08bc
-	db "@"
+	text_far UnknownText_0x1c08bc
+	text_end
 
 RockSmashFunction:
 	call TryRockSmashFromMenu
@@ -1389,8 +1390,8 @@ MovementData_0xcf55:
 	step_end
 
 UnknownText_0xcf58:
-	text_jump UnknownText_0x1c08f0
-	db "@"
+	text_far UnknownText_0x1c08f0
+	text_end
 
 AskRockSmashScript:
 	callasm HasRockSmash
@@ -1407,13 +1408,13 @@ AskRockSmashScript:
 
 UnknownText_0xcf72:
 	; Maybe a #MON can break this.
-	text_jump UnknownText_0x1c0906
-	db "@"
+	text_far UnknownText_0x1c0906
+	text_end
 
 UnknownText_0xcf77:
 	; This rock looks breakable. Want to use ROCK SMASH?
-	text_jump UnknownText_0x1c0924
-	db "@"
+	text_far UnknownText_0x1c0924
+	text_end
 
 HasRockSmash:
 	ld d, ROCK_SMASH
@@ -1615,13 +1616,13 @@ PutTheRodAway:
 
 UnknownText_0xd0a4:
 	; Oh! A bite!
-	text_jump UnknownText_0x1c0958
-	db "@"
+	text_far UnknownText_0x1c0958
+	text_end
 
 UnknownText_0xd0a9:
 	; Not even a nibble!
-	text_jump UnknownText_0x1c0965
-	db "@"
+	text_far UnknownText_0x1c0965
+	text_end
 
 BikeFunction:
 	call .TryBike
@@ -1750,18 +1751,18 @@ Script_CantGetOffBike:
 
 .CantGetOffBikeText:
 	; You can't get off here!
-	text_jump UnknownText_0x1c099a
-	db "@"
+	text_far UnknownText_0x1c099a
+	text_end
 
 GotOnTheBikeText:
 	; got on the @ .
-	text_jump UnknownText_0x1c09b2
-	db "@"
+	text_far UnknownText_0x1c09b2
+	text_end
 
 GotOffTheBikeText:
 	; got off the @ .
-	text_jump UnknownText_0x1c09c7
-	db "@"
+	text_far UnknownText_0x1c09c7
+	text_end
 
 TryCutOW::
 	ld d, CUT
@@ -1806,12 +1807,12 @@ AskCutScript:
 	ret
 
 UnknownText_0xd1c8:
-	text_jump UnknownText_0x1c09dd
-	db "@"
+	text_far UnknownText_0x1c09dd
+	text_end
 
 CantCutScript:
 	jumptext UnknownText_0xd1d0
 
 UnknownText_0xd1d0:
-	text_jump UnknownText_0x1c0a05
-	db "@"
+	text_far UnknownText_0x1c0a05
+	text_end

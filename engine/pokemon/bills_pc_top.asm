@@ -16,8 +16,8 @@ _BillsPC:
 
 .Text_GottaHavePokemon:
 	; You gotta have #MON to call!
-	text_jump UnknownText_0x1c1006
-	db "@"
+	text_far UnknownText_0x1c1006
+	text_end
 
 .LogIn:
 	xor a
@@ -37,8 +37,8 @@ _BillsPC:
 
 .Text_What:
 	; What?
-	text_jump UnknownText_0x1c1024
-	db "@"
+	text_far UnknownText_0x1c1024
+	text_end
 
 .LogOut:
 	call CloseSubmenu
@@ -130,8 +130,8 @@ BillsPC_MovePKMNMenu:
 
 .Text_MonHoldingMail:
 	; There is a #MON holding MAIL. Please remove the MAIL.
-	text_jump UnknownText_0x1c102b
-	db "@"
+	text_far UnknownText_0x1c102b
+	text_end
 
 BillsPC_DepositMenu:
 	call LoadStandardMenuHeader

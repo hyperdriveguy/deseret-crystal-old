@@ -6640,8 +6640,9 @@ _LoadHPBar:
 EmptyBattleTextBox:
 	ld hl, .empty
 	jp BattleTextBox
-.empty
-	db "@"
+
+.empty:
+	text_end
 
 _BattleRandom::
 ; If the normal RNG is used in a link battle it'll desync.
@@ -7174,8 +7175,8 @@ BoostExp:
 	ret
 
 Text_MonGainedExpPoint:
-	text_jump Text_Gained
-	start_asm
+	text_far Text_Gained
+	text_asm
 	ld hl, TextJump_StringBuffer2ExpPoints
 	ld a, [wStringBuffer2 + 2] ; IsTradedMon
 	and a
@@ -7185,12 +7186,12 @@ Text_MonGainedExpPoint:
 	ret
 
 TextJump_ABoostedStringBuffer2ExpPoints:
-	text_jump Text_ABoostedStringBuffer2ExpPoints
-	db "@"
+	text_far Text_ABoostedStringBuffer2ExpPoints
+	text_end
 
 TextJump_StringBuffer2ExpPoints:
-	text_jump Text_StringBuffer2ExpPoints
-	db "@"
+	text_far Text_StringBuffer2ExpPoints
+	text_end
 
 AnimateExpBar:
 	push bc
@@ -7440,38 +7441,38 @@ SendOutMonText:
 	jp BattleTextBox
 
 JumpText_GoMon:
-	text_jump Text_GoMon
-	start_asm
+	text_far Text_GoMon
+	text_asm
 	jr Function_TextJump_BattleMonNick01
 
 JumpText_DoItMon:
-	text_jump Text_DoItMon
-	start_asm
+	text_far Text_DoItMon
+	text_asm
 	jr Function_TextJump_BattleMonNick01
 
 JumpText_GoForItMon:
-	text_jump Text_GoForItMon
-	start_asm
+	text_far Text_GoForItMon
+	text_asm
 	jr Function_TextJump_BattleMonNick01
 
 JumpText_YourFoesWeakGetmMon:
-	text_jump Text_YourFoesWeakGetmMon
-	start_asm
+	text_far Text_YourFoesWeakGetmMon
+	text_asm
 Function_TextJump_BattleMonNick01:
 	ld hl, TextJump_BattleMonNick01
 	ret
 
 TextJump_BattleMonNick01:
-	text_jump Text_BattleMonNick01
-	db "@"
+	text_far Text_BattleMonNick01
+	text_end
 
 WithdrawMonText:
 	ld hl, .WithdrawMonText
 	jp BattleTextBox
 
 .WithdrawMonText:
-	text_jump Text_BattleMonNickComma
-	start_asm
+	text_far Text_BattleMonNickComma
+	text_asm
 ; Print text to withdraw mon
 ; depending on HP the message is different
 	push de
@@ -7521,20 +7522,20 @@ WithdrawMonText:
 	ret
 
 TextJump_ThatsEnoughComeBack:
-	text_jump Text_ThatsEnoughComeBack
-	db "@"
+	text_far Text_ThatsEnoughComeBack
+	text_end
 
 TextJump_OKComeBack:
-	text_jump Text_OKComeBack
-	db "@"
+	text_far Text_OKComeBack
+	text_end
 
 TextJump_GoodComeBack:
-	text_jump Text_GoodComeBack
-	db "@"
+	text_far Text_GoodComeBack
+	text_end
 
 TextJump_ComeBack:
-	text_jump Text_ComeBack
-	db "@"
+	text_far Text_ComeBack
+	text_end
 
 FillInExpBar:
 	push hl

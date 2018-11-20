@@ -393,8 +393,8 @@ WrongNumber:
 	end
 .text
 	; Huh? Sorry, wrong number!
-	text_jump UnknownText_0x1c5565
-	db "@"
+	text_far UnknownText_0x1c5565
+	text_end
 
 Script_ReceivePhoneCall:
 	refreshscreen
@@ -466,8 +466,8 @@ HangUp_Beep:
 	ret
 
 UnknownText_0x9032a:
-	text_jump UnknownText_0x1c5580
-	db "@"
+	text_far UnknownText_0x1c5580
+	text_end
 
 HangUp_BoopOn:
 	ld hl, UnknownText_0x90336
@@ -475,8 +475,8 @@ HangUp_BoopOn:
 	ret
 
 UnknownText_0x90336:
-	text_jump UnknownText_0x1c5588
-	db "@"
+	text_far UnknownText_0x1c5588
+	text_end
 
 HangUp_BoopOff:
 	call SpeechTextBox
@@ -635,8 +635,8 @@ UnknownScript_0x90657:
 
 UnknownText_0x9065b:
 	; That number is out of the area.
-	text_jump UnknownText_0x1c558b
-	db "@"
+	text_far UnknownText_0x1c558b
+	text_end
 
 PhoneScript_JustTalkToThem:
 	writetext UnknownText_0x90664
@@ -644,5 +644,5 @@ PhoneScript_JustTalkToThem:
 
 UnknownText_0x90664:
 	; Just go talk to that person!
-	text_jump UnknownText_0x1c55ac
-	db "@"
+	text_far UnknownText_0x1c55ac
+	text_end

@@ -660,8 +660,8 @@ AI_Switch:
 	ret
 
 TextJump_EnemyWithdrew:
-	text_jump Text_EnemyWithdrew
-	db "@"
+	text_far Text_EnemyWithdrew
+	text_end
 
 AI_HealStatus:
 	ld a, [wCurOTMon]
@@ -749,5 +749,5 @@ PrintText_UsedItemOn:
 	jp PrintText
 
 TextJump_EnemyUsedOn:
-	text_jump Text_EnemyUsedOn
-	db "@"
+	text_far Text_EnemyUsedOn
+	text_end

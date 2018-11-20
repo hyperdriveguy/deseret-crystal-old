@@ -143,7 +143,6 @@ sed -ne 's/^\tconst \(SCGB_[^ ]*\).*/\1/p' \
 	constants/scgb_constants.asm \
 	| teeunused engine
 
-# TODO: battle_anim_constants
 echo 'Unused ANIM_OBJ:'
 sed -ne 's/^\tconst \(ANIM_OBJ_[^ ]*\).*/\1/p' \
 	constants/battle_anim_constants.asm \
@@ -217,13 +216,10 @@ sed -ne 's/^\tcommand \([^ ]*\).*/\1/p' \
     | fgrep -xv 'raisesubnoanim' \
 	| teeunused data/moves/effects.asm
 
-echo 'Unused event commands:'
+echo 'Unused music commands:'
 sed -ne 's/^\(.*\): MACRO$/\1/p' \
-	macros/scripts/events.asm \
-	| fgrep -xv 'readcoins' \
-	| fgrep -xv 'givemoney' \
-	| fgrep -xv 'callstd' \
-	| teeunused maps engine
+	macros/scripts/audio.asm \
+	| teeunused audio/music audio/sfx.asm audio/cries.asm
 
 echo 'Unused battle animation commands:'
 sed -ne 's/^\(.*\): MACRO$/\1/p' \
@@ -232,5 +228,13 @@ sed -ne 's/^\(.*\): MACRO$/\1/p' \
 	| fgrep -xv 'anim_5gfx' \
 	| fgrep -xv 'anim_minimizeopp' \
 	| teeunused data/moves/animations.asm
+
+echo 'Unused event commands:'
+sed -ne 's/^\(.*\): MACRO$/\1/p' \
+	macros/scripts/events.asm \
+	| fgrep -xv 'readcoins' \
+	| fgrep -xv 'givemoney' \
+	| fgrep -xv 'callstd' \
+	| teeunused maps engine
 
 # TODO: Check unused control chars (in the home/text.asm:CheckDict array)

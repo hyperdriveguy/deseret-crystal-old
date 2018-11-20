@@ -1364,46 +1364,17 @@ MusicCommands:
 	dw Music_ToggleSFX ; sound on/off
 	dw Music_SlidePitchTo ; pitch wheel
 	dw Music_Vibrato ; vibrato
-	dw MusicE2 ; unused
 	dw Music_ToggleNoise ; music noise sampling
-	dw Music_Panning ; force panning
 	dw Music_Volume ; volume
 	dw Music_Tone ; tone
-	dw MusicE7 ; unused
-	dw MusicE8 ; unused
-	dw Music_TempoRelative ; global tempo
-	dw Music_RestartChannel ; restart current channel from header
-	dw Music_NewSong ; new song
 	dw Music_SFXPriorityOn ; sfx priority on
 	dw Music_SFXPriorityOff ; sfx priority off
-	dw MusicEE ; unused
 	dw Music_StereoPanning ; stereo panning
 	dw Music_SFXToggleNoise ; sfx noise sampling
-	dw MusicF1 ; nothing
-	dw MusicF2 ; nothing
-	dw MusicF3 ; nothing
-	dw MusicF4 ; nothing
-	dw MusicF5 ; nothing
-	dw MusicF6 ; nothing
-	dw MusicF7 ; nothing
-	dw MusicF8 ; nothing
-	dw MusicF9 ; unused
-	dw Music_SetCondition ; setcondition
-	dw Music_JumpIf ; jumpif
 	dw Music_JumpChannel ; jump
 	dw Music_LoopChannel ; loop
 	dw Music_CallChannel ; call
 	dw Music_EndChannel ; return
-
-MusicF1:
-MusicF2:
-MusicF3:
-MusicF4:
-MusicF5:
-MusicF6:
-MusicF7:
-MusicF8:
-	ret
 
 Music_EndChannel:
 ; called when $ff is encountered w/ subroutine flag set
@@ -1535,137 +1506,6 @@ Music_LoopChannel:
 	ld [hl], e
 	ret
 
-Music_SetCondition:
-; set condition for a jump
-; used with FB
-; params: 1
-;	xx ; condition
-
-	; set condition
-	call GetMusicByte
-	ld hl, CHANNEL_CONDITION
-	add hl, bc
-	ld [hl], a
-	ret
-
-Music_JumpIf:
-; conditional jump
-; used with FA
-; params: 3
-; 	xx: condition
-;	ll hh: pointer
-
-; check condition
-	; a = condition
-	call GetMusicByte
-	; if existing condition matches, jump to new address
-	ld hl, CHANNEL_CONDITION
-	add hl, bc
-	cp [hl]
-	jr z, .jump
-; skip to next command
-	; get address
-	ld hl, CHANNEL_MUSIC_ADDRESS
-	add hl, bc
-	ld e, [hl]
-	inc hl
-	ld d, [hl]
-	; skip pointer
-	inc de
-	inc de
-	; update address
-	ld [hl], d
-	dec hl
-	ld [hl], e
-	ret
-
-.jump
-; jump to the new address
-	; get pointer
-	call GetMusicByte
-	ld e, a
-	call GetMusicByte
-	ld d, a
-	; update pointer in MusicAddress
-	ld hl, CHANNEL_MUSIC_ADDRESS
-	add hl, bc
-	ld [hl], e
-	inc hl
-	ld [hl], d
-	ret
-
-MusicEE
-; conditional jump
-; checks a byte in ram corresponding to the current channel
-; doesn't seem to be set by any commands
-; params: 2
-;		ll hh ; pointer
-
-; if ????, jump
-	; get channel
-	ld a, [wCurChannel]
-	maskbits NUM_MUSIC_CHANS
-	ld e, a
-	ld d, 0
-	; hl = wChannel1JumpCondition + channel id
-	ld hl, wChannel1JumpCondition
-	add hl, de
-	; if set, jump
-	ld a, [hl]
-	and a
-	jr nz, .jump
-; skip to next command
-	; get address
-	ld hl, CHANNEL_MUSIC_ADDRESS
-	add hl, bc
-	ld e, [hl]
-	inc hl
-	ld d, [hl]
-	; skip pointer
-	inc de
-	inc de
-	; update address
-	ld [hl], d
-	dec hl
-	ld [hl], e
-	ret
-
-.jump
-	; reset jump flag
-	ld [hl], 0
-	; de = pointer
-	call GetMusicByte
-	ld e, a
-	call GetMusicByte
-	ld d, a
-	; update address
-	ld hl, CHANNEL_MUSIC_ADDRESS
-	add hl, bc
-	ld [hl], e
-	inc hl
-	ld [hl], d
-	ret
-
-MusicF9:
-; sets some flag
-; seems to be unused
-; params: 0
-	ld a, 1
-	ld [wc2b5], a
-	ret
-
-MusicE2:
-; seems to have been dummied out
-; params: 1
-	call GetMusicByte
-	ld hl, CHANNEL_FIELD2C
-	add hl, bc
-	ld [hl], a
-	ld hl, CHANNEL_FLAGS2
-	add hl, bc
-	set SOUND_UNKN_0B, [hl]
-	ret
-
 Music_Vibrato:
 ; vibrato
 ; params: 2
@@ -1766,18 +1606,6 @@ Music_Tone:
 	ld [hl], a
 	ret
 
-MusicE7:
-; unused
-; params: 1
-	ld hl, CHANNEL_FLAGS2
-	add hl, bc
-	set SOUND_UNKN_0E, [hl]
-	call GetMusicByte
-	ld hl, CHANNEL_FIELD29
-	add hl, bc
-	ld [hl], a
-	ret
-
 Music_SoundDuty:
 ; sequence of 4 duty cycles to be looped
 ; params: 1 (4 2-bit duty cycle arguments)
@@ -1794,18 +1622,6 @@ Music_SoundDuty:
 	; update duty cycle
 	and $c0 ; only uses top 2 bits
 	ld hl, CHANNEL_DUTY_CYCLE
-	add hl, bc
-	ld [hl], a
-	ret
-
-MusicE8:
-; unused
-; params: 1
-	ld hl, CHANNEL_FLAGS2
-	add hl, bc
-	set SOUND_UNKN_0D, [hl]
-	call GetMusicByte
-	ld hl, CHANNEL_FIELD2A
 	add hl, bc
 	ld [hl], a
 	ret
@@ -1993,32 +1809,6 @@ Music_Volume:
 	ld [wVolume], a
 	ret
 
-Music_TempoRelative:
-; set global tempo to current channel tempo +/- param
-; params: 1 signed
-	call GetMusicByte
-	ld e, a
-	; check sign
-	cp $80
-	jr nc, .negative
-;positive
-	ld d, 0
-	jr .ok
-
-.negative
-	ld d, -1
-.ok
-	ld hl, CHANNEL_TEMPO
-	add hl, bc
-	ld a, [hli]
-	ld h, [hl]
-	ld l, a
-	add hl, de
-	ld e, l
-	ld d, h
-	call SetGlobalTempo
-	ret
-
 Music_SFXPriorityOn:
 ; turn sfx priority on
 ; params: none
@@ -2031,53 +1821,6 @@ Music_SFXPriorityOff:
 ; params: none
 	xor a
 	ld [wSFXPriority], a
-	ret
-
-Music_RestartChannel:
-; restart current channel from channel header (same bank)
-; params: 2 (5)
-; ll hh: pointer to new channel header
-;	header format: 0x yy zz
-;		x: channel # (0-3)
-;		zzyy: pointer to new music data
-
-	; update music id
-	ld hl, CHANNEL_MUSIC_ID
-	add hl, bc
-	ld a, [hli]
-	ld [wMusicID], a
-	ld a, [hl]
-	ld [wMusicID + 1], a
-	; update music bank
-	ld hl, CHANNEL_MUSIC_BANK
-	add hl, bc
-	ld a, [hl]
-	ld [wMusicBank], a
-	; get pointer to new channel header
-	call GetMusicByte
-	ld l, a
-	call GetMusicByte
-	ld h, a
-	ld e, [hl]
-	inc hl
-	ld d, [hl]
-	push bc ; save current channel
-	call LoadChannel
-	call StartChannel
-	pop bc ; restore current channel
-	ret
-
-Music_NewSong:
-; new song
-; params: 2
-;	de: song id
-	call GetMusicByte
-	ld e, a
-	call GetMusicByte
-	ld d, a
-	push bc
-	call _PlayMusic
-	pop bc
 	ret
 
 GetMusicByte:

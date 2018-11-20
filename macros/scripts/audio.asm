@@ -94,22 +94,10 @@ vibrato: MACRO
 	db \2 ; extent
 ENDM
 
-	enum unknownmusic0xe2_cmd ; $e2
-unknownmusic0xe2: MACRO
-	db unknownmusic0xe2_cmd
-	db \1 ; unknown
-ENDM
-
 	enum togglenoise_cmd ; $e3
 togglenoise: MACRO
 	db togglenoise_cmd
 	db \1 ; id
-ENDM
-
-	enum panning_cmd ; $e4
-panning: MACRO
-	db panning_cmd
-	db \1 ; tracks
 ENDM
 
 	enum volume_cmd ; $e5
@@ -124,36 +112,6 @@ tone: MACRO
 	bigdw \1 ; tone
 ENDM
 
-	enum unknownmusic0xe7_cmd ; $e7
-unknownmusic0xe7: MACRO
-	db unknownmusic0xe7_cmd
-	db \1 ; unknown
-ENDM
-
-	enum unknownmusic0xe8_cmd ; $e8
-unknownmusic0xe8: MACRO
-	db unknownmusic0xe8_cmd
-	db \1 ; unknown
-ENDM
-
-	enum tempo_relative_cmd ; $e9
-tempo_relative: MACRO
-	db tempo_relative_cmd
-	bigdw \1 ; value
-ENDM
-
-	enum restartchannel_cmd ; $ea
-restartchannel: MACRO
-	db restartchannel_cmd
-	dw \1 ; address
-ENDM
-
-	enum newsong_cmd ; $eb
-newsong: MACRO
-	db newsong_cmd
-	bigdw \1 ; id
-ENDM
-
 	enum sfxpriorityon_cmd ; $ec
 sfxpriorityon: MACRO
 	db sfxpriorityon_cmd
@@ -162,12 +120,6 @@ ENDM
 	enum sfxpriorityoff_cmd ; $ed
 sfxpriorityoff: MACRO
 	db sfxpriorityoff_cmd
-ENDM
-
-	enum unknownmusic0xee_cmd ; $ee
-unknownmusic0xee: MACRO
-	db unknownmusic0xee_cmd
-	dw \1 ; address
 ENDM
 
 	enum stereopanning_cmd ; $ef
@@ -180,64 +132,6 @@ ENDM
 sfxtogglenoise: MACRO
 	db sfxtogglenoise_cmd
 	db \1 ; id
-ENDM
-
-	enum music0xf1_cmd ; $f1
-music0xf1: MACRO
-	db music0xf1_cmd
-ENDM
-
-	enum music0xf2_cmd ; $f2
-music0xf2: MACRO
-	db music0xf2_cmd
-ENDM
-
-	enum music0xf3_cmd ; $f3
-music0xf3: MACRO
-	db music0xf3_cmd
-ENDM
-
-	enum music0xf4_cmd ; $f4
-music0xf4: MACRO
-	db music0xf4_cmd
-ENDM
-
-	enum music0xf5_cmd ; $f5
-music0xf5: MACRO
-	db music0xf5_cmd
-ENDM
-
-	enum music0xf6_cmd ; $f6
-music0xf6: MACRO
-	db music0xf6_cmd
-ENDM
-
-	enum music0xf7_cmd ; $f7
-music0xf7: MACRO
-	db music0xf7_cmd
-ENDM
-
-	enum music0xf8_cmd ; $f8
-music0xf8: MACRO
-	db music0xf8_cmd
-ENDM
-
-	enum unknownmusic0xf9_cmd ; $f9
-unknownmusic0xf9: MACRO
-	db unknownmusic0xf9_cmd
-ENDM
-
-	enum setcondition_cmd ; $fa
-setcondition: MACRO
-	db setcondition_cmd
-	db \1 ; condition
-ENDM
-
-	enum jumpif_cmd ; $fb
-jumpif: MACRO
-	db jumpif_cmd
-	db \1 ; condition
-	dw \2 ; address
 ENDM
 
 	enum jumpchannel_cmd ; $fc

@@ -1086,7 +1086,7 @@ ReadNoiseSample:
 	ld a, [de]
 	inc de
 
-	cp $ff
+	cp endchannel_cmd
 	jr z, .quit
 
 	and $f
@@ -1117,7 +1117,7 @@ ReadNoiseSample:
 ParseMusic:
 ; parses until a note is read or the song is ended
 	call GetMusicByte ; store next byte in a
-	cp $ff ; is the song over?
+	cp endchannel_cmd ; is the song over?
 	jr z, .endchannel
 	cp $d0 ; is it a note?
 	jr c, .readnote

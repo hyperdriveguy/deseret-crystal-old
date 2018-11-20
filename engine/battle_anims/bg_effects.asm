@@ -100,16 +100,13 @@ BattleBGEffects:
 	dw BattleBGEffect_HeadFollow
 	dw BattleBGEffect_DoubleTeam
 	dw BattleBGEffect_AcidArmor
-	dw BattleBGEffect_RapidFlash
 	dw BattleBGEffect_16
 	dw BattleBGEffect_17
 	dw BattleBGEffect_18
 	dw BattleBGEffect_19
 	dw BattleBGEffect_1a
-	dw BattleBGEffect_1b
 	dw BattleBGEffect_1c
 	dw BattleBGEffect_1d
-	dw BattleBGEffect_1e
 	dw BattleBGEffect_1f
 	dw BattleBGEffect_20
 	dw BattleBGEffect_Withdraw
@@ -1986,14 +1983,6 @@ BattleBGEffect_1c:
 	db $40, $fc
 	db $90, $f8
 
-BattleBGEffect_RapidFlash:
-	ld de, .FlashPals
-	call BGEffect_RapidCyclePals
-	ret
-
-.FlashPals:
-	db $e4, $6c, $fe
-
 BattleBGEffect_16:
 	ld de, .Pals
 	call BGEffect_RapidCyclePals
@@ -2034,14 +2023,6 @@ BattleBGEffect_1a:
 .Pals:
 	db $e4, $f8, $fc, $f8, $e4, $90, $40, $90, $fe
 
-BattleBGEffect_1b:
-	ld de, .Pals
-	call BGEffect_RapidCyclePals
-	ret
-
-.Pals:
-	db $e4, $fc, $e4, $00, $fe
-
 BattleBGEffect_1d:
 	ld de, .Pals
 	call BGEffect_RapidCyclePals
@@ -2049,14 +2030,6 @@ BattleBGEffect_1d:
 
 .Pals:
 	db $e4, $90, $40, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $40, $90, $e4, $ff
-
-BattleBGEffect_1e:
-	ld de, .Pals
-	call BGEffect_RapidCyclePals
-	ret
-
-.Pals:
-	db $00, $40, $90, $e4, $ff
 
 BattleBGEffect_VibrateMon:
 	call BattleBGEffects_AnonJumptable

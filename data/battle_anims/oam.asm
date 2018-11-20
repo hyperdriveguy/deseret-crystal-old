@@ -36,8 +36,6 @@ BattleAnimOAMData:
 	dbbw $08,  1, .OAMData_0f ; BATTLEANIMOAMSET_20
 	dbbw $04,  4, .OAMData_03 ; BATTLEANIMOAMSET_21
 	dbbw $09, 22, .OAMData_22 ; BATTLEANIMOAMSET_22
-	dbbw $04,  2, .OAMData_11 ; BATTLEANIMOAMSET_23
-	dbbw $06,  2, .OAMData_11 ; BATTLEANIMOAMSET_24
 	dbbw $0c,  1, .OAMData_0f ; BATTLEANIMOAMSET_25
 	dbbw $0a,  1, .OAMData_0f ; BATTLEANIMOAMSET_26
 	dbbw $0b,  4, .OAMData_02 ; BATTLEANIMOAMSET_27
@@ -75,7 +73,6 @@ BattleAnimOAMData:
 	dbbw $0e,  4, .OAMData_47 ; BATTLEANIMOAMSET_47
 	dbbw $00,  6, .OAMData_48 ; BATTLEANIMOAMSET_48
 	dbbw $03,  4, .OAMData_49 ; BATTLEANIMOAMSET_49
-	dbbw $03,  2, .OAMData_4a ; BATTLEANIMOAMSET_4A
 	dbbw $01,  5, .OAMData_0f ; BATTLEANIMOAMSET_4B
 	dbbw $01,  6, .OAMData_4c ; BATTLEANIMOAMSET_4C
 	dbbw $01,  7, .OAMData_4d ; BATTLEANIMOAMSET_4D
@@ -101,18 +98,15 @@ BattleAnimOAMData:
 	dbbw $00,  2, .OAMData_61 ; BATTLEANIMOAMSET_61
 	dbbw $00,  5, .OAMData_61 ; BATTLEANIMOAMSET_62
 	dbbw $00,  9, .OAMData_61 ; BATTLEANIMOAMSET_63
-	dbbw $09,  9, .OAMData_61 ; BATTLEANIMOAMSET_64
 	dbbw $00,  4, .OAMData_65 ; BATTLEANIMOAMSET_65
 	dbbw $00,  7, .OAMData_65 ; BATTLEANIMOAMSET_66
 	dbbw $00,  9, .OAMData_65 ; BATTLEANIMOAMSET_67
-	dbbw $09,  9, .OAMData_65 ; BATTLEANIMOAMSET_68
 	dbbw $04,  1, .OAMData_69 ; BATTLEANIMOAMSET_69
 	dbbw $05,  2, .OAMData_6a ; BATTLEANIMOAMSET_6A
 	dbbw $06,  4, .OAMData_03 ; BATTLEANIMOAMSET_6B
 	dbbw $0a,  4, .OAMData_03 ; BATTLEANIMOAMSET_6C
 	dbbw $0e,  4, .OAMData_03 ; BATTLEANIMOAMSET_6D
 	dbbw $08,  5, .OAMData_6e ; BATTLEANIMOAMSET_6E
-	dbbw $0d,  3, .OAMData_6f ; BATTLEANIMOAMSET_6F
 	dbbw $01,  8, .OAMData_70 ; BATTLEANIMOAMSET_70
 	dbbw $03,  8, .OAMData_70 ; BATTLEANIMOAMSET_71
 	dbbw $05,  8, .OAMData_70 ; BATTLEANIMOAMSET_72
@@ -206,8 +200,6 @@ BattleAnimOAMData:
 	dbbw $09,  4, .OAMData_ca ; BATTLEANIMOAMSET_CA
 	dbbw $0b,  4, .OAMData_04 ; BATTLEANIMOAMSET_CB
 	dbbw $11, 13, .OAMData_cc ; BATTLEANIMOAMSET_CC
-	dbbw $00,  9, .OAMData_c3 ; BATTLEANIMOAMSET_CD
-	dbbw $09,  9, .OAMData_c3 ; BATTLEANIMOAMSET_CE
 	dbbw $00, 12, .OAMData_cf ; BATTLEANIMOAMSET_CF
 	dbbw $06, 12, .OAMData_cf ; BATTLEANIMOAMSET_D0
 	dbbw $0c, 12, .OAMData_cf ; BATTLEANIMOAMSET_D1
@@ -620,10 +612,6 @@ BattleAnimOAMData:
 	dsprite  -1, 2,   0, 0, $00, $0
 	dsprite  -1, 4,   1, 0, $00, $0
 
-.OAMData_4a:
-	dsprite  -1, 4,  -1, 0, $00, X_FLIP | Y_FLIP
-	dsprite  -1, 4,   0, 0, $00, Y_FLIP
-
 .OAMData_0f:
 	dsprite  -1, 4,  -1, 4, $00, $0
 	dsprite  -1, 4,  -2, 4, $01, $0
@@ -774,11 +762,6 @@ BattleAnimOAMData:
 	dsprite  -1, 4,  -1, 4, $02, $0
 	dsprite  -1, 4,   0, 4, $03, $0
 	dsprite   0, 4,  -2, 4, $04, $0
-
-.OAMData_6f:
-	dsprite  -1, 4,  -2, 4, $00, $0
-	dsprite  -1, 4,  -1, 4, $01, $0
-	dsprite  -1, 4,   0, 4, $02, $0
 
 .OAMData_77:
 	dsprite  -4, 4,   1, 4, $01, X_FLIP | Y_FLIP

@@ -18,7 +18,6 @@ DoBattleAnimFrame:
 	dw BattleAnimFunction_02 ; 02
 	dw BattleAnimFunction_03 ; 03
 	dw BattleAnimFunction_04 ; 04
-	dw BattleAnimFunction_ThrowFromPlayerToEnemy ; 05
 	dw BattleAnimFunction_ThrowFromPlayerToEnemyAndDisappear ; 06
 	dw BattleAnimFunction_07 ; 07
 	dw BattleAnimFunction_08 ; 08
@@ -88,7 +87,6 @@ DoBattleAnimFrame:
 	dw BattleAnimFunction_48 ; 48
 	dw BattleAnimFunction_49 ; 49
 	dw BattleAnimFunction_4A ; 4a
-	dw BattleAnimFunction_4B ; 4b
 	dw BattleAnimFunction_4C ; 4c
 	dw BattleAnimFunction_4D ; 4d
 	dw BattleAnimFunction_4E ; 4e
@@ -3979,37 +3977,6 @@ Functionce672:
 	ld a, [hl]
 	add $4
 	ld [hl], a
-	ret
-
-BattleAnimFunction_4B:
-	ld hl, BATTLEANIMSTRUCT_XCOORD
-	add hl, bc
-	ld d, [hl]
-	ld hl, BATTLEANIMSTRUCT_0F
-	add hl, bc
-	ld e, [hl]
-	ld hl, BATTLEANIMSTRUCT_0B
-	add hl, bc
-	ld a, [hl]
-	ld l, a
-	and $f0
-	ld h, a
-	swap a
-	or h
-	ld h, a
-	ld a, l
-	and $f
-	swap a
-	ld l, a
-	add hl, de
-	ld e, l
-	ld d, h
-	ld hl, BATTLEANIMSTRUCT_XCOORD
-	add hl, bc
-	ld [hl], d
-	ld hl, BATTLEANIMSTRUCT_0F
-	add hl, bc
-	ld [hl], e
 	ret
 
 BattleAnimFunction_4C:

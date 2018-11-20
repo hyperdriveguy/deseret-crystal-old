@@ -97,8 +97,6 @@ UnknownText_0x1bc14f::
 	text_waitbutton
 	text_end
 
-	text_end ; unused
-
 UnknownText_0x1bc16e::
 	text_ram wStringBuffer1
 	text " came"
@@ -332,8 +330,6 @@ UnknownText_0x1bc75e::
 	text_ram wOTTrademonSpeciesName
 	text_end
 
-	text_end ; unused
-
 UnknownText_0x1bc774::
 	text "for @"
 	text_ram wPlayerTrademonSenderName
@@ -365,8 +361,6 @@ _OPT_OakText1::
 	line "OAK: @"
 	text_ram wMonOrItemNameBuffer
 	text_end
-
-	text_end ; unused
 
 _OPT_OakText2::
 	text_start
@@ -557,8 +551,6 @@ _PokedexShowText::
 	text_ram wStringBuffer1
 	text_end
 
-	text_end ; unused
-
 ; Pokémon Music Channel / Pokémusic
 
 _BenIntroText1::
@@ -708,8 +700,6 @@ _PnP_Text4::
 	text_ram wStringBuffer1
 	text_end
 
-	text_end ; unused
-
 _PnP_cute::
 	text_start
 	line "is cute."
@@ -795,8 +785,6 @@ _PnP_Text5::
 	line "@"
 	text_ram wStringBuffer1
 	text_end
-
-	text_end ; unused
 
 _RocketRadioText1::
 	text_start
@@ -1025,8 +1013,6 @@ UnknownText_0x1bd3be::
 	text_waitbutton
 	text_end
 
-	text_end ; unused
-
 UnknownText_0x1bd3d7::
 	text "You have no coins."
 	prompt
@@ -1055,8 +1041,6 @@ UnknownText_0x1bd445::
 	sound_dex_fanfare_80_109
 	text_pause
 	text_end
-
-	text_end ; unused
 
 UnknownText_0x1bd449::
 	text "I collect #MON."

@@ -280,8 +280,6 @@ TrainerCard_Page1_PrintDexCaught_GameTime:
 	db   "#DEX"
 	next "PLAY TIME@"
 
-	db "@" ; unused
-
 .Badges:
 	db "  BADGES▶@"
 

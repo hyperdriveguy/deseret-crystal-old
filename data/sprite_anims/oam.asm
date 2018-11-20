@@ -101,13 +101,6 @@ SpriteAnimOAMData:
 	dsprite  0,  0, -1,  0, $00, 7 | Y_FLIP
 	dsprite  0,  0,  0,  0, $00, 7 | X_FLIP | Y_FLIP
 
-; unused
-	db 4
-	dsprite -1,  0, -1,  0, $00, 0 | PRIORITY
-	dsprite -1,  0,  0,  0, $00, 0 | X_FLIP | PRIORITY
-	dsprite  0,  0, -1,  0, $00, 0 | Y_FLIP | PRIORITY
-	dsprite  0,  0,  0,  0, $00, 0 | X_FLIP | Y_FLIP | PRIORITY
-
 .OAMData_TradePoofBubble:
 	db 16
 	dsprite -2,  0, -2,  0, $00, 0

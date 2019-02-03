@@ -761,7 +761,6 @@ BATTLEANIM_BASE_TILE EQU 7 * 7  ; Maximum size of a pokemon picture
 	const ANIM_GFX_SHINE
 	const ANIM_GFX_ANGELS
 	const ANIM_GFX_AEROBLAST
-	const ANIM_GFX_TMP
 	const ANIM_GFX_PLAYERHEAD
 	const ANIM_GFX_ENEMYFEET
 

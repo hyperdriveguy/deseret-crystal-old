@@ -1,12 +1,5 @@
 ; Functions dealing with rendering and interacting with maps.
 
-Clearwc7e8::
-	ld hl, wc7e8
-	ld bc, wc7e8_End - wc7e8
-	ld a, 0
-	call ByteFill
-	ret
-
 CheckScenes::
 ; Checks wCurMapSceneScriptPointer.  If it's empty, returns -1 in a.  Otherwise, returns the active scene ID in a.
 	push hl

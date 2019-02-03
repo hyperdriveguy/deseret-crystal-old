@@ -40,6 +40,10 @@ Unused trainers have been removed.
 Remnants of support for non-GBC consoles have been removed.  
 Probably more.
 
+Future improvements:
+* Remove unused text commands and special characters (home/text.asm:CheckDict)
+* Use an rgbds parser to actually parse the asm instead of just the objects, so we can find unused macros and constants without the hackiness in tools/unusedsymbols.sh
+
 There's a few exceptions to some of the rules:
 * Save file compatibility won't be kept for map IDs and anything else related to maps, as it heavily hinders the cleanup of those.
 * The battle tower room menu code has been noticeably refactored, to remove the dependency on otherwise unused WRAM addresses, and remove the dependency on an entire jumptable.

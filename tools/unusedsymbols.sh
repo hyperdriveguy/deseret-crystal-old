@@ -154,6 +154,7 @@ sed -ne 's/^\tconst \(ANIM_BG_[^ ]*\).*/\1/p' \
 echo 'Unused ANIM_GFX:'
 sed -ne 's/^\tconst \(ANIM_GFX_[^ ]*\).*/\1/p' \
 	constants/battle_anim_constants.asm \
+    | egrep -v '^ANIM_GFX_(PLAYERHEAD|ENEMYFEET)$' \
 	| teeunused data/moves/animations.asm
 echo 'Unused BATTLEANIMFUNC:'
 sed -ne 's/^\tconst \(BATTLEANIMFUNC_[^ ]*\).*/\1/p' \

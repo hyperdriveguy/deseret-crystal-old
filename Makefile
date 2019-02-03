@@ -1,14 +1,3 @@
-ifeq (,$(shell which sha1sum))
-SHA1 := shasum
-else
-SHA1 := sha1sum
-endif
-
-RGBASM := rgbasm
-RGBFIX := rgbfix
-RGBGFX := rgbgfx
-RGBLINK := rgblink
-
 roms := pokecrystal.gbc pokecrystal11.gbc
 
 crystal_obj := \
@@ -29,10 +18,25 @@ gfx/sprites.o
 crystal11_obj := $(crystal_obj:.o=11.o)
 
 
+### Build tools
+
+ifeq (,$(shell which sha1sum))
+SHA1 := shasum
+else
+SHA1 := sha1sum
+endif
+
+RGBDS ?=
+RGBASM  ?= $(RGBDS)rgbasm
+RGBFIX  ?= $(RGBDS)rgbfix
+RGBGFX  ?= $(RGBDS)rgbgfx
+RGBLINK ?= $(RGBDS)rgblink
+
+
 ### Build targets
 
 .SUFFIXES:
-.PHONY: all crystal crystal11 clean compare tools tidy
+.PHONY: all crystal crystal11 clean tidy compare tools
 .SECONDEXPANSION:
 .PRECIOUS:
 .SECONDARY:

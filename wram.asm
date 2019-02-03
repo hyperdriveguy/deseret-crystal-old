@@ -379,7 +379,7 @@ NEXTU ; c608
 ; odd egg
 wOddEgg:: party_struct wOddEgg
 wOddEggName:: ds MON_NAME_LENGTH
-wOddEggOTName:: ds MON_NAME_LENGTH
+wOddEggOTName:: ds NAME_LENGTH
 
 NEXTU ; c608
 ; battle tower temp struct
@@ -1710,6 +1710,7 @@ NEXTU ; d002
 wTempDayOfWeek::
 wApricorns::
 wKeepSevenBiasChance:: ; used in the slots to handle the favoring of 7 symbol streaks
+wSuicuneFrame::
 	db
 	ds 2
 wStartFlypoint:: db
@@ -1966,7 +1967,9 @@ wTempMon:: party_struct wTempMon ; d10e
 
 wSpriteFlags:: db ; d13e
 
-wHandlePlayerStep:: dw ; d13f
+wHandlePlayerStep:: db ; d13f
+
+	ds 1
 
 wPartyMenuActionText:: db ; d141
 
@@ -1992,14 +1995,8 @@ wPlayerBGMapOffsetY:: db ; used in FollowNotExact; unit is pixels
 ; Player movement
 wPlayerStepVectorX:: db ; d14e
 wPlayerStepVectorY:: db ; d14f
-wPlayerStepFlags::   db ; d150
-wPlayerStepDirection::  ; d151
-; bit 7: Start step
-; bit 6: Stop step
-; bit 5: Doing step
-; bit 4: In midair
-; bits 0-3: unused
-	db
+wPlayerStepFlags:: db ; d150
+wPlayerStepDirection:: db ; d151
 
 wBGMapAnchor:: dw ; d152
 
@@ -2278,10 +2275,7 @@ wBattleAction:: db ; d430
 
 wd431:: db
 wMapStatus:: db ; d432
-wMapEventStatus:: ; d433
-; 0: do map events
-; 1: do background events
-	db
+wMapEventStatus:: db ; d433
 
 wScriptFlags:: ; d434
 ; bit 3: priority jump
@@ -3056,6 +3050,12 @@ wBattleAnimTemp0:: db
 wBattleAnimTemp1:: db
 wBattleAnimTemp2:: db
 wBattleAnimTemp3:: db
+
+NEXTU ; d419
+wBattleObjectTempID:: db
+wBattleObjectTempXCoord:: db
+wBattleObjectTempYCoord:: db
+wBattleObjectTemp0b:: db
 
 NEXTU ; d419
 wBattleAnimTempOAMFlags:: db

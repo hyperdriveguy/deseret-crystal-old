@@ -409,7 +409,7 @@ HallOfFame_InitSaveIfNeeded:
 	ret
 
 ValidateSave:
-	ld a, BANK(sCheckValue1) ; BANK(sCheckValue2)
+	ld a, BANK(sCheckValue1) ; aka BANK(sCheckValue2)
 	call GetSRAMBank
 	ld a, SAVE_CHECK_VALUE_1
 	ld [sCheckValue1], a
@@ -471,7 +471,7 @@ SaveChecksum:
 	ret
 
 ValidateBackupSave:
-	ld a, BANK(sBackupCheckValue1) ; BANK(sBackupCheckValue2)
+	ld a, BANK(sBackupCheckValue1) ; aka BANK(sBackupCheckValue2)
 	call GetSRAMBank
 	ld a, SAVE_CHECK_VALUE_1
 	ld [sBackupCheckValue1], a
@@ -624,7 +624,7 @@ TryLoadSaveData:
 INCLUDE "data/default_options.asm"
 
 CheckPrimarySaveFile:
-	ld a, BANK(sCheckValue1) ; BANK(sCheckValue2)
+	ld a, BANK(sCheckValue1) ; aka BANK(sCheckValue2)
 	call GetSRAMBank
 	ld a, [sCheckValue1]
 	cp SAVE_CHECK_VALUE_1
@@ -645,7 +645,7 @@ CheckPrimarySaveFile:
 	ret
 
 CheckBackupSaveFile:
-	ld a, BANK(sBackupCheckValue1) ; BANK(sBackupCheckValue2)
+	ld a, BANK(sBackupCheckValue1) ; aka BANK(sBackupCheckValue2)
 	call GetSRAMBank
 	ld a, [sBackupCheckValue1]
 	cp SAVE_CHECK_VALUE_1

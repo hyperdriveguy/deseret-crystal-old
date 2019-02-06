@@ -15,8 +15,6 @@ cat >> unused_ignore.txt << EOF
 AI_TryItem.no
 AI_TryItem.used_item
 AnimateWaterPalette.color1
-BattleAnimFrameData.Frameset_82
-BattleAnimFrameData.Frameset_83
 BattleBGEffect_1c.DMG_PlayerData
 BattleTowerTrainerDataEnd
 BoxNameInputUpper

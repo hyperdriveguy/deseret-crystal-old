@@ -1551,11 +1551,11 @@ Functioncd8cc:
 	ld [hl], a
 	bit 7, a
 	jr nz, .asm_cd8e6
-	ld a, $3d
+	ld a, BATTLEANIMFRAMESET_3D
 	jr .asm_cd8e8
 
 .asm_cd8e6
-	ld a, $3c
+	ld a, BATTLEANIMFRAMESET_3C
 .asm_cd8e8
 	call ReinitBattleAnimFrameset
 	ld hl, BATTLEANIMSTRUCT_0F

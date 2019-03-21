@@ -24,22 +24,22 @@ Route34_MapScripts:
 	iftrue .PutDayCareManOutside
 	clearevent EVENT_DAY_CARE_MAN_IN_DAY_CARE
 	setevent EVENT_DAY_CARE_MAN_ON_ROUTE_34
-	jump .CheckMon1
+	sjump .CheckMon1
 
 .PutDayCareManOutside:
 	setevent EVENT_DAY_CARE_MAN_IN_DAY_CARE
 	clearevent EVENT_DAY_CARE_MAN_ON_ROUTE_34
-	jump .CheckMon1
+	sjump .CheckMon1
 
 .CheckMon1:
 	checkflag ENGINE_DAY_CARE_MAN_HAS_MON
 	iffalse .HideMon1
 	clearevent EVENT_DAY_CARE_MON_1
-	jump .CheckMon2
+	sjump .CheckMon2
 
 .HideMon1:
 	setevent EVENT_DAY_CARE_MON_1
-	jump .CheckMon2
+	sjump .CheckMon2
 
 .CheckMon2:
 	checkflag ENGINE_DAY_CARE_LADY_HAS_MON
@@ -59,7 +59,7 @@ DayCareManScript_Outside:
 	closetext
 	ifequal TRUE, .end_fail
 	clearflag ENGINE_DAY_CARE_MAN_HAS_EGG
-	checkcode VAR_FACING
+	readvar VAR_FACING
 	ifequal RIGHT, .walk_around_player
 	applymovement ROUTE34_GRAMPS, Route34MovementData_DayCareManWalksBackInside
 	playsound SFX_ENTER_DOOR
@@ -89,7 +89,7 @@ TrainerCamperTodd1:
 	trainer CAMPER, TODD1, EVENT_BEAT_CAMPER_TODD, CamperTodd1SeenText, CamperTodd1BeatenText, 0, .Script
 
 .Script:
-	writecode VAR_CALLERID, PHONE_CAMPER_TODD
+	loadvar VAR_CALLERID, PHONE_CAMPER_TODD
 	endifjustbattled
 	opentext
 	checkflag ENGINE_TODD
@@ -104,7 +104,7 @@ TrainerCamperTodd1:
 	buttonsound
 	setevent EVENT_TODD_ASKED_FOR_PHONE_NUMBER
 	scall .AskNumber
-	jump .FinishAsk
+	sjump .FinishAsk
 
 .AskAgain:
 	scall .AskNumber2
@@ -112,14 +112,14 @@ TrainerCamperTodd1:
 	askforphonenumber PHONE_CAMPER_TODD
 	ifequal PHONE_CONTACTS_FULL, .PhoneFull
 	ifequal PHONE_CONTACT_REFUSED, .NumberDeclined
-	trainertotext CAMPER, TODD1, MEM_BUFFER_0
+	gettrainername STRING_BUFFER_3, CAMPER, TODD1
 	scall .RegisteredNumber
-	jump .NumberAccepted
+	sjump .NumberAccepted
 
 .Rematch:
 	scall .RematchStd
 	winlosstext CamperTodd1BeatenText, 0
-	copybytetovar wToddFightCount
+	readmem wToddFightCount
 	ifequal 4, .Fight4
 	ifequal 3, .Fight3
 	ifequal 2, .Fight2
@@ -141,7 +141,7 @@ TrainerCamperTodd1:
 	loadtrainer CAMPER, TODD1
 	startbattle
 	reloadmapafterbattle
-	loadvar wToddFightCount, 1
+	loadmem wToddFightCount, 1
 	clearflag ENGINE_TODD
 	end
 
@@ -149,7 +149,7 @@ TrainerCamperTodd1:
 	loadtrainer CAMPER, TODD2
 	startbattle
 	reloadmapafterbattle
-	loadvar wToddFightCount, 2
+	loadmem wToddFightCount, 2
 	clearflag ENGINE_TODD
 	end
 
@@ -157,7 +157,7 @@ TrainerCamperTodd1:
 	loadtrainer CAMPER, TODD3
 	startbattle
 	reloadmapafterbattle
-	loadvar wToddFightCount, 3
+	loadmem wToddFightCount, 3
 	clearflag ENGINE_TODD
 	end
 
@@ -165,7 +165,7 @@ TrainerCamperTodd1:
 	loadtrainer CAMPER, TODD4
 	startbattle
 	reloadmapafterbattle
-	loadvar wToddFightCount, 4
+	loadmem wToddFightCount, 4
 	clearflag ENGINE_TODD
 	end
 
@@ -214,7 +214,7 @@ TrainerPicnickerGina1:
 	trainer PICNICKER, GINA1, EVENT_BEAT_PICNICKER_GINA, PicnickerGina1SeenText, PicnickerGina1BeatenText, 0, .Script
 
 .Script:
-	writecode VAR_CALLERID, PHONE_PICNICKER_GINA
+	loadvar VAR_CALLERID, PHONE_PICNICKER_GINA
 	endifjustbattled
 	opentext
 	checkflag ENGINE_GINA
@@ -229,7 +229,7 @@ TrainerPicnickerGina1:
 	buttonsound
 	setevent EVENT_GINA_ASKED_FOR_PHONE_NUMBER
 	scall .AskNumber1
-	jump .FinishAsk
+	sjump .FinishAsk
 
 .AskAgain:
 	scall .AskNumber2
@@ -237,14 +237,14 @@ TrainerPicnickerGina1:
 	askforphonenumber PHONE_PICNICKER_GINA
 	ifequal PHONE_CONTACTS_FULL, .PhoneFull
 	ifequal PHONE_CONTACT_REFUSED, .NumberDeclined
-	trainertotext PICNICKER, GINA1, MEM_BUFFER_0
+	gettrainername STRING_BUFFER_3, PICNICKER, GINA1
 	scall .RegisteredNumber
-	jump .NumberAccepted
+	sjump .NumberAccepted
 
 .Rematch:
 	scall .RematchStd
 	winlosstext PicnickerGina1BeatenText, 0
-	copybytetovar wGinaFightCount
+	readmem wGinaFightCount
 	ifequal 4, .Fight4
 	ifequal 3, .Fight3
 	ifequal 2, .Fight2
@@ -266,7 +266,7 @@ TrainerPicnickerGina1:
 	loadtrainer PICNICKER, GINA1
 	startbattle
 	reloadmapafterbattle
-	loadvar wGinaFightCount, 1
+	loadmem wGinaFightCount, 1
 	clearflag ENGINE_GINA
 	end
 
@@ -274,7 +274,7 @@ TrainerPicnickerGina1:
 	loadtrainer PICNICKER, GINA2
 	startbattle
 	reloadmapafterbattle
-	loadvar wGinaFightCount, 2
+	loadmem wGinaFightCount, 2
 	clearflag ENGINE_GINA
 	end
 
@@ -282,7 +282,7 @@ TrainerPicnickerGina1:
 	loadtrainer PICNICKER, GINA3
 	startbattle
 	reloadmapafterbattle
-	loadvar wGinaFightCount, 3
+	loadmem wGinaFightCount, 3
 	clearflag ENGINE_GINA
 	end
 
@@ -290,7 +290,7 @@ TrainerPicnickerGina1:
 	loadtrainer PICNICKER, GINA4
 	startbattle
 	reloadmapafterbattle
-	loadvar wGinaFightCount, 4
+	loadmem wGinaFightCount, 4
 	clearflag ENGINE_GINA
 	end
 
@@ -307,10 +307,10 @@ TrainerPicnickerGina1:
 	iffalse .BagFull
 	clearflag ENGINE_GINA_HAS_LEAF_STONE
 	setevent EVENT_GINA_GAVE_LEAF_STONE
-	jump .NumberAccepted
+	sjump .NumberAccepted
 
 .BagFull:
-	jump .PackFull
+	sjump .PackFull
 
 .AskNumber1:
 	jumpstd asknumber1f

@@ -12,7 +12,7 @@ DragonShrine_MapScripts:
 	db 0 ; callbacks
 
 .DragonShrineTest:
-	priorityjump .DragonShrineTestScript
+	prioritysjump .DragonShrineTestScript
 	end
 
 .DummyScene:
@@ -208,7 +208,7 @@ DragonShrineElder1Script:
 .GiveDratini:
 	writetext DragonShrineTakeThisDratiniText
 	waitbutton
-	checkcode VAR_PARTYCOUNT
+	readvar VAR_PARTYCOUNT
 	ifequal PARTY_LENGTH, .PartyFull
 	writetext DragonShrinePlayerReceivedDratiniText
 	playsound SFX_CAUGHT_MON

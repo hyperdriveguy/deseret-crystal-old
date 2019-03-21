@@ -40,7 +40,7 @@ TrainerYoungsterJoey:
 	trainer YOUNGSTER, JOEY1, EVENT_BEAT_YOUNGSTER_JOEY, YoungsterJoey1SeenText, YoungsterJoey1BeatenText, 0, .Script
 
 .Script:
-	writecode VAR_CALLERID, PHONE_YOUNGSTER_JOEY
+	loadvar VAR_CALLERID, PHONE_YOUNGSTER_JOEY
 	endifjustbattled
 	opentext
 	checkflag ENGINE_JOEY
@@ -53,7 +53,7 @@ TrainerYoungsterJoey:
 	buttonsound
 	setevent EVENT_JOEY_ASKED_FOR_PHONE_NUMBER
 	scall .AskNumber1
-	jump .RequestNumber
+	sjump .RequestNumber
 
 .AskAgain:
 	scall .AskNumber2
@@ -61,14 +61,14 @@ TrainerYoungsterJoey:
 	askforphonenumber PHONE_YOUNGSTER_JOEY
 	ifequal PHONE_CONTACTS_FULL, .PhoneFull
 	ifequal PHONE_CONTACT_REFUSED, .NumberDeclined
-	trainertotext YOUNGSTER, JOEY1, MEM_BUFFER_0
+	gettrainername STRING_BUFFER_3, YOUNGSTER, JOEY1
 	scall .RegisteredNumber
-	jump .NumberAccepted
+	sjump .NumberAccepted
 
 .Rematch:
 	scall .RematchStd
 	winlosstext YoungsterJoey1BeatenText, 0
-	copybytetovar wJoeyFightCount
+	readmem wJoeyFightCount
 	ifequal 4, .Fight4
 	ifequal 3, .Fight3
 	ifequal 2, .Fight2
@@ -90,7 +90,7 @@ TrainerYoungsterJoey:
 	loadtrainer YOUNGSTER, JOEY1
 	startbattle
 	reloadmapafterbattle
-	loadvar wJoeyFightCount, 1
+	loadmem wJoeyFightCount, 1
 	clearflag ENGINE_JOEY
 	end
 
@@ -98,7 +98,7 @@ TrainerYoungsterJoey:
 	loadtrainer YOUNGSTER, JOEY2
 	startbattle
 	reloadmapafterbattle
-	loadvar wJoeyFightCount, 2
+	loadmem wJoeyFightCount, 2
 	clearflag ENGINE_JOEY
 	end
 
@@ -106,7 +106,7 @@ TrainerYoungsterJoey:
 	loadtrainer YOUNGSTER, JOEY3
 	startbattle
 	reloadmapafterbattle
-	loadvar wJoeyFightCount, 3
+	loadmem wJoeyFightCount, 3
 	clearflag ENGINE_JOEY
 	end
 
@@ -114,7 +114,7 @@ TrainerYoungsterJoey:
 	loadtrainer YOUNGSTER, JOEY4
 	startbattle
 	reloadmapafterbattle
-	loadvar wJoeyFightCount, 4
+	loadmem wJoeyFightCount, 4
 	clearflag ENGINE_JOEY
 	end
 
@@ -131,7 +131,7 @@ TrainerYoungsterJoey:
 	verbosegiveitem HP_UP
 	iffalse .PackFull
 	setevent EVENT_GOT_HP_UP_FROM_JOEY
-	jump .NumberAccepted
+	sjump .NumberAccepted
 
 .done
 	end
@@ -144,7 +144,7 @@ TrainerYoungsterJoey:
 	iffalse .PackFull
 	clearevent EVENT_JOEY_HP_UP
 	setevent EVENT_GOT_HP_UP_FROM_JOEY
-	jump .NumberAccepted
+	sjump .NumberAccepted
 
 .AskNumber1:
 	jumpstd asknumber1m

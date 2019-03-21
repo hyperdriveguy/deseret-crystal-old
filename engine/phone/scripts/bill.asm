@@ -5,23 +5,23 @@ BillPhoneCalleeScript:
 	iftrue .nitegreet
 	farwritetext BillPhoneMornGreetingText
 	buttonsound
-	jump .main
+	sjump .main
 
 .daygreet
 	farwritetext BillPhoneDayGreetingText
 	buttonsound
-	jump .main
+	sjump .main
 
 .nitegreet
 	farwritetext BillPhoneNiteGreetingText
 	buttonsound
-	jump .main
+	sjump .main
 
 .main
 	farwritetext BillPhoneGenericText
 	buttonsound
-	checkcode VAR_BOXSPACE
-	vartomem MEM_BUFFER_0
+	readvar VAR_BOXSPACE
+	getnum STRING_BUFFER_3
 	ifequal 0, .full
 	ifless PARTY_LENGTH, .nearlyfull
 	farwritetext BillPhoneNotFullText

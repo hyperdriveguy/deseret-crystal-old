@@ -9,7 +9,7 @@ BattleTowerElevator_MapScripts:
 	db 0 ; callbacks
 
 .Scene0:
-	priorityjump .RideElevator
+	prioritysjump .RideElevator
 	setscene SCENE_FINISHED
 .Scene1:
 	end
@@ -18,7 +18,7 @@ BattleTowerElevator_MapScripts:
 	follow BATTLETOWERELEVATOR_RECEPTIONIST, PLAYER
 	applymovement BATTLETOWERELEVATOR_RECEPTIONIST, MovementData_BattleTowerElevatorReceptionistWalksIn
 	applymovement PLAYER, MovementData_BattleTowerElevatorPlayerWalksIn
-	writebyte BATTLETOWERACTION_0A
+	setval BATTLETOWERACTION_0A
 	special BattleTowerAction
 	playsound SFX_ELEVATOR
 	earthquake 60

@@ -11,7 +11,7 @@ BattleTowerBattleRoom_MapScripts:
 
 .EnterBattleRoom:
 	disappear BATTLETOWERBATTLEROOM_YOUNGSTER
-	priorityjump Script_BattleRoom
+	prioritysjump Script_BattleRoom
 	setscene SCENE_FINISHED
 .DummyScene:
 	end
@@ -20,7 +20,7 @@ Script_BattleRoom:
 	applymovement PLAYER, MovementData_BattleTowerBattleRoomPlayerWalksIn
 ; beat all 7 opponents in a row
 Script_BattleRoomLoop:
-	writebyte BATTLETOWERBATTLEROOM_YOUNGSTER
+	setval BATTLETOWERBATTLEROOM_YOUNGSTER
 	special LoadOpponentTrainerAndPokemonWithOTSprite
 	appear BATTLETOWERBATTLEROOM_YOUNGSTER
 	warpsound
@@ -34,7 +34,7 @@ Script_BattleRoomLoop:
 	special FadeOutPalettes
 	reloadmap
 	ifnotequal $0, Script_FailedBattleTowerChallenge
-	copybytetovar wNrOfBeatenBattleTowerTrainers
+	readmem wNrOfBeatenBattleTowerTrainers
 	ifequal BATTLETOWER_STREAK_LENGTH, Script_BeatenAllTrainers
 	applymovement BATTLETOWERBATTLEROOM_YOUNGSTER, MovementData_BattleTowerBattleRoomOpponentWalksOut
 	warpsound
@@ -59,17 +59,17 @@ Script_ContinueAndBattleNextOpponent:
 	closetext
 	applymovement PLAYER, MovementData_BattleTowerBattleRoomPlayerTurnsToFaceNextOpponent
 	applymovement BATTLETOWERBATTLEROOM_RECEPTIONIST, MovementData_BattleTowerBattleRoomReceptionistWalksAway
-	jump Script_BattleRoomLoop
+	sjump Script_BattleRoomLoop
 
 Script_DontBattleNextOpponent:
 	writetext Text_SaveAndEndTheSession
 	yesorno
 	iffalse Script_DontSaveAndEndTheSession
-	writebyte BATTLETOWERACTION_SAVELEVELGROUP ; save level group
+	setval BATTLETOWERACTION_SAVELEVELGROUP ; save level group
 	special BattleTowerAction
-	writebyte BATTLETOWERACTION_SAVEOPTIONS ; choose reward
+	setval BATTLETOWERACTION_SAVEOPTIONS ; choose reward
 	special BattleTowerAction
-	writebyte BATTLETOWERACTION_SAVE_AND_QUIT ; quicksave
+	setval BATTLETOWERACTION_SAVE_AND_QUIT ; quicksave
 	special BattleTowerAction
 	playsound SFX_SAVE
 	waitsfx
@@ -79,19 +79,19 @@ Script_DontSaveAndEndTheSession:
 	writetext Text_CancelYourBattleRoomChallenge
 	yesorno
 	iffalse Script_ContinueAndBattleNextOpponent
-	writebyte BATTLETOWERACTION_CHALLENGECANCELED
+	setval BATTLETOWERACTION_CHALLENGECANCELED
 	special BattleTowerAction
 	closetext
 	special FadeOutPalettes
 	warpfacing UP, BATTLE_TOWER_1F, 7, 7
 	opentext
-	jump Script_BattleTowerHopeToServeYouAgain
+	sjump Script_BattleTowerHopeToServeYouAgain
 
 Script_FailedBattleTowerChallenge:
 	pause 60
 	special BattleTowerFade
 	warpfacing UP, BATTLE_TOWER_1F, 7, 7
-	writebyte BATTLETOWERACTION_CHALLENGECANCELED
+	setval BATTLETOWERACTION_CHALLENGECANCELED
 	special BattleTowerAction
 	opentext
 	writetext Text_ThanksForVisiting
@@ -106,7 +106,7 @@ Script_BeatenAllTrainers:
 Script_BeatenAllTrainers2:
 	opentext
 	writetext Text_CongratulationsYouveBeatenAllTheTrainers
-	jump Script_GivePlayerHisPrize
+	sjump Script_GivePlayerHisPrize
 
 BattleTowerBattleRoom_MapEvents:
 	db 0, 0 ; filler

@@ -62,7 +62,7 @@ SSAquaGranddaughterBefore:
 	writetext SSAquaGranddaughterWasPlayingMText
 	waitbutton
 	closetext
-	jump .cont
+	sjump .cont
 
 .PlayerIsFemale:
 	opentext
@@ -77,7 +77,7 @@ SSAquaGranddaughterBefore:
 	buttonsound
 	setevent EVENT_VERMILION_PORT_SAILOR_AT_GANGWAY
 	setmapscene FAST_SHIP_1F, SCENE_DEFAULT
-	jump SSAquaMetalCoatAndDocking
+	sjump SSAquaMetalCoatAndDocking
 
 SSAquaGrandpa:
 	faceplayer

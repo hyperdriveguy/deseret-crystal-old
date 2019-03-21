@@ -354,7 +354,7 @@ RunSceneScript:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-rept 4
+rept SCENE_SCRIPT_SIZE
 	add hl, de
 endr
 
@@ -750,24 +750,24 @@ CheckMenuOW:
 
 StartMenuScript:
 	callasm StartMenu
-	jump StartMenuCallback
+	sjump StartMenuCallback
 
 SelectMenuScript:
 	callasm SelectMenu
-	jump SelectMenuCallback
+	sjump SelectMenuCallback
 
 StartMenuCallback:
 SelectMenuCallback:
-	copybytetovar hMenuReturn
+	readmem hMenuReturn
 	ifequal HMENURETURN_SCRIPT, .Script
 	ifequal HMENURETURN_ASM, .Asm
 	end
 
 .Script:
-	ptjump wQueuedScriptBank
+	memjump wQueuedScriptBank
 
 .Asm:
-	ptcallasm wQueuedScriptBank
+	memcallasm wQueuedScriptBank
 	end
 
 CountStep:

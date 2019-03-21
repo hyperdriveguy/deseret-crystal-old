@@ -22,7 +22,7 @@ TrainerSailorHuey:
 	trainer SAILOR, HUEY1, EVENT_BEAT_SAILOR_HUEY, SailorHueySeenText, SailorHueyBeatenText, 0, .Script
 
 .Script:
-	writecode VAR_CALLERID, PHONE_SAILOR_HUEY
+	loadvar VAR_CALLERID, PHONE_SAILOR_HUEY
 	endifjustbattled
 	opentext
 	checkflag ENGINE_HUEY
@@ -33,7 +33,7 @@ TrainerSailorHuey:
 	iftrue .AskedBefore
 	setevent EVENT_HUEY_ASKED_FOR_PHONE_NUMBER
 	scall .AskNumber1
-	jump .AskForNumber
+	sjump .AskForNumber
 
 .AskedBefore:
 	scall .AskNumber2
@@ -41,14 +41,14 @@ TrainerSailorHuey:
 	askforphonenumber PHONE_SAILOR_HUEY
 	ifequal PHONE_CONTACTS_FULL, .PhoneFull
 	ifequal PHONE_CONTACT_REFUSED, .NumberDeclined
-	trainertotext SAILOR, HUEY1, MEM_BUFFER_0
+	gettrainername STRING_BUFFER_3, SAILOR, HUEY1
 	scall .RegisteredNumber
-	jump .NumberAccepted
+	sjump .NumberAccepted
 
 .WantsBattle:
 	scall .Rematch
 	winlosstext SailorHueyBeatenText, 0
-	copybytetovar wHueyFightCount
+	readmem wHueyFightCount
 	ifequal 3, .Fight3
 	ifequal 2, .Fight2
 	ifequal 1, .Fight1
@@ -66,7 +66,7 @@ TrainerSailorHuey:
 	loadtrainer SAILOR, HUEY1
 	startbattle
 	reloadmapafterbattle
-	loadvar wHueyFightCount, 1
+	loadmem wHueyFightCount, 1
 	clearflag ENGINE_HUEY
 	end
 
@@ -74,7 +74,7 @@ TrainerSailorHuey:
 	loadtrainer SAILOR, HUEY2
 	startbattle
 	reloadmapafterbattle
-	loadvar wHueyFightCount, 2
+	loadmem wHueyFightCount, 2
 	clearflag ENGINE_HUEY
 	end
 
@@ -82,7 +82,7 @@ TrainerSailorHuey:
 	loadtrainer SAILOR, HUEY3
 	startbattle
 	reloadmapafterbattle
-	loadvar wHueyFightCount, 3
+	loadmem wHueyFightCount, 3
 	clearflag ENGINE_HUEY
 	end
 
@@ -99,7 +99,7 @@ TrainerSailorHuey:
 	verbosegiveitem PROTEIN
 	iffalse .PackFull
 	setevent EVENT_GOT_PROTEIN_FROM_HUEY
-	jump .NumberAccepted
+	sjump .NumberAccepted
 
 .SkipGift:
 	end
@@ -112,7 +112,7 @@ TrainerSailorHuey:
 	iffalse .PackFull
 	clearevent EVENT_HUEY_PROTEIN
 	setevent EVENT_GOT_PROTEIN_FROM_HUEY
-	jump .NumberAccepted
+	sjump .NumberAccepted
 
 .AskNumber1:
 	jumpstd asknumber1m

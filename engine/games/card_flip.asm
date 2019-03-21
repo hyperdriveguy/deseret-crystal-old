@@ -1,5 +1,5 @@
-CARDFLIP_LIGHT_OFF EQUS "\"♂\"" ; $ef
-CARDFLIP_LIGHT_ON  EQUS "\"♀\"" ; $f5
+CARDFLIP_LIGHT_OFF EQU "♂" ; $ef
+CARDFLIP_LIGHT_ON  EQU "♀" ; $f5
 
 CARDFLIP_DECK_SIZE EQU 4 * 6
 
@@ -34,14 +34,14 @@ _CardFlip:
 	ld bc, 1 tiles
 	call CopyBytes
 
-	call CardFlip_ShiftDigitsLeftTwoPixels
+	call CardFlip_ShiftDigitsUpOnePixel
 	call CardFlip_InitTilemap
 	call CardFlip_InitAttrPals
 	call EnableLCD
 	call WaitBGMap2
-	ld a, $e4
+	ld a, %11100100
 	call DmgToCgbBGPals
-	ld de, $e4e4
+	lb de, %11100100, %11100100
 	call DmgToCgbObjPals
 	call DelayFrame
 	xor a
@@ -582,7 +582,9 @@ CardFlip_CopyOAM:
 	jr nz, .loop
 	ret
 
-CardFlip_ShiftDigitsLeftTwoPixels:
+CardFlip_ShiftDigitsUpOnePixel:
+; The top rows of digits 1-9 become the bottom rows of 0-8,
+; so this routine relies on the top rows being blank.
 	ld de, vTiles0 tile "0"
 	ld hl, vTiles0 tile "0" + 2
 	ld bc, 10 tiles - 2

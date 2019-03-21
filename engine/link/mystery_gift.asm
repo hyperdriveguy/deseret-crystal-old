@@ -255,7 +255,7 @@ Function104a95:
 	jr c, .ly_loop
 	ld c, LOW(rRP)
 	ld a, $c0
-	ld [$ff00+c], a
+	ldh [c], a
 	ld b, 240 ; This might have been intended as a 4-second timeout buffer.
 	          ; However, it is reset with each frame.
 .loop3
@@ -266,14 +266,14 @@ Function104a95:
 	ld c, LOW(rRP)
 	; Delay frame
 .ly_loop2
-	ld a, [$ff00+c]
+	ldh a, [c]
 	and b
 	ld b, a
 	ldh a, [rLY]
 	cp LY_VBLANK
 	jr nc, .ly_loop2
 .ly_loop3
-	ld a, [$ff00+c]
+	ldh a, [c]
 	and b
 	ld b, a
 	ldh a, [rLY]
@@ -531,7 +531,7 @@ Function104da9:
 	xor a
 	ldh [rIF], a
 	halt
-	ld a, [$ff00+c]
+	ldh a, [c]
 	bit 1, a
 	jr z, Function104da9
 	or a
@@ -543,7 +543,7 @@ Function104db7:
 	xor a
 	ldh [rIF], a
 	halt
-	ld a, [$ff00+c]
+	ldh a, [c]
 	bit 1, a
 	jr nz, Function104db7
 	or a
@@ -551,7 +551,7 @@ Function104db7:
 
 Function104dc5:
 	ld a, $c1
-	ld [$ff00+c], a
+	ldh [c], a
 .wait
 	dec d
 	ret z
@@ -562,7 +562,7 @@ Function104dc5:
 
 Function104dd1:
 	ld a, $c0
-	ld [$ff00+c], a
+	ldh [c], a
 .wait
 	dec d
 	ret z
@@ -590,7 +590,7 @@ Function104ddd:
 .next
 	bit 0, a
 	jr nz, Function104e3a
-	ld a, [$ff00+c]
+	ldh a, [c]
 	and b
 	jr nz, .loop
 
@@ -871,14 +871,14 @@ Function104faf:
 .asm_104fdb
 	inc d
 	jr z, .asm_104fe5
-	ld a, [$ff00+c]
+	ldh a, [c]
 	bit 1, a
 	jr z, .asm_104fdb
 	ld d, $0
 .asm_104fe5
 	inc d
 	jr z, .asm_104fed
-	ld a, [$ff00+c]
+	ldh a, [c]
 	bit 1, a
 	jr nz, .asm_104fe5
 .asm_104fed

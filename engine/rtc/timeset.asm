@@ -1,5 +1,5 @@
-TIMESET_UP_ARROW   EQUS "\"♂\"" ; $ef
-TIMESET_DOWN_ARROW EQUS "\"♀\"" ; $f5
+TIMESET_UP_ARROW   EQU "♂" ; $ef
+TIMESET_DOWN_ARROW EQU "♀" ; $f5
 
 InitClock:
 ; Ask the player to set the time.
@@ -44,7 +44,7 @@ InitClock:
 	ld hl, Text_WokeUpOak
 	call PrintText
 	ld hl, wTimeSetBuffer
-	ld bc, 50
+	ld bc, wTimeSetBufferEnd - wTimeSetBuffer
 	xor a
 	call ByteFill
 	ld a, 10 ; default hour = 10 AM

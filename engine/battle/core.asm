@@ -2060,7 +2060,7 @@ UpdateBattleStateAndExperienceAfterEnemyFaint:
 	ld a, [wWhichMonFaintedFirst]
 	and a
 	jr nz, .player_mon_did_not_faint
-	call PlayerMonFaintHappinessMod
+	call UpdateFaintedPlayerMon
 
 .player_mon_did_not_faint
 	call CheckPlayerPartyForFitMon
@@ -2513,7 +2513,7 @@ HandlePlayerMonFaint:
 	call z, FaintEnemyPokemon
 	ld a, $1
 	ld [wWhichMonFaintedFirst], a
-	call PlayerMonFaintHappinessMod
+	call UpdateFaintedPlayerMon
 	call CheckPlayerPartyForFitMon
 	ld a, d
 	and a
@@ -2552,7 +2552,7 @@ HandlePlayerMonFaint:
 	jp z, WildFled_EnemyFled_LinkBattleCanceled
 	jp DoubleSwitch
 
-PlayerMonFaintHappinessMod:
+UpdateFaintedPlayerMon:
 	ld a, [wCurBattleMon]
 	ld c, a
 	ld hl, wBattleParticipantsNotFainted
@@ -5965,18 +5965,18 @@ LoadEnemyMon:
 	call Random
 	cp 5 percent
 	jr c, .CheckMagikarpArea
-; Try again if length >= 1616 mm (i.e. if LOW(length) >= 3 inches)
+; Try again if length >= 1616 mm (i.e. if LOW(length) >= 4 inches)
 	ld a, [wMagikarpLength + 1]
-	cp LOW(1616) ; should be "cp 3", since 1616 mm = 5'3", but LOW(1616) = 80
+	cp LOW(1616) ; should be "cp 4", since 1616 mm = 5'4", but LOW(1616) = 80
 	jr nc, .GenerateDVs
 
 ; 20% chance of skipping this check
 	call Random
 	cp 20 percent - 1
 	jr c, .CheckMagikarpArea
-; Try again if length >= 1600 mm (i.e. if LOW(length) >= 2 inches)
+; Try again if length >= 1600 mm (i.e. if LOW(length) >= 3 inches)
 	ld a, [wMagikarpLength + 1]
-	cp LOW(1600) ; should be "cp 2", since 1600 mm = 5'2", but LOW(1600) = 64
+	cp LOW(1600) ; should be "cp 3", since 1600 mm = 5'3", but LOW(1600) = 64
 	jr nc, .GenerateDVs
 
 .CheckMagikarpArea:

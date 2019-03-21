@@ -412,8 +412,8 @@ UsedSurfScript:
 	waitbutton
 	closetext
 
-	copybytetovar wBuffer2
-	writevarcode VAR_MOVEMENT
+	readmem wBuffer2
+	writevar VAR_MOVEMENT
 
 	special ReplaceKrisSprite
 	special PlayMapMusic
@@ -618,7 +618,7 @@ FlyFunction:
 	farscall Script_AbortBugContest
 	special WarpToSpawnPoint
 	callasm DelayLoadingNewSprites
-	writecode VAR_MOVEMENT, PLAYER_NORMAL
+	loadvar VAR_MOVEMENT, PLAYER_NORMAL
 	newloadmap MAPSETUP_FLY
 	callasm FlyToAnim
 	special WaitSFX
@@ -850,7 +850,7 @@ dig_incave
 	reloadmappart
 	special UpdateTimePals
 	writetext .Text_UsedEscapeRope
-	jump .UsedDigOrEscapeRopeScript
+	sjump .UsedDigOrEscapeRopeScript
 
 .UsedDigScript:
 	reloadmappart
@@ -864,7 +864,7 @@ dig_incave
 	applymovement PLAYER, .DigOut
 	farscall Script_AbortBugContest
 	special WarpToSpawnPoint
-	writecode VAR_MOVEMENT, PLAYER_NORMAL
+	loadvar VAR_MOVEMENT, PLAYER_NORMAL
 	newloadmap MAPSETUP_DOOR
 	playsound SFX_WARP_FROM
 	applymovement PLAYER, .DigReturn
@@ -951,7 +951,7 @@ TeleportFunction:
 	applymovement PLAYER, .TeleportFrom
 	farscall Script_AbortBugContest
 	special WarpToSpawnPoint
-	writecode VAR_MOVEMENT, PLAYER_NORMAL
+	loadvar VAR_MOVEMENT, PLAYER_NORMAL
 	newloadmap MAPSETUP_TELEPORT
 	playsound SFX_WARP_FROM
 	applymovement PLAYER, .TeleportTo
@@ -1008,7 +1008,7 @@ Script_StrengthFromMenu:
 Script_UsedStrength:
 	callasm SetStrengthFlag
 	writetext .UsedStrength
-	copybytetovar wBuffer6
+	readmem wBuffer6
 	cry 0
 	pause 3
 	writetext .StrengthAllowedItToMoveBoulders
@@ -1027,7 +1027,7 @@ AskStrengthScript:
 	callasm TryStrengthOW
 	iffalse .AskStrength
 	ifequal $1, .DontMeetRequirements
-	jump .AlreadyUsedStrength
+	sjump .AlreadyUsedStrength
 
 .DontMeetRequirements:
 	jumptext UnknownText_0xcd73
@@ -1373,11 +1373,11 @@ RockSmashScript:
 	special WaitSFX
 	playsound SFX_STRENGTH
 	earthquake 84
-	applymovement2 MovementData_0xcf55
+	applymovementlasttalked MovementData_0xcf55
 	disappear -2
 
 	callasm RockMonEncounter
-	copybytetovar wTempWildMonSpecies
+	readmem wTempWildMonSpecies
 	iffalse .done
 	randomwildmon
 	startbattle
@@ -1523,7 +1523,7 @@ FishFunction:
 Script_NotEvenANibble:
 	scall Script_FishCastRod
 	writetext UnknownText_0xd0a9
-	jump Script_NotEvenANibble_FallThrough
+	sjump Script_NotEvenANibble_FallThrough
 
 Script_NotEvenANibble2:
 	scall Script_FishCastRod
@@ -1540,7 +1540,7 @@ Script_GotABite:
 	callasm Fishing_CheckFacingUp
 	iffalse .NotFacingUp
 	applymovement PLAYER, .Movement_FacingUp
-	jump .FightTheHookedPokemon
+	sjump .FightTheHookedPokemon
 
 .NotFacingUp:
 	applymovement PLAYER, .Movement_NotFacingUp
@@ -1592,7 +1592,7 @@ Fishing_CheckFacingUp:
 
 Script_FishCastRod:
 	reloadmappart
-	loadvar hBGMapMode, $0
+	loadmem hBGMapMode, $0
 	special UpdateTimePals
 	loademote EMOTE_ROD
 	callasm LoadFishingGFX
@@ -1713,7 +1713,7 @@ BikeFunction:
 Script_GetOnBike:
 	reloadmappart
 	special UpdateTimePals
-	writecode VAR_MOVEMENT, PLAYER_BIKE
+	loadvar VAR_MOVEMENT, PLAYER_BIKE
 	writetext GotOnTheBikeText
 	waitbutton
 	closetext
@@ -1721,7 +1721,7 @@ Script_GetOnBike:
 	end
 
 Script_GetOnBike_Register:
-	writecode VAR_MOVEMENT, PLAYER_BIKE
+	loadvar VAR_MOVEMENT, PLAYER_BIKE
 	closetext
 	special ReplaceKrisSprite
 	end
@@ -1729,7 +1729,7 @@ Script_GetOnBike_Register:
 Script_GetOffBike:
 	reloadmappart
 	special UpdateTimePals
-	writecode VAR_MOVEMENT, PLAYER_NORMAL
+	loadvar VAR_MOVEMENT, PLAYER_NORMAL
 	writetext GotOffTheBikeText
 	waitbutton
 
@@ -1740,8 +1740,8 @@ FinishGettingOffBike:
 	end
 
 Script_GetOffBike_Register:
-	writecode VAR_MOVEMENT, PLAYER_NORMAL
-	jump FinishGettingOffBike
+	loadvar VAR_MOVEMENT, PLAYER_NORMAL
+	sjump FinishGettingOffBike
 
 Script_CantGetOffBike:
 	writetext .CantGetOffBikeText

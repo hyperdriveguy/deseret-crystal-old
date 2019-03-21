@@ -1,6 +1,6 @@
 SpriteAnimOAMData:
 ; entries correspond to SPRITE_ANIM_OAMSET_* constants
-	; vtile offset, pointer
+	; vtile offset, data pointer
 	dbw $00, .OAMData_RedWalk                  ; SPRITE_ANIM_OAMSET_RED_WALK_1
 	dbw $04, .OAMData_RedWalk                  ; SPRITE_ANIM_OAMSET_RED_WALK_2
 	dbw $00, .OAMData_TextEntryCursor          ; SPRITE_ANIM_OAMSET_TEXT_ENTRY_CURSOR

@@ -1,6 +1,6 @@
 # Battle Animation Commands
 
-Defined in [macros/scripts/battle_anims.asm](/macros/scripts/battle_anims.asm) and [engine/battle_anims/anim_commands.asm:BattleAnimCommands](/engine/battle_anims/anim_commands.asm).
+Defined in [macros/scripts/battle_anims.asm](https://github.com/pret/pokecrystal/blob/master/macros/scripts/battle_anims.asm) and [engine/battle_anims/anim_commands.asm:BattleAnimCommands](https://github.com/pret/pokecrystal/blob/master/engine/battle_anims/anim_commands.asm).
 
 
 ## `$00`−`$CF`: <code>anim_wait <i>length</i></code>
@@ -14,7 +14,7 @@ Defined in [macros/scripts/battle_anims.asm](/macros/scripts/battle_anims.asm) a
 
 Spawns an *object* at coordinate (*x*, *y*).
 
-- *object*: `ANIM_OBJ` constants (see [constants/battle_anim_constants.asm](/constants/battle_anim_constants.asm))
+- *object*: `ANIM_OBJ` constants (see [constants/battle_anim_constants.asm](https://github.com/pret/pokecrystal/blob/master/constants/battle_anim_constants.asm))
 - *x*: the x position in pixels
 - *y*: the y position in pixels
 - *x_tile*: an added x position in tiles (8 pixels)
@@ -45,7 +45,7 @@ The y position also depends on the y offset defined by the object.
 
 Loads 1-5 sets of graphics. Will overwrite any previously loaded sets.
 
-- *gfx*: `ANIM_GFX` constants (see [constants/battle_anim_constants.asm](/constants/battle_anim_constants.asm))
+- *gfx*: `ANIM_GFX` constants (see [constants/battle_anim_constants.asm](https://github.com/pret/pokecrystal/blob/master/constants/battle_anim_constants.asm))
 
 Caveats:
 - These will override any currently-loaded GFX.
@@ -74,7 +74,7 @@ Objects are state machines. `anim_setobj` changes the state of an object.
 
 Increments a bg effect's state.
 
-- *bg_effect*: `ANIM_BG` constants (see [constants/battle_anim_constants.asm](/constants/battle_anim_constants.asm))
+- *bg_effect*: `ANIM_BG` constants (see [constants/battle_anim_constants.asm](https://github.com/pret/pokecrystal/blob/master/constants/battle_anim_constants.asm))
 
 Since there can't be two of the same bg effect, the effect type is used. This is distinct from `anim_incobj`.
 
@@ -91,9 +91,10 @@ Caveats:
 - Doesn't work with `anim_4gfx` and `anim_5gfx`.
 - This overwrites previously loaded animation graphics if you've loaded more than 53 tiles (2row) or 66 tiles (1row).
 
+
 ## `$DB`: `anim_checkpokeball`
 
-Sets `BattleAnimVar` to the result of [GetPokeBallWobble](/engine/battle_anims/pokeball_wobble.asm).
+Sets `BattleAnimVar` to the result of [GetPokeBallWobble](https://github.com/pret/pokecrystal/blob/master/engine/battle_anims/pokeball_wobble.asm).
 
 
 ## `$DC`: `anim_transform`
@@ -178,7 +179,7 @@ Jumps to another script and decrements `param` until it reaches 0. Similar to `a
 
 ## `$F0`: <code>anim_bgeffect <i>bg_effect</i>, <i>unknown1</i>, <i>unknown2</i>, <i>unknown3</i></code>
 
-- *bg_effect*: `ANIM_BG` constants (see [constants/battle_anim_constants.asm](/constants/battle_anim_constants.asm))
+- *bg_effect*: `ANIM_BG` constants (see [constants/battle_anim_constants.asm](https://github.com/pret/pokecrystal/blob/master/constants/battle_anim_constants.asm))
 
 
 ## `$F1`: <code>anim_bgp <i>colors</i></code>
@@ -196,7 +197,11 @@ Sets `rOBP0` to *colors*.
 Sets `rOBP1` to *colors*.
 
 
-## `$F4`: `anim_clearsprites`
+## `$F4`: `anim_keepsprites`
+
+Causes only the palettes to be cleared from the OAM memory when the animation ends, instead of clearing all of the OAM memory. This causes all objects to start using palette 0 (monochrome) when the animation script ends, and whatever objects were on the screen before the last `anim_ret` will stay on the screen.
+
+This is only used for the Poke Ball animation.
 
 
 ## `$F5`: `anim_0xf5`

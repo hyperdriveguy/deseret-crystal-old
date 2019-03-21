@@ -1,24 +1,24 @@
 JackPhoneCalleeScript:
-	trainertotext SCHOOLBOY, JACK1, MEM_BUFFER_0
+	gettrainername STRING_BUFFER_3, SCHOOLBOY, JACK1
 	checkflag ENGINE_JACK
 	iftrue .WantsBattle
 	farscall PhoneScript_AnswerPhone_Male
 	checkflag ENGINE_JACK_MONDAY_MORNING
 	iftrue .NotMonday
-	checkcode VAR_WEEKDAY
+	readvar VAR_WEEKDAY
 	ifnotequal MONDAY, .NotMonday
 	checktime MORN
 	iftrue JackMondayMorning
 
 .NotMonday:
-	farjump JackPhoneTips
+	farsjump JackPhoneTips
 
 .WantsBattle:
-	landmarktotext NATIONAL_PARK, MEM_BUFFER_2
-	farjump JackWantsBattleScript
+	getlandmarkname STRING_BUFFER_5, NATIONAL_PARK
+	farsjump JackWantsBattleScript
 
 JackPhoneCallerScript:
-	trainertotext SCHOOLBOY, JACK1, MEM_BUFFER_0
+	gettrainername STRING_BUFFER_3, SCHOOLBOY, JACK1
 	farscall PhoneScript_GreetPhone_Male
 	farscall PhoneScript_Random2
 	ifequal 0, JackBattleTrivia
@@ -32,18 +32,18 @@ JackPhoneCallerScript:
 .WaitingForBattle:
 	farscall PhoneScript_Random3
 	ifequal 0, JackFindsRare
-	farjump Phone_GenericCall_Male
+	farsjump Phone_GenericCall_Male
 
 JackMondayMorning:
 	setflag ENGINE_JACK_MONDAY_MORNING
 
 JackWantsToBattle:
-	landmarktotext NATIONAL_PARK, MEM_BUFFER_2
+	getlandmarkname STRING_BUFFER_5, NATIONAL_PARK
 	setflag ENGINE_JACK
-	farjump PhoneScript_WantsToBattle_Male
+	farsjump PhoneScript_WantsToBattle_Male
 
 JackFindsRare:
-	farjump Phone_CheckIfUnseenRare_Male
+	farsjump Phone_CheckIfUnseenRare_Male
 
 JackBattleTrivia:
-	farjump JackTriviaScript
+	farsjump JackTriviaScript

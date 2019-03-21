@@ -500,9 +500,11 @@ CheckEnemyTurn:
 
 	ld hl, HurtItselfText
 	call StdBattleTextBox
+
 	call HitSelfInConfusion
 	call BattleCommand_DamageCalc
 	call BattleCommand_LowerSub
+
 	xor a
 	ld [wNumHits], a
 

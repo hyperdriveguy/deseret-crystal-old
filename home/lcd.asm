@@ -16,7 +16,7 @@ LCD::
 	ldh a, [hLCDCPointer]
 	ld c, a
 	ld a, b
-	ld [$ff00+c], a
+	ldh [c], a
 	pop bc
 
 .done

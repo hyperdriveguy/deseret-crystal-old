@@ -20,7 +20,7 @@ TrainerBirdKeeperVance1:
 	trainer BIRD_KEEPER, VANCE1, EVENT_BEAT_BIRD_KEEPER_VANCE, BirdKeeperVance1SeenText, BirdKeeperVance1BeatenText, 0, .Script
 
 .Script:
-	writecode VAR_CALLERID, PHONE_BIRDKEEPER_VANCE
+	loadvar VAR_CALLERID, PHONE_BIRDKEEPER_VANCE
 	endifjustbattled
 	opentext
 	checkflag ENGINE_VANCE
@@ -33,7 +33,7 @@ TrainerBirdKeeperVance1:
 	buttonsound
 	setevent EVENT_VANCE_ASKED_FOR_PHONE_NUMBER
 	scall Route44AskNumber1M
-	jump .AskForNumber
+	sjump .AskForNumber
 
 .AskedAlready:
 	scall Route44AskNumber2M
@@ -41,14 +41,14 @@ TrainerBirdKeeperVance1:
 	askforphonenumber PHONE_BIRDKEEPER_VANCE
 	ifequal PHONE_CONTACTS_FULL, Route44PhoneFullM
 	ifequal PHONE_CONTACT_REFUSED, Route44NumberDeclinedM
-	trainertotext BIRD_KEEPER, VANCE1, MEM_BUFFER_0
+	gettrainername STRING_BUFFER_3, BIRD_KEEPER, VANCE1
 	scall Route44RegisteredNumberM
-	jump Route44NumberAcceptedM
+	sjump Route44NumberAcceptedM
 
 .WantsBattle:
 	scall Route44RematchM
 	winlosstext BirdKeeperVance1BeatenText, 0
-	copybytetovar wVanceFightCount
+	readmem wVanceFightCount
 	ifequal 2, .Fight2
 	ifequal 1, .Fight1
 	ifequal 0, .LoadFight0
@@ -62,7 +62,7 @@ TrainerBirdKeeperVance1:
 	loadtrainer BIRD_KEEPER, VANCE1
 	startbattle
 	reloadmapafterbattle
-	loadvar wVanceFightCount, 1
+	loadmem wVanceFightCount, 1
 	clearflag ENGINE_VANCE
 	end
 
@@ -70,7 +70,7 @@ TrainerBirdKeeperVance1:
 	loadtrainer BIRD_KEEPER, VANCE2
 	startbattle
 	reloadmapafterbattle
-	loadvar wVanceFightCount, 2
+	loadmem wVanceFightCount, 2
 	clearflag ENGINE_VANCE
 	end
 
@@ -87,7 +87,7 @@ TrainerBirdKeeperVance1:
 	verbosegiveitem CARBOS
 	iffalse VancePackFull
 	setevent EVENT_GOT_CARBOS_FROM_VANCE
-	jump Route44NumberAcceptedM
+	sjump Route44NumberAcceptedM
 
 .ReceivedCarbosBefore:
 	end
@@ -100,7 +100,7 @@ TrainerBirdKeeperVance1:
 	iffalse VancePackFull
 	clearevent EVENT_VANCE_CARBOS
 	setevent EVENT_GOT_CARBOS_FROM_VANCE
-	jump Route44NumberAcceptedM
+	sjump Route44NumberAcceptedM
 
 Route44AskNumber1M:
 	jumpstd asknumber1m
@@ -162,7 +162,7 @@ TrainerFisherWilton1:
 	trainer FISHER, WILTON1, EVENT_BEAT_FISHER_WILTON, FisherWilton1SeenText, FisherWilton1BeatenText, 0, .Script
 
 .Script:
-	writecode VAR_CALLERID, PHONE_FISHER_WILTON
+	loadvar VAR_CALLERID, PHONE_FISHER_WILTON
 	endifjustbattled
 	opentext
 	checkflag ENGINE_WILTON
@@ -177,7 +177,7 @@ TrainerFisherWilton1:
 	buttonsound
 	setevent EVENT_WILTON_ASKED_FOR_PHONE_NUMBER
 	scall Route44AskNumber1M
-	jump .AskForNumber
+	sjump .AskForNumber
 
 .AskedAlready:
 	scall Route44AskNumber2M
@@ -185,14 +185,14 @@ TrainerFisherWilton1:
 	askforphonenumber PHONE_FISHER_WILTON
 	ifequal PHONE_CONTACTS_FULL, Route44PhoneFullM
 	ifequal PHONE_CONTACT_REFUSED, Route44NumberDeclinedM
-	trainertotext FISHER, WILTON1, MEM_BUFFER_0
+	gettrainername STRING_BUFFER_3, FISHER, WILTON1
 	scall Route44RegisteredNumberM
-	jump Route44NumberAcceptedM
+	sjump Route44NumberAcceptedM
 
 .WantsBattle:
 	scall Route44RematchM
 	winlosstext FisherWilton1BeatenText, 0
-	copybytetovar wWiltonFightCount
+	readmem wWiltonFightCount
 	ifequal 2, .Fight2
 	ifequal 1, .Fight1
 	ifequal 0, .LoadFight0
@@ -206,7 +206,7 @@ TrainerFisherWilton1:
 	loadtrainer FISHER, WILTON1
 	startbattle
 	reloadmapafterbattle
-	loadvar wWiltonFightCount, 1
+	loadmem wWiltonFightCount, 1
 	clearflag ENGINE_WILTON
 	end
 
@@ -214,7 +214,7 @@ TrainerFisherWilton1:
 	loadtrainer FISHER, WILTON2
 	startbattle
 	reloadmapafterbattle
-	loadvar wWiltonFightCount, 2
+	loadmem wWiltonFightCount, 2
 	clearflag ENGINE_WILTON
 	end
 
@@ -236,22 +236,22 @@ TrainerFisherWilton1:
 .UltraBall:
 	verbosegiveitem ULTRA_BALL
 	iffalse .Route44PackFullM
-	jump .ItemReceived
+	sjump .ItemReceived
 
 .GreatBall:
 	verbosegiveitem GREAT_BALL
 	iffalse .Route44PackFullM
-	jump .ItemReceived
+	sjump .ItemReceived
 
 .PokeBall:
 	verbosegiveitem POKE_BALL
 	iffalse .Route44PackFullM
 .ItemReceived:
 	clearflag ENGINE_WILTON_HAS_ITEM
-	jump Route44NumberAcceptedM
+	sjump Route44NumberAcceptedM
 
 .Route44PackFullM:
-	jump Route44PackFullM
+	sjump Route44PackFullM
 
 TrainerFisherEdgar:
 	trainer FISHER, EDGAR, EVENT_BEAT_FISHER_EDGAR, FisherEdgarSeenText, FisherEdgarBeatenText, 0, .Script

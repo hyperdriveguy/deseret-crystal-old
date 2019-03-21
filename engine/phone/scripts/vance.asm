@@ -1,24 +1,24 @@
 VancePhoneCalleeScript:
-	trainertotext BIRD_KEEPER, VANCE1, MEM_BUFFER_0
+	gettrainername STRING_BUFFER_3, BIRD_KEEPER, VANCE1
 	checkflag ENGINE_VANCE
 	iftrue .WantsBattle
 	farscall PhoneScript_AnswerPhone_Male
 	checkflag ENGINE_VANCE_WEDNESDAY_NIGHT
 	iftrue .NotWednesday
-	checkcode VAR_WEEKDAY
+	readvar VAR_WEEKDAY
 	ifnotequal WEDNESDAY, .NotWednesday
 	checktime NITE
 	iftrue VanceWednesdayNight
 
 .NotWednesday:
-	farjump VanceLookingForward
+	farsjump VanceLookingForward
 
 .WantsBattle:
-	landmarktotext ROUTE_44, MEM_BUFFER_2
-	farjump VanceHurryHurry
+	getlandmarkname STRING_BUFFER_5, ROUTE_44
+	farsjump VanceHurryHurry
 
 VancePhoneCallerScript:
-	trainertotext BIRD_KEEPER, VANCE1, MEM_BUFFER_0
+	gettrainername STRING_BUFFER_3, BIRD_KEEPER, VANCE1
 	farscall PhoneScript_GreetPhone_Male
 	checkflag ENGINE_VANCE
 	iftrue .WantsBattle
@@ -29,12 +29,12 @@ VancePhoneCallerScript:
 	ifequal 1, VanceWantsRematch
 
 .WantsBattle:
-	farjump Phone_GenericCall_Male
+	farsjump Phone_GenericCall_Male
 
 VanceWednesdayNight:
 	setflag ENGINE_VANCE_WEDNESDAY_NIGHT
 
 VanceWantsRematch:
-	landmarktotext ROUTE_44, MEM_BUFFER_2
+	getlandmarkname STRING_BUFFER_5, ROUTE_44
 	setflag ENGINE_VANCE
-	farjump PhoneScript_WantsToBattle_Male
+	farsjump PhoneScript_WantsToBattle_Male

@@ -113,9 +113,9 @@ RunBattleAnimScript:
 	jr nz, .not_rollout
 
 	ld a, $2e
-	ld b, 5
-	ld de, 4
-	ld hl, wActiveBGEffects
+	ld b, NUM_BG_EFFECTS
+	ld de, BG_EFFECT_STRUCT_LENGTH
+	ld hl, wBGEffect1Function
 .find
 	cp [hl]
 	jr z, .done
@@ -128,10 +128,10 @@ RunBattleAnimScript:
 
 .done
 	ld a, [wBattleAnimFlags]
-	bit 0, a
+	bit BATTLEANIM_STOP_F, a
 	jr z, .playframe
 
-	call BattleAnim_ClearCGB_OAMFlags
+	call BattleAnim_ClearOAM
 	ret
 
 BattleAnimClearHud:
@@ -211,16 +211,17 @@ ClearActorHud:
 	call ClearBox
 	ret
 
-BattleAnim_ClearCGB_OAMFlags:
+BattleAnim_ClearOAM:
 	ld a, [wBattleAnimFlags]
-	bit 3, a
+	bit BATTLEANIM_KEEPSPRITES_F, a
 	jr z, .delete
 
+	; Instead of deleting the sprites, make them all use palette 0 (monochrome)
 	ld hl, wVirtualOAMSprite00Attributes
 	ld c, NUM_SPRITE_OAM_STRUCTS
 .loop
 	ld a, [hl]
-	and $f0
+	and $ff ^ (PALETTE_MASK | VRAM_BANK_1)
 	ld [hli], a
 rept SPRITEOAMSTRUCT_LENGTH + -1
 	inc hl
@@ -246,12 +247,12 @@ RunBattleAnimCommand:
 	ret
 
 .CheckTimer:
-	ld a, [wBattleAnimDuration]
+	ld a, [wBattleAnimDelay]
 	and a
 	jr z, .done
 
 	dec a
-	ld [wBattleAnimDuration], a
+	ld [wBattleAnimDelay], a
 	and a
 	ret
 
@@ -268,17 +269,17 @@ RunBattleAnimCommand:
 
 ; Return from a subroutine.
 	ld hl, wBattleAnimFlags
-	bit 1, [hl]
+	bit BATTLEANIM_IN_SUBROUTINE_F, [hl]
 	jr nz, .do_anim
 
-	set 0, [hl]
+	set BATTLEANIM_STOP_F, [hl]
 	ret
 
 .not_done_with_anim
-	cp $d0
+	cp anim_obj_command
 	jr nc, .do_anim
 
-	ld [wBattleAnimDuration], a
+	ld [wBattleAnimDelay], a
 	ret
 
 .do_anim
@@ -289,7 +290,7 @@ RunBattleAnimCommand:
 .DoCommand:
 ; Execute battle animation command in [wBattleAnimByte].
 	ld a, [wBattleAnimByte]
-	sub $d0
+	sub anim_obj_command
 
 	ld e, a
 	ld d, 0
@@ -333,7 +334,7 @@ BattleAnimCommands::
 	dw BattleAnimCmd_BGP
 	dw BattleAnimCmd_OBP0
 	dw BattleAnimCmd_OBP1
-	dw BattleAnimCmd_ClearSprites
+	dw BattleAnimCmd_KeepSprites
 	dw BattleAnimCmd_IfParamEqual
 	dw BattleAnimCmd_SetVar
 	dw BattleAnimCmd_IncVar
@@ -345,7 +346,7 @@ BattleAnimCommands::
 
 BattleAnimCmd_Ret:
 	ld hl, wBattleAnimFlags
-	res 1, [hl]
+	res BATTLEANIM_IN_SUBROUTINE_F, [hl]
 	ld hl, wBattleAnimParent
 	ld e, [hl]
 	inc hl
@@ -376,7 +377,7 @@ BattleAnimCmd_Call:
 	inc hl
 	ld [hl], d
 	ld hl, wBattleAnimFlags
-	set 1, [hl]
+	set BATTLEANIM_IN_SUBROUTINE_F, [hl]
 	ret
 
 BattleAnimCmd_Jump:
@@ -393,12 +394,12 @@ BattleAnimCmd_Jump:
 BattleAnimCmd_Loop:
 	call GetBattleAnimByte
 	ld hl, wBattleAnimFlags
-	bit 2, [hl]
+	bit BATTLEANIM_IN_LOOP_F, [hl]
 	jr nz, .continue_loop
 	and a
 	jr z, .perpetual
 	dec a
-	set 2, [hl]
+	set BATTLEANIM_IN_LOOP_F, [hl]
 	ld [wBattleAnimLoops], a
 .continue_loop
 	ld hl, wBattleAnimLoops
@@ -419,7 +420,7 @@ BattleAnimCmd_Loop:
 
 .return_from_loop
 	ld hl, wBattleAnimFlags
-	res 2, [hl]
+	res BATTLEANIM_IN_LOOP_F, [hl]
 	ld hl, wBattleAnimAddress
 	ld e, [hl]
 	inc hl
@@ -564,7 +565,7 @@ BattleAnimCmd_Obj:
 	call GetBattleAnimByte
 	ld [wBattleObjectTempYCoord], a
 	call GetBattleAnimByte
-	ld [wBattleObjectTemp0b], a
+	ld [wBattleObjectTempParam], a
 	call QueueBattleAnimation
 	ret
 
@@ -601,10 +602,11 @@ BattleAnimCmd_ResetObp0:
 	ret
 
 BattleAnimCmd_ClearObjs:
+; BUG: This function only clears the first 6⅔ objects
 	ld hl, wActiveAnimObjects
-	ld a, $a0
+	ld a, $a0 ; should be NUM_ANIM_OBJECTS * BATTLEANIMSTRUCT_LENGTH
 .loop
-	ld [hl], $0
+	ld [hl], 0
 	inc hl
 	dec a
 	jr nz, .loop
@@ -651,7 +653,7 @@ endr
 
 BattleAnimCmd_IncObj:
 	call GetBattleAnimByte
-	ld e, 10
+	ld e, NUM_ANIM_OBJECTS
 	ld bc, wActiveAnimObjects
 .loop
 	ld hl, BATTLEANIMSTRUCT_INDEX
@@ -676,8 +678,8 @@ BattleAnimCmd_IncObj:
 
 BattleAnimCmd_IncBGEffect:
 	call GetBattleAnimByte
-	ld e, 5
-	ld bc, wActiveBGEffects
+	ld e, NUM_BG_EFFECTS
+	ld bc, wBGEffect1Function
 .loop
 	ld hl, $0
 	add hl, bc
@@ -701,7 +703,7 @@ BattleAnimCmd_IncBGEffect:
 
 BattleAnimCmd_SetObj:
 	call GetBattleAnimByte
-	ld e, 10
+	ld e, NUM_ANIM_OBJECTS
 	ld bc, wActiveAnimObjects
 .loop
 	ld hl, BATTLEANIMSTRUCT_INDEX
@@ -1097,9 +1099,9 @@ BattleAnimCmd_BeatUp:
 	ldh [rSVBK], a
 	ret
 
-BattleAnimCmd_ClearSprites:
+BattleAnimCmd_KeepSprites:
 	ld hl, wBattleAnimFlags
-	set 3, [hl]
+	set BATTLEANIM_KEEPSPRITES_F, [hl]
 	ret
 
 BattleAnimCmd_Sound:
@@ -1343,10 +1345,10 @@ BattleAnim_SetOBPals:
 	ret
 
 BattleAnim_UpdateOAM_All:
-	ld a, $0
+	ld a, 0
 	ld [wBattleAnimOAMPointerLo], a
 	ld hl, wActiveAnimObjects
-	ld e, 10
+	ld e, NUM_ANIM_OBJECTS
 .loop
 	ld a, [hl]
 	and a

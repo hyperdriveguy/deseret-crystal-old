@@ -7,11 +7,11 @@ GiveParkBalls:
 	ret
 
 BugCatchingContestBattleScript::
-	writecode VAR_BATTLETYPE, BATTLETYPE_CONTEST
+	loadvar VAR_BATTLETYPE, BATTLETYPE_CONTEST
 	randomwildmon
 	startbattle
 	reloadmapafterbattle
-	copybytetovar wParkBallsRemaining
+	readmem wParkBallsRemaining
 	iffalse BugCatchingContestOutOfBallsScript
 	end
 
@@ -20,7 +20,7 @@ BugCatchingContestOverScript::
 	opentext
 	writetext BugCatchingContestText_BeeepTimesUp
 	waitbutton
-	jump BugCatchingContestReturnToGateScript
+	sjump BugCatchingContestReturnToGateScript
 
 BugCatchingContestOutOfBallsScript:
 	playsound SFX_ELEVATOR_END

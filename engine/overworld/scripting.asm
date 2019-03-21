@@ -80,6 +80,7 @@ ScriptCommandTable:
 	dw Script_callasm                    ; 0e
 	dw Script_special                    ; 0f
 	dw Script_memcallasm                 ; 10
+	dw Script_checkmapscene              ; 11
 	dw Script_setmapscene                ; 12
 	dw Script_checkscene                 ; 13
 	dw Script_setscene                   ; 14
@@ -1576,6 +1577,27 @@ Script_checkscene:
 
 	call CheckScenes
 	jr z, .no_scene
+	ld [wScriptVar], a
+	ret
+
+.no_scene
+	ld a, $ff
+	ld [wScriptVar], a
+	ret
+
+Script_checkmapscene:
+; script command 0x11
+; parameters: map_group, map_id
+
+	call GetScriptByte
+	ld b, a
+	call GetScriptByte
+	ld c, a
+	call GetMapSceneID
+	ld a, d
+	or e
+	jr z, .no_scene
+	ld a, [de]
 	ld [wScriptVar], a
 	ret
 

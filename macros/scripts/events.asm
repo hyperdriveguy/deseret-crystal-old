@@ -107,6 +107,12 @@ memcallasm: MACRO
 	dw \1 ; asm
 ENDM
 
+	enum checkmapscene_command ; $11
+checkmapscene: MACRO
+	db checkmapscene_command
+	map_id \1 ; map
+ENDM
+
 	enum setmapscene_command ; $12
 setmapscene: MACRO
 	db setmapscene_command

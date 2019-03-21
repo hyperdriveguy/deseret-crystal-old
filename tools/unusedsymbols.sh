@@ -235,6 +235,7 @@ sed -ne 's/^\(.*\): MACRO$/\1/p' \
 	| fgrep -xv 'givemoney' \
     | fgrep -xv 'callstd' \
     | fgrep -xv 'getname' \
+    | fgrep -xv 'checkmapscene' \
 	| teeunused maps engine
 
 # TODO: Check unused control chars (in the home/text.asm:CheckDict array)

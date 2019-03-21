@@ -231,9 +231,10 @@ sed -ne 's/^\(.*\): MACRO$/\1/p' \
 echo 'Unused event commands:'
 sed -ne 's/^\(.*\): MACRO$/\1/p' \
 	macros/scripts/events.asm \
-	| fgrep -xv 'readcoins' \
+	| fgrep -xv 'getcoins' \
 	| fgrep -xv 'givemoney' \
-	| fgrep -xv 'callstd' \
+    | fgrep -xv 'callstd' \
+    | fgrep -xv 'getname' \
 	| teeunused maps engine
 
 # TODO: Check unused control chars (in the home/text.asm:CheckDict array)

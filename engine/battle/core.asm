@@ -2585,10 +2585,7 @@ UpdateFaintedPlayerMon:
 	and BATTLERESULT_BITMASK
 	add LOSE
 	ld [wBattleResult], a
-	ld a, [wWhichMonFaintedFirst]
-	and a
-	ret z
-	ret ; ??????????
+	ret
 
 AskUseNextPokemon:
 	call EmptyBattleTextBox

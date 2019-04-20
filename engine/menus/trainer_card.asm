@@ -4,8 +4,6 @@
 	const TRAINERCARDSTATE_PAGE1_JOYPAD  ; 1
 	const TRAINERCARDSTATE_PAGE2_LOADGFX ; 2
 	const TRAINERCARDSTATE_PAGE2_JOYPAD  ; 3
-	const TRAINERCARDSTATE_PAGE3_LOADGFX ; 4
-	const TRAINERCARDSTATE_PAGE3_JOYPAD  ; 5
 	const TRAINERCARDSTATE_QUIT          ; 6
 
 TrainerCard:
@@ -87,8 +85,6 @@ TrainerCard:
 	dw TrainerCard_Page1_Joypad
 	dw TrainerCard_Page2_LoadGFX
 	dw TrainerCard_Page2_Joypad
-	dw TrainerCard_Page3_LoadGFX
-	dw TrainerCard_Page3_Joypad
 	dw TrainerCard_Quit
 
 TrainerCard_IncrementJumptable:
@@ -165,46 +161,6 @@ TrainerCard_Page2_Joypad:
 
 .Quit:
 	ld a, TRAINERCARDSTATE_QUIT
-	ld [wJumptableIndex], a
-	ret
-
-TrainerCard_Page3_LoadGFX:
-	call ClearSprites
-	hlcoord 0, 8
-	ld d, 6
-	call TrainerCard_InitBorder
-	call WaitBGMap
-	ld de, LeaderGFX2
-	ld hl, vTiles2 tile $29
-	lb bc, BANK(LeaderGFX2), 86
-	call Request2bpp
-	ld de, BadgeGFX2
-	ld hl, vTiles0 tile $00
-	lb bc, BANK(BadgeGFX2), 44
-	call Request2bpp
-	call TrainerCard_Page2_3_InitObjectsAndStrings
-	call TrainerCard_IncrementJumptable
-	ret
-
-TrainerCard_Page3_Joypad:
-	ld hl, TrainerCard_JohtoBadgesOAM
-	call TrainerCard_Page2_3_AnimateBadges
-	ld hl, hJoyLast
-	ld a, [hl]
-	and D_LEFT
-	jr nz, .left
-	ld a, [hl]
-	and D_RIGHT
-	jr nz, .right
-	ret
-
-.left
-	ld a, TRAINERCARDSTATE_PAGE2_LOADGFX
-	ld [wJumptableIndex], a
-	ret
-
-.right
-	ld a, TRAINERCARDSTATE_PAGE1_LOADGFX
 	ld [wJumptableIndex], a
 	ret
 
@@ -588,8 +544,6 @@ TrainerCard_JohtoBadgesOAM:
 CardStatusGFX: INCBIN "gfx/trainer_card/card_status.2bpp"
 
 LeaderGFX:  INCBIN "gfx/trainer_card/leaders.2bpp"
-LeaderGFX2: INCBIN "gfx/trainer_card/leaders.2bpp"
 BadgeGFX:   INCBIN "gfx/trainer_card/badges.2bpp"
-BadgeGFX2:  INCBIN "gfx/trainer_card/badges.2bpp"
 
 CardRightCornerGFX: INCBIN "gfx/trainer_card/card_right_corner.2bpp"

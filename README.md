@@ -16,7 +16,7 @@ Free space: 454922/2097152 (21.69%)
 
 # Optimized version:
 $ tools/free_space.awk pokecrystal11.map
-Free space: 691785/2097152 (32.99%)
+Free space: 693957/2097152 (33.09%)
 ```
 
 All of this space saved, without actually modifying the game!

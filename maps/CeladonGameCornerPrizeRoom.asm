@@ -5,7 +5,7 @@ CELADONGAMECORNERPRIZEROOM_PIKACHU_COINS  EQU 2222
 CELADONGAMECORNERPRIZEROOM_PORYGON_COINS  EQU 5555
 CELADONGAMECORNERPRIZEROOM_LARVITAR_COINS EQU 8888
 
-	const_def 2 ; object constants
+	object_const_def ; object_event constants
 	const CELADONGAMECORNERPRIZEROOM_GENTLEMAN
 	const CELADONGAMECORNERPRIZEROOM_PHARMACIST
 
@@ -214,6 +214,11 @@ CeladonGameCornerPrizeRoomGentlemanText:
 	done
 
 CeladonGameCornerPrizeRoomPharmacistText:
+if DEF(_CRYSTAL_AU)
+	text "I don't want to"
+	line "lose my coins."
+	done
+else
 	text "Whew…"
 
 	para "I've got to stay"
@@ -223,6 +228,7 @@ CeladonGameCornerPrizeRoomPharmacistText:
 	line "cool, or I'll lose"
 	cont "all my money…"
 	done
+endc
 
 CeladonPrizeRoom_PrizeVendorIntroText:
 	text "Welcome!"

@@ -7,7 +7,7 @@ _OptionsMenu:
 	hlcoord 0, 0
 	ld b, 16
 	ld c, 18
-	call TextBox
+	call Textbox
 	hlcoord 2, 2
 	ld de, StringOptions
 	call PlaceString
@@ -343,7 +343,7 @@ Options_Print:
 
 .Save:
 	ld b, a
-	ld [wGBPrinter], a
+	ld [wGBPrinterBrightness], a
 
 .NonePressed:
 	ld b, $0
@@ -375,7 +375,7 @@ Options_Print:
 GetPrinterSetting:
 ; converts GBPRINTER_* value in a to OPT_PRINT_* value in c,
 ; with previous/next GBPRINTER_* values in d/e
-	ld a, [wGBPrinter]
+	ld a, [wGBPrinterBrightness]
 	and a
 	jr z, .IsLightest
 	cp GBPRINTER_LIGHTER
@@ -448,7 +448,7 @@ Options_MenuAccount:
 .On:  db "ON @"
 
 Options_Frame:
-	ld hl, wTextBoxFrame
+	ld hl, wTextboxFrame
 	ldh a, [hJoyPressed]
 	bit D_LEFT_F, a
 	jr nz, .LeftPressed
@@ -470,7 +470,7 @@ Options_Frame:
 	maskbits NUM_FRAMES
 	ld [hl], a
 UpdateFrame:
-	ld a, [wTextBoxFrame]
+	ld a, [wTextboxFrame]
 	hlcoord 16, 15 ; where on the screen the number is drawn
 	add "1"
 	ld [hl], a

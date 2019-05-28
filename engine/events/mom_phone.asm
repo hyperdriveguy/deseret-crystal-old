@@ -39,13 +39,13 @@ MomTriesToBuySomething::
 .ok
 	ld a, PHONE_MOM
 	ld [wCurCaller], a
-	ld bc, wEngineBuffer2
-	ld hl, 0
+	ld bc, wCallerContact
+	ld hl, PHONE_CONTACT_TRAINER_CLASS
 	add hl, bc
-	ld [hl], 0
+	ld [hl], TRAINER_NONE
 	inc hl
-	ld [hl], 1
-	ld hl, wPhoneScriptPointer - wEngineBuffer2
+	ld [hl], PHONE_MOM
+	ld hl, PHONE_CONTACT_SCRIPT2_BANK
 	add hl, bc
 	ld a, BANK(Mom_GetScriptPointer)
 	ld [hli], a
@@ -147,7 +147,7 @@ Mom_GiveItemOrDoll:
 	ld [wCurItem], a
 	ld a, 1
 	ld [wItemQuantityChangeBuffer], a
-	ld hl, wPCItems
+	ld hl, wNumPCItems
 	call ReceiveItem
 	ret
 
@@ -206,30 +206,30 @@ INCLUDE "data/items/mom_phone.asm"
 
 _MomText_HiHowAreYou:
 	; Hi,  ! How are you?
-	text_far UnknownText_0x1bc615
+	text_far _MomShoppingText1
 	text_end
 
 _MomText_FoundAnItem:
 	; I found a useful item shopping, so
-	text_far UnknownText_0x1bc62a
+	text_far _MomShoppingText2
 	text_end
 
 _MomText_BoughtWithYourMoney:
 	; I bought it with your money. Sorry!
-	text_far UnknownText_0x1bc64e
+	text_far _MomShoppingText3
 	text_end
 
 _MomText_ItsInPC:
 	; It's in your PC. You'll like it!
-	text_far UnknownText_0x1bc673
+	text_far _MomShoppingText4
 	text_end
 
 _MomText_FoundADoll:
 	; While shopping today, I saw this adorable doll, so
-	text_far UnknownText_0x1bc693
+	text_far _MomShoppingText5
 	text_end
 
 _MomText_ItsInRoom:
 	; It's in your room. You'll love it!
-	text_far UnknownText_0x1bc6c7
+	text_far _MomShoppingText6
 	text_end

@@ -263,7 +263,9 @@ If <code><i>item_id</i></code> = `USE_SCRIPT_VAR`, then it uses `[wScriptVar]` i
 ## `$49`: `closetext`
 
 
-## `$4A`: <code>loadbytec2cf <i>byte</i></code>
+## `$4A`: <code>writeunusedbytebuffer <i>byte</i></code>
+
+<code>[<i>wUnusedScriptByteBuffer</i>] = <i>byte</i></code>
 
 
 ## `$4B`: <code>farwritetext <i>text_pointer</i></code>
@@ -489,7 +491,7 @@ If <code><i>item_id</i></code> = `USE_SCRIPT_VAR`, then it uses `[wScriptVar]` i
 ## `$93`: `endall`
 
 
-## `$94`: <code>pokemart <i>dialog_id</i>, <i>mart_id</i></code>
+## `$94`: <code>pokemart <i>mart_type</i>, <i>mart_id</i></code>
 
 
 ## `$95`: <code>elevator <i>floor_list</i></code>

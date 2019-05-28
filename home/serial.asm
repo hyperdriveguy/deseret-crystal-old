@@ -24,9 +24,9 @@ Serial::
 	cp USING_INTERNAL_CLOCK
 	jr z, .player2
 
-	ld a, 0 << rSC_ON
+	ld a, (0 << rSC_ON) | (0 << rSC_CLOCK)
 	ldh [rSC], a
-	ld a, 1 << rSC_ON
+	ld a, (1 << rSC_ON) | (0 << rSC_CLOCK)
 	ldh [rSC], a
 	jr .player2
 
@@ -57,9 +57,9 @@ Serial::
 	bit 7, a
 	jr nz, .wait_bit_7
 
-	ld a, 0 << rSC_ON
+	ld a, (0 << rSC_ON) | (0 << rSC_CLOCK)
 	ldh [rSC], a
-	ld a, 1 << rSC_ON
+	ld a, (1 << rSC_ON) | (0 << rSC_CLOCK)
 	ldh [rSC], a
 	jr .player2
 
@@ -122,9 +122,9 @@ Serial_ExchangeByte::
 	ldh a, [hSerialConnectionStatus]
 	cp USING_INTERNAL_CLOCK
 	jr nz, .not_player_2
-	ld a, (0 << rSC_ON) | 1
+	ld a, (0 << rSC_ON) | (1 << rSC_CLOCK)
 	ldh [rSC], a
-	ld a, (1 << rSC_ON) | 1
+	ld a, (1 << rSC_ON) | (1 << rSC_CLOCK)
 	ldh [rSC], a
 .not_player_2
 .loop2
@@ -339,9 +339,9 @@ LinkTransfer::
 	ldh a, [hSerialConnectionStatus]
 	cp USING_INTERNAL_CLOCK
 	jr nz, .player_1
-	ld a, (0 << rSC_ON) | 1
+	ld a, (0 << rSC_ON) | (1 << rSC_CLOCK)
 	ldh [rSC], a
-	ld a, (1 << rSC_ON) | 1
+	ld a, (1 << rSC_ON) | (1 << rSC_CLOCK)
 	ldh [rSC], a
 
 .player_1
@@ -369,8 +369,8 @@ LinkDataReceived::
 	ldh a, [hSerialConnectionStatus]
 	cp USING_INTERNAL_CLOCK
 	ret nz
-	ld a, (0 << rSC_ON) | 1
+	ld a, (0 << rSC_ON) | (1 << rSC_CLOCK)
 	ldh [rSC], a
-	ld a, (1 << rSC_ON) | 1
+	ld a, (1 << rSC_ON) | (1 << rSC_CLOCK)
 	ldh [rSC], a
 	ret

@@ -306,7 +306,7 @@ InitPokegearTilemap:
 	call PlaceString
 	hlcoord 0, 12
 	lb bc, 4, 18
-	call TextBox
+	call Textbox
 	call Pokegear_UpdateClock
 	ret
 
@@ -344,7 +344,7 @@ InitPokegearTilemap:
 	call Pokegear_LoadTilemapRLE
 	hlcoord 0, 12
 	lb bc, 4, 18
-	call TextBox
+	call Textbox
 	ret
 
 .Phone:
@@ -352,7 +352,7 @@ InitPokegearTilemap:
 	call Pokegear_LoadTilemapRLE
 	hlcoord 0, 12
 	lb bc, 4, 18
-	call TextBox
+	call Textbox
 	call .PlacePhoneBars
 	call PokegearPhone_UpdateDisplayList
 	ret
@@ -1128,7 +1128,7 @@ PokegearPhoneContactSubmenu:
 	ld b, a
 	ld c, 8
 	push de
-	call TextBox
+	call Textbox
 	pop de
 	pop hl
 	inc hl
@@ -1203,7 +1203,7 @@ PokegearPhoneContactSubmenu:
 
 .Delete:
 	ld hl, PokegearText_DeleteStoredNumber
-	call MenuTextBox
+	call MenuTextbox
 	call YesNoBox
 	call ExitMenu
 	jr c, .CancelDelete
@@ -1723,7 +1723,7 @@ NoRadioName:
 	call ClearBox
 	hlcoord 0, 12
 	lb bc, 4, 18
-	call TextBox
+	call Textbox
 	ret
 
 OaksPKMNTalkName:     db "OAK's <PK><MN> Talk@"
@@ -1949,7 +1949,7 @@ PlayRadio:
 	push de
 	hlcoord 0, 12
 	lb bc, 4, 18
-	call TextBox
+	call Textbox
 	hlcoord 1, 14
 	ld [hl], "“"
 	pop de

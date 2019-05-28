@@ -30,7 +30,7 @@ Printer_PrepareTileMapForPrint:
 	push af
 	call Printer_StartTransmission
 	pop af
-	ld [wcbfa], a
+	ld [wPrinterMargins], a
 	call Printer_CopyTileMapToBuffer
 	ret
 
@@ -56,12 +56,12 @@ PrintDexEntry:
 	push af
 	xor a
 	ldh [rIF], a
-	ld a, $9
+	ld a, (1 << SERIAL) | (1 << VBLANK)
 	ldh [rIE], a
 
 	call Printer_StartTransmission
-	ld a, $10
-	ld [wcbfa], a
+	ln a, 1, 0
+	ld [wPrinterMargins], a
 	farcall PrintPage1
 	call ClearTileMap
 	ld a, %11100100
@@ -86,8 +86,8 @@ PrintDexEntry:
 	ldh [hBGMapMode], a
 
 	call Printer_StartTransmission
-	ld a, $3
-	ld [wcbfa], a
+	ln a, 0, 3
+	ld [wPrinterMargins], a
 	farcall PrintPage2
 	call Printer_ResetJoypadRegisters
 	ld a, 4
@@ -140,18 +140,18 @@ PrintPCBox:
 	push af
 	xor a
 	ldh [rIF], a
-	ld a, %1001
+	ld a, (1 << SERIAL) | (1 << VBLANK)
 	ldh [rIE], a
 
 	ld hl, hVBlank
 	ld a, [hl]
 	push af
-	ld [hl], %0100
+	ld [hl], 4
 
 	xor a
 	ldh [hBGMapMode], a
 	call PrintPCBox_Page1
-	ld a, $10 ; to be loaded to wcbfa
+	ln a, 1, 0 ; to be loaded to wPrinterMargins
 	call Printer_PrepareTileMapForPrint
 	call Printer_ResetRegistersAndStartDataSend
 	jr c, .cancel
@@ -162,7 +162,7 @@ PrintPCBox:
 	xor a
 	ldh [hBGMapMode], a
 	call PrintPCBox_Page2
-	ld a, $0 ; to be loaded to wcbfa
+	ln a, 0, 0 ; to be loaded to wPrinterMargins
 	call Printer_PrepareTileMapForPrint
 	call Printer_ResetRegistersAndStartDataSend
 	jr c, .cancel
@@ -174,7 +174,7 @@ PrintPCBox:
 	xor a
 	ldh [hBGMapMode], a
 	call PrintPCBox_Page3
-	ld a, $0 ; to be loaded to wcbfa
+	ln a, 0, 0 ; to be loaded to wPrinterMargins
 	call Printer_PrepareTileMapForPrint
 	call Printer_ResetRegistersAndStartDataSend
 	jr c, .cancel
@@ -186,7 +186,7 @@ PrintPCBox:
 	xor a
 	ldh [hBGMapMode], a
 	call PrintPCBox_Page4
-	ld a, $3 ; to be loaded to wcbfa
+	ln a, 0, 3 ; to be loaded to wPrinterMargins
 	call Printer_PrepareTileMapForPrint
 	call Printer_ResetRegistersAndStartDataSend
 .cancel
@@ -219,7 +219,7 @@ PrintUnownStamp:
 	push af
 	xor a
 	ldh [rIF], a
-	ld a, $9
+	ld a, (1 << SERIAL) | (1 << VBLANK)
 	ldh [rIE], a
 	ld hl, hVBlank
 	ld a, [hl]
@@ -229,7 +229,7 @@ PrintUnownStamp:
 	ldh [hBGMapMode], a
 	call LoadTileMapToTempTileMap
 	farcall PlaceUnownPrinterFrontpic
-	ld a, $0 ; to be loaded to wcbfa
+	ln a, 0, 0 ; to be loaded to wPrinterMargins
 	call Printer_PrepareTileMapForPrint
 	call Call_LoadTempTileMapToTileMap
 	call Printer_ResetJoypadRegisters
@@ -284,13 +284,13 @@ PrintMail:
 	push af
 	xor a
 	ldh [rIF], a
-	ld a, %1001
+	ld a, (1 << SERIAL) | (1 << VBLANK)
 	ldh [rIE], a
 
 	xor a
 	ldh [hBGMapMode], a
 
-	ld a, $13 ; to be loaded to wcbfa
+	ln a, 1, 3 ; to be loaded to wPrinterMargins
 	call Printer_PrepareTileMapForPrint
 	ld hl, hVBlank
 	ld a, [hl]
@@ -326,13 +326,13 @@ PrintPartymon:
 	push af
 	xor a
 	ldh [rIF], a
-	ld a, %1001
+	ld a, (1 << SERIAL) | (1 << VBLANK)
 	ldh [rIE], a
 
 	xor a
 	ldh [hBGMapMode], a
 	farcall PrintPartyMonPage1
-	ld a, $10 ; to be loaded to wcbfa
+	ln a, 1, 0 ; to be loaded to wPrinterMargins
 	call Printer_PrepareTileMapForPrint
 
 	ld hl, hVBlank
@@ -353,7 +353,7 @@ PrintPartymon:
 	xor a
 	ldh [hBGMapMode], a
 	farcall PrintPartyMonPage2
-	ld a, $3 ; to be loaded to wcbfa
+	ln a, 0, 3 ; to be loaded to wPrinterMargins
 	call Printer_PrepareTileMapForPrint
 
 	ld a, 18 / 2
@@ -390,7 +390,7 @@ _PrintDiploma:
 	push af
 	xor a
 	ldh [rIF], a
-	ld a, %1001
+	ld a, (1 << SERIAL) | (1 << VBLANK)
 	ldh [rIE], a
 
 	ld hl, hVBlank
@@ -398,7 +398,7 @@ _PrintDiploma:
 	push af
 	ld [hl], %0100
 
-	ld a, $10 ; to be loaded to wcbfa
+	ln a, 1, 0 ; to be loaded to wPrinterMargins
 	call Printer_PrepareTileMapForPrint
 	call Printer_ResetJoypadRegisters
 
@@ -416,7 +416,7 @@ _PrintDiploma:
 
 	farcall PrintDiplomaPage2
 
-	ld a, $3 ; to be loaded to wcbfa
+	ln a, 0, 3 ; to be loaded to wPrinterMargins
 	call Printer_PrepareTileMapForPrint
 	call Call_LoadTempTileMapToTileMap
 	call Printer_ResetJoypadRegisters
@@ -458,9 +458,9 @@ CheckCancelPrint:
 	ld [wPrinterOpcode], a
 	ld a, $88
 	ldh [rSB], a
-	ld a, $1
+	ld a, (0 << rSC_ON) | (1 << rSC_CLOCK)
 	ldh [rSC], a
-	ld a, $81
+	ld a, (1 << rSC_ON) | (1 << rSC_CLOCK)
 	ldh [rSC], a
 .loop2
 	ld a, [wPrinterOpcode]
@@ -554,7 +554,7 @@ PlacePrinterStatusString:
 	ldh [hBGMapMode], a
 	hlcoord 0, 5
 	lb bc, 10, 18
-	call TextBox
+	call Textbox
 	pop af
 	ld e, a
 	ld d, 0
@@ -789,7 +789,7 @@ Printer_GetMonGender:
 	ld l, a
 	ld a, [wAddrOfBoxToPrint + 1]
 	ld h, a
-	ld bc, $2b
+	ld bc, 2 + MONS_PER_BOX + MON_DVS
 	add hl, bc
 	ld bc, BOXMON_STRUCT_LENGTH
 	ld a, [wWhichBoxMonToPrint]

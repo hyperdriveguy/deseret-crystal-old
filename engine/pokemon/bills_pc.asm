@@ -746,8 +746,8 @@ BillsPC_InitRAM:
 	call ClearSprites
 	call ClearTileMap
 	call BillsPC_InitGFX
-	ld hl, wBillsPCPokemonList
-	ld bc, $338
+	ld hl, wBillsPCData
+	ld bc, wBillsPCDataEnd - wBillsPCData
 	xor a
 	call ByteFill
 	xor a
@@ -933,7 +933,7 @@ BillsPC_PlaceString:
 	push de
 	hlcoord 0, 15
 	lb bc, 1, 18
-	call TextBox
+	call Textbox
 	pop de
 	hlcoord 1, 16
 	call PlaceString
@@ -950,7 +950,7 @@ BillsPC_MoveMonWOMail_BoxNameAndArrows:
 BillsPC_BoxName:
 	hlcoord 8, 0
 	lb bc, 1, 10
-	call TextBox
+	call Textbox
 
 	ld a, [wBillsPC_LoadedBox]
 	and a
@@ -1189,7 +1189,7 @@ BillsPC_LoadMonStats:
 BillsPC_RefreshTextboxes:
 	hlcoord 8, 2
 	lb bc, 10, 10
-	call TextBox
+	call Textbox
 
 	hlcoord 8, 2
 	ld [hl], "└"
@@ -1744,7 +1744,7 @@ DepositPokemon:
 	call ClearBox
 	hlcoord 0, 15
 	lb bc, 1, 18
-	call TextBox
+	call Textbox
 	call WaitBGMap
 	hlcoord 1, 16
 	ld de, PCString_Stored
@@ -1799,7 +1799,7 @@ TryWithdrawPokemon:
 	call ClearBox
 	hlcoord 0, 15
 	lb bc, 1, 18
-	call TextBox
+	call Textbox
 	call WaitBGMap
 	hlcoord 1, 16
 	ld de, PCString_Got
@@ -1835,7 +1835,7 @@ ReleasePKMN_ByePKMN:
 	call ClearBox
 	hlcoord 0, 15
 	lb bc, 1, 18
-	call TextBox
+	call Textbox
 
 	call WaitBGMap
 	ld a, [wCurPartySpecies]
@@ -1856,7 +1856,7 @@ ReleasePKMN_ByePKMN:
 	call DelayFrames
 	hlcoord 0, 15
 	lb bc, 1, 18
-	call TextBox
+	call Textbox
 	hlcoord 1, 16
 	ld de, PCString_Bye
 	call PlaceString
@@ -1879,7 +1879,7 @@ MovePKMNWitoutMail_InsertMon:
 	push af
 	hlcoord 0, 15
 	lb bc, 1, 18
-	call TextBox
+	call Textbox
 	hlcoord 1, 16
 	ld de, .Saving_LeaveOn
 	call PlaceString
@@ -2194,7 +2194,7 @@ _ChangeBox:
 	ld [wMenuScrollPosition], a
 	hlcoord 0, 4
 	lb bc, 8, 9
-	call TextBox
+	call Textbox
 	call ScrollingMenu
 	ld a, [wMenuJoypad]
 	cp B_BUTTON
@@ -2259,7 +2259,7 @@ GetBoxName:
 BillsPC_PrintBoxCountAndCapacity:
 	hlcoord 11, 7
 	lb bc, 5, 7
-	call TextBox
+	call Textbox
 	ld a, [wMenuSelection]
 	cp -1
 	ret z
@@ -2347,7 +2347,7 @@ BillsPC_PrintBoxName:
 	hlcoord 0, 0
 	ld b, 2
 	ld c, 18
-	call TextBox
+	call Textbox
 	hlcoord 1, 2
 	ld de, .Current
 	call PlaceString
@@ -2473,7 +2473,7 @@ BillsPC_PlaceChangeBoxString:
 	push de
 	hlcoord 0, 14
 	lb bc, 2, 18
-	call TextBox
+	call Textbox
 	pop de
 	hlcoord 1, 16
 	call PlaceString

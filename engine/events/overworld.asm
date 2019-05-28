@@ -53,7 +53,7 @@ CheckBadge:
 	call CheckEngineFlag
 	ret nc
 	ld hl, .BadgeRequiredText
-	call MenuTextBoxBackup ; push text to queue
+	call MenuTextboxBackup ; push text to queue
 	scf
 	ret
 
@@ -109,7 +109,7 @@ CheckPartyMove:
 
 FieldMoveFailed:
 	ld hl, .CantUseHere
-	call MenuTextBoxBackup
+	call MenuTextboxBackup
 	ret
 
 .CantUseHere:
@@ -157,7 +157,7 @@ CutFunction:
 
 .FailCut:
 	ld hl, Text_NothingToCut
-	call MenuTextBoxBackup
+	call MenuTextboxBackup
 	ld a, $80
 	ret
 
@@ -394,13 +394,13 @@ SurfFunction:
 
 .FailSurf:
 	ld hl, CantSurfText
-	call MenuTextBoxBackup
+	call MenuTextboxBackup
 	ld a, $80
 	ret
 
 .AlreadySurfing:
 	ld hl, AlreadySurfingText
-	call MenuTextBoxBackup
+	call MenuTextboxBackup
 	ld a, $80
 	ret
 
@@ -494,7 +494,7 @@ TrySurfOW::
 	jr z, .quit
 
 ; Must be facing water.
-	ld a, [wEngineBuffer1]
+	ld a, [wFacingTileID]
 	call GetTileCollision
 	cp WATERTILE
 	jr nz, .quit
@@ -823,7 +823,7 @@ dig_incave
 	cp $2
 	jr nz, .failescaperope
 	ld hl, .Text_CantUseHere
-	call MenuTextBox
+	call MenuTextbox
 	call WaitPressAorB_BlinkCursor
 	call CloseWindow
 
@@ -926,7 +926,7 @@ TeleportFunction:
 
 .FailTeleport:
 	ld hl, .Text_CantUseHere
-	call MenuTextBoxBackup
+	call MenuTextboxBackup
 	ld a, $80
 	ret
 

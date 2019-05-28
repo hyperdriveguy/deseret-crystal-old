@@ -1,4 +1,4 @@
-	const_def 2 ; object constants
+	object_const_def ; object_event constants
 	const GOLDENRODDEPTSTORE5F_CLERK
 	const GOLDENRODDEPTSTORE5F_LASS
 	const GOLDENRODDEPTSTORE5F_MIKE
@@ -64,14 +64,14 @@ GoldenrodDeptStore5FReceptionistScript:
 	checkflag ENGINE_GOLDENROD_DEPT_STORE_TM27_RETURN
 	iftrue .EventIsOver
 	special GetFirstPokemonHappiness
-	writetext UnknownText_0x56143
+	writetext GoldenrodDeptStore5FReceptionistOhYourMonDotDotDotText
 	buttonsound
 	ifgreater 150 - 1, .VeryHappy
 	ifgreater 50 - 1, .SomewhatHappy
 	sjump .NotVeryHappy
 
 .VeryHappy:
-	writetext UnknownText_0x5615a
+	writetext GoldenrodDeptStore5FReceptionistThisMoveShouldBePerfectText
 	buttonsound
 	verbosegiveitem TM_RETURN
 	iffalse .Done
@@ -80,13 +80,13 @@ GoldenrodDeptStore5FReceptionistScript:
 	end
 
 .SomewhatHappy:
-	writetext UnknownText_0x561a6
+	writetext GoldenrodDeptStore5FReceptionistItsAdorableText
 	waitbutton
 	closetext
 	end
 
 .NotVeryHappy:
-	writetext UnknownText_0x561d8
+	writetext GoldenrodDeptStore5FReceptionistItLooksEvilHowAboutThisTMText
 	buttonsound
 	verbosegiveitem TM_FRUSTRATION
 	iffalse .Done
@@ -95,7 +95,7 @@ GoldenrodDeptStore5FReceptionistScript:
 	end
 
 .EventIsOver:
-	writetext UnknownText_0x56202
+	writetext GoldenrodDeptStore5FReceptionistThereAreTMsPerfectForMonText
 	waitbutton
 .Done:
 	closetext
@@ -104,7 +104,7 @@ GoldenrodDeptStore5FReceptionistScript:
 Carrie:
 	faceplayer
 	opentext
-	writetext UnknownText_0x56241
+	writetext GoldenrodDeptStore5FCarrieMysteryGiftExplanationText
 	waitbutton
 	closetext
 	special UnlockMysteryGift
@@ -130,12 +130,12 @@ GoldenrodDeptStore5FDirectory:
 GoldenrodDeptStore5FElevatorButton:
 	jumpstd elevatorbutton
 
-UnknownText_0x56143:
+GoldenrodDeptStore5FReceptionistOhYourMonDotDotDotText:
 	text "Hello. Oh, your"
 	line "#MON…"
 	done
 
-UnknownText_0x5615a:
+GoldenrodDeptStore5FReceptionistThisMoveShouldBePerfectText:
 	text "It's very attached"
 	line "to you."
 
@@ -144,20 +144,20 @@ UnknownText_0x5615a:
 	cont "pair like you."
 	done
 
-UnknownText_0x561a6:
+GoldenrodDeptStore5FReceptionistItsAdorableText:
 	text "It's adorable!"
 
 	para "You should teach"
 	line "it good TM moves."
 	done
 
-UnknownText_0x561d8:
+GoldenrodDeptStore5FReceptionistItLooksEvilHowAboutThisTMText:
 	text "It looks evil. How"
 	line "about this TM for"
 	cont "it?"
 	done
 
-UnknownText_0x56202:
+GoldenrodDeptStore5FReceptionistThereAreTMsPerfectForMonText:
 	text "There are sure to"
 	line "be TMs that are"
 
@@ -165,7 +165,7 @@ UnknownText_0x56202:
 	line "your #MON."
 	done
 
-UnknownText_0x56241:
+GoldenrodDeptStore5FCarrieMysteryGiftExplanationText:
 	text "MYSTERY GIFT."
 
 	para "With just a"

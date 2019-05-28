@@ -1,4 +1,4 @@
-	const_def 2 ; object constants
+	object_const_def ; object_event constants
 	const CELADONGAMECORNER_CLERK
 	const CELADONGAMECORNER_RECEPTIONIST
 	const CELADONGAMECORNER_POKEFAN_M
@@ -158,6 +158,12 @@ CeladonGameCornerPokefanMText:
 	done
 
 CeladonGameCornerTeacherText:
+if DEF(_CRYSTAL_AU)
+	text "The weather"
+	line "outside is very"
+	cont "nice."
+	done
+else
 	text "It's this machine"
 	line "I want."
 
@@ -167,8 +173,15 @@ CeladonGameCornerTeacherText:
 	para "should pay out"
 	line "today."
 	done
+endc
 
 CeladonGameCornerFishingGuruText:
+if DEF(_CRYSTAL_AU)
+	text "This machine looks"
+	line "the same as the"
+	cont "others."
+	done
+else
 	text "I think this slot"
 	line "machine will pay"
 	cont "out…"
@@ -176,8 +189,19 @@ CeladonGameCornerFishingGuruText:
 	para "The odds vary"
 	line "among machines."
 	done
+endc
 
 CeladonGameCornerFisherText1:
+if DEF(_CRYSTAL_AU)
+	text "Whoa!"
+
+	para "What? You want to"
+	line "play this machine?"
+
+	para "Here, take my"
+	line "coins."
+	done
+else
 	text "Gahahaha!"
 
 	para "The coins just"
@@ -189,6 +213,7 @@ CeladonGameCornerFisherText1:
 	para "I'll share my luck"
 	line "with you!"
 	done
+endc
 
 CeladonGameCornerFisherText2:
 	text "Gahahaha!"
@@ -210,6 +235,11 @@ CeladonGameCornerFisherNoCoinCaseText:
 	done
 
 CeladonGameCornerFisherFullCoinCaseText:
+if DEF(_CRYSTAL_AU)
+	text "Your COIN CASE is"
+	line "full."
+	done
+else
 	text "Hey, your COIN"
 	line "CASE is full, kid."
 
@@ -217,13 +247,18 @@ CeladonGameCornerFisherFullCoinCaseText:
 	line "a winning streak"
 	cont "too."
 	done
+endc
 
 CeladonGymGuyText:
 	text "Hey! CHAMP in"
 	line "making!"
 
 	para "Are you playing"
+if DEF(_CRYSTAL_AU)
+	line "too?"
+else
 	line "the slots too?"
+endc
 
 	para "I'm trying to get"
 	line "enough coins for a"
@@ -234,12 +269,19 @@ CeladonGymGuyText:
 	done
 
 CeladonGameCornerGrampsText:
+if DEF(_CRYSTAL_AU)
+	text "Is there any"
+	line "difference between"
+	cont "these lines?"
+	done
+else
 	text "Hmmm… The odds are"
 	line "surely better for"
 
 	para "PIKACHU's line,"
 	line "but… What to do?"
 	done
+endc
 
 CeladonGameCornerPoster1Text:
 	text "Hey!"

@@ -37,7 +37,7 @@ INCBIN "gfx/pokegear/town_map.2bpp.lz"
 PokegearPhoneIconGFX:
 INCBIN "gfx/font/phone_icon.2bpp"
 
-TextBoxSpaceGFX:
+TextboxSpaceGFX:
 INCBIN "gfx/frames/space.1bpp"
 
 FontsExtra_SolidBlackGFX:

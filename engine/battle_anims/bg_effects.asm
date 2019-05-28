@@ -1390,7 +1390,7 @@ BattleBGEffect_Tackle:
 	ldh [hLYOverrideEnd], a
 	ld hl, BG_EFFECT_STRUCT_03
 	add hl, bc
-	ld [hl], $0
+	ld [hl], 0
 	call BGEffect_CheckBattleTurn
 	jr nz, .player_side
 	ld a, 2
@@ -1424,10 +1424,10 @@ BattleBGEffect_25:
 	ldh [hLYOverrideEnd], a
 	ld hl, BG_EFFECT_STRUCT_03
 	add hl, bc
-	ld [hl], $0
+	ld [hl], 0
 	call BGEffect_CheckBattleTurn
 	jr nz, .player_side
-	ld a,  2
+	ld a, 2
 	jr .okay
 
 .player_side
@@ -1446,7 +1446,7 @@ Tackle_BGEffect25_2d_one:
 	ld a, [hl]
 	cp -8
 	jr z, .reached_limit
-	cp  8
+	cp 8
 	jr nz, .finish
 .reached_limit
 	call BattleBGEffects_IncrementJumptable

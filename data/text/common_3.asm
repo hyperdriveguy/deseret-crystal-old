@@ -821,14 +821,14 @@ UnknownText_0x1c5962::
 	line "you're ready."
 	done
 
-Text_OnlyThreeMonMayBeEntered::
+_OnlyThreeMonMayBeEnteredText::
 	text "Only three #MON"
 	line "may be entered."
 
 	para ""
 	done
 
-Text_TheMonMustAllBeDifferentKinds::
+_TheMonMustAllBeDifferentKindsText::
 	text "The @"
 	text_ram wStringBuffer2
 	text " #MON"
@@ -838,7 +838,7 @@ Text_TheMonMustAllBeDifferentKinds::
 	para ""
 	done
 
-Text_TheMonMustNotHoldTheSameItems::
+_TheMonMustNotHoldTheSameItemsText::
 	text "The @"
 	text_ram wStringBuffer2
 	text " #MON"
@@ -848,7 +848,7 @@ Text_TheMonMustNotHoldTheSameItems::
 	para ""
 	done
 
-Text_YouCantTakeAnEgg::
+_YouCantTakeAnEggText::
 	text "You can't take an"
 	line "EGG!"
 

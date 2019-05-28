@@ -306,7 +306,7 @@ Then edit four routines in [engine/battle/effect_commands.asm](https://github.co
  	...
 
  	ld hl, HurtItselfText
- 	call StdBattleTextBox
+ 	call StdBattleTextbox
 
  	call HitSelfInConfusion
 -	call BattleCommand_DamageCalc
@@ -319,7 +319,7 @@ Then edit four routines in [engine/battle/effect_commands.asm](https://github.co
 ```diff
  HitConfusion:
  	ld hl, HurtItselfText
- 	call StdBattleTextBox
+ 	call StdBattleTextbox
 
  	xor a
  	ld [wCriticalHit], a
@@ -412,7 +412,7 @@ Add this to the end of each file:
 
  .force_struggle
  	ld hl, BattleText_MonHasNoMovesLeft
- 	call StdBattleTextBox
+ 	call StdBattleTextbox
  	ld c, 60
  	call DelayFrames
  	xor a
@@ -894,11 +894,11 @@ This can bring Pokémon straight from level 1 to 100 by gaining just a few exper
 ```diff
  ; DRAGON_FANG
 -	item_attribute 100, HELD_NONE, 0, CANT_SELECT, ITEM, ITEMMENU_NOUSE, ITEMMENU_NOUSE
-+	item_attribute 100, HELD_DRAGON_BOOST, 0, CANT_SELECT, ITEM, ITEMMENU_NOUSE, ITEMMENU_NOUSE
++	item_attribute 100, HELD_DRAGON_BOOST, 10, CANT_SELECT, ITEM, ITEMMENU_NOUSE, ITEMMENU_NOUSE
  ...
  ; DRAGON_SCALE
 -	item_attribute 2100, HELD_DRAGON_BOOST, 10, CANT_SELECT, ITEM, ITEMMENU_NOUSE, ITEMMENU_NOUSE
-+	item_attribute 2100, HELD_NONE, 10, CANT_SELECT, ITEM, ITEMMENU_NOUSE, ITEMMENU_NOUSE
++	item_attribute 2100, HELD_NONE, 0, CANT_SELECT, ITEM, ITEMMENU_NOUSE, ITEMMENU_NOUSE
 ```
 
 
@@ -1276,7 +1276,7 @@ Finally, edit [engine/battle/read_trainer_party.asm](https://github.com/pret/pok
  .CheckWarp:
 -; Bug: Since no case is made for STANDING here, it will check
 -; [.edgewarps + $ff]. This resolves to $3e at $8035a.
--; This causes wd041 to be nonzero when standing on tile $3e,
+-; This causes wWalkingIntoEdgeWarp to be nonzero when standing on tile $3e,
 -; making bumps silent.
 -
  	ld a, [wWalkingDirection]
@@ -1292,8 +1292,8 @@ Finally, edit [engine/battle/read_trainer_party.asm](https://github.com/pret/pok
  	cp [hl]
  	jr nz, .not_warp
 
- 	ld a, 1
- 	ld [wd041], a
+ 	ld a, TRUE
+ 	ld [wWalkingIntoEdgeWarp], a
  	ld a, [wWalkingDirection]
 -	; This is in the wrong place.
 -	cp STANDING
@@ -1711,6 +1711,7 @@ This supports up to six entries.
  	call ValidateTempWildMonSpecies
  	jr c, .nowildbattle
 
+-	ld a, b ; This is in the wrong place.
  	cp UNOWN
  	jr nz, .done
 ```
@@ -1726,7 +1727,7 @@ This supports up to six entries.
  	ld de, 3
  	ld hl, .pointers
  	call IsInArray
- 	jr nc, .nope_bugged
+ 	jr nc, .nope
  	pop bc
 
  	inc hl
@@ -1735,7 +1736,7 @@ This supports up to six entries.
  	ld l, a
  	jp hl
 
- .nope_bugged
+ .nope
 -	; pop bc
 +	pop bc
  	xor a

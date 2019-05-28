@@ -298,7 +298,7 @@ PC_DisplayTextWaitMenu:
 	push af
 	set NO_TEXT_SCROLL, a
 	ld [wOptions], a
-	call MenuTextBox
+	call MenuTextbox
 	pop af
 	ld [wOptions], a
 	ret
@@ -336,7 +336,7 @@ PlayerWithdrawItemMenu:
 
 .askquantity
 	ld hl, .HowManyText
-	call MenuTextBox
+	call MenuTextbox
 	farcall SelectQuantityToToss
 	call ExitMenu
 	call ExitMenu
@@ -354,11 +354,11 @@ PlayerWithdrawItemMenu:
 	ld [wItemQuantityChangeBuffer], a
 	ld a, [wBuffer2]
 	ld [wCurItemQuantity], a
-	ld hl, wPCItems
+	ld hl, wNumPCItems
 	call TossItem
 	predef PartyMonItemName
 	ld hl, .WithdrewText
-	call MenuTextBox
+	call MenuTextbox
 	xor a
 	ldh [hBGMapMode], a
 	call ExitMenu
@@ -366,7 +366,7 @@ PlayerWithdrawItemMenu:
 
 .PackFull:
 	ld hl, .NoRoomText
-	call MenuTextBoxBackup
+	call MenuTextboxBackup
 	ret
 
 .done
@@ -390,7 +390,7 @@ PlayerTossItemMenu:
 .loop
 	call PCItemsJoypad
 	jr c, .quit
-	ld de, wPCItems
+	ld de, wNumPCItems
 	farcall TossItemFromPC
 	jr .loop
 
@@ -438,7 +438,7 @@ PlayerDepositItemMenu:
 	farcall HasNoItems
 	ret nc
 	ld hl, .NoItemsInBag
-	call MenuTextBoxBackup
+	call MenuTextboxBackup
 	scf
 	ret
 
@@ -496,7 +496,7 @@ PlayerDepositItemMenu:
 
 .AskQuantity:
 	ld hl, .HowManyText
-	call MenuTextBox
+	call MenuTextbox
 	farcall SelectQuantityToToss
 	push af
 	call ExitMenu
@@ -509,7 +509,7 @@ PlayerDepositItemMenu:
 	ld [wBuffer1], a
 	ld a, [wCurItemQuantity]
 	ld [wBuffer2], a
-	ld hl, wPCItems
+	ld hl, wNumPCItems
 	call ReceiveItem
 	jr nc, .NoRoomInPC
 	ld a, [wBuffer1]
@@ -562,7 +562,7 @@ PCItemsJoypad:
 	hlcoord 0, 0
 	ld b, 10
 	ld c, 18
-	call TextBox
+	call Textbox
 	ld a, [wPCItemsCursor]
 	ld [wMenuCursorBuffer], a
 	ld a, [wPCItemsScrollPosition]
@@ -628,13 +628,13 @@ PCItemsJoypad:
 	db SCROLLINGMENU_ENABLE_SELECT | SCROLLINGMENU_ENABLE_FUNCTION3 | SCROLLINGMENU_DISPLAY_ARROWS ; flags
 	db 4, 8 ; rows/cols?
 	db 2 ; horizontal spacing?
-	dbw 0, wPCItems
+	dbw 0, wNumPCItems
 	dba PlaceMenuItemName
 	dba PlaceMenuItemQuantity
 	dba UpdateItemDescription
 
 PC_DisplayText:
-	call MenuTextBox
+	call MenuTextbox
 	call ExitMenu
 	ret
 

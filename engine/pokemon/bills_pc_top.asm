@@ -10,7 +10,7 @@ _BillsPC:
 	and a
 	ret nz
 	ld hl, .Text_GottaHavePokemon
-	call MenuTextBoxBackup
+	call MenuTextboxBackup
 	scf
 	ret
 
@@ -197,10 +197,10 @@ ClearPCItemScreen:
 	call ByteFill
 	hlcoord 0, 0
 	lb bc, 10, 18
-	call TextBox
+	call Textbox
 	hlcoord 0, 12
 	lb bc, 4, 18
-	call TextBox
+	call Textbox
 	call WaitBGMap2
 	call SetPalettes ; load regular palettes?
 	ret

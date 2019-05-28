@@ -516,7 +516,7 @@ BattleTowerRoomMenu_WriteMessage:
 Function11a90f:
 	ld a, $1
 	ldh [rSVBK], a
-	call SpeechTextBox
+	call SpeechTextbox
 	ld a, $50
 	ld hl, $c320
 	ld bc, $008c

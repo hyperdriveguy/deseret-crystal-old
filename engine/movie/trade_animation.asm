@@ -927,7 +927,7 @@ TrademonStats_MonTemplate:
 	hlcoord 3, 0
 	ld b, $6
 	ld c, $d
-	call TextBox
+	call Textbox
 	hlcoord 4, 0
 	ld de, .OTMonData
 	call PlaceString
@@ -947,7 +947,7 @@ TrademonStats_Egg:
 	hlcoord 3, 0
 	ld b, 6
 	ld c, 13
-	call TextBox
+	call Textbox
 	hlcoord 4, 2
 	ld de, .EggData
 	call PlaceString
@@ -1187,12 +1187,12 @@ TradeAnim_SentToOTText:
 
 .Text_WasSentTo:
 	; was sent to @ .
-	text_far UnknownText_0x1bc6e9
+	text_far _TradingText1
 	text_end
 
 .Text_MonName:
 	;
-	text_far UnknownText_0x1bc701
+	text_far _TradingText2
 	text_end
 
 TradeAnim_OTBidsFarewell:
@@ -1207,12 +1207,12 @@ TradeAnim_OTBidsFarewell:
 
 .Text_BidsFarewellToMon:
 	; bids farewell to
-	text_far UnknownText_0x1bc703
+	text_far _TradingText3
 	text_end
 
 .Text_MonName:
 	; .
-	text_far UnknownText_0x1bc719
+	text_far _TradingText4
 	text_end
 
 TradeAnim_TakeCareOfText:
@@ -1230,7 +1230,7 @@ TradeAnim_TakeCareOfText:
 
 .Text_TakeGoodCareOfMon:
 	; Take good care of @ .
-	text_far UnknownText_0x1bc71f
+	text_far _TradingText5
 	text_end
 
 TradeAnim_OTSendsText1:
@@ -1247,12 +1247,12 @@ TradeAnim_OTSendsText1:
 
 .Text_ForYourMon:
 	; For @ 's @ ,
-	text_far UnknownText_0x1bc739
+	text_far _TradingText6
 	text_end
 
 .Text_OTSends:
 	; sends @ .
-	text_far UnknownText_0x1bc74c
+	text_far _TradingText7
 	text_end
 
 TradeAnim_OTSendsText2:
@@ -1269,12 +1269,12 @@ TradeAnim_OTSendsText2:
 
 .Text_WillTrade:
 	; will trade @ @
-	text_far UnknownText_0x1bc75e
+	text_far _TradingText8
 	text_end
 
 .Text_ForYourMon:
 	; for @ 's @ .
-	text_far UnknownText_0x1bc774
+	text_far _TradingText9
 	text_end
 
 TradeAnim_Wait80Frames:

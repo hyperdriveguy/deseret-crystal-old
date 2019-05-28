@@ -28,7 +28,7 @@ Elevator::
 
 .LoadFloors:
 	ld de, wCurElevator
-	ld bc, 4
+	ld bc, wElevatorDataEnd - wElevatorData
 	ld hl, wElevatorPointer
 	ld a, [hli]
 	ld h, [hl]
@@ -104,12 +104,12 @@ Elevator_GoToFloor:
 	ld l, a
 	inc hl
 	pop af
-	ld bc, 4
+	ld bc, wElevatorDataEnd - wElevatorData
 	call AddNTimes
 	inc hl
 	ld de, wBackupWarpNumber
 	ld a, [wElevatorPointerBank]
-	ld bc, 3
+	ld bc, wElevatorDataEnd - wElevatorData - 1
 	call FarCopyBytes
 	ret
 
@@ -150,7 +150,7 @@ Elevator_GetCurrentFloorText:
 	hlcoord 0, 0
 	ld b, 4
 	ld c, 8
-	call TextBox
+	call Textbox
 	hlcoord 1, 2
 	ld de, Elevator_CurrentFloorText
 	call PlaceString

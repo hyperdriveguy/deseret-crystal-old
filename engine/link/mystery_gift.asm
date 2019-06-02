@@ -394,7 +394,6 @@ Function104b88:
 	ret
 
 Function104bd0:
-	nop
 	ldh a, [hMGStatusFlags]
 	cp $10
 	jr z, .quit

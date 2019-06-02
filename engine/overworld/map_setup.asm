@@ -140,7 +140,6 @@ DelayLoadingNewSprites:
 	ret
 
 CheckReplaceKrisSprite:
-	nop
 	call .CheckBiking
 	jr c, .ok
 	call .CheckSurfing

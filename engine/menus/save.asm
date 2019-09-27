@@ -772,18 +772,6 @@ _SaveData:
 	ld de, sCrystalData
 	ld bc, wCrystalDataEnd - wCrystalData
 	call CopyBytes
-
-	; This block originally had some mobile functionality, but since we're still in
-	; BANK(sCrystalData), it instead overwrites the sixteen wEventFlags starting at 1:a603 with
-	; garbage from wd479. This isn't an issue, since ErasePreviousSave is followed by a regular
-	; save that unwrites the garbage.
-
-	ld hl, wd479
-	ld a, [hli]
-	ld [$a60e + 0], a
-	ld a, [hli]
-	ld [$a60e + 1], a
-
 	jp CloseSRAM
 
 _LoadData:
@@ -793,16 +781,6 @@ _LoadData:
 	ld de, wCrystalData
 	ld bc, wCrystalDataEnd - wCrystalData
 	call CopyBytes
-
-	; This block originally had some mobile functionality to mirror _SaveData above, but instead it
-	; (harmlessly) writes the aforementioned wEventFlags to the unused wd479.
-
-	ld hl, wd479
-	ld a, [$a60e + 0]
-	ld [hli], a
-	ld a, [$a60e + 1]
-	ld [hli], a
-
 	jp CloseSRAM
 
 GetBoxAddress:

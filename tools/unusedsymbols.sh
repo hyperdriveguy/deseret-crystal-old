@@ -19,8 +19,6 @@ BattleBGEffect_1c.DMG_PlayerData
 BattleTowerTrainerDataEnd
 BoxNameInputUpper
 BuenaPrizeItems.End
-CheckDict.dakuten
-CheckDict.diacritic
 CheckPlayerMoveTypeMatchups.not_very_effective
 CheckPlayerTurn
 CheckShininess.Shiny
@@ -46,9 +44,6 @@ HandleWeather.player_first
 HasRockSmash.no
 InitBattleAnimBuffer.milk_drink
 InterpretTwoOptionMenu
-LeerCorreosIngleses
-LeggiPostaInglese
-LireLeCourrierAnglais
 MalePlayerNameArray
 Mobile_GetMenuSelection
 NamingScreen_AdvanceCursor_CheckEndOfString
@@ -67,6 +62,7 @@ SetSeenMon
 SmallFarFlagAction.reset
 SwitchSpeed
 UpdateBGMap.bottom
+UsedMoveText_CheckObedience
 WaitDMATransfer
 _CalcHoursDaysSince
 _PrintNum.long

@@ -558,9 +558,6 @@ Text_WaitBGMap::
 	pop bc
 	ret
 
-Diacritic::
-	ret
-
 LoadBlinkingCursor::
 	ld a, "▼"
 	ldcoord_a 18, 17

@@ -59,8 +59,6 @@ Music_LookYoungster_Ch1:
 	note __, 16
 	loopchannel 0, .mainloop
 
-	db $ff
-
 Music_LookYoungster_Ch2:
 	stereopanning $f0
 	vibrato $12, $26
@@ -156,8 +154,6 @@ Music_LookYoungster_Ch2:
 	note C_, 1
 	note __, 1
 	loopchannel 0, .mainloop
-
-	db $ff
 
 Music_LookYoungster_Ch3:
 	stereopanning $ff
@@ -291,5 +287,3 @@ Music_LookYoungster_Ch3:
 	note G#, 1
 	note __, 1
 	loopchannel 0, .mainloop
-
-	db $ff

@@ -927,13 +927,13 @@ Sfx_3RdPlace_Ch7:
 	note B_, 6
 	endchannel
 
-Sfx_GetEggFromDayCareLady:
-	musicheader 4, 5, Sfx_GetEggFromDayCareLady_Ch5
-	musicheader 1, 6, Sfx_GetEggFromDayCareLady_Ch6
-	musicheader 1, 7, Sfx_GetEggFromDayCareLady_Ch7
-	musicheader 1, 8, Sfx_GetEggFromDayCareLady_Ch8
+Sfx_GetEgg:
+	musicheader 4, 5, Sfx_GetEgg_Ch5
+	musicheader 1, 6, Sfx_GetEgg_Ch6
+	musicheader 1, 7, Sfx_GetEgg_Ch7
+	musicheader 1, 8, Sfx_GetEgg_Ch8
 
-Sfx_GetEggFromDayCareLady_Ch5:
+Sfx_GetEgg_Ch5:
 	togglesfx
 	tempo 120
 	volume $77
@@ -963,7 +963,7 @@ Sfx_GetEggFromDayCareLady_Ch5:
 	note __, 9
 	endchannel
 
-Sfx_GetEggFromDayCareLady_Ch6:
+Sfx_GetEgg_Ch6:
 	togglesfx
 	vibrato $12, $34
 	dutycycle $3
@@ -990,7 +990,7 @@ Sfx_GetEggFromDayCareLady_Ch6:
 	note __, 9
 	endchannel
 
-Sfx_GetEggFromDayCareLady_Ch7:
+Sfx_GetEgg_Ch7:
 	togglesfx
 	notetype $8, $25
 	note __, 2
@@ -1007,7 +1007,7 @@ Sfx_GetEggFromDayCareLady_Ch7:
 	note __, 9
 	endchannel
 
-Sfx_GetEggFromDayCareLady_Ch8:
+Sfx_GetEgg_Ch8:
 	togglesfx
 	sfxtogglenoise $4
 	notetype $8

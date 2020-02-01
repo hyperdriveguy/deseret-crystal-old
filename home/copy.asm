@@ -196,7 +196,6 @@ Request1bpp::
 
 	ldh a, [hTilesPerCycle]
 	push af
-
 	ld a, $8
 	ldh [hTilesPerCycle], a
 

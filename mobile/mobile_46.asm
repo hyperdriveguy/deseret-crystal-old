@@ -1,20 +1,18 @@
-SECTION "Mobile 46", ROMX
-
 _BattleTowerRoomMenu:
 	xor a
 	ld [wc300], a
-	ld [$c31a], a
+	ld [wc31a], a
 	ldh a, [rSVBK]
 	push af
 	ld a, $3
 	ldh [rSVBK], a
 .loop
 	call JoyTextDelay
-	ld a, [wcf66]
+	ld a, [wBattleTowerRoomMenuJumptableIndex]
 	call BattleTowerRoomMenu_Jumptable
 	call BattleTowerRoomMenu_WriteMessage
 	call DelayFrame
-	ld a, [wcf66]
+	ld a, [wBattleTowerRoomMenuJumptableIndex]
 	cp $3
 	jr nz, .loop
 	pop af
@@ -24,7 +22,7 @@ _BattleTowerRoomMenu:
 	jp ReturnToMapFromSubmenu
 
 BattleTowerRoomMenu_Jumptable:
-	jumptable .Jumptable, wcf66
+	jumptable .Jumptable, wBattleTowerRoomMenuJumptableIndex
 
 .Jumptable:
 	dw BattleTowerRoomMenu_PickLevelMessage
@@ -47,7 +45,7 @@ BattleTowerRoomMenu_PickLevelMessage:
 	call BattleTowerRoomMenu_IncrementJumptable
 
 BattleTowerRoomMenu_PlacePickLevelMenu:
-	ld a, [$c31a]
+	ld a, [wc31a]
 	and a
 	ret nz
 	ld hl, MenuHeader_119cf7
@@ -204,14 +202,11 @@ BattleTowerRoomMenu_UpdatePickLevelMenu:
 	pop af
 	ldh [rSVBK], a
 	ld a, $7
-	ld [wcf66], a
+	ld [wBattleTowerRoomMenuJumptableIndex], a
 	ld a, $0
 	ld [wMobileInactivityTimerFrames], a
 	ret
 
-
-SECTION "Mobile 46 ASCII", ROMX
-; A hack to use ascii above.
 
 BattleTowerRoomMenu_UberRestrictionMessage:
 	ld hl, Text_UberRestriction
@@ -225,7 +220,7 @@ BattleTowerRoomMenu_PartyMonTopsThisLevelMessage:
 	call BattleTowerRoomMenu_IncrementJumptable
 
 BattleTowerRoomMenu_WaitForMessage:
-	ld a, [$c31a]
+	ld a, [wc31a]
 	and a
 	ret nz
 	ld a, $80
@@ -233,14 +228,14 @@ BattleTowerRoomMenu_WaitForMessage:
 	call BattleTowerRoomMenu_IncrementJumptable
 
 BattleTowerRoomMenu_DelayRestartMenu:
-    ; Loops while (--[wcd50] != 0),
-    ;   to create some sort of "delay" after the message is written on the screen,
-    ;   before starting the menu again.
+	; Loops while (--[wcd50] != 0),
+	;   to create some sort of "delay" after the message is written on the screen,
+	;   before starting the menu again.
 	ld hl, wcd50
 	dec [hl]
 	ret nz
 	ld a, $0
-	ld [wcf66], a
+	ld [wBattleTowerRoomMenuJumptableIndex], a
 	ret
 
 BattleTowerRoomMenu_QuitMessage:
@@ -249,7 +244,7 @@ BattleTowerRoomMenu_QuitMessage:
 	call BattleTowerRoomMenu_IncrementJumptable
 
 BattleTowerRoomMenu_PlaceYesNoMenu:
-	ld a, [$c31a]
+	ld a, [wc31a]
 	and a
 	ret nz
 	call BattleTowerRoomMenu_IncrementJumptable
@@ -259,7 +254,7 @@ BattleTowerRoomMenu_UpdateYesNoMenu:
 	call BattleTowerRoomMenu2_UpdateYesNoMenu
 	ret c
 	ld a, [wMobileInactivityTimerFrames]
-	ld [wcf66], a
+	ld [wBattleTowerRoomMenuJumptableIndex], a
 	ret
 
 MenuHeader_119cf7:
@@ -294,7 +289,7 @@ Strings_Ll0ToL40:
 BattleTower_LevelCheck:
 	ldh a, [rSVBK]
 	push af
-	ld a, $1
+	ld a, BANK(wPartyMons)
 	ldh [rSVBK], a
 	ld a, [wcd4f]
 	ld c, 10
@@ -329,7 +324,7 @@ BattleTower_LevelCheck:
 .exceeds
 	pop af
 	ld a, $4
-	ld [wcf66], a
+	ld [wBattleTowerRoomMenuJumptableIndex], a
 	pop af
 	ldh [rSVBK], a
 	scf
@@ -341,7 +336,7 @@ BattleTower_UbersCheck:
 	ld a, [wcd4f]
 	cp 70 / 10
 	jr nc, .level_70_or_more
-	ld a, $1
+	ld a, BANK(wPartyMons)
 	ldh [rSVBK], a
 	ld hl, wPartyMon1Level
 	ld bc, PARTYMON_STRUCT_LENGTH
@@ -384,14 +379,14 @@ BattleTower_UbersCheck:
 	ld bc, MON_NAME_LENGTH
 	call CopyBytes
 	ld a, $a
-	ld [wcf66], a
+	ld [wBattleTowerRoomMenuJumptableIndex], a
 	pop af
 	ldh [rSVBK], a
 	scf
 	ret
 
 BattleTowerRoomMenu_IncrementJumptable:
-	ld hl, wcf66
+	ld hl, wBattleTowerRoomMenuJumptableIndex
 	inc [hl]
 	ret
 
@@ -480,7 +475,7 @@ BattleTowerRoomMenu2_UpdateYesNoMenu:
 .exit_carry
 	ld [wcf66], a
 	ld a, $a
-	ld [wc300], a
+	ld [wMobileErrorCodeBuffer], a
 	scf
 	ret
 
@@ -506,7 +501,7 @@ MenuHeader_11a2de:
 	db 0 ; default option
 
 BattleTowerRoomMenu_WriteMessage:
-	jumptable .Jumptable, $c31a
+	jumptable .Jumptable, wc31a
 
 .Jumptable:
 	dw BattleTowerRoomMenu_WriteMessage_DoNothing
@@ -518,14 +513,14 @@ Function11a90f:
 	ldh [rSVBK], a
 	call SpeechTextbox
 	ld a, $50
-	ld hl, $c320
+	ld hl, wc320
 	ld bc, $008c
 	call ByteFill
-	ld a, [$c31b]
+	ld a, [wc31b]
 	ld l, a
-	ld a, [$c31c]
+	ld a, [wc31c]
 	ld h, a
-	ld de, $c320
+	ld de, wc320
 .asm_11a92c
 	ld a, [hli]
 	cp $57
@@ -556,17 +551,17 @@ Function11a90f:
 
 .asm_11a94f
 	xor a
-	ld [$c31f], a
-	ld a, LOW($c320)
-	ld [$c31b], a
-	ld a, HIGH($c320)
-	ld [$c31c], a
+	ld [wc31f], a
+	ld a, LOW(wc320)
+	ld [wc31b], a
+	ld a, HIGH(wc320)
+	ld [wc31c], a
 	hlcoord 1, 14
 	ld a, l
-	ld [$c31d], a
+	ld [wc31d], a
 	ld a, h
-	ld [$c31e], a
-	ld hl, $c31a
+	ld [wc31e], a
+	ld hl, wc31a
 	inc [hl]
 	ld a, $3
 	ldh [rSVBK], a
@@ -575,7 +570,7 @@ BattleTowerRoomMenu_WriteMessage_DoNothing:
 	ret
 
 Function11a971:
-	ld hl, $c31f
+	ld hl, wc31f
 	ldh a, [hJoyDown]
 	and a
 	jr nz, .asm_11a97f
@@ -590,45 +585,45 @@ Function11a971:
 	and $7
 	ld [hl], a
 	ld hl, wcd8d
-	ld a, [$c31b]
+	ld a, [wc31b]
 	ld e, a
-	ld a, [$c31c]
+	ld a, [wc31c]
 	ld d, a
 	ld a, [de]
 	inc de
 	ld [hli], a
 	ld a, e
-	ld [$c31b], a
+	ld [wc31b], a
 	ld a, d
-	ld [$c31c], a
+	ld [wc31c], a
 	ld a, $50
 	ld [hl], a
-	ld a, [$c31d]
+	ld a, [wc31d]
 	ld l, a
-	ld a, [$c31e]
+	ld a, [wc31e]
 	ld h, a
 	ld de, wcd8d
 	call PlaceString
 	ld a, c
-	ld [$c31d], a
+	ld [wc31d], a
 	ld a, b
-	ld [$c31e], a
+	ld [wc31e], a
 	ld a, [wcd8d]
 	cp $50
 	jr nz, .asm_11a9bf
 	xor a
-	ld [$c31a], a
+	ld [wc31a], a
 
 .asm_11a9bf
 	ret
 
 BattleTowerRoomMenu_SetMessage:
 	ld a, l
-	ld [$c31b], a
+	ld [wc31b], a
 	ld a, h
-	ld [$c31c], a
+	ld [wc31c], a
 	ld a, $1
-	ld [$c31a], a
+	ld [wc31a], a
 	ret
 
 Function11a9f0:

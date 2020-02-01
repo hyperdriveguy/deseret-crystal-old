@@ -1,5 +1,3 @@
-SECTION "mobile_40", ROMX
-
 _LinkBattleSendReceiveAction:
 	call .StageForSend
 	ld [wd431], a

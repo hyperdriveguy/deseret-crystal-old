@@ -239,13 +239,13 @@ Music_MagnetTrain_Ch4:
 	note A#, 4
 	note D_, 2
 	note D_, 2
-	callchannel Music_MagnetTrain_branch_ef71e
-	callchannel Music_MagnetTrain_branch_ef71e
+	callchannel .sub2
+	callchannel .sub2
 	notetype $c
 	note B_, 16
 	endchannel
 
-Music_MagnetTrain_branch_ef71e:
+.sub2:
 	note G#, 2
 	note G_, 2
 	note G_, 2

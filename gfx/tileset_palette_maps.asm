@@ -97,8 +97,8 @@ INCLUDE "gfx/tilesets/ice_path_palette_map.asm"
 TilesetForestPalMap:
 INCLUDE "gfx/tilesets/forest_palette_map.asm"
 
-TilesetBattleTowerPalMap:
-INCLUDE "gfx/tilesets/battle_tower_palette_map.asm"
+TilesetBattleTowerInsidePalMap:
+INCLUDE "gfx/tilesets/battle_tower_inside_palette_map.asm"
 
 TilesetBattleTowerOutsidePalMap:
 INCLUDE "gfx/tilesets/battle_tower_outside_palette_map.asm"

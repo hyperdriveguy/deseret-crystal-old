@@ -9,14 +9,13 @@ _BillsPC:
 	ld a, [wPartyCount]
 	and a
 	ret nz
-	ld hl, .Text_GottaHavePokemon
+	ld hl, .PCGottaHavePokemonText
 	call MenuTextboxBackup
 	scf
 	ret
 
-.Text_GottaHavePokemon:
-	; You gotta have #MON to call!
-	text_far UnknownText_0x1c1006
+.PCGottaHavePokemonText:
+	text_far _PCGottaHavePokemonText
 	text_end
 
 .LogIn:
@@ -28,16 +27,15 @@ _BillsPC:
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
-	ld hl, .Text_What
+	ld hl, .PCWhatText
 	call PrintText
 	pop af
 	ld [wOptions], a
 	call LoadFontsBattleExtra
 	ret
 
-.Text_What:
-	; What?
-	text_far UnknownText_0x1c1024
+.PCWhatText:
+	text_far _PCWhatText
 	text_end
 
 .LogOut:
@@ -112,7 +110,7 @@ BillsPC_MovePKMNMenu:
 	call LoadStandardMenuHeader
 	farcall IsAnyMonHoldingMail
 	jr nc, .no_mail
-	ld hl, .Text_MonHoldingMail
+	ld hl, .PCMonHoldingMailText
 	call PrintText
 	jr .quit
 
@@ -128,9 +126,8 @@ BillsPC_MovePKMNMenu:
 	and a
 	ret
 
-.Text_MonHoldingMail:
-	; There is a #MON holding MAIL. Please remove the MAIL.
-	text_far UnknownText_0x1c102b
+.PCMonHoldingMailText:
+	text_far _PCMonHoldingMailText
 	text_end
 
 BillsPC_DepositMenu:

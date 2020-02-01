@@ -22,44 +22,38 @@ _CheckForBattleTowerRules:
 	dw Function_HasPartyAnEgg
 
 .TextPointers:
-	dw JumpText_ExcuseMeYoureNotReady
+	dw ExcuseMeYoureNotReadyText
 	dw OnlyThreeMonMayBeEnteredText
 	dw TheMonMustAllBeDifferentKindsText
 	dw TheMonMustNotHoldTheSameItemsText
 	dw YouCantTakeAnEggText
 
-JumpText_ExcuseMeYoureNotReady:
-	; Excuse me. You're not ready.
-	text_far Text_ExcuseMeYoureNotReady
+ExcuseMeYoureNotReadyText:
+	text_far _ExcuseMeYoureNotReadyText
 	text_end
 
 BattleTower_PleaseReturnWhenReady:
-	ld hl, .PleaseReturnWhenReady
+	ld hl, .BattleTowerReturnWhenReadyText
 	call PrintText
 	ret
 
-.PleaseReturnWhenReady:
-	; Please return when you're ready.
-	text_far UnknownText_0x1c5962
+.BattleTowerReturnWhenReadyText:
+	text_far _BattleTowerReturnWhenReadyText
 	text_end
 
 OnlyThreeMonMayBeEnteredText:
-	; Only three #MON may be entered.
 	text_far _OnlyThreeMonMayBeEnteredText
 	text_end
 
 TheMonMustAllBeDifferentKindsText:
-	; The @  #MON must all be different kinds.
 	text_far _TheMonMustAllBeDifferentKindsText
 	text_end
 
 TheMonMustNotHoldTheSameItemsText:
-	; The @  #MON must not hold the same items.
 	text_far _TheMonMustNotHoldTheSameItemsText
 	text_end
 
 YouCantTakeAnEggText:
-	; You can't take an EGG!
 	text_far _YouCantTakeAnEggText
 	text_end
 

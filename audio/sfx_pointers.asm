@@ -136,7 +136,7 @@ SFX:
 	dba Sfx_KeyItem
 	dba Sfx_RegisterPhoneNumber
 	dba Sfx_3RdPlace
-	dba Sfx_GetEggFromDayCareLady
+	dba Sfx_GetEgg
 	dba Sfx_MoveDeleted
 	dba Sfx_2ndPlace
 	dba Sfx_1stPlace
@@ -172,8 +172,8 @@ SFX:
 	dba Sfx_TrainArrived
 	dba Sfx_StopSlot
 	dba Sfx_2Boops
-	dba Sfx_GlassTing
 ; new to Crystal
+	dba Sfx_GlassTing
 	dba Sfx_IntroUnown1
 	dba Sfx_IntroUnown2
 	dba Sfx_IntroUnown3

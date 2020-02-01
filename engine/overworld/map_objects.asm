@@ -10,7 +10,7 @@ DeleteMapObject::
 	push af
 	ld h, b
 	ld l, c
-	ld bc, OBJECT_STRUCT_LENGTH
+	ld bc, OBJECT_LENGTH
 	xor a
 	call ByteFill
 	pop af
@@ -410,7 +410,7 @@ RestoreDefaultMovement:
 	ret
 
 .ok
-	ld a, SPRITEMOVEFN_STANDING
+	ld a, SPRITEMOVEDATA_STANDING_DOWN
 	ret
 
 IncrementObjectMovementByteIndex:
@@ -1865,11 +1865,11 @@ DespawnEmote:
 	jr z, .next
 	push bc
 	xor a
-	ld bc, OBJECT_STRUCT_LENGTH
+	ld bc, OBJECT_LENGTH
 	call ByteFill
 	pop bc
 .next
-	ld hl, OBJECT_STRUCT_LENGTH
+	ld hl, OBJECT_LENGTH
 	add hl, de
 	ld d, h
 	ld e, l
@@ -1932,7 +1932,7 @@ Function55e0::
 	jr z, .ok
 	call Function565c
 .ok
-	ld hl, OBJECT_STRUCT_LENGTH
+	ld hl, OBJECT_LENGTH
 	add hl, bc
 	ld b, h
 	ld c, l
@@ -1988,7 +1988,7 @@ Function5645:
 .loop
 	ldh [hMapObjectIndexBuffer], a
 	call SetFacing_Standing
-	ld hl, OBJECT_STRUCT_LENGTH
+	ld hl, OBJECT_LENGTH
 	add hl, bc
 	ld b, h
 	ld c, l
@@ -2204,7 +2204,7 @@ HandleNPCStep::
 	jr z, .next
 	call Function437b
 .next
-	ld hl, OBJECT_STRUCT_LENGTH
+	ld hl, OBJECT_LENGTH
 	add hl, bc
 	ld b, h
 	ld c, l
@@ -2249,7 +2249,7 @@ RefreshPlayerSprite:
 	jr ContinueSpawnFacing
 
 SpawnInFacingDown:
-	ld a, 0
+	ld a, DOWN
 ContinueSpawnFacing:
 	ld bc, wPlayerStruct
 	call SetSpriteDirection
@@ -2356,7 +2356,7 @@ Function587a:
 	add hl, bc
 	set OBJ_FLAGS2_5, [hl]
 .next
-	ld hl, OBJECT_STRUCT_LENGTH
+	ld hl, OBJECT_LENGTH
 	add hl, bc
 	ld b, h
 	ld c, l
@@ -2399,7 +2399,7 @@ Function58b9::
 	add hl, bc
 	res OBJ_FLAGS2_5, [hl]
 .next
-	ld hl, OBJECT_STRUCT_LENGTH
+	ld hl, OBJECT_LENGTH
 	add hl, bc
 	ld b, h
 	ld c, l
@@ -2516,7 +2516,7 @@ ApplyBGMapAnchorToObjects:
 	add e
 	ld [hl], a
 .skip
-	ld hl, OBJECT_STRUCT_LENGTH
+	ld hl, OBJECT_LENGTH
 	add hl, bc
 	ld b, h
 	ld c, l
@@ -2575,7 +2575,7 @@ InitSprites:
 	jr .add
 
 .skip
-	ld hl, OBJECT_STRUCT_LENGTH
+	ld hl, OBJECT_LENGTH
 	add hl, bc
 	ld b, h
 	ld c, l
@@ -2583,7 +2583,7 @@ InitSprites:
 	jr .next
 
 .add
-	ld hl, OBJECT_STRUCT_LENGTH
+	ld hl, OBJECT_LENGTH
 	add hl, bc
 	ld b, h
 	ld c, l

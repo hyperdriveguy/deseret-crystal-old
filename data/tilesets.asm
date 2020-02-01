@@ -33,7 +33,7 @@ Tilesets::
 	tileset TilesetChampionsRoom
 	tileset TilesetLighthouse
 	tileset TilesetPlayersRoom
-	tileset TilesetBattleTower
+	tileset TilesetBattleTowerInside
 	tileset TilesetTower
 	tileset TilesetCave
 	tileset TilesetPark

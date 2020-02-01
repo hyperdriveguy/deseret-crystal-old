@@ -33,7 +33,7 @@ DoMysteryGift:
 	pop de
 	hlcoord 2, 8
 	ld a, d
-	ld de, .Text_LinkCanceled ; Link has been canceled
+	ld de, .MysteryGiftCanceledText ; Link has been canceled
 	cp $10
 	jp z, .LinkCanceled
 	cp $6c
@@ -42,10 +42,10 @@ DoMysteryGift:
 	cp 3
 	jr z, .skip_checks
 	call .CheckAlreadyGotFiveGiftsToday
-	ld hl, .Text_MaxFiveGifts ; Only 5 gifts a day
+	ld hl, .MysteryGiftFiveADayText ; Only 5 gifts a day
 	jp nc, .PrintTextAndExit
 	call .CheckAlreadyGotAGiftFromThatPerson
-	ld hl, .Text_MaxOneGiftPerPerson ; Only one gift a day per person
+	ld hl, .MysteryGiftOneADayText ; Only one gift a day per person
 	jp c, .PrintTextAndExit
 .skip_checks
 	ld a, [wMysteryGiftPlayerBackupItem]
@@ -81,7 +81,7 @@ DoMysteryGift:
 	ld de, wStringBuffer1
 	ld bc, ITEM_NAME_LENGTH
 	call CopyBytes
-	ld hl, .Text_SentToHome ; sent decoration to home
+	ld hl, .MysteryGiftSentHomeText ; sent decoration to home
 	jr .PrintTextAndExit
 
 .item
@@ -94,24 +94,24 @@ DoMysteryGift:
 	ld [wNamedObjectIndexBuffer], a
 	call CloseSRAM
 	call GetItemName
-	ld hl, .Text_Sent ; sent item
+	ld hl, .MysteryGiftSentText ; sent item
 	jr .PrintTextAndExit
 
 .LinkCanceled:
-	ld hl, .Text_LinkCanceled ; Link has been canceled
+	ld hl, .MysteryGiftCanceledText ; Link has been canceled
 	jr .PrintTextAndExit
 
 .CommunicationError:
-	ld hl, .Text_CommunicationError ; Communication error
+	ld hl, .MysteryGiftCommErrorText ; Communication error
 	call PrintText
 	jp DoMysteryGift
 
 .GiftWaiting:
-	ld hl, .Text_ReceiveGiftAtCounter ; receive gift at counter
+	ld hl, .RetrieveMysteryGiftText ; receive gift at counter
 	jr .PrintTextAndExit
 
 .FriendNotReady:
-	ld hl, .Text_FriendNotReady ; friend not ready
+	ld hl, .YourFriendIsNotReadyText ; friend not ready
 
 .PrintTextAndExit:
 	call PrintText
@@ -126,36 +126,36 @@ DoMysteryGift:
 	next "cancel it."
 	db   "@"
 
-.Text_LinkCanceled:
-	text_far UnknownText_0x1c0436
+.MysteryGiftCanceledText:
+	text_far _MysteryGiftCanceledText
 	text_end
 
-.Text_CommunicationError:
-	text_far UnknownText_0x1c0454
+.MysteryGiftCommErrorText:
+	text_far _MysteryGiftCommErrorText
 	text_end
 
-.Text_ReceiveGiftAtCounter:
-	text_far UnknownText_0x1c046a
+.RetrieveMysteryGiftText:
+	text_far _RetrieveMysteryGiftText
 	text_end
 
-.Text_FriendNotReady:
-	text_far UnknownText_0x1c048e
+.YourFriendIsNotReadyText:
+	text_far _YourFriendIsNotReadyText
 	text_end
 
-.Text_MaxFiveGifts:
-	text_far UnknownText_0x1c04a7
+.MysteryGiftFiveADayText:
+	text_far _MysteryGiftFiveADayText
 	text_end
 
-.Text_MaxOneGiftPerPerson:
-	text_far UnknownText_0x1c04c6
+.MysteryGiftOneADayText:
+	text_far _MysteryGiftOneADayText
 	text_end
 
-.Text_Sent:
-	text_far UnknownText_0x1c04e9
+.MysteryGiftSentText:
+	text_far _MysteryGiftSentText
 	text_end
 
-.Text_SentToHome:
-	text_far UnknownText_0x1c04fa
+.MysteryGiftSentHomeText:
+	text_far _MysteryGiftSentHomeText
 	text_end
 
 .CheckAlreadyGotFiveGiftsToday:

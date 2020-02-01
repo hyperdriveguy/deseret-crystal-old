@@ -323,7 +323,7 @@ CopyWarpData::
 	ld bc, 2 ; warp number
 	add hl, bc
 	ld a, [hli]
-	cp $ff
+	cp -1
 	jr nz, .skip
 	ld hl, wBackupWarpNumber
 	ld a, [hli]
@@ -365,11 +365,11 @@ LoadMapAttributes::
 	call CopyMapPartialAndAttributes
 	call SwitchToMapScriptsBank
 	call ReadMapScripts
-	xor a ; do not skip object_events
+	xor a ; do not skip object events
 	call ReadMapEvents
 	ret
 
-LoadMapAttributes_SkipPeople::
+LoadMapAttributes_SkipObjects::
 	call CopyMapPartialAndAttributes
 	call SwitchToMapScriptsBank
 	call ReadMapScripts
@@ -582,7 +582,7 @@ ReadObjectEvents::
 ; Fill the remaining sprite IDs and y coords with 0 and -1, respectively.
 ; Bleeds into wObjectMasks due to a bug.  Uncomment the above subtraction
 ; to fix.
-	ld bc, OBJECT_LENGTH
+	ld bc, MAPOBJECT_LENGTH
 .loop
 	ld [hl],  0
 	inc hl
@@ -616,7 +616,7 @@ CopyMapObjectEvents::
 	jr nz, .loop2
 
 	pop hl
-	ld bc, OBJECT_LENGTH
+	ld bc, MAPOBJECT_LENGTH
 	add hl, bc
 	pop bc
 	dec c
@@ -625,13 +625,13 @@ CopyMapObjectEvents::
 
 ClearObjectStructs::
 	ld hl, wObject1Struct
-	ld bc, OBJECT_STRUCT_LENGTH * (NUM_OBJECT_STRUCTS - 1)
+	ld bc, OBJECT_LENGTH * (NUM_OBJECT_STRUCTS - 1)
 	xor a
 	call ByteFill
 
 ; Just to make sure (this is rather pointless)
 	ld hl, wObject1Struct
-	ld de, OBJECT_STRUCT_LENGTH
+	ld de, OBJECT_LENGTH
 	ld c, NUM_OBJECT_STRUCTS - 1
 	xor a
 .loop
@@ -641,7 +641,7 @@ ClearObjectStructs::
 	jr nz, .loop
 	ret
 
-RestoreFacingAfterWarp::
+GetWarpDestCoords::
 	call GetMapScriptsBank
 	rst Bankswitch
 
@@ -664,12 +664,12 @@ endr
 	ld [wXCoord], a
 	; destination warp number
 	ld a, [hli]
-	cp $ff
+	cp -1
 	jr nz, .skip
 	call .backup
 
 .skip
-	farcall GetCoordOfUpperLeftCorner
+	farcall GetMapScreenCoords
 	ret
 
 .backup
@@ -1122,7 +1122,7 @@ UnmaskObject::
 	ld [hl], 0 ; unmasked
 	ret
 
-ScrollMapDown::
+ScrollMapUp::
 	hlcoord 0, 0
 	ld de, wBGMapBuffer
 	call BackupBGMapRow
@@ -1137,7 +1137,7 @@ ScrollMapDown::
 	ldh [hBGMapUpdate], a
 	ret
 
-ScrollMapUp::
+ScrollMapDown::
 	hlcoord 0, SCREEN_HEIGHT - 2
 	ld de, wBGMapBuffer
 	call BackupBGMapRow
@@ -1160,7 +1160,7 @@ ScrollMapUp::
 	ldh [hBGMapUpdate], a
 	ret
 
-ScrollMapRight::
+ScrollMapLeft::
 	hlcoord 0, 0
 	ld de, wBGMapBuffer
 	call BackupBGMapColumn
@@ -1175,7 +1175,7 @@ ScrollMapRight::
 	ldh [hBGMapUpdate], a
 	ret
 
-ScrollMapLeft::
+ScrollMapRight::
 	hlcoord SCREEN_WIDTH - 2, 0
 	ld de, wBGMapBuffer
 	call BackupBGMapColumn
@@ -1401,7 +1401,7 @@ SaveScreen::
 .vertical
 	ld b, SCREEN_META_WIDTH
 	ld c, SCREEN_META_HEIGHT - 1
-	jr SaveScreen_LoadNeighbor
+	jr SaveScreen_LoadConnection
 
 .left
 	ld de, wScreenSave + 1
@@ -1413,9 +1413,9 @@ SaveScreen::
 .horizontal
 	ld b, SCREEN_META_WIDTH - 1
 	ld c, SCREEN_META_HEIGHT
-	jr SaveScreen_LoadNeighbor
+	jr SaveScreen_LoadConnection
 
-LoadNeighboringBlockData::
+LoadConnectionBlockData::
 	ld hl, wOverworldMapAnchor
 	ld a, [hli]
 	ld h, [hl]
@@ -1427,7 +1427,7 @@ LoadNeighboringBlockData::
 	ld b, SCREEN_META_WIDTH
 	ld c, SCREEN_META_HEIGHT
 
-SaveScreen_LoadNeighbor::
+SaveScreen_LoadConnection::
 .row
 	push bc
 	push hl
@@ -1444,7 +1444,6 @@ SaveScreen_LoadNeighbor::
 	ld e, a
 	jr nc, .okay
 	inc d
-
 .okay
 	pop hl
 	ldh a, [hConnectionStripLength]
@@ -2202,7 +2201,7 @@ GetFishingGroup::
 	pop de
 	ret
 
-LoadTileset::
+LoadMapTileset::
 	push hl
 	push bc
 

@@ -86,7 +86,6 @@ INCLUDE "engine/events/daycare.asm"
 INCLUDE "engine/events/print_unown.asm"
 INCLUDE "engine/events/print_photo.asm"
 INCLUDE "engine/pokemon/breeding.asm"
-INCLUDE "gfx/tilesets.asm"
 
 
 SECTION "Roofs", ROMX
@@ -501,6 +500,8 @@ INCLUDE "engine/events/npc_trade.asm"
 INCLUDE "engine/events/mom_phone.asm"
 
 
+SECTION "mobile40", ROMX
+
 INCLUDE "mobile/mobile_40.asm"
 
 
@@ -524,6 +525,10 @@ INCBIN "gfx/intro/logo.2bpp.lz"
 SECTION "Title", ROMX
 
 INCLUDE "engine/movie/title.asm"
+
+
+SECTION "mobile46", ROMX
+
 INCLUDE "mobile/mobile_46.asm"
 
 
@@ -537,7 +542,7 @@ SECTION "bank5B", ROMX
 INCLUDE "engine/link/link_trade.asm"
 
 
-SECTION "Mobile 5C", ROMX
+SECTION "mobile5C", ROMX
 
 INCLUDE "engine/events/battle_tower/battle_tower.asm"
 
@@ -566,7 +571,7 @@ SECTION "UpdateBattleHUDs", ROMX
 INCLUDE "engine/battle/update_battle_huds.asm"
 
 
-SECTION "Mobile 5F", ROMX
+SECTION "mobile5F", ROMX
 
 INCLUDE "mobile/mobile_5f.asm"
 

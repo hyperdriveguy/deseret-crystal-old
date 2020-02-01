@@ -74,7 +74,7 @@ SSAquaGranddaughterBefore:
 	applymovement FASTSHIPCABINS_SE_SSE_CAPTAINSCABIN_GENTLEMAN, MovementData_0x76010
 	opentext
 	writetext SSAquaEntertainedGranddaughterText
-	buttonsound
+	promptbutton
 	setevent EVENT_VERMILION_PORT_SAILOR_AT_GANGWAY
 	setmapscene FAST_SHIP_1F, SCENE_DEFAULT
 	sjump SSAquaMetalCoatAndDocking
@@ -94,7 +94,7 @@ SSAquaGrandpa:
 
 SSAquaMetalCoatAndDocking:
 	writetext SSAquaGrandpaHaveThisText
-	buttonsound
+	promptbutton
 	verbosegiveitem METAL_COAT
 	iffalse .NoRoom
 	setevent EVENT_GOT_METAL_COAT_FROM_GRANDPA_ON_SS_AQUA
@@ -113,7 +113,7 @@ SSAquaMetalCoatAndDocking:
 
 SSAquaFoundGranddaughter:
 	writetext SSAquaGrandpaHaveThisText
-	buttonsound
+	promptbutton
 	verbosegiveitem METAL_COAT
 	iffalse .NoRoom
 	setevent EVENT_GOT_METAL_COAT_FROM_GRANDPA_ON_SS_AQUA

@@ -378,12 +378,11 @@ PopulateDecoCategoryMenu:
 	ret
 
 .empty
-	ld hl, .Text_nothing_to_choose
+	ld hl, .NothingToChooseText
 	call MenuTextboxBackup
 	ret
 
-.Text_nothing_to_choose:
-	; There's nothing to choose.
+.NothingToChooseText:
 	text_far _NothingToChooseText
 	text_end
 
@@ -409,7 +408,7 @@ PopulateDecoCategoryMenu:
 .ScrollingMenuData:
 	db SCROLLINGMENU_DISPLAY_ARROWS ; flags
 	db 8, 0 ; rows, columns
-	db 1 ; horizontal spacing
+	db SCROLLINGMENU_ITEMS_NORMAL ; item format
 	dbw 0, wd002 ; text pointer
 	dba DecorationMenuFunction
 	dbw 0, 0
@@ -666,7 +665,7 @@ DecoAction_SetItUp:
 	ld a, [wBuffer1]
 	ld hl, wStringBuffer3
 	call GetDecorationName
-	ld hl, DecoText_PutAwayAndSetUp
+	ld hl, PutAwayAndSetUpText
 	call MenuTextboxBackup
 	xor a
 	ret
@@ -675,13 +674,13 @@ DecoAction_SetItUp:
 	ld a, [wMenuSelection]
 	ld hl, wStringBuffer3
 	call GetDecorationName
-	ld hl, DecoText_SetUpTheDeco
+	ld hl, SetUpTheDecoText
 	call MenuTextboxBackup
 	xor a
 	ret
 
 .alreadythere
-	ld hl, DecoText_AlreadySetUp
+	ld hl, AlreadySetUpText
 	call MenuTextboxBackup
 	scf
 	ret
@@ -702,19 +701,19 @@ DecoAction_TryPutItAway:
 	ld [wMenuSelection], a
 	ld hl, wStringBuffer3
 	call GetDecorationName
-	ld hl, DecoText_PutAwayTheDeco
+	ld hl, PutAwayTheDecoText
 	call MenuTextboxBackup
 	xor a
 	ret
 
 .nothingthere
-	ld hl, DecoText_NothingToPutAway
+	ld hl, NothingToPutAwayText
 	call MenuTextboxBackup
 	xor a
 	ret
 
 DecoAction_setupornament:
-	ld hl, UnknownText_0x26e41
+	ld hl, WhichSidePutOnText
 	call DecoAction_AskWhichSide
 	jr c, .cancel
 	call DecoAction_SetItUp_Ornament
@@ -728,7 +727,7 @@ DecoAction_setupornament:
 	ret
 
 DecoAction_putawayornament:
-	ld hl, DecoText_WhichSide
+	ld hl, WhichSidePutAwayText
 	call DecoAction_AskWhichSide
 	jr nc, .incave
 	xor a
@@ -763,7 +762,7 @@ DecoAction_SetItUp_Ornament:
 	ld a, [wMenuSelection]
 	ld [wSelectedDecoration], a
 	call .getwhichside
-	ld hl, DecoText_PutAwayAndSetUp
+	ld hl, PutAwayAndSetUpText
 	call MenuTextboxBackup
 	xor a
 	ret
@@ -775,13 +774,13 @@ DecoAction_SetItUp_Ornament:
 	ld a, [wMenuSelection]
 	ld hl, wStringBuffer3
 	call GetDecorationName
-	ld hl, DecoText_SetUpTheDeco
+	ld hl, SetUpTheDecoText
 	call MenuTextboxBackup
 	xor a
 	ret
 
 .failed
-	ld hl, DecoText_AlreadySetUp
+	ld hl, AlreadySetUpText
 	call MenuTextboxBackup
 	scf
 	ret
@@ -796,8 +795,7 @@ DecoAction_SetItUp_Ornament:
 	ld [wOtherDecoration], a
 	ret
 
-UnknownText_0x26e41:
-	; Which side do you want to put it on?
+WhichSidePutOnText:
 	text_far _WhichSidePutOnText
 	text_end
 
@@ -811,19 +809,18 @@ DecoAction_PutItAway_Ornament:
 	ld [wBuffer5], a
 	xor a
 	ld [wSelectedDecoration], a
-	ld hl, DecoText_PutAwayTheDeco
+	ld hl, PutAwayTheDecoText
 	call MenuTextboxBackup
 	xor a
 	ret
 
 .nothingthere
-	ld hl, DecoText_NothingToPutAway
+	ld hl, NothingToPutAwayText
 	call MenuTextboxBackup
 	xor a
 	ret
 
-DecoText_WhichSide:
-	; Which side do you want to put away?
+WhichSidePutAwayText:
 	text_far _WhichSidePutAwayText
 	text_end
 
@@ -875,28 +872,23 @@ MenuData_0x26eb3:
 	db "LEFT SIDE@"
 	db "CANCEL@"
 
-DecoText_PutAwayTheDeco:
-	; Put away the @ .
+PutAwayTheDecoText:
 	text_far _PutAwayTheDecoText
 	text_end
 
-DecoText_NothingToPutAway:
-	; There's nothing to put away.
+NothingToPutAwayText:
 	text_far _NothingToPutAwayText
 	text_end
 
-DecoText_SetUpTheDeco:
-	; Set up the @ .
+SetUpTheDecoText:
 	text_far _SetUpTheDecoText
 	text_end
 
-DecoText_PutAwayAndSetUp:
-	; Put away the @ and set up the @ .
+PutAwayAndSetUpText:
 	text_far _PutAwayAndSetUpText
 	text_end
 
-DecoText_AlreadySetUp:
-	; That's already set up.
+AlreadySetUpText:
 	text_far _AlreadySetUpText
 	text_end
 
@@ -982,38 +974,34 @@ DecorationDesc_PosterPointers:
 
 DecorationDesc_TownMapPoster:
 	opentext
-	writetext .TownMapText
+	writetext .LookTownMapText
 	waitbutton
 	special OverworldTownMap
 	closetext
 	end
 
-.TownMapText:
-	; It's the TOWN MAP.
+.LookTownMapText:
 	text_far _LookTownMapText
 	text_end
 
 DecorationDesc_PikachuPoster:
-	jumptext .PikaPosterText
+	jumptext .LookPikachuPosterText
 
-.PikaPosterText:
-	; It's a poster of a cute PIKACHU.
+.LookPikachuPosterText:
 	text_far _LookPikachuPosterText
 	text_end
 
 DecorationDesc_ClefairyPoster:
-	jumptext .ClefairyPosterText
+	jumptext .LookClefairyPosterText
 
-.ClefairyPosterText:
-	; It's a poster of a cute CLEFAIRY.
+.LookClefairyPosterText:
 	text_far _LookClefairyPosterText
 	text_end
 
 DecorationDesc_JigglypuffPoster:
-	jumptext .JigglypuffPosterText
+	jumptext .LookJigglypuffPosterText
 
-.JigglypuffPosterText:
-	; It's a poster of a cute JIGGLYPUFF.
+.LookJigglypuffPosterText:
 	text_far _LookJigglypuffPosterText
 	text_end
 
@@ -1041,10 +1029,9 @@ DecorationDesc_OrnamentOrConsole:
 	ret
 
 .OrnamentConsoleScript:
-	jumptext .OrnamentConsoleText
+	jumptext .LookAdorableDecoText
 
-.OrnamentConsoleText:
-	; It's an adorable @ .
+.LookAdorableDecoText:
 	text_far _LookAdorableDecoText
 	text_end
 
@@ -1054,10 +1041,9 @@ DecorationDesc_GiantOrnament:
 	ret
 
 .BigDollScript:
-	jumptext .BigDollText
+	jumptext .LookGiantDecoText
 
-.BigDollText:
-	; A giant doll! It's fluffy and cuddly.
+.LookGiantDecoText:
 	text_far _LookGiantDecoText
 	text_end
 

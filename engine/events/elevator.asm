@@ -115,7 +115,7 @@ Elevator_GoToFloor:
 
 Elevator_AskWhichFloor:
 	call LoadStandardMenuHeader
-	ld hl, Elevator_WhichFloorText
+	ld hl, AskFloorElevatorText
 	call PrintText
 	call Elevator_GetCurrentFloorText
 	ld hl, Elevator_MenuHeader
@@ -137,9 +137,8 @@ Elevator_AskWhichFloor:
 	scf
 	ret
 
-Elevator_WhichFloorText:
-	; Which floor?
-	text_far UnknownText_0x1bd2bc
+AskFloorElevatorText:
+	text_far _AskFloorElevatorText
 	text_end
 
 Elevator_GetCurrentFloorText:
@@ -184,7 +183,7 @@ Elevator_MenuHeader:
 Elevator_MenuData:
 	db SCROLLINGMENU_DISPLAY_ARROWS ; flags
 	db 4, 0 ; rows, columns
-	db 1 ; horizontal spacing
+	db SCROLLINGMENU_ITEMS_NORMAL ; item format
 	dbw 0, wCurElevator
 	dba GetElevatorFloorStrings
 	dba NULL

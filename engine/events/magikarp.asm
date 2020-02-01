@@ -28,7 +28,7 @@ CheckMagikarpLength:
 	ld c, l
 	call CalcMagikarpLength
 	call PrintMagikarpLength
-	ld hl, .MeasureItText
+	ld hl, .MagikarpGuruMeasureText
 	call PrintText
 
 	; Did we beat the record?
@@ -70,9 +70,8 @@ CheckMagikarpLength:
 	ld [wScriptVar], a
 	ret
 
-.MeasureItText:
-	; Let me measure that MAGIKARP. …Hm, it measures @ .
-	text_far UnknownText_0x1c1203
+.MagikarpGuruMeasureText:
+	text_far _MagikarpGuruMeasureText
 	text_end
 
 Magikarp_LoadFeetInchesChars:
@@ -89,12 +88,12 @@ PrintMagikarpLength:
 	call Magikarp_LoadFeetInchesChars
 	ld hl, wStringBuffer1
 	ld de, wMagikarpLength
-	lb bc, PRINTNUM_RIGHTALIGN | 1, 2
+	lb bc, PRINTNUM_LEFTALIGN | 1, 2
 	call PrintNum
 	ld [hl], "′"
 	inc hl
 	ld de, wMagikarpLength + 1
-	lb bc, PRINTNUM_RIGHTALIGN | 1, 2
+	lb bc, PRINTNUM_LEFTALIGN | 1, 2
 	call PrintNum
 	ld [hl], "″"
 	inc hl
@@ -306,11 +305,10 @@ MagikarpHouseSign:
 	ld a, [wBestMagikarpLengthInches]
 	ld [wMagikarpLength + 1], a
 	call PrintMagikarpLength
-	ld hl, .CurrentRecordtext
+	ld hl, .KarpGuruRecordText
 	call PrintText
 	ret
 
-.CurrentRecordtext:
-	; "CURRENT RECORD"
-	text_far UnknownText_0x1c123a
+.KarpGuruRecordText:
+	text_far _KarpGuruRecordText
 	text_end

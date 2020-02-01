@@ -89,7 +89,7 @@ LinkReceptionistScript_Trade:
 
 .FriendNotReady:
 	special WaitForOtherPlayerToExit
-	writetext Text_FriendNotReady
+	writetext YourFriendIsNotReadyText
 	closetext
 	end
 
@@ -150,7 +150,7 @@ LinkReceptionistScript_Battle:
 
 .FriendNotReady:
 	special WaitForOtherPlayerToExit
-	writetext Text_FriendNotReady
+	writetext YourFriendIsNotReadyText
 	closetext
 	end
 
@@ -232,7 +232,7 @@ LinkReceptionistScript_TimeCapsule:
 
 .FriendNotReady:
 	special WaitForOtherPlayerToExit
-	writetext Text_FriendNotReady
+	writetext YourFriendIsNotReadyText
 	closetext
 	end
 
@@ -461,7 +461,7 @@ Pokecenter2FOfficerScript:
 	yesorno
 	iffalse .RefusedGift
 	writetext Text_MysteryGiftDeliveryGuy_HereYouGo
-	buttonsound
+	promptbutton
 	waitsfx
 	special GetMysteryGiftItem
 	iffalse .BagIsFull
@@ -666,7 +666,7 @@ Text_TimeCapsuleReceptionistIntro:
 	line "trade across time?"
 	done
 
-Text_FriendNotReady:
+YourFriendIsNotReadyText:
 	text "Your friend is not"
 	line "ready."
 	prompt

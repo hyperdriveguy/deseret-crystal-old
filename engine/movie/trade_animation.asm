@@ -1166,11 +1166,11 @@ TradeAnim_SentToOTText:
 	ld a, [wLinkMode]
 	cp LINK_TIMECAPSULE
 	jr z, .time_capsule
-	ld hl, .Text_MonName
+	ld hl, .MonNameSentToText
 	call PrintText
 	ld c, 189
 	call DelayFrames
-	ld hl, .Text_WasSentTo
+	ld hl, .MonWasSentToText
 	call PrintText
 	call TradeAnim_Wait80Frames
 	ld c, 128
@@ -1179,40 +1179,36 @@ TradeAnim_SentToOTText:
 	ret
 
 .time_capsule
-	ld hl, .Text_WasSentTo
+	ld hl, .MonWasSentToText
 	call PrintText
 	call TradeAnim_Wait80Frames
 	call TradeAnim_AdvanceScriptPointer
 	ret
 
-.Text_WasSentTo:
-	; was sent to @ .
-	text_far _TradingText1
+.MonWasSentToText:
+	text_far _MonWasSentToText
 	text_end
 
-.Text_MonName:
-	;
-	text_far _TradingText2
+.MonNameSentToText:
+	text_far _MonNameSentToText
 	text_end
 
 TradeAnim_OTBidsFarewell:
-	ld hl, .Text_BidsFarewellToMon
+	ld hl, .BidsFarewellToMonText
 	call PrintText
 	call TradeAnim_Wait80Frames
-	ld hl, .Text_MonName
+	ld hl, .MonNameBidsFarewellText
 	call PrintText
 	call TradeAnim_Wait80Frames
 	call TradeAnim_AdvanceScriptPointer
 	ret
 
-.Text_BidsFarewellToMon:
-	; bids farewell to
-	text_far _TradingText3
+.BidsFarewellToMonText:
+	text_far _BidsFarewellToMonText
 	text_end
 
-.Text_MonName:
-	; .
-	text_far _TradingText4
+.MonNameBidsFarewellText:
+	text_far _MonNameBidsFarewellText
 	text_end
 
 TradeAnim_TakeCareOfText:
@@ -1222,22 +1218,21 @@ TradeAnim_TakeCareOfText:
 	ld a, " "
 	call ByteFill
 	call WaitBGMap
-	ld hl, .Text_TakeGoodCareOfMon
+	ld hl, .TakeGoodCareOfMonText
 	call PrintText
 	call TradeAnim_Wait80Frames
 	call TradeAnim_AdvanceScriptPointer
 	ret
 
-.Text_TakeGoodCareOfMon:
-	; Take good care of @ .
-	text_far _TradingText5
+.TakeGoodCareOfMonText:
+	text_far _TakeGoodCareOfMonText
 	text_end
 
 TradeAnim_OTSendsText1:
-	ld hl, .Text_ForYourMon
+	ld hl, .ForYourMonSendsText
 	call PrintText
 	call TradeAnim_Wait80Frames
-	ld hl, .Text_OTSends
+	ld hl, .OTSendsText
 	call PrintText
 	call TradeAnim_Wait80Frames
 	ld c, 14
@@ -1245,21 +1240,19 @@ TradeAnim_OTSendsText1:
 	call TradeAnim_AdvanceScriptPointer
 	ret
 
-.Text_ForYourMon:
-	; For @ 's @ ,
-	text_far _TradingText6
+.ForYourMonSendsText:
+	text_far _ForYourMonSendsText
 	text_end
 
-.Text_OTSends:
-	; sends @ .
-	text_far _TradingText7
+.OTSendsText:
+	text_far _OTSendsText
 	text_end
 
 TradeAnim_OTSendsText2:
-	ld hl, .Text_WillTrade
+	ld hl, .WillTradeText
 	call PrintText
 	call TradeAnim_Wait80Frames
-	ld hl, .Text_ForYourMon
+	ld hl, .ForYourMonWillTradeText
 	call PrintText
 	call TradeAnim_Wait80Frames
 	ld c, 14
@@ -1267,14 +1260,12 @@ TradeAnim_OTSendsText2:
 	call TradeAnim_AdvanceScriptPointer
 	ret
 
-.Text_WillTrade:
-	; will trade @ @
-	text_far _TradingText8
+.WillTradeText:
+	text_far _WillTradeText
 	text_end
 
-.Text_ForYourMon:
-	; for @ 's @ .
-	text_far _TradingText9
+.ForYourMonWillTradeText:
+	text_far _ForYourMonWillTradeText
 	text_end
 
 TradeAnim_Wait80Frames:

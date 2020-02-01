@@ -146,5 +146,5 @@ DoPoisonStep::
 	ret
 
 .PoisonFaintText:
-	text_far UnknownText_0x1c0acc
+	text_far _PoisonFaintText
 	text_end

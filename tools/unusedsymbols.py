@@ -20,6 +20,12 @@ class sectype(Enum):
     SRAM = 6
     OAM = 7
 
+class patchtype(Enum):
+    BYTE = 0
+    WORD = 1
+    LONG = 2
+    JR = 3
+
 def unpack_file(fmt, file):
     size = calcsize(fmt)
     return unpack(fmt, file.read(size))
@@ -38,6 +44,18 @@ def parse_object(file):
         "symbols": [],
         "sections": []
     }
+
+    magic = unpack_file("4s", file)[0]
+    if magic == b'RGB6':
+        obj_ver = 6
+    elif magic == b'RGB9':
+        obj_ver = 10 + unpack_file("<I", file)[0]
+
+    if obj_ver not in [6, 10]:
+        print("Error: File '%s' is of an unknown format." % objfile, file=stderr)
+        return None
+
+    obj["version"] = obj_ver
 
     num_symbols, num_sections = unpack_file("<II", file)
 
@@ -68,7 +86,8 @@ def parse_object(file):
                 patch = {}
 
                 patch["filename"] = read_string(file)
-                patch["line"], patch["offset"], patch["type"], rpn_size = unpack_file("<IIBI", file)
+                patch["line"], patch["offset"], type, rpn_size = unpack_file("<IIBI", file)
+                patch["type"] = patchtype(type)
                 patch["rpn"] = file.read(rpn_size)
 
                 section["patches"].append(patch)
@@ -88,7 +107,7 @@ just_dump = False
 if argv[argi] == "-D":
     just_dump = True
     argi += 1
-elif argv[argi] == "--":
+if argv[argi] == "--":
     argi += 1
 
 globalsyms = {}
@@ -97,26 +116,14 @@ for filename in argv[argi:]:
     print(filename, file=stderr)
 
     file = open(filename, "rb")
-
-    id = unpack_file("4s", file)[0]
-    if id != b'RGB6':
-        print("File %s is of an unknown format." % filename, file=stderr)
+    obj = parse_object(file)
+    if obj is None:
         exit(1)
 
     if just_dump:
-        num_symbols = unpack_file("<I", file)[0]
-        file.seek(4, 1)
-        for x in range(num_symbols):
-            print(read_string(file))
-
-            type = unpack_file("<B", file)[0]
-            if type != 1:
-                read_string(file)
-                file.seek(4 * 3, 1)
-
+        for symbol in obj["symbols"]:
+            print(symbol["name"])
         continue
-
-    obj = parse_object(file)
 
     localsyms = {}
 
@@ -150,6 +157,7 @@ for filename in argv[argi:]:
                         pos += 1
                         while rpn[pos] != 0:
                             pos += 1
+                        pos += 1
                     elif rpn[pos] == 0x80:
                         pos += 5
                     elif rpn[pos] == 0x50 or rpn[pos] == 0x81:

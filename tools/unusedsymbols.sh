@@ -2,13 +2,15 @@
 set -e
 
 # Generate the file with ignored labels
-rm -f unused_ignore.txt
+rm -f unused_ignore_scrape.txt unused_ignore.txt
 
 # Scrape labels from a few select files
-sed -n -e 's/^\(BattleTowerMons[0-9][0-9]*\):$/\1/p' data/battle_tower/parties.asm >> unused_ignore.txt
-sed -n -e 's/^\(BattleTowerTrainer[0-9][0-9]*DataTable\):$/\1/p' data/battle_tower/unknown.asm >> unused_ignore.txt
-sed -n -e 's/^\(IncGradGBPalTable_[0-9][0-9]\)::.*/\1/p' home/fade.asm >> unused_ignore.txt
-sed -n -e 's/^\([A-Za-z]*Menu\):.*/\1/p' engine/menus/main_menu.asm | grep -xv MainMenu >> unused_ignore.txt
+sed -ne 's/^\tadd_predef \([^ ]*\).*$/\1Predef/p' data/predef_pointers.asm >> unused_ignore_scrape.txt
+sed -ne 's/^\tadd_special \([^ ]*\).*$/\1Special/p' data/special_pointers.asm >> unused_ignore_scrape.txt
+sed -ne 's/^\(BattleTowerMons[0-9][0-9]*\):$/\1/p' data/battle_tower/parties.asm >> unused_ignore_scrape.txt
+sed -ne 's/^\(BattleTowerTrainer[0-9][0-9]*DataTable\):$/\1/p' data/battle_tower/unknown.asm >> unused_ignore_scrape.txt
+sed -ne 's/^\(IncGradGBPalTable_[0-9][0-9]\)::.*/\1/p' home/fade.asm >> unused_ignore_scrape.txt
+sed -ne 's/^\([A-Za-z]*Menu\):.*/\1/p' engine/menus/main_menu.asm | grep -xv MainMenu >> unused_ignore_scrape.txt
 
 # Add more labels manually
 cat >> unused_ignore.txt << EOF
@@ -61,6 +63,7 @@ RestorePPEffect.pp_is_maxed_out
 SetSeenMon
 SmallFarFlagAction.reset
 SwitchSpeed
+TrophyIDs
 UpdateBGMap.bottom
 UsedMoveText_CheckObedience
 WaitDMATransfer
@@ -81,7 +84,6 @@ find unused_ignore_gone.txt -empty -delete
 
 # Check if any of the ignored labels are actually used
 python3 -u tools/unusedsymbols.py $objs | fgrep --line-buffered -xvf - unused_ignore.txt \
-    | grep -xv 'BattleTowerMons[12]' | grep -xv 'IncGradGBPalTable_0[0457]' \
     | tee unused_ignore_used.txt
 find unused_ignore_used.txt -empty -delete
 
@@ -90,11 +92,12 @@ find unused_ignore_used.txt -empty -delete
 #   as well as those ending with `.anon_dw`
 python3 -u tools/unusedsymbols.py -- $objs \
     | sed -u -e '/\.anon_dw$/d' \
+    | fgrep --line-buffered -xvf unused_ignore_scrape.txt \
     | fgrep --line-buffered -xvf unused_ignore.txt \
     | tee unused.txt
 
 # Clean it up so a regular make won't mess up for the user
-rm -f $objs unused_ignore.txt
+rm -f $objs unused_ignore_scrape.txt unused_ignore.txt
 
 ##### Additional utilities to check for more unused things that a simple grep can't.
 echo 'Unused item effects:'
@@ -111,6 +114,16 @@ teeunused() {
         fi
     done
 }
+
+echo 'Unused predef:'
+sed -ne 's/^\tadd_predef \([^ ]*\).*$/ \1/p' \
+    data/predef_pointers.asm \
+    | teeunused engine
+
+echo 'Unused special:'
+sed -ne 's/^\tadd_special \([^ ]*\).*$/ \1/p' \
+    data/special_pointers.asm \
+    | teeunused engine maps
 
 echo 'Unused BATTLETOWERACTION:'
 sed -ne 's/^\tconst \(BATTLETOWERACTION_[^ ]*\).*/\1/p' \

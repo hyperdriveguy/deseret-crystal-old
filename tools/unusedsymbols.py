@@ -26,6 +26,11 @@ class patchtype(Enum):
     LONG = 2
     JR = 3
 
+class asserttype(Enum):
+    WARN = 0
+    ERROR = 1
+    FAIL = 2
+
 def unpack_file(fmt, file):
     size = calcsize(fmt)
     return unpack(fmt, file.read(size))
@@ -39,7 +44,9 @@ def read_string(file):
         else:
             buf += b
 
-def parse_object(file):
+def parse_object(filename):
+    file = open(filename, "rb")
+
     obj = {
         "symbols": [],
         "sections": []
@@ -50,9 +57,12 @@ def parse_object(file):
         obj_ver = 6
     elif magic == b'RGB9':
         obj_ver = 10 + unpack_file("<I", file)[0]
+    else:
+        print("Error: File '%s' is of an unknown format." % filename, file=stderr)
+        return None
 
-    if obj_ver not in [6, 10]:
-        print("Error: File '%s' is of an unknown format." % objfile, file=stderr)
+    if obj_ver not in [6, 10, 11, 13, 14]:
+        print("Error: File '%s' is of an unknown format: %d" % (filename, obj_ver), file=stderr)
         return None
 
     obj["version"] = obj_ver
@@ -74,8 +84,13 @@ def parse_object(file):
         section = {}
 
         section["name"] = read_string(file)
-        size, type, section["org"], section["bank"], section["align"] = unpack_file("<IBIII", file)
+        size, type, section["org"], section["bank"] = unpack_file("<IBII", file)
         section["type"] = sectype(type)
+
+        if obj_ver >= 14:
+            section["align"], section["offset"] = unpack_file("<BI", file)
+        else:
+            section["align"] = unpack_file("<I", file)[0]
 
         if section["type"] == sectype.ROMX or section["type"] == sectype.ROM0:
             section["data"] = file.read(size)
@@ -86,13 +101,35 @@ def parse_object(file):
                 patch = {}
 
                 patch["filename"] = read_string(file)
-                patch["line"], patch["offset"], type, rpn_size = unpack_file("<IIBI", file)
+                if obj_ver < 11:
+                    patch["line"] = unpack_file("<I", file)[0]
+                patch["offset"] = unpack_file("<I", file)[0]
+                if obj_ver >= 14:
+                    patch["pcsectionid"], patch["pcoffset"] = unpack_file("<II", file)
+                type, rpn_size = unpack_file("<BI", file)
                 patch["type"] = patchtype(type)
                 patch["rpn"] = file.read(rpn_size)
 
                 section["patches"].append(patch)
 
         obj["sections"].append(section)
+
+    if obj_ver >= 13:
+        obj["assertions"] = []
+        num_assertions = unpack_file("<I", file)[0]
+        for x in range(num_assertions):
+            assertion = {}
+
+            assertion["filename"] = read_string(file)
+            assertion["offset"] = unpack_file("<I", file)[0]
+            if obj_ver >= 14:
+                assertion["section"], assertion["pcoffset"] = unpack_file("<II")
+            type, rpn_size = unpack_file("<BI", file)
+            assertion["type"] = asserttype(type)
+            assertion["rpn"] = file.read(rpn_size)
+            assertion["message"] = read_string(file)
+
+            obj["assertions"].append(assertion)
 
     return obj
 
@@ -115,8 +152,7 @@ globalsyms = {}
 for filename in argv[argi:]:
     print(filename, file=stderr)
 
-    file = open(filename, "rb")
-    obj = parse_object(file)
+    obj = parse_object(filename)
     if obj is None:
         exit(1)
 

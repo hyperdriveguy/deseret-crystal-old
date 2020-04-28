@@ -33,7 +33,7 @@ _LinkTextbox:
 	pop hl
 	pop bc
 
-	ld de, wAttrMap - wTileMap
+	ld de, wAttrmap - wTilemap
 	add hl, de
 	inc b
 	inc b
@@ -225,7 +225,7 @@ LinkTradeMenu:
 	ret
 
 .loop2
-	call RTC
+	call UpdateTimeAndPals
 	call .TryAnims
 	ret c
 	ld a, [w2DMenuFlags1]

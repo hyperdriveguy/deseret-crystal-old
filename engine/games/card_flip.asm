@@ -7,7 +7,7 @@ _CardFlip:
 	ld hl, wOptions
 	set NO_TEXT_SCROLL, [hl]
 	call ClearBGPalettes
-	call ClearTileMap
+	call ClearTilemap
 	call ClearSprites
 	ld de, MUSIC_NONE
 	call PlayMusic
@@ -445,7 +445,7 @@ CardFlip_DisplayCardFaceUp:
 	pop hl
 
 	; Set the attributes
-	ld de, wAttrMap - wTileMap
+	ld de, wAttrmap - wTilemap
 	add hl, de
 	ld a, [wCardFlipFaceUpCard]
 	and 3
@@ -1534,32 +1534,32 @@ ENDM
 	dsprite  1, 0,   1, 0, $00, 0 | X_FLIP | Y_FLIP | PRIORITY
 
 CardFlip_InitAttrPals:
-	hlcoord 0, 0, wAttrMap
+	hlcoord 0, 0, wAttrmap
 	ld bc, SCREEN_HEIGHT * SCREEN_WIDTH
 	xor a
 	call ByteFill
 
-	hlcoord 12, 1, wAttrMap
+	hlcoord 12, 1, wAttrmap
 	lb bc, 2, 2
 	ld a, $1
 	call CardFlip_FillBox
 
-	hlcoord 14, 1, wAttrMap
+	hlcoord 14, 1, wAttrmap
 	lb bc, 2, 2
 	ld a, $2
 	call CardFlip_FillBox
 
-	hlcoord 16, 1, wAttrMap
+	hlcoord 16, 1, wAttrmap
 	lb bc, 2, 2
 	ld a, $3
 	call CardFlip_FillBox
 
-	hlcoord 18, 1, wAttrMap
+	hlcoord 18, 1, wAttrmap
 	lb bc, 2, 2
 	ld a, $4
 	call CardFlip_FillBox
 
-	hlcoord 9, 0, wAttrMap
+	hlcoord 9, 0, wAttrmap
 	lb bc, 12, 1
 	ld a, $1
 	call CardFlip_FillBox

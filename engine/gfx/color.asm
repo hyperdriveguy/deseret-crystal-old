@@ -45,7 +45,7 @@ InitPartyMenuPalettes:
 	ld hl, PalPacket_PartyMenu + 1
 	call CopyFourPalettes
 	call InitPartyMenuOBPals
-	call WipeAttrMap
+	call WipeAttrmap
 	ret
 
 ApplyMonOrTrainerPals:
@@ -63,8 +63,8 @@ ApplyMonOrTrainerPals:
 .load_palettes
 	ld de, wBGPals1
 	call LoadPalette_White_Col1_Col2_Black
-	call WipeAttrMap
-	call ApplyAttrMap
+	call WipeAttrmap
+	call ApplyAttrmap
 	call ApplyPals
 	ret
 
@@ -102,7 +102,7 @@ ApplyHPBarPals:
 .PartyMenu:
 	ld e, c
 	inc e
-	hlcoord 11, 1, wAttrMap
+	hlcoord 11, 1, wAttrmap
 	ld bc, 2 * SCREEN_WIDTH
 	ld a, [wCurPartyMon]
 .loop
@@ -154,8 +154,8 @@ LoadMailPalettes:
 	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 	call ApplyPals
-	call WipeAttrMap
-	call ApplyAttrMap
+	call WipeAttrmap
+	call ApplyAttrmap
 	ret
 
 .MailPals:
@@ -290,8 +290,8 @@ ResetBGPals:
 	pop af
 	ret
 
-WipeAttrMap:
-	hlcoord 0, 0, wAttrMap
+WipeAttrmap:
+	hlcoord 0, 0, wAttrmap
 	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
 	xor a
 	call ByteFill
@@ -305,7 +305,7 @@ ApplyPals:
 	call FarCopyWRAM
 	ret
 
-ApplyAttrMap:
+ApplyAttrmap:
 	ldh a, [rLCDC]
 	bit rLCDC_ENABLE, a
 	jr z, .UpdateVBank1
@@ -322,7 +322,7 @@ ApplyAttrMap:
 	ret
 
 .UpdateVBank1:
-	hlcoord 0, 0, wAttrMap
+	hlcoord 0, 0, wAttrmap
 	debgcoord 0, 0
 	ld b, SCREEN_HEIGHT
 	ld a, $1
@@ -359,7 +359,7 @@ CGB_ApplyPartyMenuHPPals:
 	ld a, [de]
 	inc a
 	ld e, a
-	hlcoord 11, 2, wAttrMap
+	hlcoord 11, 2, wAttrmap
 	ld bc, 2 * SCREEN_WIDTH
 	ld a, [wSGBPals]
 .loop

@@ -228,7 +228,7 @@ LoadMapTimeOfDay:
 	farcall UpdateTimeOfDayPal
 	call OverworldTextModeSwitch
 	call .ClearBGMap
-	call .PushAttrMap
+	call .PushAttrmap
 	ret
 
 .ClearBGMap:
@@ -259,10 +259,10 @@ LoadMapTimeOfDay:
 	call ByteFill
 	ret
 
-.PushAttrMap:
+.PushAttrmap:
 	decoord 0, 0
 	call .copy
-	decoord 0, 0, wAttrMap
+	decoord 0, 0, wAttrmap
 	ld a, $1
 	ldh [rVBK], a
 .copy

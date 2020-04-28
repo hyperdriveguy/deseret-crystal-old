@@ -1,3 +1,20 @@
+GetPartyParamLocation::
+; Get the location of parameter a from wCurPartyMon in hl
+	push bc
+	ld hl, wPartyMons
+	ld c, a
+	ld b, 0
+	add hl, bc
+	ld a, [wCurPartyMon]
+	call GetPartyLocation
+	pop bc
+	ret
+
+GetPartyLocation::
+; Add the length of a PartyMon struct to hl a times.
+	ld bc, PARTYMON_STRUCT_LENGTH
+	jp AddNTimes
+
 UserPartyAttr::
 	push af
 	ldh a, [hBattleTurn]
@@ -208,4 +225,23 @@ GetBattleAnimByte::
 	pop hl
 
 	ld a, [wBattleAnimByte]
+	ret
+
+PushLYOverrides::
+	ldh a, [hLCDCPointer]
+	and a
+	ret z
+
+	ld a, LOW(wLYOverridesBackup)
+	ld [wRequested2bppSource], a
+	ld a, HIGH(wLYOverridesBackup)
+	ld [wRequested2bppSource + 1], a
+
+	ld a, LOW(wLYOverrides)
+	ld [wRequested2bppDest], a
+	ld a, HIGH(wLYOverrides)
+	ld [wRequested2bppDest + 1], a
+
+	ld a, (wLYOverridesEnd - wLYOverrides) / 16
+	ld [wRequested2bpp], a
 	ret

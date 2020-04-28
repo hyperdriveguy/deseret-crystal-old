@@ -53,7 +53,7 @@ BattleTowerRoomMenu_PlacePickLevelMenu:
 	call MenuBox
 	call MenuBoxCoord2Tile
 	call ApplyTilemap
-	hlcoord 16, 8, wAttrMap
+	hlcoord 16, 8, wAttrmap
 	ld a, $40
 	or [hl]
 	ld [hl], a

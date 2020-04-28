@@ -695,7 +695,7 @@ PokeBallEffect:
 	jr z, .toss
 
 	call ClearBGPalettes
-	call ClearTileMap
+	call ClearTilemap
 
 .toss
 	ld hl, wNumItems
@@ -1744,7 +1744,7 @@ ItemActionTextWaitButton:
 	xor a
 	ldh [hBGMapMode], a
 	hlcoord 0, 0
-	ld bc, wTileMapEnd - wTileMap
+	ld bc, wTilemapEnd - wTilemap
 	ld a, " "
 	call ByteFill
 	ld a, [wPartyMenuActionText]

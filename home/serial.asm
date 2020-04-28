@@ -265,10 +265,10 @@ Serial_ExchangeLinkMenuSelection::
 	ret
 
 Serial_PrintWaitingTextAndSyncAndExchangeNybble::
-	call LoadTileMapToTempTileMap
+	call LoadTilemapToTempTilemap
 	callfar PlaceWaitingText
 	call WaitLinkTransfer
-	jp Call_LoadTempTileMapToTileMap
+	jp SafeLoadTempTilemapToTilemap
 
 ; One "giant" leap for machinekind
 

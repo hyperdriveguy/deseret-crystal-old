@@ -28,43 +28,43 @@ INCLUDE "gfx/font/bg_text.pal"
 INCLUDE "engine/tilesets/tileset_palettes.asm"
 
 _InitMG_Mobile_LinkTradePalMap:
-	hlcoord 0, 0, wAttrMap
+	hlcoord 0, 0, wAttrmap
 	lb bc, 16, 2
 	ld a, $4
 	call MG_Mobile_Layout_FillBox
 	ld a, $3
-	ldcoord_a 0, 1, wAttrMap
-	ldcoord_a 0, 14, wAttrMap
-	hlcoord 2, 0, wAttrMap
+	ldcoord_a 0, 1, wAttrmap
+	ldcoord_a 0, 14, wAttrmap
+	hlcoord 2, 0, wAttrmap
 	lb bc, 8, 18
 	ld a, $5
 	call MG_Mobile_Layout_FillBox
-	hlcoord 2, 8, wAttrMap
+	hlcoord 2, 8, wAttrmap
 	lb bc, 8, 18
 	ld a, $6
 	call MG_Mobile_Layout_FillBox
-	hlcoord 0, 16, wAttrMap
+	hlcoord 0, 16, wAttrmap
 	lb bc, 2, SCREEN_WIDTH
 	ld a, $4
 	call MG_Mobile_Layout_FillBox
 	ld a, $3
 	lb bc, 6, 1
-	hlcoord 6, 1, wAttrMap
+	hlcoord 6, 1, wAttrmap
 	call MG_Mobile_Layout_FillBox
 	ld a, $3
 	lb bc, 6, 1
-	hlcoord 17, 1, wAttrMap
+	hlcoord 17, 1, wAttrmap
 	call MG_Mobile_Layout_FillBox
 	ld a, $3
 	lb bc, 6, 1
-	hlcoord 6, 9, wAttrMap
+	hlcoord 6, 9, wAttrmap
 	call MG_Mobile_Layout_FillBox
 	ld a, $3
 	lb bc, 6, 1
-	hlcoord 17, 9, wAttrMap
+	hlcoord 17, 9, wAttrmap
 	call MG_Mobile_Layout_FillBox
 	ld a, $2
-	hlcoord 2, 16, wAttrMap
+	hlcoord 2, 16, wAttrmap
 	ld [hli], a
 	ld a, $7
 	ld [hli], a
@@ -72,7 +72,7 @@ _InitMG_Mobile_LinkTradePalMap:
 	ld [hli], a
 	ld a, $2
 	ld [hl], a
-	hlcoord 2, 17, wAttrMap
+	hlcoord 2, 17, wAttrmap
 	ld a, $3
 	ld bc, 6
 	call ByteFill

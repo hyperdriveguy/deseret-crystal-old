@@ -86,7 +86,7 @@ GetMapSceneID::
 
 OverworldTextModeSwitch::
 	call LoadMapPart
-	call FarCallSwapTextboxPalettes
+	call SwapTextboxPalettes
 	ret
 
 LoadMapPart::
@@ -576,7 +576,7 @@ ReadObjectEvents::
 	jr z, .skip
 	; jr c, .skip
 
-; stupid waste of time and space
+	; could have done "inc hl" instead
 	ld bc, 1
 	add hl, bc
 ; Fill the remaining sprite IDs and y coords with 0 and -1, respectively.
@@ -1127,7 +1127,7 @@ ScrollMapUp::
 	ld de, wBGMapBuffer
 	call BackupBGMapRow
 	ld c, 2 * SCREEN_WIDTH
-	call FarCallScrollBGMapPalettes
+	call ScrollBGMapPalettes
 	ld a, [wBGMapAnchor]
 	ld e, a
 	ld a, [wBGMapAnchor + 1]
@@ -1142,7 +1142,7 @@ ScrollMapDown::
 	ld de, wBGMapBuffer
 	call BackupBGMapRow
 	ld c, 2 * SCREEN_WIDTH
-	call FarCallScrollBGMapPalettes
+	call ScrollBGMapPalettes
 	ld a, [wBGMapAnchor]
 	ld l, a
 	ld a, [wBGMapAnchor + 1]
@@ -1165,7 +1165,7 @@ ScrollMapLeft::
 	ld de, wBGMapBuffer
 	call BackupBGMapColumn
 	ld c, 2 * SCREEN_HEIGHT
-	call FarCallScrollBGMapPalettes
+	call ScrollBGMapPalettes
 	ld a, [wBGMapAnchor]
 	ld e, a
 	ld a, [wBGMapAnchor + 1]
@@ -1180,7 +1180,7 @@ ScrollMapRight::
 	ld de, wBGMapBuffer
 	call BackupBGMapColumn
 	ld c, 2 * SCREEN_HEIGHT
-	call FarCallScrollBGMapPalettes
+	call ScrollBGMapPalettes
 	ld a, [wBGMapAnchor]
 	ld e, a
 	and %11100000

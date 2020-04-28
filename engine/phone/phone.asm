@@ -12,7 +12,7 @@ AddPhoneNumber::
 	ret
 
 CheckCellNum::
-	jp _CheckCellNum ; wtf
+	jp _CheckCellNum ; useless
 
 _CheckCellNum:
 	ld hl, wPhoneList

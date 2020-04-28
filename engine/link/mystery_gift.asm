@@ -1,5 +1,5 @@
 DoMysteryGift:
-	call ClearTileMap
+	call ClearTilemap
 	call ClearSprites
 	call WaitBGMap
 	call InitMysteryGiftLayout
@@ -24,7 +24,7 @@ DoMysteryGift:
 	pop af
 	ldh [rIE], a
 	push de
-	call ClearTileMap
+	call ClearTilemap
 	call EnableLCD
 	call WaitBGMap
 	ld b, SCGB_DIPLOMA

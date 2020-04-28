@@ -2482,7 +2482,7 @@ Script_refreshscreen:
 Script_closetext:
 ; script command 0x49
 
-	call _OpenAndCloseMenu_HDMATransferTileMapAndAttrMap
+	call _OpenAndCloseMenu_HDMATransferTilemapAndAttrmap
 	call CloseText
 	ret
 

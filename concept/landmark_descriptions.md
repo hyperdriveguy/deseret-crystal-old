@@ -1,4 +1,4 @@
-# Deseret
+# North Deseret
 
 ## Nephi
 Utopia on the surface. Lurking polygamists.
@@ -13,18 +13,26 @@ The greater Provo area consists almost wholly of Latter-day Saints.
 
 ### Points of Interest
 
-#### Brigham Young University
+#### Brigham Young University (BYU)
+A private University owned and operated by The Church of Jesus Christ of
+Latter-day Saints.
 
-#### Missionary Training Center
+#### Missionary Training Center (MTC)
+A place where missionaries are trained and practice how to teach the Gospel of
+Jesus Christ to everyone they meet. One strategy they are testing is allowing
+missionaries to carry Pokémon and initiate battles.
 
 #### BYU Underground
+An underground tunnel system that connects several parts of BYU and the MTC.
+It is under tight security with many motion sensors and cameras throughout.
 
 #### Trax Station
+The southern most Trax station.
 
 
 ## Great Salt Lake Valley
 Dense suburban area (zoom out scale to compensate).
-Lots of chapels and temples.
+Lots of houses, chapels, and temples.
 
 ### Religious Distribution
 - 80% Latter-day Saint
@@ -34,9 +42,9 @@ Lots of chapels and temples.
 
 ### Points of Interest
 
-#### Trax Station
+#### Trax Stations
 
-#### Mine
+#### Active Open Mine
 
 
 ## Great Salt Lake City
@@ -57,6 +65,8 @@ One of the brighter and more happy parts of the city.
 
 ##### Tabernacle
 
+#### University of Deseret
+
 ##### Visitor's Center
 
 ##### Joseph Smith Memorial Building (or Hotel Deseret, TBD)
@@ -70,6 +80,8 @@ One of the brighter and more happy parts of the city.
 ##### ZCMI (Department Store)
 
 ##### Salt Lake Underground
+
+#### Granite Vault
 
 #### Deseret News Headquarters
 
@@ -88,7 +100,9 @@ almost half Latter-day Saint, a little more than half Atheist/Agnostic.
 
 ### Points of Interest
 
-#### Trains? IDK
+#### Trax Station
+
+#### Oil Rail Transport
 
 
 ## Logan
@@ -97,8 +111,6 @@ A growing dairy farming and college town.
 ### Points of Interest
 
 #### Dairy Farm
-
-#### University of Deseret
 
 
 ## Toole
@@ -116,6 +128,8 @@ Big oil industry. Railroad is used for transporting oil.
 ### Points of Interest
 
 #### ATV Rental
+
+#### Oil Rail Transport
 
 
 ## Price

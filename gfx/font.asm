@@ -1,6 +1,3 @@
-FontExtra:
-INCBIN "gfx/font/font_extra.2bpp"
-
 Font:
 INCBIN "gfx/font/font.1bpp"
 
@@ -34,20 +31,8 @@ INCBIN "gfx/battle/expbar.2bpp"
 TownMapGFX:
 INCBIN "gfx/pokegear/town_map.2bpp.lz"
 
-PokegearPhoneIconGFX:
-INCBIN "gfx/font/phone_icon.2bpp"
-
 TextboxSpaceGFX:
 INCBIN "gfx/frames/space.1bpp"
-
-FontsExtra_SolidBlackGFX:
-INCBIN "gfx/font/black.1bpp"
-
-MapEntryFrameGFX:
-INCBIN "gfx/frames/map_entry_sign.2bpp"
-
-FontsExtra2_UpArrowGFX:
-INCBIN "gfx/font/up_arrow.2bpp"
 
 Footprints:
 INCLUDE "gfx/footprints.asm"

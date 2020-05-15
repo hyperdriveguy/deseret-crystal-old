@@ -1,30 +1,30 @@
-; border
+; border, salt flats
 	RGB 28, 31, 20
 	RGB 21, 21, 21
 	RGB 13, 13, 13
 	RGB 00, 00, 00
-; earth
+; city (blue, boy)
 	RGB 28, 31, 20
-	RGB 00, 31, 00
-	RGB 00, 00, 31
+	RGB 00, 15, 31
+	RGB 00, 07, 15
 	RGB 00, 00, 00
-; mountain
+; barren land, water, POI
 	RGB 28, 31, 20
-	RGB 00, 31, 00
-	RGB 15, 07, 00
-	RGB 00, 00, 00
-; city (boy)
-	RGB 28, 31, 20
-	RGB 31, 15, 00
-	RGB 15, 07, 00
-	RGB 00, 00, 00
-; point of interest
-	RGB 28, 31, 20
-	RGB 00, 31, 00
-	RGB 00, 00, 31
+	RGB 00, 10, 20
+	RGB 18, 17, 14
 	RGB 31, 00, 00
-; mountain point of interest
+; mountain ranges
 	RGB 28, 31, 20
-	RGB 00, 31, 00
-	RGB 15, 07, 00
-	RGB 31, 00, 00
+	RGB 18, 17, 14
+	RGB 14, 16, 12
+	RGB 00, 00, 00
+; snowy mountains
+	RGB 31, 31, 31
+	RGB 00, 15, 31
+	RGB 14, 17, 12
+	RGB 00, 00, 00
+; farmland, barren land
+	RGB 28, 31, 20
+	RGB 09, 14, 07
+	RGB 18, 17, 14
+	RGB 00, 00, 00

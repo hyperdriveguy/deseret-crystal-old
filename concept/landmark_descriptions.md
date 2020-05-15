@@ -118,6 +118,7 @@ A growing dairy farming and college town.
 
 ## Heber
 Commuter town. Small and fragile economy. Lots of agriculture.
+- Fort Heber
 
 ## Vernal
 **DINOSAURS!** Wild west-esque spoof. Fishing and mining quarry.

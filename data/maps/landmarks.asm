@@ -7,26 +7,26 @@ ENDM
 Landmarks:
 ; entries correspond to constants/landmark_constants.asm
 	dbbw       0,   0, SpecialMapName
-	landmark 140, 100, NewBarkTownName
-	landmark 128, 100, Route29Name
-	landmark 100, 100, CherrygroveCityName
-	landmark 100,  80, Route30Name
-	landmark  96,  60, Route31Name
-	landmark  84,  60, VioletCityName
-	landmark  85,  58, SproutTowerName
-	landmark  84,  92, Route32Name
-	landmark  76,  76, RuinsOfAlphName
-	landmark  84, 124, UnionCaveName
-	landmark  82, 124, Route33Name
-	landmark  68, 124, AzaleaTownName
-	landmark  70, 122, SlowpokeWellName
-	landmark  52, 120, IlexForestName
-	landmark  52, 112, Route34Name
-	landmark  52,  92, GoldenrodCityName
-	landmark  50,  92, RadioTowerName
-	landmark  52,  76, Route35Name
-	landmark  52,  60, NationalParkName
-	landmark  64,  60, Route36Name
+	landmark  52, 124, NephiCityName
+	landmark 128, 100, Route1Name
+	landmark 100, 100, ProvoCityName
+	landmark  52, 100, UtahLakeName
+	landmark  60,  92, OremCityName
+	landmark  60,  84, PointMountainHwyName
+	landmark  68,  84, MountTimpanogosName
+	landmark  68,  80, TimpanogosCaveName
+	landmark  68,  92, ProvoCanyonName
+	landmark  80,  84, TimpanogosPassName
+	landmark  92,  84, HeberCityName
+	landmark 108,  84, Route6Name
+	landmark 124,  84, DuchesneCityName
+	landmark 136,  76, Route87Name
+	landmark 148,  76, VernalCityName
+	landmark 115, 108, Route189Name
+	landmark 108, 118, CarbonPowerPlantName
+	landmark 108, 124, CarbonRoadName
+	landmark 108, 132, PriceCityName
+	landmark  88, 108, Route55Name
 	landmark  68,  52, Route37Name
 	landmark  68,  44, EcruteakCityName
 	landmark  70,  42, TinTowerName
@@ -53,6 +53,7 @@ Landmarks:
 	landmark 112,  72, DarkCaveName
 	landmark 124,  88, Route46Name
 	landmark 148,  68, SilverCaveName
+	; Region Break
 	landmark  52, 108, PalletTownName
 	landmark  52,  92, Route1Name
 	landmark  52,  76, ViridianCityName

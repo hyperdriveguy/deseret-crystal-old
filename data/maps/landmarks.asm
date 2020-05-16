@@ -8,14 +8,14 @@ Landmarks:
 ; entries correspond to constants/landmark_constants.asm
 	dbbw       0,   0, SpecialMapName
 	landmark  52, 124, NephiCityName
-	landmark 128, 100, Route1Name ; I-15
+	landmark  60, 116, Route1Name ; I-15
 	landmark  60, 100, ProvoCityName
-	landmark  62,  98, BrighamYoungUniversityName
-	landmark  62,  96, MissionaryTrainingCenterName
+	landmark  62,  98, ByuName ; Brigham Young University
+	landmark  62,  96, MtcName ; Missionary Training Center
 	landmark  62,  97, ByuUndergroundName
 	landmark  52, 100, UtahLakeName
 	landmark  60,  92, OremCityName
-	landmark  58,  90, AbandonedSteelPlantName ; Geneva Steel
+	landmark  58,  90, GenevaSteelPlantName ; Abandoned Steel Plant
 	landmark  68,  92, ProvoCanyonName ; US-189
 	landmark  80,  84, TimpanogosPassName ; US-189
 	landmark  92,  84, HeberCityName
@@ -23,7 +23,7 @@ Landmarks:
 	landmark 124,  84, DuchesneCityName
 	landmark 136,  76, Route87Name ; US-191
 	landmark 148,  76, VernalCityName
-	landmark 144,  84, FossilSiteName
+	landmark 144,  84, ExcavationSiteName
 	landmark 115, 108, Route191Name ; US-191
 	landmark 108, 118, CarbonPowerPlantName
 	landmark 108, 124, CarbonRoadName  ; US-191
@@ -35,7 +35,7 @@ Landmarks:
 	landmark  36,  84, TooleCityName
 	landmark  24,  64, SaltFlatsName
 	landmark  12,  76, WendoverCityName ; Wendover + West Wendover
-	landmark  60,  68, GreatSaltLakeCityName ; Salt Lake City
+	landmark  60,  68, SaltLakeCityName ; Salt Lake City
 	landmark  62,  70, TempleSquareName
 	landmark  52,  68, AntelopeIslandName
 	landmark  48,  56, GreatSaltLakeName
@@ -53,58 +53,103 @@ Landmarks:
 	landmark  68,  28, LoganCityName
 	landmark  76,  28, BearLakePassName ; US-89
 	landmark  84,  28, BearLakeName
-	; Region Break, these landmarks are unused
-	landmark  52, 108, PalletTownName
-	landmark  52,  92, Route1Name
-	landmark  52,  76, ViridianCityName
-	landmark  52,  64, Route2Name
-	landmark  52,  52, PewterCityName
-	landmark  64,  52, Route3Name
-	landmark  76,  52, MtMoonName
-	landmark  88,  52, Route4Name
-	landmark 100,  52, CeruleanCityName
-	landmark 100,  44, Route24Name
-	landmark 108,  36, Route25Name
-	landmark 100,  60, Route5Name
-	landmark 108,  76, UndergroundName
-	landmark 100,  76, Route6Name
-	landmark 100,  84, VermilionCityName
-	landmark  88,  60, DiglettsCaveName
-	landmark  88,  68, Route7Name
-	landmark 116,  68, Route8Name
-	landmark 116,  52, Route9Name
-	landmark 132,  52, RockTunnelName
-	landmark 132,  56, Route10Name
-	landmark 132,  60, PowerPlantName
-	landmark 132,  68, LavenderTownName
-	landmark 140,  68, LavRadioTowerName
-	landmark  76,  68, CeladonCityName
-	landmark 100,  68, SaffronCityName
-	landmark 116,  84, Route11Name
-	landmark 132,  80, Route12Name
-	landmark 124, 100, Route13Name
-	landmark 116, 112, Route14Name
-	landmark 104, 116, Route15Name
-	landmark  68,  68, Route16Name
-	landmark  68,  92, Route17Name
-	landmark  80, 116, Route18Name
-	landmark  92, 116, FuchsiaCityName
-	landmark  92, 128, Route19Name
-	landmark  76, 132, Route20Name
-	landmark  68, 132, SeafoamIslandsName
-	landmark  52, 132, CinnabarIslandName
-	landmark  52, 120, Route21Name
-	landmark  36,  68, Route22Name
-	landmark  28,  52, VictoryRoadName
-	landmark  28,  44, Route23Name
-	landmark  28,  36, IndigoPlateauName
-	landmark  28,  92, Route26Name
-	landmark  20, 100, Route27Name
-	landmark  12, 100, TohjoFallsName
-	landmark  20,  68, Route28Name
-	landmark 140, 116, FastShipName
+	; Old Kanto Landmarks, these landmarks are unused
+	landmark  52, 108, SpecialMapName
+	landmark  52,  92, SpecialMapName
+	landmark  52,  76, SpecialMapName
+	landmark  52,  64, SpecialMapName
+	landmark  52,  52, SpecialMapName
+	landmark  64,  52, SpecialMapName
+	landmark  76,  52, SpecialMapName
+	landmark  88,  52, SpecialMapName
+	landmark 100,  52, SpecialMapName
+	landmark 100,  44, SpecialMapName
+	landmark 108,  36, SpecialMapName
+	landmark 100,  60, SpecialMapName
+	landmark 108,  76, SpecialMapName
+	landmark 100,  76, SpecialMapName
+	landmark 100,  84, SpecialMapName
+	landmark  88,  60, SpecialMapName
+	landmark  88,  68, SpecialMapName
+	landmark 116,  68, SpecialMapName
+	landmark 116,  52, SpecialMapName
+	landmark 132,  52, SpecialMapName
+	landmark 132,  56, SpecialMapName
+	landmark 132,  60, SpecialMapName
+	landmark 132,  68, SpecialMapName
+	landmark 140,  68, SpecialMapName
+	landmark  76,  68, SpecialMapName
+	landmark 100,  68, SpecialMapName
+	landmark 116,  84, SpecialMapName
+	landmark 132,  80, SpecialMapName
+	landmark 124, 100, SpecialMapName
+	landmark 116, 112, SpecialMapName
+	landmark 104, 116, SpecialMapName
+	landmark  68,  68, SpecialMapName
+	landmark  68,  92, SpecialMapName
+	landmark  80, 116, SpecialMapName
+	landmark  92, 116, SpecialMapName
+	landmark  92, 128, SpecialMapName
+	landmark  76, 132, SpecialMapName
+	landmark  68, 132, SpecialMapName
+	landmark  52, 132, SpecialMapName
+	landmark  52, 120, SpecialMapName
+	landmark  36,  68, SpecialMapName
+	landmark  28,  52, SpecialMapName
+	landmark  28,  44, SpecialMapName
+	landmark  28,  36, SpecialMapName
+	landmark  28,  92, SpecialMapName
+	landmark  20, 100, SpecialMapName
+	landmark  12, 100, SpecialMapName
+	landmark  20,  68, SpecialMapName
+	landmark 140, 116, SpecialMapName
 
-
+NephiCityName:        db "City of¯Nephi@"
+Route1Name:           db "Route 1@"
+ProvoCityName:        db "City of¯Provo@"
+ByuName:              db "BYU Provo@"
+MtcName:              db "Provo MTC@"
+ByuUndergroundName:   db "BYU¯Underground@"
+UtahLakeName:         db "Utah Lake@"
+OremCityName:         db "City of¯Orem@"
+GenevaSteelPlantName: db "Geneva¯SteelPlant@"
+ProvoCanyonName:      db "Provo¯Canyon@"
+TimpanogosPassName:   db "Timpanogos¯Pass@"
+HeberCityName:        db "Heber City@"
+Route6Name:           db "Route 6@"
+DuchesneCityName:     db "Duchesne¯City@"
+Route87Name:          db "Route 87@"
+VernalCityName:       db "Vernal City@"
+ExcavationSiteName:   db "Excavation¯Site@"
+Route191Name:         db "Route 191@"
+CarbonPowerPlantName: db "Carbon¯PowerPlant@"
+CarbonRoadName:       db "Carbon Road@"
+PriceCityName:        db "City of¯Price@"
+Route55Name:          db "Route 55@"
+SaltLakeValleyName:   db "Salt Lake¯Valley@"
+MillcreekCanyonName:  db "Millcreek¯Canyon@"
+Route4Name:           db "Route 4@"
+TooleCityName:        db "City of¯Toole@"
+SaltFlatsName:        db "Salt Flats@"
+WendoverCityName:     db "City of¯Wendover@"
+SaltLakeCityName:     db "Salt Lake¯City@"
+TempleSquareName:     db "Temple¯Square@"
+AntelopeIslandName:   db "Antelope¯Island@"
+GreatSaltLakeName:    db "Great¯Salt Lake@"
+Route2Name:           db "Route 2@"
+ParkCityName:         db "Park City@"
+ParkCitySlopesName:   db "Park City¯Slopes@"
+JordanellePassName:   db "Jordanelle¯Pass@"
+PointMountainHwyName: db "Utah Point@"
+MountTimpanogosName:  db "Mount¯Timpanogos@"
+TimpanogosCaveName:   db "Timpanogos¯Cave@"
+Route67Name:          db "Route 67@"
+OgdenCityName:        db "City of¯Ogden@"
+UnionStationName:     db "Union¯Station@"
+Route13Name:          db "Route 13@"
+LoganCityName:        db "City of¯Logan@"
+BearLakePassName:     db "Bear Lake¯Pass@"
+BearLakeName:         db "Bear Lake@"
 ; Unused Names
 NewBarkTownName:     db "NEW BARK¯TOWN@"
 CherrygroveCityName: db "CHERRYGROVE¯CITY@"
@@ -147,19 +192,14 @@ MtMoonName:          db "MT.MOON@"
 RockTunnelName:      db "ROCK TUNNEL@"
 LavRadioTowerName:   db "LAV¯RADIO TOWER@"
 SeafoamIslandsName:  db "SEAFOAM¯ISLANDS@"
-Route1Name:          db "ROUTE 1@"
-Route2Name:          db "ROUTE 2@"
 Route3Name:          db "ROUTE 3@"
-Route4Name:          db "ROUTE 4@"
 Route5Name:          db "ROUTE 5@"
-Route6Name:          db "ROUTE 6@"
 Route7Name:          db "ROUTE 7@"
 Route8Name:          db "ROUTE 8@"
 Route9Name:          db "ROUTE 9@"
 Route10Name:         db "ROUTE 10@"
 Route11Name:         db "ROUTE 11@"
 Route12Name:         db "ROUTE 12@"
-Route13Name:         db "ROUTE 13@"
 Route14Name:         db "ROUTE 14@"
 Route15Name:         db "ROUTE 15@"
 Route16Name:         db "ROUTE 16@"

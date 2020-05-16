@@ -309,7 +309,7 @@ InitPokegearTilemap:
 	ret
 
 .switch
-	db " SWITCH▶@"
+	db " Switch▶@"
 
 .Map:
 	ld a, [wPokegearMapPlayerIconLandmark]

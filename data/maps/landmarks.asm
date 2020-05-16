@@ -46,7 +46,7 @@ Landmarks:
 	landmark  60,  84, PointMountainHwyName ; I-15
 	landmark  68,  84, MountTimpanogosName
 	landmark  68,  80, TimpanogosCaveName
-	landmark  92,  76, Route67Name ; Legacy Parkway/I-15
+	landmark  60,  60, Route67Name ; Legacy Parkway/I-15
 	landmark  60,  52, OgdenCityName
 	landmark  62,  50, UnionStationName
 	landmark  60,  36, Route13Name ; US-89

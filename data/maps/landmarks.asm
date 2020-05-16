@@ -8,52 +8,52 @@ Landmarks:
 ; entries correspond to constants/landmark_constants.asm
 	dbbw       0,   0, SpecialMapName
 	landmark  52, 124, NephiCityName
-	landmark 128, 100, Route1Name
-	landmark 100, 100, ProvoCityName
+	landmark 128, 100, Route1Name ; I-15
+	landmark  60, 100, ProvoCityName
+	landmark  62,  98, BrighamYoungUniversityName
+	landmark  62,  96, MissionaryTrainingCenterName
+	landmark  62,  97, ByuUndergroundName
 	landmark  52, 100, UtahLakeName
 	landmark  60,  92, OremCityName
-	landmark  60,  84, PointMountainHwyName
+	landmark  58,  90, AbandonedSteelPlantName ; Geneva Steel
+	landmark  68,  92, ProvoCanyonName ; US-189
+	landmark  80,  84, TimpanogosPassName ; US-189
+	landmark  92,  84, HeberCityName
+	landmark 108,  84, Route6Name ; US-40
+	landmark 124,  84, DuchesneCityName
+	landmark 136,  76, Route87Name ; US-191
+	landmark 148,  76, VernalCityName
+	landmark 144,  84, FossilSiteName
+	landmark 115, 108, Route191Name ; US-191
+	landmark 108, 118, CarbonPowerPlantName
+	landmark 108, 124, CarbonRoadName  ; US-191
+	landmark 108, 132, PriceCityName
+	landmark  88, 108, Route55Name ; US-6/US-89
+	landmark  60,  76, SaltLakeValleyName ; Everything outh of Salt Lake City
+	landmark  68,  76, MillcreekCanyonName
+	landmark  36,  76, Route4Name ; I-80
+	landmark  36,  84, TooleCityName
+	landmark  24,  64, SaltFlatsName
+	landmark  12,  76, WendoverCityName ; Wendover + West Wendover
+	landmark  60,  68, GreatSaltLakeCityName ; Salt Lake City
+	landmark  62,  70, TempleSquareName
+	landmark  52,  68, AntelopeIslandName
+	landmark  48,  56, GreatSaltLakeName
+	landmark  76,  68, Route2Name ; I-80
+	landmark  92,  68, ParkCityName
+	landmark  84,  76, ParkCitySlopesName ; Park City Mountain
+	landmark  92,  76, JordanellePassName ; US-189/Jordanelle Resevoir
+	landmark  60,  84, PointMountainHwyName ; I-15
 	landmark  68,  84, MountTimpanogosName
 	landmark  68,  80, TimpanogosCaveName
-	landmark  68,  92, ProvoCanyonName
-	landmark  80,  84, TimpanogosPassName
-	landmark  92,  84, HeberCityName
-	landmark 108,  84, Route6Name
-	landmark 124,  84, DuchesneCityName
-	landmark 136,  76, Route87Name
-	landmark 148,  76, VernalCityName
-	landmark 115, 108, Route189Name
-	landmark 108, 118, CarbonPowerPlantName
-	landmark 108, 124, CarbonRoadName
-	landmark 108, 132, PriceCityName
-	landmark  88, 108, Route55Name
-	landmark  68,  52, Route37Name
-	landmark  68,  44, EcruteakCityName
-	landmark  70,  42, TinTowerName
-	landmark  66,  42, BurnedTowerName
-	landmark  52,  44, Route38Name
-	landmark  36,  48, Route39Name
-	landmark  36,  60, OlivineCityName
-	landmark  38,  62, LighthouseName
-	landmark  28,  56, BattleTowerName
-	landmark  28,  64, Route40Name
-	landmark  28,  92, WhirlIslandsName
-	landmark  28, 100, Route41Name
-	landmark  20, 100, CianwoodCityName
-	landmark  92,  44, Route42Name
-	landmark  84,  44, MtMortarName
-	landmark 108,  44, MahoganyTownName
-	landmark 108,  36, Route43Name
-	landmark 108,  28, LakeOfRageName
-	landmark 120,  44, Route44Name
-	landmark 130,  38, IcePathName
-	landmark 132,  44, BlackthornCityName
-	landmark 132,  36, DragonsDenName
-	landmark 132,  64, Route45Name
-	landmark 112,  72, DarkCaveName
-	landmark 124,  88, Route46Name
-	landmark 148,  68, SilverCaveName
-	; Region Break
+	landmark  92,  76, Route67Name ; Legacy Parkway/I-15
+	landmark  60,  52, OgdenCityName
+	landmark  62,  50, UnionStationName
+	landmark  60,  36, Route13Name ; US-89
+	landmark  68,  28, LoganCityName
+	landmark  76,  28, BearLakePassName ; US-89
+	landmark  84,  28, BearLakeName
+	; Region Break, these landmarks are unused
 	landmark  52, 108, PalletTownName
 	landmark  52,  92, Route1Name
 	landmark  52,  76, ViridianCityName
@@ -104,6 +104,8 @@ Landmarks:
 	landmark  20,  68, Route28Name
 	landmark 140, 116, FastShipName
 
+
+; Unused Names
 NewBarkTownName:     db "NEW BARK¯TOWN@"
 CherrygroveCityName: db "CHERRYGROVE¯CITY@"
 VioletCityName:      db "VIOLET CITY@"

@@ -24,13 +24,14 @@ NewBarkTown_MapScripts:
 
 NewBarkTown_TeacherStopsYouScene1:
 	playmusic MUSIC_MOM
-	turnobject NEWBARKTOWN_TEACHER, LEFT
+	turnobject NEWBARKTOWN_TEACHER, UP
 	opentext
 	writetext Text_WaitPlayer
 	waitbutton
 	closetext
-	turnobject PLAYER, RIGHT
+	turnobject PLAYER, DOWN
 	applymovement NEWBARKTOWN_TEACHER, Movement_TeacherRunsToYou1_NBT
+	turnobject PLAYER, LEFT
 	opentext
 	writetext Text_WhatDoYouThinkYoureDoing
 	waitbutton
@@ -47,14 +48,14 @@ NewBarkTown_TeacherStopsYouScene1:
 
 NewBarkTown_TeacherStopsYouScene2:
 	playmusic MUSIC_MOM
-	turnobject NEWBARKTOWN_TEACHER, LEFT
+	turnobject NEWBARKTOWN_TEACHER, UP
 	opentext
 	writetext Text_WaitPlayer
 	waitbutton
 	closetext
-	turnobject PLAYER, RIGHT
+	turnobject PLAYER, DOWN
 	applymovement NEWBARKTOWN_TEACHER, Movement_TeacherRunsToYou2_NBT
-	turnobject PLAYER, UP
+	turnobject PLAYER, RIGHT
 	opentext
 	writetext Text_WhatDoYouThinkYoureDoing
 	waitbutton
@@ -138,36 +139,41 @@ NewBarkTownElmsHouseSign:
 	jumptext NewBarkTownElmsHouseSignText
 
 Movement_TeacherRunsToYou1_NBT:
-	step LEFT
-	step LEFT
-	step LEFT
-	step LEFT
+	step RIGHT
+	step RIGHT
+	step UP
+	step UP
+	step UP
+	turn_head RIGHT
 	step_end
 
 Movement_TeacherRunsToYou2_NBT:
-	step LEFT
-	step LEFT
-	step LEFT
-	step LEFT
-	step LEFT
-	turn_head DOWN
+	step RIGHT
+	step RIGHT
+	step RIGHT
+	step UP
+	step UP
+	step UP
+	turn_head LEFT
 	step_end
 
 Movement_TeacherBringsYouBack1_NBT:
-	step RIGHT
-	step RIGHT
-	step RIGHT
-	step RIGHT
-	turn_head LEFT
+	step DOWN
+	step DOWN
+	step DOWN
+	step LEFT
+	step LEFT
+	turn_head RIGHT
 	step_end
 
 Movement_TeacherBringsYouBack2_NBT:
-	step RIGHT
-	step RIGHT
-	step RIGHT
-	step RIGHT
-	step RIGHT
-	turn_head LEFT
+	step DOWN
+	step DOWN
+	step DOWN
+	step LEFT
+	step LEFT
+	step LEFT
+	turn_head RIGHT
 	step_end
 
 Movement_SilverPushesYouAway_NBT:
@@ -260,11 +266,11 @@ NewBarkTownRivalText2:
 	done
 
 NewBarkTownSignText:
-	text "NEW BARK TOWN"
+	text "City of Nephi"
 
-	para "The Town Where the"
-	line "Winds of a New"
-	cont "Beginning Blow"
+	para "This is literally"
+	line "just an alt-"
+	cont "universe New Bark."
 	done
 
 NewBarkTownPlayersHouseSignText:
@@ -272,33 +278,33 @@ NewBarkTownPlayersHouseSignText:
 	done
 
 NewBarkTownElmsLabSignText:
-	text "ELM #MON LAB"
+	text "Elm's #mon Lab"
 	done
 
 NewBarkTownElmsHouseSignText:
-	text "ELM'S HOUSE"
+	text "The Elm Family"
 	done
 
 NewBarkTown_MapEvents:
 	db 0, 0 ; filler
 
 	db 4 ; warp events
-	warp_event  6,  3, ELMS_LAB, 1
-	warp_event 13,  5, PLAYERS_HOUSE_1F, 1
-	warp_event  3, 11, PLAYERS_NEIGHBORS_HOUSE, 1
-	warp_event 11, 13, ELMS_HOUSE, 1
+	warp_event  7,  7, ELMS_LAB, 1
+	warp_event 13, 15, PLAYERS_HOUSE_1F, 1
+	warp_event  7, 15, PLAYERS_NEIGHBORS_HOUSE, 1
+	warp_event 13,  7, ELMS_HOUSE, 1
 
 	db 2 ; coord events
-	coord_event  1,  8, SCENE_DEFAULT, NewBarkTown_TeacherStopsYouScene1
-	coord_event  1,  9, SCENE_DEFAULT, NewBarkTown_TeacherStopsYouScene2
+	coord_event 17,  1, SCENE_DEFAULT, NewBarkTown_TeacherStopsYouScene1
+	coord_event 16,  1, SCENE_DEFAULT, NewBarkTown_TeacherStopsYouScene2
 
 	db 4 ; bg events
-	bg_event  8,  8, BGEVENT_READ, NewBarkTownSign
-	bg_event 11,  5, BGEVENT_READ, NewBarkTownPlayersHouseSign
-	bg_event  3,  3, BGEVENT_READ, NewBarkTownElmsLabSign
-	bg_event  9, 13, BGEVENT_READ, NewBarkTownElmsHouseSign
+	bg_event 15, 11, BGEVENT_READ, NewBarkTownSign
+	bg_event 11, 15, BGEVENT_READ, NewBarkTownPlayersHouseSign
+	bg_event  5,  7, BGEVENT_READ, NewBarkTownElmsLabSign
+	bg_event 11,  7, BGEVENT_READ, NewBarkTownElmsHouseSign
 
 	db 3 ; object events
-	object_event  6,  8, SPRITE_TEACHER, SPRITEMOVEDATA_SPINRANDOM_SLOW, 1, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, NewBarkTownTeacherScript, -1
+	object_event  14,  4, SPRITE_TEACHER, SPRITEMOVEDATA_SPINRANDOM_SLOW, 1, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, NewBarkTownTeacherScript, -1
 	object_event 12,  9, SPRITE_FISHER, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, NewBarkTownFisherScript, -1
-	object_event  3,  2, SPRITE_SILVER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, NewBarkTownSilverScript, EVENT_RIVAL_NEW_BARK_TOWN
+	object_event  5,  6, SPRITE_SILVER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_RIVAL_NEW_BARK_TOWN

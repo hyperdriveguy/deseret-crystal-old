@@ -27,9 +27,10 @@ ElmsWifeText:
 	line "he's OK."
 
 	para "When he's caught"
-	line "up in his #MON"
+	line "up in his"
+	cont "revelation"
 
-	para "research, he even"
+    para "research, he even"
 	line "forgets to eat."
 	done
 
@@ -39,7 +40,7 @@ ElmsSonText:
 	cont "my dad!"
 
 	para "I'm going to be a"
-	line "great #MON"
+	line "great scriptural"
 	cont "professor!"
 	done
 

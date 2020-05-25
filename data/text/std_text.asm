@@ -63,6 +63,18 @@ NursePokerusText:
 	line "CENTER."
 	done
 
+RelocationBookshelfText:
+    text "A shelf full of"
+    line "preparedness books"
+
+    para "and this one is"
+    line "called"
+
+    para "STRATEGIC"
+    line "RELOCATION by"
+    cont "JOEL SKOUSEN."
+    done
+
 DifficultBookshelfText:
 	text "It's full of"
 	line "difficult books."

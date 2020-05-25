@@ -1351,11 +1351,23 @@ ElmsLabTrashcanText:
 
 ElmsLabPCText:
 	text "OBSERVATIONS ON"
-	line "#MON EVOLUTION"
+	line "CONSTITUTIONAL"
+    cont "LAW"
 
-	para "…It says on the"
-	line "screen…"
+    para "…constitutional"
+    line "law coorelates"
+    cont "with scripture…"
 	done
+
+ElmsLabStudyText:
+    text "It looks like"
+    line "some notes."
+    
+    para "The Ezra's Eagle"
+    line "Prophecy outlines"
+    cont "a latter-day"
+    cont "timeline."
+    done
 
 ElmsLab_MapEvents:
 	db 0, 0 ; filler

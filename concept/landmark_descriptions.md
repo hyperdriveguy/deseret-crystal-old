@@ -141,6 +141,7 @@ Commuter town. Small and fragile economy. Lots of agriculture.
 ### Excavation Site
 Place where Pokémon remains were deposited long ago.
 
+
 ## Duchesne
 Big oil industry. Railroad is used for transporting oil.
 
@@ -182,3 +183,16 @@ Big and salty lake. Very little marine life resides in the lake.
 
 
 ## Utah lake
+
+
+# Common City/Town Features
+Outdoor maps should try and keep close to a multiple of 10x9.
+
+## Chapels
+Buildings that are primarily used to gather for church on Sundays.
+Some chapels have multiple functions that vary slightly.
+
+### Healing and Deposit Center (HD Center)
+Attached to chapels, HD Centers are basic facilities for healing Pokémon.
+A vending machine with various items is available.
+They are operated by missionaries.

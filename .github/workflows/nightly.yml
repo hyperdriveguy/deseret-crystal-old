@@ -1,0 +1,66 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Nightly Build
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Set environment variables
+        run: echo "::set-env name=SHORT_SHA::$(echo ${GITHUB_SHA} | cut -c1-8)"
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get install make python gcc git bison
+          git clone https://github.com/rednex/rgbds.git
+          pushd rgbds
+          sudo make install
+          popd
+
+      - name: Build ROM
+        run: |
+          git clone https://github.com/hyperdriveguy/deseret-crystal.git
+          pushd deseret-crystal
+          mkdir build
+          make -j4
+          mv *.gbc build/
+          popd
+
+      - name: Delete old release
+        id: delete_release
+        uses: jagger27/delete-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: prerelease_nightly
+      - name: Advance nightly tag to master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pushd deseret-crystal
+          git tag nightly -f
+          git push --tags -f "https://hyperdriveguy:$GITHUB_TOKEN@github.com/hyperdriveguy/deseret-crystal.git
+          popd
+      - name: Create new release
+        id: create_release
+        uses: actions/create-release@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./deseret-crystal/build/pokecrystal.gbc
+          asset_name: pokecrystal-${{ env.SHORT_SHA }}.gbc
+          asset_content_type: application/octet-stream

@@ -32,7 +32,7 @@ jobs:
 
       - name: Build ROM
         run: |
-          git clone https://github.com/hyperdriveguy/deseret-crystal.git
+          git clone "https://hyperdriveguy:$GITHUB_TOKEN@github.com/hyperdriveguy/deseret-crystal.git"
           pushd deseret-crystal
           mkdir build
           make -j4
@@ -52,7 +52,7 @@ jobs:
         run: |
           pushd deseret-crystal
           git tag nightly -f
-          git push --tags -f "https://hyperdriveguy:$GITHUB_TOKEN@github.com/hyperdriveguy/deseret-crystal.git
+          git push --tags -f "https://hyperdriveguy:$GITHUB_TOKEN@github.com/hyperdriveguy/deseret-crystal.git"
           popd
       - name: Create new release
         id: create_release

@@ -41,13 +41,13 @@ jobs:
           mv *.gbc build/
           popd
 
-      #- name: Delete old release
-      #  id: delete_release
-      #  uses: jagger27/delete-release@master
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #  with:
-      #    tag_name: prerelease_nightly
+      - name: Delete old release
+        id: delete_release
+        uses: jagger27/delete-release@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: nightly
       - name: Advance nightly tag to master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

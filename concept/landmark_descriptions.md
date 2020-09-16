@@ -3,11 +3,12 @@
 ## Nephi
 Barely meets the qualifications to be considered a city.
 Relatively small, but big enough to make the map.
-This is the player's hometown.
+This is the player's original hometown.
 
 
 ## Provo
 Consists mostly of a college student population.
+The player lives here.
 
 ### Religious Distribution
 The greater Provo area consists almost wholly of Latter-day Saints.
@@ -78,8 +79,6 @@ One of the brighter and more happy parts of the city.
 
 ##### Tabernacle
 
-#### University of Deseret
-
 ##### Visitor's Center
 
 ##### Joseph Smith Memorial Building (or Hotel Deseret, TBD)
@@ -93,6 +92,8 @@ One of the brighter and more happy parts of the city.
 ##### ZCMI (Department Store)
 
 ##### Salt Lake Underground
+
+#### University of Deseret
 
 #### Granite Vault
 
@@ -124,6 +125,8 @@ A growing dairy farming and college town.
 ### Points of Interest
 
 #### Dairy Farm
+
+#### Development House
 
 
 ## Toole

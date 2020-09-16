@@ -58,3 +58,45 @@ started to irrigate the land.
 Narrator: I thought I was certain that’s how the story went, but…
 
 [fade to overworld]
+
+# Chapter 1: Moving Out
+
+## Nephi
+
+### Player's Room
+*The Player's room is barren*
+
+### Player's House
+```
+Mom: <Player>! Dad just finished moving all your things to your new place
+in Provo.
+```
+*Move to Mom*
+```
+Mom: Are you sure everything is out of your room? Is it clean?
+...
+Oh, you left your phone on the table here.
+```
+*Player gets phone*
+*Dad comes in the door*
+```
+Dad: Oh good, you're still here <Player>!
+Mom and I have a parting gift for you.
+Go on! Open it!
+```
+*Player gets Growlithe*
+```
+Dad: With that Growlithe by your side, Route 1 will be a lot easier to traverse.
+Of course, since I'm back with the car, Mom and I would love to drive you over
+to your apartment.
+```
+*Fade to black*
+
+## Provo
+
+### Outside
+
+```
+Mom: We love you <Player>!
+Dad: Make sure you come and visit us.
+```

@@ -88,7 +88,7 @@ Go on! Open it!
 ```
 Dad: With that Growlithe by your side, Route 1 will be a lot easier to traverse.
 Of course, since I'm back with the car, Mom and I would love to drive you over
-to your apartment.
+to your apartment and save you the trip.
 ```
 *Fade to black*
 
@@ -100,3 +100,20 @@ to your apartment.
 Mom: We love you <Player>!
 Dad: Make sure you come and visit us.
 ```
+*Mom and Dad drive away*
+*Walk up to door*
+```
+There's a note on
+the door.
+It says:
+Welcome to the
+ward! We're
+having a multi-
+day activity in
+Provo Canyon.
+Bring your
+Pokémon!
+We hope you can
+make it!
+Sincerely,
+Provo YSA 207th Ward

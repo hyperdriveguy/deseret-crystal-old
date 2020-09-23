@@ -34,8 +34,8 @@ _ClockTimeMayBeWrongText::
 	prompt
 
 _ClockSetWithControlPadText::
-	text "Set with the"
-	line "Control Pad."
+	text "Set the time with"
+	line "the Control Pad." 
 
 	para "Confirm: A Button"
 	line "Cancel:  B Button"
@@ -47,7 +47,7 @@ _ClockIsThisOKText::
 
 _ClockHasResetText::
 	text "The clock has been"
-	line "reset."
+	line "set."
 	done
 
 _LinkTimeoutText::

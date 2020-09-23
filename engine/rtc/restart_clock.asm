@@ -31,6 +31,7 @@ RestartClock:
 ; If we're here, we had an RTC overflow.
 	ld hl, .ClockTimeMayBeWrongText
 	call PrintText
+.temp:
 	ld hl, wOptions
 	ld a, [hl]
 	push af
@@ -89,9 +90,6 @@ RestartClock:
 	ld [wStringBuffer2 + 3], a
 	call InitTime
 	call .PrintTime
-	ld hl, .ClockHasResetText
-	call PrintText
-	call WaitPressAorB_BlinkCursor
 	xor a
 	ret
 

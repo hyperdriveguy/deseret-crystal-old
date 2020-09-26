@@ -31,13 +31,33 @@ RestartClock:
 ; If we're here, we had an RTC overflow.
 	ld hl, .ClockTimeMayBeWrongText
 	call PrintText
-.temp:
+	jr .reset
+
+.new_game:
+	ld a, $10
+	ld [wMusicFade], a
+	ld a, LOW(MUSIC_NONE)
+	ld [wMusicFadeID], a
+	ld a, HIGH(MUSIC_NONE)
+	ld [wMusicFadeID + 1], a
+	ld c, 20
+	call DelayFrames
+	call RotateFourPalettesLeft
+	call ClearTilemap
+	call ClearSprites
+	xor a
+	ldh [hBGMapMode], a
+	call LoadStandardFont
+
+	call RotateFourPalettesRight
+
+.reset
+	call ClearTilemap
 	ld hl, wOptions
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
 	call LoadStandardMenuHeader
-	call ClearTilemap
 	ld hl, .ClockSetWithControlPadText
 	call PrintText
 	call .SetClock
@@ -70,6 +90,10 @@ RestartClock:
 	ldh a, [hMinutes]
 	ld [wBuffer6], a
 
+.print_controls
+	ld hl, .ClockConfirmWithAText
+	call PrintText
+
 .loop
 	call .joy_loop
 	jr nc, .loop
@@ -79,7 +103,7 @@ RestartClock:
 	ld hl, .ClockIsThisOKText
 	call PrintText
 	call YesNoBox
-	jr c, .cancel
+	jr c, .print_controls
 	ld a, [wBuffer4]
 	ld [wStringBuffer2], a
 	ld a, [wBuffer5]
@@ -97,6 +121,10 @@ RestartClock:
 	ld a, $1
 	ret
 
+.ClockConfirmWithAText:
+	text_far _ClockConfirmWithAText
+	text_end
+
 .ClockIsThisOKText:
 	text_far _ClockIsThisOKText
 	text_end
@@ -113,8 +141,6 @@ RestartClock:
 	pop af
 	bit 0, a
 	jr nz, .press_A
-	bit 1, a
-	jr nz, .press_B
 	bit 6, a
 	jr nz, .pressed_up
 	bit 7, a
@@ -127,11 +153,6 @@ RestartClock:
 
 .press_A
 	ld a, $0
-	scf
-	ret
-
-.press_B
-	ld a, $1
 	scf
 	ret
 

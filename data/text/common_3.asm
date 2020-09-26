@@ -35,10 +35,11 @@ _ClockTimeMayBeWrongText::
 
 _ClockSetWithControlPadText::
 	text "Set the time with"
-	line "the Control Pad." 
+	line "the Control Pad."
+	prompt
 
-	para "Confirm: A Button"
-	line "Cancel:  B Button"
+_ClockConfirmWithAText::
+	text "Confirm: A Button"
 	done
 
 _ClockIsThisOKText::

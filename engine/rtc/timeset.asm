@@ -1,6 +1,21 @@
 TIMESET_UP_ARROW   EQU "♂" ; $ef
 TIMESET_DOWN_ARROW EQU "♀" ; $f5
 
+PrintTwoDigitNumberLeftAlign:
+	push hl
+	ld a, " "
+	ld [hli], a
+	ld [hl], a
+	pop hl
+	lb bc, PRINTNUM_LEFTALIGN | 1, 2
+	call PrintNum
+	ret
+
+TimeSetUpArrowGFX:
+INCBIN "gfx/new_game/up_arrow.1bpp"
+TimeSetDownArrowGFX:
+INCBIN "gfx/new_game/down_arrow.1bpp"
+
 SetDayOfWeek:
 	ldh a, [hInMenu]
 	push af

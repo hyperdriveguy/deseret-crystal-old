@@ -94,11 +94,6 @@ SECTION "Roofs", ROMX
 INCLUDE "engine/tilesets/mapgroup_roofs.asm"
 
 
-SECTION "Clock Reset", ROMX
-
-INCLUDE "engine/rtc/restart_clock.asm"
-
-
 SECTION "bank9", ROMX
 
 INCLUDE "data/text_buffers.asm"

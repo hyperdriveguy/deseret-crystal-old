@@ -27,6 +27,7 @@ jobs:
           sudo apt-get install make python gcc git bison
           git clone https://github.com/rednex/rgbds.git
           pushd rgbds
+          git checkout 8c0adb6
           sudo make install
           popd
 
@@ -66,7 +67,7 @@ jobs:
           release_name: Nightly
           draft: false
           prerelease: true
-          
+
       - name: Upload ROM
         id: upload
         uses: actions/upload-release-asset@v1.0.1

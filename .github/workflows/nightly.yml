@@ -20,14 +20,13 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Set environment variables
-        run: echo "::set-env name=SHORT_SHA::$(echo ${GITHUB_SHA} | cut -c1-8)"
+        run: echo "SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-8)" >> $GITHUB_ENV
 
       - name: Install dependencies
         run: |
           sudo apt-get install make python gcc git bison
-          git clone https://github.com/rednex/rgbds.git
+          git clone -b v0.4.2 --depth=1 https://github.com/gbdev/rgbds
           pushd rgbds
-          git checkout 8c0adb6
           sudo make install
           popd
 
